@@ -7,8 +7,8 @@ import {
 } from '@angular/core';
 
 @Directive({
-    selector: '[appFileDrop]',
-    standalone: false
+  selector: '[appFileDrop]',
+  standalone: false,
 })
 export class FileDropDirective {
   @Output() fileDroppedChange = new EventEmitter<any>();

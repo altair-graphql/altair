@@ -13,11 +13,11 @@ import {
 import { JSONSchema6 } from 'json-schema';
 
 @Component({
-    selector: 'app-schema-form-item-list',
-    templateUrl: './schema-form-item-list.component.html',
-    styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-schema-form-item-list',
+  templateUrl: './schema-form-item-list.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SchemaFormItemListComponent {
   @Input() item?: SchemaFormProperty;

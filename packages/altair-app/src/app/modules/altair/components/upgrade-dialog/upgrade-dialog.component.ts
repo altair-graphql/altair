@@ -12,11 +12,11 @@ import { apiClient } from '../../services/api/api.service';
 import { externalLink } from '../../utils';
 
 @Component({
-    selector: 'app-upgrade-dialog',
-    templateUrl: './upgrade-dialog.component.html',
-    styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-upgrade-dialog',
+  templateUrl: './upgrade-dialog.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class UpgradeDialogComponent implements OnChanges {
   @Input() showDialog = true;

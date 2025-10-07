@@ -10,7 +10,10 @@ export const SET_STREAM_CONNECTED = 'SET_STREAM_CONNECTED';
 export class SetStreamSettingAction implements NGRXAction {
   readonly type = SET_STREAM_SETTING;
 
-  constructor(public windowId: string, public payload: { streamUrl: string }) {}
+  constructor(
+    public windowId: string,
+    public payload: { streamUrl: string }
+  ) {}
 }
 
 export class SetStreamClientAction implements NGRXAction {
@@ -25,7 +28,10 @@ export class SetStreamClientAction implements NGRXAction {
 export class StartStreamClientAction implements NGRXAction {
   readonly type = START_STREAM_CLIENT;
 
-  constructor(public windowId: string, public payload = { backoff: 200 }) {}
+  constructor(
+    public windowId: string,
+    public payload = { backoff: 200 }
+  ) {}
 }
 
 export class StopStreamClientAction implements NGRXAction {
@@ -37,7 +43,10 @@ export class StopStreamClientAction implements NGRXAction {
 export class SetStreamFailedAction implements NGRXAction {
   readonly type = SET_STREAM_FAILED;
 
-  constructor(public windowId: string, public payload: { failed?: Event }) {}
+  constructor(
+    public windowId: string,
+    public payload: { failed?: Event }
+  ) {}
 }
 
 export class SetStreamConnectedAction implements NGRXAction {

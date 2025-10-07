@@ -9,11 +9,11 @@ import { HeaderState } from 'altair-graphql-core/build/types/state/header.interf
 import { isElectronApp } from '../../utils';
 
 @Component({
-    selector: 'app-headers-editor',
-    templateUrl: './headers-editor.component.html',
-    styles: ``,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-headers-editor',
+  templateUrl: './headers-editor.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class HeadersEditorComponent {
   @Input() headers: HeaderState = [];

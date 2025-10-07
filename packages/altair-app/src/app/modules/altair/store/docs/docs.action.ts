@@ -24,7 +24,10 @@ export class StopLoadingDocsAction implements NGRXAction {
 export class SetDocViewAction implements NGRXAction {
   readonly type = SET_DOC_VIEW;
 
-  constructor(public windowId: string, public payload: { docView: DocView }) {}
+  constructor(
+    public windowId: string,
+    public payload: { docView: DocView }
+  ) {}
 }
 
 export type Action =

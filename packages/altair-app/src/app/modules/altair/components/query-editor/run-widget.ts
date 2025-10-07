@@ -1,11 +1,6 @@
 import { syntaxTree } from '@codemirror/language';
 import { EditorState, Range, StateField } from '@codemirror/state';
-import {
-  Decoration,
-  DecorationSet,
-  EditorView,
-  WidgetType,
-} from '@codemirror/view';
+import { Decoration, DecorationSet, EditorView, WidgetType } from '@codemirror/view';
 import sanitizeHtml from 'sanitize-html';
 
 export interface RunActionWidgetOptions {
@@ -87,9 +82,7 @@ const runActions = (
   return Decoration.set(widgets);
 };
 
-export const getRunActionPlugin = (
-  onClick: RunActionWidgetOptions['onClick']
-) => {
+export const getRunActionPlugin = (onClick: RunActionWidgetOptions['onClick']) => {
   return StateField.define<DecorationSet>({
     create(state) {
       return runActions(state, onClick);

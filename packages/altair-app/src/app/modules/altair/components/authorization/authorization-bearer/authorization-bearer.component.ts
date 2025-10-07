@@ -8,11 +8,11 @@ import {
 import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
-    selector: 'app-authorization-bearer',
-    templateUrl: './authorization-bearer.component.html',
-    styles: ``,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-authorization-bearer',
+  templateUrl: './authorization-bearer.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AuthorizationBearerComponent implements OnInit {
   bearerForm = this.formBuilder.group({

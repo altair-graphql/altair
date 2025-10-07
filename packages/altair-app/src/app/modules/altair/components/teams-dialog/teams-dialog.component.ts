@@ -12,10 +12,10 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import * as windowsMetaActions from '../../store/windows-meta/windows-meta.action';
 
 @Component({
-    selector: 'app-teams-dialog',
-    templateUrl: './teams-dialog.component.html',
-    styles: [],
-    standalone: false
+  selector: 'app-teams-dialog',
+  templateUrl: './teams-dialog.component.html',
+  styles: [],
+  standalone: false,
 })
 export class TeamsDialogComponent {
   @Input() set teams(val: Team[] | undefined) {

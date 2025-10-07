@@ -8,10 +8,10 @@ import {
 import { History } from 'altair-graphql-core/build/types/state/history.interfaces';
 
 @Component({
-    selector: 'app-history-dialog',
-    templateUrl: './history-dialog.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-history-dialog',
+  templateUrl: './history-dialog.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class HistoryDialogComponent {
   @Input() historyList: History[] = [];

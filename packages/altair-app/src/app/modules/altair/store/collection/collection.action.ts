@@ -24,14 +24,10 @@ export const EXPORT_COLLECTION = 'EXPORT_COLLECTION';
 
 export const SORT_COLLECTIONS = 'SORT_COLLECTIONS';
 
-export const SYNC_REMOTE_COLLECTIONS_TO_LOCAL =
-  'SYNC_REMOTE_COLLECTIONS_TO_LOCAL';
-export const SYNC_LOCAL_COLLECTION_TO_REMOTE =
-  'SYNC_LOCAL_COLLECTION_TO_REMOTE';
+export const SYNC_REMOTE_COLLECTIONS_TO_LOCAL = 'SYNC_REMOTE_COLLECTIONS_TO_LOCAL';
+export const SYNC_LOCAL_COLLECTION_TO_REMOTE = 'SYNC_LOCAL_COLLECTION_TO_REMOTE';
 
-export class CreateCollectionAndSaveQueryToCollectionAction
-  implements NGRXAction
-{
+export class CreateCollectionAndSaveQueryToCollectionAction implements NGRXAction {
   readonly type = CREATE_COLLECTION_AND_SAVE_QUERY_TO_COLLECTION;
 
   constructor(

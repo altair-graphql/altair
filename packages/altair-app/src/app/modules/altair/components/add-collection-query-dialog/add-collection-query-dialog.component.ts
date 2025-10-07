@@ -19,10 +19,10 @@ import { capitalize } from '../../utils';
 import { WorkspaceOption } from '../../store';
 
 @Component({
-    selector: 'app-add-collection-query-dialog',
-    templateUrl: './add-collection-query-dialog.component.html',
-    styles: [],
-    standalone: false
+  selector: 'app-add-collection-query-dialog',
+  templateUrl: './add-collection-query-dialog.component.html',
+  styles: [],
+  standalone: false,
 })
 export class AddCollectionQueryDialogComponent implements OnChanges {
   @Input() showDialog = false;
@@ -61,7 +61,10 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
     this.createCollectionAndSaveQueryToCollectionChange.emit({
       queryName: this.newCollectionQueryTitle,
       collectionName: this.newCollectionTitle,
-      parentCollectionId: this.newCollectionParentCollectionId === '0' ? '' : this.newCollectionParentCollectionId,
+      parentCollectionId:
+        this.newCollectionParentCollectionId === '0'
+          ? ''
+          : this.newCollectionParentCollectionId,
       workspaceId: this.workspaceId,
     });
 

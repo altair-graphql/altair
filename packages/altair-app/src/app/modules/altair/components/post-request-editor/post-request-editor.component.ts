@@ -11,11 +11,11 @@ import { getRequestScriptExtensions } from '../../utils/editor/extensions';
 import { getGlobalContext } from 'altair-graphql-core/build/script/context';
 
 @Component({
-    selector: 'app-post-request-editor',
-    templateUrl: './post-request-editor.component.html',
-    styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-post-request-editor',
+  templateUrl: './post-request-editor.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class PostRequestEditorComponent {
   @Input() postRequest: PostrequestState = {

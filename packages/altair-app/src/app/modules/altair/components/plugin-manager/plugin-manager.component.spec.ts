@@ -12,25 +12,23 @@ describe('PluginManagerComponent', () => {
   let component: PluginManagerComponent;
   let fixture: ComponentFixture<PluginManagerComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      mockPluginRegistryService = {
-        getRemotePluginList: () => of({}),
-      } as PluginRegistryService;
-      TestBed.configureTestingModule({
-    declarations: [PluginManagerComponent],
-    teardown: { destroyAfterEach: false },
-    imports: [SharedModule],
-    providers: [
+  beforeEach(waitForAsync(() => {
+    mockPluginRegistryService = {
+      getRemotePluginList: () => of({}),
+    } as PluginRegistryService;
+    TestBed.configureTestingModule({
+      declarations: [PluginManagerComponent],
+      teardown: { destroyAfterEach: false },
+      imports: [SharedModule],
+      providers: [
         {
-            provide: PluginRegistryService,
-            useFactory: () => mockPluginRegistryService,
+          provide: PluginRegistryService,
+          useFactory: () => mockPluginRegistryService,
         },
         provideHttpClient(withInterceptorsFromDi()),
-    ]
-}).compileComponents();
-    })
-  );
+      ],
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PluginManagerComponent);

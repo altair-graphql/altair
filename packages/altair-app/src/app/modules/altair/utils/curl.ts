@@ -27,9 +27,7 @@ const buildUrl = (url: string, params?: { [key: string]: string }) => {
       )
       .join('&');
 
-    return url.includes('?')
-      ? `${url}&${queryParams}`
-      : `${url}?${queryParams}`;
+    return url.includes('?') ? `${url}&${queryParams}` : `${url}?${queryParams}`;
   }
 
   return url;
@@ -47,9 +45,7 @@ export const generateCurl = (opts: GenerateCurlOpts) => {
   const method = opts.method || 'POST';
 
   const headers: IDictionary<string> = { ...defaultHeaders, ...opts.headers };
-  const headerString = mapToKeyValueList(headers)
-    .map(getCurlHeaderString)
-    .join(' ');
+  const headerString = mapToKeyValueList(headers).map(getCurlHeaderString).join(' ');
 
   const url = method === 'GET' ? buildUrl(opts.url, opts.data) : opts.url;
 

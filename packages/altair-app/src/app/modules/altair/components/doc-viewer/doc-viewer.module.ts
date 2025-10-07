@@ -14,13 +14,7 @@ import { PipesModule } from '../../pipes';
 import { DocViewerDeprecatedComponent } from './doc-viewer-deprecated/doc-viewer-deprecated.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    SharedModule,
-    ComponentModule,
-    PipesModule,
-  ],
+  imports: [CommonModule, FormsModule, SharedModule, ComponentModule, PipesModule],
   declarations: [
     DocViewerComponent,
     DocViewerFieldComponent,

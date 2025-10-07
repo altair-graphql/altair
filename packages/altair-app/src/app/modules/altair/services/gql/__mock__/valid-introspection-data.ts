@@ -1291,8 +1291,7 @@ const data = {
       {
         kind: 'ENUM',
         name: '__TypeKind',
-        description:
-          'An enum describing what kind of type a given `__Type` is.',
+        description: 'An enum describing what kind of type a given `__Type` is.',
         fields: null,
         inputFields: null,
         interfaces: null,
@@ -1340,8 +1339,7 @@ const data = {
           },
           {
             name: 'LIST',
-            description:
-              'Indicates this type is a list. `ofType` is a valid field.',
+            description: 'Indicates this type is a list. `ofType` is a valid field.',
             isDeprecated: false,
             deprecationReason: null,
           },
@@ -1801,15 +1799,13 @@ const data = {
           },
           {
             name: 'INPUT_OBJECT',
-            description:
-              'Location adjacent to an input object type definition.',
+            description: 'Location adjacent to an input object type definition.',
             isDeprecated: false,
             deprecationReason: null,
           },
           {
             name: 'INPUT_FIELD_DEFINITION',
-            description:
-              'Location adjacent to an input object field definition.',
+            description: 'Location adjacent to an input object field definition.',
             isDeprecated: false,
             deprecationReason: null,
           },
@@ -1914,8 +1910,7 @@ const data = {
       },
       {
         name: 'deprecated',
-        description:
-          'Marks an element of a GraphQL schema as no longer supported.',
+        description: 'Marks an element of a GraphQL schema as no longer supported.',
         locations: ['FIELD_DEFINITION', 'ENUM_VALUE'],
         args: [
           {

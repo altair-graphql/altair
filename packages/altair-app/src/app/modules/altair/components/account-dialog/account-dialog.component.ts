@@ -14,11 +14,11 @@ import { externalLink } from '../../utils';
 import { IdentityProvider } from '@altairgraphql/db';
 
 @Component({
-    selector: 'app-account-dialog',
-    templateUrl: './account-dialog.component.html',
-    styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-account-dialog',
+  templateUrl: './account-dialog.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AccountDialogComponent {
   @Input() showDialog = true;

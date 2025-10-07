@@ -24,18 +24,18 @@ import {
 } from 'graphql';
 
 @Component({
-    selector: 'app-doc-viewer-type',
-    templateUrl: './doc-viewer-type.component.html',
-    styleUrls: ['./doc-viewer-type.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-doc-viewer-type',
+  templateUrl: './doc-viewer-type.component.html',
+  styleUrls: ['./doc-viewer-type.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DocViewerTypeComponent {
   @Input() data?: GraphQLNamedType | null;
   @Input() gqlSchema?: GraphQLSchema;
   @Input() sortByOption: SortByOptions = 'none';
   @Input() hideDeprecatedDocItems: boolean = false;
-  
+
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();
@@ -90,9 +90,7 @@ export class DocViewerTypeComponent {
    */
   getTypeImplementations(type: GraphQLType) {
     if (isInterfaceType(type)) {
-      return (
-        this.gqlSchema?.getPossibleTypes(type as GraphQLAbstractType) || []
-      );
+      return this.gqlSchema?.getPossibleTypes(type as GraphQLAbstractType) || [];
     }
     return [];
   }

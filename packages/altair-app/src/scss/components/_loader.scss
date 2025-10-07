@@ -34,8 +34,9 @@
   animation: dot-flashing 1s infinite linear alternate;
   animation-delay: 0.5s;
 }
-.dot-flashing::before, .dot-flashing::after {
-  content: "";
+.dot-flashing::before,
+.dot-flashing::after {
+  content: '';
   display: inline-block;
   position: absolute;
   top: 0;
@@ -65,7 +66,8 @@
   0% {
     background-color: var(--primary-color);
   }
-  50%, 100% {
+  50%,
+  100% {
     background-color: rgba(var(--rgb-primary), 0.2);
   }
 }

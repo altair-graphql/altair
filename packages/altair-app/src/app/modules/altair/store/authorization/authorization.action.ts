@@ -16,9 +16,10 @@ export class SelectAuthorizationTypeAction implements NGRXAction {
 export class UpdateAuthorizationDataAction implements NGRXAction {
   readonly type = UPDATE_AUTHORIZATION_DATA;
 
-  constructor(public windowId: string, public payload: { data: unknown }) {}
+  constructor(
+    public windowId: string,
+    public payload: { data: unknown }
+  ) {}
 }
 
-export type Action =
-  | SelectAuthorizationTypeAction
-  | UpdateAuthorizationDataAction;
+export type Action = SelectAuthorizationTypeAction | UpdateAuthorizationDataAction;

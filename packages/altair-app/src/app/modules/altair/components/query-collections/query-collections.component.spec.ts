@@ -83,16 +83,17 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
       collections: mockCollections,
     });
 
-    
     await wrapper.nextTick();
-    await wrapper.nextTick(); 
+    await wrapper.nextTick();
 
     expect(wrapper.component.nativeElement).toMatchSnapshot();
   });
@@ -137,7 +138,9 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
@@ -145,7 +148,7 @@ describe('QueryCollectionsComponent', () => {
     });
 
     await wrapper.nextTick();
-    await wrapper.nextTick(); 
+    await wrapper.nextTick();
 
     const collectionItems = wrapper.findAll<QueryCollectionItemComponent>(
       'app-query-collection-item'
@@ -189,17 +192,17 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
       collections: mockCollections,
     });
 
-    
     await wrapper.nextTick();
-    await wrapper.nextTick(); 
+    await wrapper.nextTick();
 
     const collectionItem = wrapper.find('app-query-collection-item');
 
@@ -208,7 +211,6 @@ describe('QueryCollectionsComponent', () => {
     expect(wrapper.emitted('selectQueryChange')).toBeTruthy();
   });
 
-  
   it('should emit "deleteQueryChange" from query-collection-item', async () => {
     const mockCollections = [
       {
@@ -227,7 +229,9 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
@@ -235,7 +239,7 @@ describe('QueryCollectionsComponent', () => {
     });
 
     await wrapper.nextTick();
-    await wrapper.nextTick(); 
+    await wrapper.nextTick();
 
     const collectionItem = wrapper.find('app-query-collection-item');
 
@@ -262,7 +266,9 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
@@ -297,7 +303,9 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
@@ -305,7 +313,7 @@ describe('QueryCollectionsComponent', () => {
     });
 
     await wrapper.nextTick();
-    await wrapper.nextTick(); 
+    await wrapper.nextTick();
 
     const collectionItem = wrapper.find('app-query-collection-item');
 
@@ -332,7 +340,9 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
@@ -340,7 +350,7 @@ describe('QueryCollectionsComponent', () => {
     });
 
     await wrapper.nextTick();
-    await wrapper.nextTick(); 
+    await wrapper.nextTick();
 
     const collectionItem = wrapper.find('app-query-collection-item');
 
@@ -367,7 +377,9 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
@@ -404,7 +416,9 @@ describe('QueryCollectionsComponent', () => {
       },
     ];
 
-    mockQueryCollectionService.getCollectionTrees.mockReturnValue(mockCollectionTrees);
+    mockQueryCollectionService.getCollectionTrees.mockReturnValue(
+      mockCollectionTrees
+    );
 
     wrapper.setProps({
       showCollections: true,
@@ -412,7 +426,7 @@ describe('QueryCollectionsComponent', () => {
     });
 
     await wrapper.nextTick();
-    await wrapper.nextTick(); 
+    await wrapper.nextTick();
 
     const sortMenuItem = wrapper.find('li[nz-menu-item]');
 

@@ -10,11 +10,11 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 
 @Component({
-    selector: 'app-schema-form-item',
-    templateUrl: './schema-form-item.component.html',
-    styles: [],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-schema-form-item',
+  templateUrl: './schema-form-item.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class SchemaFormItemComponent {
   @Input() item?: SchemaFormProperty;
@@ -30,9 +30,7 @@ export class SchemaFormItemComponent {
         return (this.altairConfig.languages as any)[option] || option;
     }
   }
-  getSelectOptions(
-    item: SchemaFormProperty
-  ): { label: string; value: string }[] {
+  getSelectOptions(item: SchemaFormProperty): { label: string; value: string }[] {
     const itemRef = item.ref;
     if (itemRef) {
       const itemEnum = itemRef.enum ?? [];

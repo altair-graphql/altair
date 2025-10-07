@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 
 @Component({
-    selector: 'app-import-curl-dialog',
-    templateUrl: './import-curl-dialog.component.html',
-    styleUrls: ['./import-curl-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-import-curl-dialog',
+  templateUrl: './import-curl-dialog.component.html',
+  styleUrls: ['./import-curl-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ImportCurlDialogComponent {
   @Input() showImportCurlDialog = false;

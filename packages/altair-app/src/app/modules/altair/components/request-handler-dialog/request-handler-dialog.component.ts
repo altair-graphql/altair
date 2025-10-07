@@ -15,11 +15,11 @@ import {
 import { RequestHandlerInfo } from 'altair-graphql-core/build/types/state/query.interfaces';
 
 @Component({
-    selector: 'app-request-handler-dialog',
-    templateUrl: './request-handler-dialog.component.html',
-    styles: ``,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-request-handler-dialog',
+  templateUrl: './request-handler-dialog.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RequestHandlerDialogComponent {
   @Input() requestHandlerId: RequestHandlerIds = HTTP_HANDLER_ID;

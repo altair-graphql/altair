@@ -10,12 +10,9 @@
     (keydown)="handleKeydown()"
     (blur)="handleBlur()"
     (keydown.enter)="handleSubmit()"
-    />
+  />
   <div class="fancy-input-backdrop">
-    <div
-      class="fancy-input-content fancy-input-highlights"
-      #fancyInputHighlightsEl
-      >
+    <div class="fancy-input-content fancy-input-highlights" #fancyInputHighlightsEl>
       @for (section of highlightData.sections; track trackByIndex($index, section)) {
         @if (!section.type) {
           <span>{{ section.content }}</span>

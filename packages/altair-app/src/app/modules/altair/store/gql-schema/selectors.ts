@@ -4,10 +4,7 @@ import { getInitialState } from './gql-schema.reducer';
 
 export const getSchemaState = (state: PerWindowState) =>
   state ? state.schema : { ...getInitialState() };
-export const getSchema = createSelector(
-  getSchemaState,
-  (state) => state.schema
-);
+export const getSchema = createSelector(getSchemaState, (state) => state.schema);
 export const getIntrospection = createSelector(
   getSchemaState,
   (state) => state.introspection

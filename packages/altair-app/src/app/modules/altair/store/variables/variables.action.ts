@@ -6,8 +6,7 @@ export const ADD_FILE_VARIABLE = 'ADD_FILE_VARIABLE';
 export const DELETE_FILE_VARIABLE = 'DELETE_FILE_VARIABLE';
 
 export const UPDATE_FILE_VARIABLE_NAME = 'UPDATE_FILE_VARIABLE_NAME';
-export const UPDATE_FILE_VARIABLE_IS_MULTIPLE =
-  'UPDATE_FILE_VARIABLE_IS_MULTIPLE';
+export const UPDATE_FILE_VARIABLE_IS_MULTIPLE = 'UPDATE_FILE_VARIABLE_IS_MULTIPLE';
 export const UPDATE_FILE_VARIABLE_DATA = 'UPDATE_FILE_VARIABLE_DATA';
 
 export const PRETTIFY_VARIABLES = 'PRETTIFY_VARIABLES';
@@ -15,7 +14,10 @@ export const PRETTIFY_VARIABLES = 'PRETTIFY_VARIABLES';
 export class UpdateVariablesAction implements NGRXAction {
   readonly type = UPDATE_VARIABLES;
 
-  constructor(public payload: string, public windowId: string) {}
+  constructor(
+    public payload: string,
+    public windowId: string
+  ) {}
 }
 
 export class AddFileVariableAction implements NGRXAction {
@@ -30,7 +32,10 @@ export class AddFileVariableAction implements NGRXAction {
 export class DeleteFileVariableAction implements NGRXAction {
   readonly type = DELETE_FILE_VARIABLE;
 
-  constructor(public windowId: string, public payload: { index: number }) {}
+  constructor(
+    public windowId: string,
+    public payload: { index: number }
+  ) {}
 }
 
 export class UpdateFileVariableNameAction implements NGRXAction {

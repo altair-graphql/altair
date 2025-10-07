@@ -56,8 +56,7 @@ export const generateRandomNameForString = (value: string) =>
 
 export const getTypeName = (type: GraphQLType) => getNamedType(type).toString();
 
-export const getRefactoredFragmentName = (typeName: string) =>
-  `${typeName}Fields`;
+export const getRefactoredFragmentName = (typeName: string) => `${typeName}Fields`;
 
 export const getFragmentSpreadNode = (name: string) => {
   return {
@@ -75,8 +74,7 @@ export const getFragmentDefinitionFromRefactorMap = (
 ): FragmentDefinitionNode[] => {
   return Object.entries(refactorMap).map(([typeName, fieldList]) => {
     const type = schema.getType(typeName);
-    const fieldsMap: GraphQLFieldMap<any, any> =
-      type && (type as any).getFields();
+    const fieldsMap: GraphQLFieldMap<any, any> = type && (type as any).getFields();
 
     return {
       kind: Kind.FRAGMENT_DEFINITION,
@@ -315,10 +313,7 @@ const argumentValueToJS = (argValue: ValueNode, variables?: IDictionary) => {
   return valueFromASTUntyped(argValue, variables);
 };
 
-const argumentNodeToJS = (
-  argumentNode: ArgumentNode,
-  variables?: IDictionary
-) => {
+const argumentNodeToJS = (argumentNode: ArgumentNode, variables?: IDictionary) => {
   return argumentValueToJS(argumentNode.value, variables);
 };
 
@@ -347,11 +342,7 @@ export const refactorArgumentsToVariables = (
         case Kind.ARGUMENT:
           {
             const fieldDef = typeInfo.getFieldDef();
-            if (
-              node.value.kind !== Kind.VARIABLE &&
-              fieldDef &&
-              fieldDef.args
-            ) {
+            if (node.value.kind !== Kind.VARIABLE && fieldDef && fieldDef.args) {
               const foundArg = fieldDef.args.find(
                 (arg) => arg.name === node.name.value
               );

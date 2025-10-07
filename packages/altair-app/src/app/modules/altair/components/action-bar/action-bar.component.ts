@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 
 @Component({
-    selector: 'app-action-bar',
-    templateUrl: './action-bar.component.html',
-    styleUrls: ['./action-bar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-action-bar',
+  templateUrl: './action-bar.component.html',
+  styleUrls: ['./action-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class ActionBarComponent {
   @Input() showDocs = false;

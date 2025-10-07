@@ -23,11 +23,11 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { NotifyService } from '../../services';
 
 @Component({
-    selector: 'app-environment-manager',
-    templateUrl: './environment-manager.component.html',
-    styleUrls: ['./environment-manager.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-environment-manager',
+  templateUrl: './environment-manager.component.html',
+  styleUrls: ['./environment-manager.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EnvironmentManagerComponent implements OnInit, OnChanges {
   @Input() environments?: EnvironmentsState;

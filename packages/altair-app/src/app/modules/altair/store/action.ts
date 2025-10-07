@@ -33,9 +33,7 @@ export class InitWindowAction {
 
 export class AppInitAction {
   readonly type = APP_INIT_ACTION;
-  constructor(
-    public payload: { initialState: Partial<RootState> | undefined }
-  ) {}
+  constructor(public payload: { initialState: Partial<RootState> | undefined }) {}
 }
 
 export type AllActions =

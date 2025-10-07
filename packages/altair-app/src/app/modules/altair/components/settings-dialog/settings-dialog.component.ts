@@ -21,10 +21,10 @@ import { getEditorExtensions } from './extensions';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Component({
-    selector: 'app-settings-dialog',
-    templateUrl: './settings-dialog.component.html',
-    styleUrls: ['./settings-dialog.component.scss'],
-    standalone: false
+  selector: 'app-settings-dialog',
+  templateUrl: './settings-dialog.component.html',
+  styleUrls: ['./settings-dialog.component.scss'],
+  standalone: false,
 })
 export class SettingsDialogComponent implements OnInit, OnChanges {
   @Input() settings?: SettingsState;

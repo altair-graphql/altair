@@ -27,9 +27,7 @@ export function windowsMetaReducer(
     case windowsMeta.SET_ACTIVE_WINDOW_ID:
       return { ...state, activeWindowId: action.payload.windowId };
     case windowsMeta.SET_NEXT_WINDOW_ACTIVE: {
-      const idx = state.windowIds.findIndex(
-        (id) => id === state.activeWindowId
-      );
+      const idx = state.windowIds.findIndex((id) => id === state.activeWindowId);
       let newActiveWindowId = '';
       if (idx >= state.windowIds.length - 1) {
         newActiveWindowId = state.windowIds[0] ?? '';
@@ -39,9 +37,7 @@ export function windowsMetaReducer(
       return { ...state, activeWindowId: newActiveWindowId };
     }
     case windowsMeta.SET_PREVIOUS_WINDOW_ACTIVE: {
-      const idx = state.windowIds.findIndex(
-        (id) => id === state.activeWindowId
-      );
+      const idx = state.windowIds.findIndex((id) => id === state.activeWindowId);
       let newActiveWindowId = '';
       if (idx <= 0) {
         newActiveWindowId = state.windowIds[state.windowIds.length - 1] ?? '';

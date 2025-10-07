@@ -18,8 +18,8 @@ export const fadeGridGrowInOutAnimationTrigger = trigger(
       animate('.3s ease', style({ opacity: 1, gridTemplateRows: '1fr' })),
     ]),
     transition(':leave', [
-      style({ opacity: 1, gridTemplateRows: '1fr'}),
-      animate('.3s ease', style({ opacity: 0, gridTemplateRows: '0fr'})),
+      style({ opacity: 1, gridTemplateRows: '1fr' }),
+      animate('.3s ease', style({ opacity: 0, gridTemplateRows: '0fr' })),
     ]),
   ]
 );

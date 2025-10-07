@@ -8,15 +8,13 @@ describe('DocViewerTypeComponent', () => {
   let component: DocViewerTypeComponent;
   let fixture: ComponentFixture<DocViewerTypeComponent>;
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        declarations: [DocViewerTypeComponent],
-        imports: [TranslateModule.forRoot(), SharedModule],
-        teardown: { destroyAfterEach: false },
-      }).compileComponents();
-    })
-  );
+  beforeEach(waitForAsync(() => {
+    TestBed.configureTestingModule({
+      declarations: [DocViewerTypeComponent],
+      imports: [TranslateModule.forRoot(), SharedModule],
+      teardown: { destroyAfterEach: false },
+    }).compileComponents();
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocViewerTypeComponent);

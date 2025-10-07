@@ -36,10 +36,7 @@ export const normalizeToKeyValue = (
   // Handle special path
   const specialPathParts = specialStorePaths.map((_) => _.split('.'));
   specialPathParts.forEach((parts) => {
-    const keyPartsValuePairs = _normalizeToResolvedKeyPartsValuePairs(
-      parts,
-      state
-    );
+    const keyPartsValuePairs = _normalizeToResolvedKeyPartsValuePairs(parts, state);
 
     keyPartsValuePairs.forEach(({ keyParts, value }) => {
       const resolvedKey = [`[${storageNamespace}]`, ...keyParts].join('::');
@@ -88,15 +85,14 @@ export const _normalizeToResolvedKeyPartsValuePairs = (
   }
 
   resolvedKeys.forEach((key) => {
-    const x = _normalizeToResolvedKeyPartsValuePairs(
-      restParts,
-      object[key]
-    ).map((_) => {
-      return {
-        keyParts: [key, ..._.keyParts],
-        value: _.value,
-      };
-    });
+    const x = _normalizeToResolvedKeyPartsValuePairs(restParts, object[key]).map(
+      (_) => {
+        return {
+          keyParts: [key, ..._.keyParts],
+          value: _.value,
+        };
+      }
+    );
     res = [...res, ...x];
   });
 
@@ -118,16 +114,8 @@ const getSyncOperations = (
   storageNamespace: string
 ) => {
   const ops: SyncOperation[] = [];
-  const normalizedOldState = normalizeToKeyValue(
-    oldState,
-    keys,
-    storageNamespace
-  );
-  const normalizedNewState = normalizeToKeyValue(
-    newState,
-    keys,
-    storageNamespace
-  );
+  const normalizedOldState = normalizeToKeyValue(oldState, keys, storageNamespace);
+  const normalizedNewState = normalizeToKeyValue(newState, keys, storageNamespace);
 
   // Get old keys from old state and remove any undefined in new state (especially window state)
   const removedKeys = Object.keys(normalizedOldState).filter(
@@ -285,11 +273,7 @@ const syncStateUpdate = async () => {
       }
     );
   } catch (error) {
-    if (
-      error instanceof Error &&
-      'name' in error &&
-      error.name !== 'AbortError'
-    ) {
+    if (error instanceof Error && 'name' in error && error.name !== 'AbortError') {
       debug.error(new Error('Cannot sync state update :('));
       debug.error(error);
     }
@@ -303,8 +287,7 @@ export const defaultMergeReducer = (
   action: any
 ) => {
   if (action.type === APP_INIT_ACTION && rehydratedState) {
-    const overwriteMerge = (destinationArray: any, sourceArray: any) =>
-      sourceArray;
+    const overwriteMerge = (destinationArray: any, sourceArray: any) => sourceArray;
     const options: deepmerge.Options = {
       arrayMerge: overwriteMerge,
     };
@@ -321,8 +304,7 @@ export const getAppStateFromStorage = async ({
   storage = undefined as unknown as Storage,
 }) => {
   let stateList = await asyncStorage.appState.toArray();
-  const storageNamespace =
-    getAltairConfig().initialData.instanceStorageNamespace;
+  const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
   const reducedState: Partial<RootState> = {};
 
   if (forceUpdateFromProvidedData || !stateList.length) {
@@ -405,9 +387,7 @@ export const getAppStateFromStorage = async ({
   // return reducedState as RootState;
 };
 
-export const importIndexedRecords = (
-  records: { key: string; value: any }[]
-) => {
+export const importIndexedRecords = (records: { key: string; value: any }[]) => {
   return asyncStorage.transaction('rw', asyncStorage.appState, async () => {
     const ops: Promise<any>[] = [];
 
@@ -424,60 +404,58 @@ export const importIndexedRecords = (
   });
 };
 
-export const asyncStorageSync =
-  (opts: LocalStorageConfig) => (reducer: any) => {
-    const storageNamespace =
-      getAltairConfig().initialData.instanceStorageNamespace;
+export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => {
+  const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
 
-    return function (state: any, action: AllActions) {
-      let nextState: any;
+  return function (state: any, action: AllActions) {
+    let nextState: any;
 
-      try {
-        // If state arrives undefined, we need to let it through the supplied reducer
-        // in order to get a complete state as defined by user
-        if (action.type === INIT && !state) {
-          nextState = reducer(state, action);
-        } else {
-          nextState = { ...state };
-        }
-        // Merge the store state with the rehydrated state using
-        // either a user-defined reducer or the default.
-        if (action.type === APP_INIT_ACTION) {
-          if (action.payload?.initialState) {
-            nextState = defaultMergeReducer(
-              nextState,
-              (action as AppInitAction).payload.initialState,
-              action
-            );
-          }
-        }
-
-        nextState = reducer(nextState, action);
-
-        if (![INIT, ROOT_EFFECTS_INIT, APP_INIT_ACTION].includes(action.type)) {
-          // update storage
-          // Queue update changes before debouncing
-          debug.log('debouncing update..');
-          updateSyncOperations(
-            state,
+    try {
+      // If state arrives undefined, we need to let it through the supplied reducer
+      // in order to get a complete state as defined by user
+      if (action.type === INIT && !state) {
+        nextState = reducer(state, action);
+      } else {
+        nextState = { ...state };
+      }
+      // Merge the store state with the rehydrated state using
+      // either a user-defined reducer or the default.
+      if (action.type === APP_INIT_ACTION) {
+        if (action.payload?.initialState) {
+          nextState = defaultMergeReducer(
             nextState,
-            opts.keys as StateKey[],
-            storageNamespace
+            (action as AppInitAction).payload.initialState,
+            action
           );
-          debouncedSyncStateUpdate();
         }
-      } catch (error) {
-        debug.error(
-          new Error(
-            'Encountered an error while reducing state in async-storage-sync meta-reducer! :('
-          )
-        );
-        debug.error(error);
       }
 
-      return nextState;
-    };
+      nextState = reducer(nextState, action);
+
+      if (![INIT, ROOT_EFFECTS_INIT, APP_INIT_ACTION].includes(action.type)) {
+        // update storage
+        // Queue update changes before debouncing
+        debug.log('debouncing update..');
+        updateSyncOperations(
+          state,
+          nextState,
+          opts.keys as StateKey[],
+          storageNamespace
+        );
+        debouncedSyncStateUpdate();
+      }
+    } catch (error) {
+      debug.error(
+        new Error(
+          'Encountered an error while reducing state in async-storage-sync meta-reducer! :('
+        )
+      );
+      debug.error(error);
+    }
+
+    return nextState;
   };
+};
 
 // const syncStateUpdate = (oldState: any, newState: any, keys: string[], immediate = false) => {
 //   updateSyncOperations(oldState, newState, keys);

@@ -47,10 +47,10 @@ import {
 import { isAuthorizationEnabled } from '../../store';
 
 @Component({
-    selector: 'app-query-editor',
-    templateUrl: './query-editor.component.html',
-    styleUrls: ['./query-editor.component.scss'],
-    standalone: false
+  selector: 'app-query-editor',
+  templateUrl: './query-editor.component.html',
+  styleUrls: ['./query-editor.component.scss'],
+  standalone: false,
 })
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() windowId = '';

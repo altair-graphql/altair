@@ -9,11 +9,11 @@ import { json } from '@codemirror/lang-json';
 import { Extension } from '@codemirror/state';
 
 @Component({
-    selector: 'app-request-extensions-dialog',
-    templateUrl: './request-extensions-dialog.component.html',
-    styles: ``,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-request-extensions-dialog',
+  templateUrl: './request-extensions-dialog.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class RequestExtensionsDialogComponent {
   @Input() data = '';

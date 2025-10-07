@@ -9,11 +9,11 @@ import { GraphQLSchema, GraphQLDirective, GraphQLArgument } from 'graphql';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-    selector: 'app-doc-viewer-directive',
-    templateUrl: './doc-viewer-directive.component.html',
-    styleUrls: ['./doc-viewer-directive.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-doc-viewer-directive',
+  templateUrl: './doc-viewer-directive.component.html',
+  styleUrls: ['./doc-viewer-directive.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class DocViewerDirectiveComponent {
   @Input() set data(directive: GraphQLDirective | undefined) {

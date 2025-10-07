@@ -8,9 +8,8 @@ describe('DocViewerDeprecatedComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DocViewerDeprecatedComponent ]
-    })
-    .compileComponents();
+      declarations: [DocViewerDeprecatedComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DocViewerDeprecatedComponent);
     component = fixture.componentInstance;

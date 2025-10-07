@@ -66,5 +66,4 @@ describe('ActionBarComponent', () => {
     showDocsButton.emit('click');
     expect(wrapper.emitted('toggleDocsChange')).toBeTruthy();
   });
-
 });

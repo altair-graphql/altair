@@ -16,11 +16,11 @@ import { json, jsonParseLinter } from '@codemirror/lang-json';
 import { linter } from '@codemirror/lint';
 
 @Component({
-    selector: 'app-edit-collection-dialog',
-    templateUrl: './edit-collection-dialog.component.html',
-    styleUrls: ['./edit-collection-dialog.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-edit-collection-dialog',
+  templateUrl: './edit-collection-dialog.component.html',
+  styleUrls: ['./edit-collection-dialog.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class EditCollectionDialogComponent implements OnChanges {
   @Input() showEditCollectionDialog = true;

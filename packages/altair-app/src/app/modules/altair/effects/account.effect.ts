@@ -84,7 +84,9 @@ export class AccountEffects {
           }
         ),
         switchMap(({ action }) => {
-          return this.accountService.accountLogin$(action.payload?.provider).pipe(take(1));
+          return this.accountService
+            .accountLogin$(action.payload?.provider)
+            .pipe(take(1));
         }),
         switchMap((user) => {
           if (!user) {

@@ -5,8 +5,8 @@ import createEmotion, { Emotion } from '@emotion/css/create-instance';
 import { NzConfigService } from 'ng-zorro-antd/core/config';
 
 @Directive({
-    selector: '[appTheme]',
-    standalone: false
+  selector: '[appTheme]',
+  standalone: false,
 })
 export class ThemeDirective implements OnInit, OnChanges {
   @Input() appTheme: ICustomTheme = {};

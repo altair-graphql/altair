@@ -74,9 +74,7 @@ export function localReducer(
     case local.REMOVE_PANEL: {
       return {
         ...state,
-        panels: state.panels.filter(
-          (panel) => panel.id !== action.payload.panelId
-        ),
+        panels: state.panels.filter((panel) => panel.id !== action.payload.panelId),
       };
     }
     case local.SET_PANEL_ACTIVE: {

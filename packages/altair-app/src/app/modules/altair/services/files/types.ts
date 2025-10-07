@@ -15,9 +15,5 @@ export const ALTAIR_FILE_EXTENSIONS = {
 } as const;
 
 export type AltairFileExtension =
-  typeof ALTAIR_FILE_EXTENSIONS[keyof typeof ALTAIR_FILE_EXTENSIONS];
-export type SupportedFileExtensions =
-  | AltairFileExtension
-  | 'json'
-  | 'txt'
-  | 'gql';
+  (typeof ALTAIR_FILE_EXTENSIONS)[keyof typeof ALTAIR_FILE_EXTENSIONS];
+export type SupportedFileExtensions = AltairFileExtension | 'json' | 'txt' | 'gql';

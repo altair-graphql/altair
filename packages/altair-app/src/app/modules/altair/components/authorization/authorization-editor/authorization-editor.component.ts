@@ -18,11 +18,11 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AUTHORIZATION_MAPPING } from '../authorizations';
 
 @Component({
-    selector: 'app-authorization-editor',
-    templateUrl: './authorization-editor.component.html',
-    styles: ``,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+  selector: 'app-authorization-editor',
+  templateUrl: './authorization-editor.component.html',
+  styles: ``,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
 })
 export class AuthorizationEditorComponent implements OnInit {
   typeForm = this.formBuilder.group<{

@@ -11,10 +11,10 @@ import { QueryItemRevision } from '@altairgraphql/db';
 import { QueryItemRevisionWithUsername } from '@altairgraphql/api-utils';
 
 @Component({
-    selector: 'app-query-revision-dialog',
-    templateUrl: './query-revision-dialog.component.html',
-    styles: ``,
-    standalone: false
+  selector: 'app-query-revision-dialog',
+  templateUrl: './query-revision-dialog.component.html',
+  styles: ``,
+  standalone: false,
 })
 export class QueryRevisionDialogComponent implements OnChanges {
   @Input() showDialog = true;

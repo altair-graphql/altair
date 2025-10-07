@@ -53,9 +53,7 @@ export class SelectActiveSubEnvironmentAction implements NGRXAction {
 export class RepositionSubEnvironmentAction implements NGRXAction {
   readonly type = REPOSITION_SUB_ENVIRONMENT;
 
-  constructor(
-    public payload: { currentPosition: number; newPosition: number }
-  ) {}
+  constructor(public payload: { currentPosition: number; newPosition: number }) {}
 }
 
 export type Action =
