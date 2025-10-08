@@ -8,6 +8,7 @@ import {
   Input,
   NgZone,
   Output,
+  input
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
@@ -58,9 +59,9 @@ const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
   standalone: false,
 })
 export class XInputComponent implements AfterViewInit, ControlValueAccessor {
-  @Input() placeholder = '';
-  @Input() readonly = false;
-  @Input() windowId = '';
+  readonly placeholder = input('');
+  readonly readonly = input(false);
+  readonly windowId = input('');
   @Output() blurChange = new EventEmitter();
   @Output() submitChange = new EventEmitter();
 
@@ -158,8 +159,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
     return [
       inputTheme,
-      placeholder(this.placeholder),
-      EditorState.readOnly.of(this.readonly),
+      placeholder(this.placeholder()),
+      EditorState.readOnly.of(this.readonly()),
       keymap.of([
         {
           key: 'Enter',
@@ -212,9 +213,10 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
         unsubscribe: Subscription;
 
         constructor(view: EditorView) {
-          self.store.select(selectActiveEnvironmentsList(self.windowId));
+          const windowId = self.windowId();
+          self.store.select(selectActiveEnvironmentsList(windowId));
           this.unsubscribe = self.store
-            .select(selectActiveEnvironmentsList(self.windowId))
+            .select(selectActiveEnvironmentsList(windowId))
             .subscribe((list) => {
               self.environmentVariables = environmentsToEnvironmentVariables(list);
               self.updateEnvVarHighlights(view, self.environmentVariables);

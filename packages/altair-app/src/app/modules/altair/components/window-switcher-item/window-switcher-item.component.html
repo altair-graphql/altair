@@ -1,7 +1,7 @@
 <div
   class="window-switcher__item"
   [ngClass]="{
-    'window-switcher__item--active': (window$ | async)?.windowId === activeWindowId,
+    'window-switcher__item--active': (window$ | async)?.windowId === activeWindowId(),
   }"
   (click)="onClickWindow()"
   (dblclick)="onDoubleClick()"
@@ -41,7 +41,7 @@
   <span class="window-switcher__unsaved-indicator" *ngIf="isWindowUnsaved$ | async">
     *
   </span>
-  @if (isClosable) {
+  @if (isClosable()) {
     <div
       track-id="close_window_tab"
       class="window-switcher__close"

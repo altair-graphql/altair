@@ -6,10 +6,10 @@
       nzTrigger="click"
       [nzDropdownMenu]="httpVerbMenu"
       class="url-box__button url-box__button--method"
-      [value]="httpVerb"
+      [value]="httpVerb()"
       track-id="http_verb"
     >
-      {{ httpVerb }}
+      {{ httpVerb() }}
       <!-- &#9660; -->
     </button>
 
@@ -52,18 +52,18 @@
       class="url-box__input"
       track-id="set_url"
       placeholder="Enter URL"
-      [windowId]="windowId"
+      [windowId]="windowId()"
       [(ngModel)]="apiUrl"
       (blurChange)="setApiUrl()"
       (submitChange)="setApiUrl()"
     ></app-x-input>
   </div>
   <div class="url-box__input-actions">
-    @if (currentCollection) {
+    @if (currentCollection()) {
       <button
         type="button"
         class="url-box__button"
-        [ngClass]="{ 'url-box__button--disabled': !hasUnsavedChanges }"
+        [ngClass]="{ 'url-box__button--disabled': !hasUnsavedChanges() }"
         (click)="updateQueryInCollectionChange.emit()"
         track-id="update_in_collection"
         nz-tooltip
@@ -110,39 +110,39 @@
       type="button"
       class="url-box__button"
       (click)="toggleDocsChange.emit()"
-      [ngClass]="{ 'url-box__button--active': showDocs }"
+      [ngClass]="{ 'url-box__button--active': showDocs() }"
       track-id="show_docs"
     >
       {{ 'DOCS_TEXT' | translate }}
     </button>
   </div>
   <div class="send-request__wrapper">
-    @if (queryOperations.length < 2) {
+    @if (queryOperations().length < 2) {
       <button
         class="app-button active-primary send-request__button"
-        (click)="!isSubscribed && this.sendRequest.emit()"
-        [ngClass]="{ 'url-box__button--disabled': isLoading }"
+        (click)="!isSubscribed() && this.sendRequest.emit()"
+        [ngClass]="{ 'url-box__button--disabled': isLoading() }"
         track-id="set_request"
       >
-        @if (isLoading) {
+        @if (isLoading()) {
           <span>{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
         }
-        @if (!isLoading) {
+        @if (!isLoading()) {
           <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
         }
       </button>
     }
-    @if (queryOperations.length > 1) {
+    @if (queryOperations().length > 1) {
       <button
         class="app-button active-primary send-request__button"
-        [ngClass]="{ 'url-box__button--disabled': isLoading }"
+        [ngClass]="{ 'url-box__button--disabled': isLoading() }"
         track-id="send_request"
         nz-dropdown
         nzTrigger="click"
         nzPlacement="bottomRight"
         [nzDropdownMenu]="queryOperationsMenu"
       >
-        @if (isLoading) {
+        @if (isLoading()) {
           <span>{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
         } @else {
           @if (selectedOperation) {
@@ -164,7 +164,7 @@
     <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">
       <ul nz-menu>
         @for (
-          operation of queryOperations;
+          operation of queryOperations();
           track queryOperationTrackBy($index, operation)
         ) {
           <li
@@ -184,7 +184,7 @@
     </nz-dropdown-menu>
   </div>
 </div>
-@if (isLoading) {
+@if (isLoading()) {
   <div class="url-box__loader">
     <div class="url-box__loader-inner"></div>
   </div>

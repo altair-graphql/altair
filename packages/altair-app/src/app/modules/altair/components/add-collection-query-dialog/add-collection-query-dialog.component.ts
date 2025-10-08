@@ -5,6 +5,7 @@ import {
   Input,
   OnChanges,
   SimpleChanges,
+  input
 } from '@angular/core';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
@@ -25,11 +26,11 @@ import { WorkspaceOption } from '../../store';
   standalone: false,
 })
 export class AddCollectionQueryDialogComponent implements OnChanges {
-  @Input() showDialog = false;
+  readonly showDialog = input(false);
   @Input() windowTitle = '';
-  @Input() collections: IQueryCollection[] = [];
-  @Input() loggedIn = false;
-  @Input() workspaces: WorkspaceOption[] = [];
+  readonly collections = input<IQueryCollection[]>([]);
+  readonly loggedIn = input(false);
+  readonly workspaces = input<WorkspaceOption[]>([]);
 
   @Output() toggleDialogChange = new EventEmitter();
   @Output() createCollectionAndSaveQueryToCollectionChange = new EventEmitter();

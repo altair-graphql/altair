@@ -1,18 +1,18 @@
 <div
   class="header__logo-wrapper"
-  [ngClass]="{ 'header__logo-wrapper--experimental': settings?.enableExperimental }"
+  [ngClass]="{ 'header__logo-wrapper--experimental': settings()?.enableExperimental }"
 >
   <img src="assets/img/altair_logo.svg" alt="logo" class="header__logo" />
 </div>
 
 <app-window-switcher
-  [windows]="windows"
-  [windowIds]="windowIds"
-  [activeWindowId]="activeWindowId"
-  [closedWindows]="closedWindows"
-  [isElectron]="isElectron"
-  [collections]="collections"
-  [enableScrollbar]="settings?.enableTablistScrollbar"
+  [windows]="windows()"
+  [windowIds]="windowIds()"
+  [activeWindowId]="activeWindowId()"
+  [closedWindows]="closedWindows()"
+  [isElectron]="isElectron()"
+  [collections]="collections()"
+  [enableScrollbar]="settings()?.enableTablistScrollbar"
   (newWindowChange)="newWindowChange.emit($event)"
   (activeWindowChange)="activeWindowChange.emit($event)"
   (removeWindowChange)="removeWindowChange.emit($event)"
@@ -24,7 +24,7 @@
 
 <div class="header__actions">
   <ul class="header__menu">
-    @for (panel of headerPanels; track trackById($index, panel)) {
+    @for (panel of headerPanels(); track trackById($index, panel)) {
       <li
         (click)="togglePanelActiveChange.emit(panel)"
         nz-tooltip

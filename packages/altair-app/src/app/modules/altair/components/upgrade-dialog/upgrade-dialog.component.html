@@ -1,5 +1,5 @@
 <app-dialog
-  [showDialog]="showDialog"
+  [showDialog]="showDialog()"
   [showHeader]="false"
   [showFooter]="false"
   (toggleDialog)="toggleDialogChange.emit($event)"
@@ -41,7 +41,7 @@
         "
       ></nz-alert>
       <div class="upgrade-pro-extra-tips">
-        You are currently on the {{ userPlan?.id }} plan. Upgrade to Pro to get
+        You are currently on the {{ userPlan()?.id }} plan. Upgrade to Pro to get
         access to more features. Reload the app after upgrading to Pro.
       </div>
       <button class="btn btn--primary" (click)="openUpgradeProUrl($event)">

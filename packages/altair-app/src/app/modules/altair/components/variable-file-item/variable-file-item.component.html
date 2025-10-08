@@ -9,16 +9,16 @@
     <span
       class="variables-file-item-switch"
       [ngClass]="{
-        'variables-file-item-switch--enabled': fileVariable?.isMultiple,
+        'variables-file-item-switch--enabled': fileVariable()?.isMultiple,
       }"
       nz-tooltip
       [nzTooltipTitle]="'VARIABLE_TOGGLE_FILE_MODE' | translate"
-      (click)="fileVariableIsMultipleChange.emit(!fileVariable?.isMultiple)"
+      (click)="fileVariableIsMultipleChange.emit(!fileVariable()?.isMultiple)"
     >
-      @if (!fileVariable?.isMultiple) {
+      @if (!fileVariable()?.isMultiple) {
         <span>1</span>
       }
-      @if (fileVariable?.isMultiple) {
+      @if (fileVariable()?.isMultiple) {
         <span>*</span>
       }
     </span>
@@ -27,7 +27,7 @@
       class="variables-file-item-name-input"
       data-tid="file_name"
       placeholder="{{ 'FILE_NAME_PLACEHOLDER' | translate }}"
-      [ngModel]="fileVariable?.name"
+      [ngModel]="fileVariable()?.name"
       (ngModelChange)="fileVariableNameChange.emit($event)"
     />
   </div>
@@ -36,7 +36,7 @@
       #fileEl
       type="file"
       class="variables-file-item-input"
-      [attr.multiple]="fileVariable?.isMultiple ? '' : null"
+      [attr.multiple]="fileVariable()?.isMultiple ? '' : null"
       (change)="onSelectFiles()"
     />
     <span

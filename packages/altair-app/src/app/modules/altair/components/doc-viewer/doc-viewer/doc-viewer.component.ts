@@ -8,6 +8,7 @@ import {
   HostBinding,
   ElementRef,
   ViewChild,
+  input
 } from '@angular/core';
 
 import { debug } from '../../../utils/logger';
@@ -33,11 +34,11 @@ import { debounce } from 'lodash-es';
 })
 export class DocViewerComponent implements OnChanges {
   @Input() gqlSchema?: GraphQLSchema;
-  @Input() allowIntrospection = true;
+  readonly allowIntrospection = input(true);
   @Input() hideDeprecatedDocItems = false;
   @Input() isLoading = false;
-  @Input() addQueryDepthLimit = this.altairConfig.add_query_depth_limit;
-  @Input() tabSize = this.altairConfig.tab_size;
+  readonly addQueryDepthLimit = input(this.altairConfig.add_query_depth_limit);
+  readonly tabSize = input(this.altairConfig.tab_size);
   @Input() docView: DocView = {
     view: 'root', // type, field, root, search
   };
@@ -209,8 +210,8 @@ export class DocViewerComponent implements OnChanges {
     }
     const docUtilsWorker = await this.getDocUtilsWorker();
     const generatedQuery = await docUtilsWorker.generateQueryV2(name, parentType, {
-      tabSize: this.tabSize,
-      addQueryDepthLimit: this.addQueryDepthLimit,
+      tabSize: this.tabSize(),
+      addQueryDepthLimit: this.addQueryDepthLimit(),
     });
     if (generatedQuery) {
       this.addQueryToEditorChange.next(generatedQuery);

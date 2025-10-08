@@ -1,12 +1,12 @@
 <app-dialog
-  [showDialog]="showDialog"
+  [showDialog]="showDialog()"
   [heading]="'REQUEST_EXTENSIONS_TEXT' | translate"
   [subheading]="'REQUEST_EXTENSIONS_SUBTEXT' | translate"
   (toggleDialog)="toggleDialogChange.emit($event)"
 >
   <div class="request-extensions-wrapper">
     <app-codemirror
-      [ngModel]="data"
+      [ngModel]="data()"
       (ngModelChange)="dataChange.emit($event)"
       [extensions]="editorExtensions"
     ></app-codemirror>

@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
@@ -19,8 +19,8 @@ import { APSPluginDefinition } from 'altair-graphql-core/build/plugin/server/typ
   standalone: false,
 })
 export class PluginManagerComponent {
-  @Input() showPluginManager = false;
-  @Input() settings?: SettingsState;
+  readonly showPluginManager = input(false);
+  readonly settings = input<SettingsState>();
 
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
@@ -50,8 +50,9 @@ export class PluginManagerComponent {
   }
 
   isPluginInstalled(pluginId: string) {
-    if (this.settings?.['plugin.list']) {
-      return this.settings['plugin.list'].some((item) => {
+    const settings = this.settings();
+    if (settings?.['plugin.list']) {
+      return settings['plugin.list'].some((item) => {
         const pluginInfo = this.pluginRegistry.getPluginInfoFromString(item);
         if (pluginInfo) {
           return pluginInfo.name === pluginId;

@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 
 @Component({
@@ -14,8 +14,8 @@ import {
   standalone: false,
 })
 export class ActionBarComponent {
-  @Input() showDocs = false;
-  @Input() isSubscribed = false;
+  readonly showDocs = input(false);
+  readonly isSubscribed = input(false);
   @Output() toggleHeaderDialog = new EventEmitter();
   @Output() toggleVariableDialog = new EventEmitter();
   @Output() toggleDocsChange = new EventEmitter();

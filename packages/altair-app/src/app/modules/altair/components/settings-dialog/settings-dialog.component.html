@@ -1,5 +1,5 @@
 <nz-modal
-  [nzVisible]="showSettingsDialog"
+  [nzVisible]="showSettingsDialog()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
   [nzCloseIcon]="'close-circle'"
   [nzTitle]="modalTitle"
@@ -109,7 +109,7 @@
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <div class="left text-align-left">
-        <label>{{ 'SETTINGS_VERSION_TEXT' | translate }} {{ appVersion }}</label>
+        <label>{{ 'SETTINGS_VERSION_TEXT' | translate }} {{ appVersion() }}</label>
         <div>
           <small
             >{{ 'SETTINGS_HELP_WITH_TRANSLATIONS_TEXT' | translate }}

@@ -2,7 +2,7 @@
   <div class="request-script-editor__toggle-wrapper spacer--small">
     <label
       nz-checkbox
-      [ngModel]="postRequest.enabled"
+      [ngModel]="postRequest().enabled"
       (ngModelChange)="postRequestEnabledChange.next($event)"
       >{{ 'REQUEST_SCRIPT_ENABLE_TEXT' | translate }}</label
     >
@@ -15,7 +15,7 @@
   <app-codemirror
     [extensions]="editorExtensions"
     [fullHeight]="true"
-    [ngModel]="postRequest.script"
+    [ngModel]="postRequest().script"
     (ngModelChange)="postRequestScriptChange.emit($event)"
   ></app-codemirror>
 

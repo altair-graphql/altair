@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 import { GraphQLSchema, GraphQLDirective, GraphQLArgument } from 'graphql';
 import { BehaviorSubject } from 'rxjs';
@@ -23,7 +24,7 @@ export class DocViewerDirectiveComponent {
     return undefined;
   }
 
-  @Input() gqlSchema?: GraphQLSchema;
+  readonly gqlSchema = input<GraphQLSchema>();
 
   @Output() goToTypeChange = new EventEmitter();
 

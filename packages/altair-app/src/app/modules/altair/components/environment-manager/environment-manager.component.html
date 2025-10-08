@@ -1,5 +1,5 @@
 <nz-modal
-  [nzVisible]="showEnvironmentManager"
+  [nzVisible]="showEnvironmentManager()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
   [nzCloseIcon]="'close-circle'"
   [nzTitle]="modalTitle"
@@ -125,7 +125,7 @@
               class="environments-editor-textarea"
               [extensions]="editorExtensions"
               [fullHeight]="true"
-              [redrawLayout]="showEnvironmentManager"
+              [redrawLayout]="showEnvironmentManager()"
               [(ngModel)]="editorContent"
               (ngModelChange)="onEditorChange($event)"
             ></app-codemirror>

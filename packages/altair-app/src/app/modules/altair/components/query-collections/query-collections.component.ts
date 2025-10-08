@@ -6,6 +6,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  input
 } from '@angular/core';
 import {
   IQueryCollection,
@@ -25,7 +26,7 @@ import { WorkspaceOption } from '../../store';
   standalone: false,
 })
 export class QueryCollectionsComponent implements OnInit, OnChanges {
-  @Input() showCollections = true;
+  readonly showCollections = input(true);
   @Input() set collections(val: IQueryCollection[] | undefined) {
     if (val) {
       this.collections$.next(val);
@@ -34,9 +35,9 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Input() set workspaces(val: WorkspaceOption[]) {
     this.workspaces$.next(val);
   }
-  @Input() sortBy: SortByOptions = 'newest';
-  @Input() queriesSortBy: SortByOptions = 'newest';
-  @Input() loggedIn = false;
+  readonly sortBy = input<SortByOptions>('newest');
+  readonly queriesSortBy = input<SortByOptions>('newest');
+  readonly loggedIn = input(false);
 
   @Output() loadCollectionsChange = new EventEmitter();
   @Output() selectQueryChange = new EventEmitter();

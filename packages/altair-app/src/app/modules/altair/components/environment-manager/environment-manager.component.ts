@@ -9,6 +9,7 @@ import {
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 
 import {
@@ -31,7 +32,7 @@ import { NotifyService } from '../../services';
 })
 export class EnvironmentManagerComponent implements OnInit, OnChanges {
   @Input() environments?: EnvironmentsState;
-  @Input() showEnvironmentManager = false;
+  readonly showEnvironmentManager = input(false);
   @Output() toggleDialogChange = new EventEmitter();
   @Output() baseEnvironmentJsonChange = new EventEmitter();
   @Output() subEnvironmentJsonChange = new EventEmitter();

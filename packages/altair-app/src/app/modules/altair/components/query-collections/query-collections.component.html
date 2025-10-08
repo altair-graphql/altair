@@ -1,8 +1,8 @@
 <div
   class="query-collections-wrapper"
-  [ngClass]="{ 'query-collections-wrapper--close': !showCollections }"
+  [ngClass]="{ 'query-collections-wrapper--close': !showCollections() }"
 >
-  @if (showCollections) {
+  @if (showCollections()) {
     <div class="query-collections__inner">
       <div class="query-collections__title">
         {{ 'COLLECTIONS_TEXT' | translate }}
@@ -19,7 +19,7 @@
         >
           <app-icon name="log-in"></app-icon>
         </button>
-        @if (loggedIn) {
+        @if (loggedIn()) {
           <button
             type="button"
             class="btn btn--small"
@@ -51,7 +51,7 @@
             type="button"
             class="btn btn--small"
           >
-            @switch (sortBy) {
+            @switch (sortBy()) {
               @case ('a-z') {
                 {{ 'SORT_BY_A_Z' | translate }}
               }
@@ -142,8 +142,8 @@
         ) {
           <app-query-collection-item
             [collectionTree]="collectionTree"
-            [loggedIn]="loggedIn"
-            [queriesSortBy]="queriesSortBy"
+            [loggedIn]="loggedIn()"
+            [queriesSortBy]="queriesSortBy()"
             [expanded]="expandedMap[collectionTree.id] || false"
             (selectQueryChange)="selectQueryChange.emit($event)"
             (deleteQueryChange)="deleteQueryChange.emit($event)"

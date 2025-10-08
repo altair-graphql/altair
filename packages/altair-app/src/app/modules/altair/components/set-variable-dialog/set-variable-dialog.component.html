@@ -1,5 +1,5 @@
 <nz-modal
-  [nzVisible]="showVariableDialog"
+  [nzVisible]="showVariableDialog()"
   (nzVisibleChange)="toggleVariableDialog.emit($event)"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
@@ -16,7 +16,7 @@
   <ng-template #modalContent>
     <div class="app-dialog-body">
       <app-variables-editor
-        [variables]="variables"
+        [variables]="variables()"
         (variablesChange)="variablesChange.emit($event)"
       ></app-variables-editor>
     </div>

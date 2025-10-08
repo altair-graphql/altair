@@ -1,5 +1,5 @@
 <app-dialog
-  [showDialog]="showDialog"
+  [showDialog]="showDialog()"
   [heading]="'REQUEST_HANDLERS_TEXT' | translate"
   [subheading]="'REQUEST_HANDLERS_SUBTEXT' | translate"
   (toggleDialog)="toggleDialogChange.emit($event)"
@@ -12,10 +12,10 @@
         </div>
         <nz-select
           class="dialog-select"
-          [ngModel]="requestHandlerId"
+          [ngModel]="requestHandlerId()"
           (ngModelChange)="updateRequestHandlerInfo({ requestHandlerId: $event })"
         >
-          @for (handler of requestHandlers; track trackById($index, handler)) {
+          @for (handler of requestHandlers(); track trackById($index, handler)) {
             <nz-option
               [nzValue]="handler.id"
               [nzLabel]="handler.copyTag || '' | translate"
@@ -31,7 +31,7 @@
         <div class="request-handler-params-editor-wrapper">
           <app-codemirror
             class="request-handler-params__input"
-            [ngModel]="requestHandlerAdditionalParams"
+            [ngModel]="requestHandlerAdditionalParams()"
             (ngModelChange)="updateRequestHandlerInfo({ additionalParams: $event })"
             [extensions]="connectionParamsExtensions"
             [showLineNumber]="false"
@@ -46,7 +46,7 @@
         <app-x-input
           type="url"
           class="input"
-          [ngModel]="subscriptionUrl"
+          [ngModel]="subscriptionUrl()"
           (ngModelChange)="updateRequestHandlerInfo({ subscriptionUrl: $event })"
           placeholder="ws://example.com/graphql/subscriptions"
         />
@@ -54,7 +54,7 @@
       <div class="request-handler-params-section">
         <nz-switch
           nzSize="small"
-          [ngModel]="subscriptionUseDefaultRequestHandler"
+          [ngModel]="subscriptionUseDefaultRequestHandler()"
           (ngModelChange)="
             updateRequestHandlerInfo({
               subscriptionUseDefaultRequestHandler: $event,
@@ -64,7 +64,7 @@
         {{ 'SUBSCRIPTION_USE_DEFAULT_REQUEST_HANDLER' | translate }}
       </div>
 
-      @if (!subscriptionUseDefaultRequestHandler) {
+      @if (!subscriptionUseDefaultRequestHandler()) {
         <div class="p-10 glassy-border">
           <div class="request-handler-params-section">
             <div class="request-handler-params-title">
@@ -72,12 +72,12 @@
             </div>
             <nz-select
               class="dialog-select"
-              [ngModel]="selectedSubscriptionRequestHandlerId"
+              [ngModel]="selectedSubscriptionRequestHandlerId()"
               (ngModelChange)="
                 updateRequestHandlerInfo({ subscriptionRequestHandlerId: $event })
               "
             >
-              @for (handler of requestHandlers; track trackById($index, handler)) {
+              @for (handler of requestHandlers(); track trackById($index, handler)) {
                 <nz-option
                   [nzValue]="handler.id"
                   [nzLabel]="handler.copyTag || '' | translate"
@@ -93,7 +93,7 @@
             <div class="request-handler-params-editor-wrapper">
               <app-codemirror
                 class="request-handler-params__input"
-                [ngModel]="subscriptionConnectionParams"
+                [ngModel]="subscriptionConnectionParams()"
                 (ngModelChange)="
                   updateRequestHandlerInfo({ subscriptionConnectionParams: $event })
                 "

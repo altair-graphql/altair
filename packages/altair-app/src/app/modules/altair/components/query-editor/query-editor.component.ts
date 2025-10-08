@@ -10,6 +10,8 @@ import {
   ViewChild,
   HostBinding,
   NgZone,
+  input,
+  computed,
 } from '@angular/core';
 
 import { updateSchema, showInDocsCommand, fillAllFieldsCommands } from 'cm6-graphql';
@@ -53,25 +55,25 @@ import { isAuthorizationEnabled } from '../../store';
   standalone: false,
 })
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() windowId = '';
-  @Input() activeWindowId = '';
-  @Input() query = '';
-  @Input() gqlSchema?: GraphQLSchema;
-  @Input() tabSize = 2;
-  @Input() addQueryDepthLimit = 2;
-  @Input() disableLineNumbers = false;
+  readonly windowId = input('');
+  readonly activeWindowId = input('');
+  readonly query = input('');
+  readonly gqlSchema = input<GraphQLSchema>();
+  readonly tabSize = input(2);
+  readonly addQueryDepthLimit = input(2);
+  readonly disableLineNumbers = input(false);
 
-  @Input() variables?: VariableState;
+  readonly variables = input<VariableState>();
   @Input() showVariableDialog = false;
-  @Input() variableToType?: IDictionary;
+  readonly variableToType = input<IDictionary>();
 
-  @Input() shortcutMapping: IDictionary = {};
-  @Input() enableExperimental = false;
+  readonly shortcutMapping = input<IDictionary>({});
+  readonly enableExperimental = input(false);
 
-  @Input() preRequest?: PrerequestState;
-  @Input() postRequest?: PostrequestState;
+  readonly preRequest = input<PrerequestState>();
+  readonly postRequest = input<PostrequestState>();
 
-  @Input() authorizationState?: AuthorizationState;
+  readonly authorizationState = input<AuthorizationState>();
 
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
@@ -107,8 +109,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   variableEditorHeight = '50%';
 
+  readonly isAuthorizationEnabled = computed(() => {
+    const state = this.authorizationState();
+    return !!state && isAuthorizationEnabled(state);
+  });
+
   // TODO: Antipattern, move to state
-  isAuthorizationEnabled = isAuthorizationEnabled;
+  // isAuthorizationEnabled = isAuthorizationEnabled;
 
   cm6ActionToFn: Record<string, Command> = {
     showAutocomplete: startCompletion,
@@ -137,24 +144,25 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   ) {}
 
   ngOnInit() {
-    if (this.gqlSchema) {
-      this.updateNewEditorTabSize(this.tabSize || 2);
-      this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
+    const gqlSchema = this.gqlSchema();
+    if (gqlSchema) {
+      this.updateNewEditorTabSize(this.tabSize() || 2);
+      this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
 
-      this.updateNewEditorSchema(this.gqlSchema);
-      this.updateNewEditorVariableState(this.variables);
-      this.updateNewEditorWindowId(this.windowId);
+      this.updateNewEditorSchema(gqlSchema);
+      this.updateNewEditorVariableState(this.variables());
+      this.updateNewEditorWindowId(this.windowId());
     }
   }
 
   ngAfterViewInit() {
     this.editorExtensions = this.graphqlExtension();
 
-    this.updateNewEditorSchema(this.gqlSchema);
-    this.updateNewEditorVariableState(this.variables);
-    this.updateNewEditorWindowId(this.windowId);
-    this.updateNewEditorTabSize(this.tabSize);
-    this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
+    this.updateNewEditorSchema(this.gqlSchema());
+    this.updateNewEditorVariableState(this.variables());
+    this.updateNewEditorWindowId(this.windowId());
+    this.updateNewEditorTabSize(this.tabSize());
+    this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -186,7 +194,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     if (changes?.disableLineNumbers?.currentValue) {
-      this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
+      this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
     }
 
     if (changes?.query?.currentValue && this.selectedIndex !== 0) {
@@ -212,11 +220,11 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
       // This is hacky but should be fine since the beta should be temporary
       setTimeout(() => {
         if (this.editor?.view) {
-          this.updateNewEditorSchema(this.gqlSchema);
-          this.updateNewEditorVariableState(this.variables);
-          this.updateNewEditorWindowId(this.windowId);
-          this.updateNewEditorTabSize(this.tabSize);
-          this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
+          this.updateNewEditorSchema(this.gqlSchema());
+          this.updateNewEditorVariableState(this.variables());
+          this.updateNewEditorWindowId(this.windowId());
+          this.updateNewEditorTabSize(this.tabSize());
+          this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
         }
       }, 10);
     }
@@ -284,7 +292,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     return [
       ...getCodemirrorGraphqlExtensions({
         store: this.store,
-        windowId: this.windowId,
+        windowId: this.windowId(),
         onShowInDocs: (field, type, parentType) => {
           this.zone.run(() => {
             if (field && parentType) {
@@ -312,7 +320,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
               cursor,
               token,
               {
-                maxDepth: this.addQueryDepthLimit,
+                maxDepth: this.addQueryDepthLimit(),
               }
             );
 
@@ -335,9 +343,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
           );
         },
       }),
-      this.tabSizeCompartment.of(this.setTabSizeExtension(this.tabSize)),
+      this.tabSizeCompartment.of(this.setTabSizeExtension(this.tabSize())),
       this.extraKeysCompartment.of(this.buildExtraKeysExtension(this.extraKeys)),
-      this.lineNumbersCompartment.of(this.setLineNumbers(this.disableLineNumbers)),
+      this.lineNumbersCompartment.of(this.setLineNumbers(this.disableLineNumbers())),
       this.editorStateListener(),
     ];
   }

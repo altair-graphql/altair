@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  input
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
@@ -18,16 +19,16 @@ import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
 })
 export class UrlBoxComponent {
   @Input() apiUrl = '';
-  @Input() httpVerb = 'POST';
-  @Input() isSubscribed = false;
-  @Input() isLoading = false;
-  @Input() showDocs = false;
+  readonly httpVerb = input('POST');
+  readonly isSubscribed = input(false);
+  readonly isLoading = input(false);
+  readonly showDocs = input(false);
   @Input() selectedOperation = '';
-  @Input() queryOperations: OperationDefinitionNode[] = [];
+  readonly queryOperations = input<OperationDefinitionNode[]>([]);
   @Input() streamState = '';
-  @Input() currentCollection?: IQueryCollection;
-  @Input() hasUnsavedChanges = false;
-  @Input() windowId = '';
+  readonly currentCollection = input<IQueryCollection>();
+  readonly hasUnsavedChanges = input(false);
+  readonly windowId = input('');
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() reloadDocsChange = new EventEmitter();

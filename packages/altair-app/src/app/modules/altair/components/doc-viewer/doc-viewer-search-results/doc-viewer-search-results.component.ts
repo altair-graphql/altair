@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { GraphQLArgument } from 'graphql';
@@ -46,7 +46,7 @@ import { DocumentIndexEntry } from '../models';
   // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerSearchResultsComponent {
-  @Input() results: DocumentIndexEntry[] = [];
+  readonly results = input<DocumentIndexEntry[]>([]);
 
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();

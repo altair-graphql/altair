@@ -1,4 +1,4 @@
-@if (allowIntrospection) {
+@if (allowIntrospection()) {
   <div #docViewer class="app-doc-viewer">
     @if (isLoading) {
       <div class="app-doc-loader" [@fadeInOutAnimation]>
@@ -188,7 +188,7 @@
     {{ 'DOCS_LAST_UPDATED' | translate }}: {{ lastUpdatedAt | date: 'medium' }}
   </div>
 }
-@if (!allowIntrospection) {
+@if (!allowIntrospection()) {
   <div class="app-doc-notice">
     {{ 'SERVER_NO_INTROSPECTION_SUPPORT' | translate }}
   </div>

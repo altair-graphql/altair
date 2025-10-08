@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, Output, EventEmitter, HostBinding, input } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
@@ -18,13 +18,13 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
   standalone: false,
 })
 export class WindowSwitcherComponent {
-  @Input() windows: WindowState = {};
-  @Input() windowIds: string[] = [];
-  @Input() closedWindows: PerWindowState[] = [];
-  @Input() collections: IQueryCollection[] = [];
-  @Input() activeWindowId = '';
-  @Input() isElectron = false;
-  @Input() enableScrollbar = false;
+  readonly windows = input<WindowState>({});
+  readonly windowIds = input<string[]>([]);
+  readonly closedWindows = input<PerWindowState[]>([]);
+  readonly collections = input<IQueryCollection[]>([]);
+  readonly activeWindowId = input('');
+  readonly isElectron = input(false);
+  readonly enableScrollbar = input(false);
   @Output() activeWindowChange = new EventEmitter();
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter();
@@ -34,7 +34,7 @@ export class WindowSwitcherComponent {
   @Output() reorderWindowsChange = new EventEmitter<string[]>();
 
   @HostBinding('class.window-switcher__no-scrollbar') get noScrollbar() {
-    return !this.enableScrollbar;
+    return !this.enableScrollbar();
   }
 
   windowIdEditing = '';
@@ -65,7 +65,7 @@ export class WindowSwitcherComponent {
   }
 
   moveWindow(currentPosition: number, newPosition: number) {
-    const windowIds = [...this.windowIds];
+    const windowIds = [...this.windowIds()];
     moveItemInArray(windowIds, currentPosition, newPosition);
     this.reorderWindowsChange.next(windowIds);
   }
@@ -76,16 +76,16 @@ export class WindowSwitcherComponent {
 
   closeWindowsToTheRight(curIndex: number) {
     const lowerBound = curIndex + 1;
-    if (lowerBound >= this.windowIds.length) {
+    if (lowerBound >= this.windowIds().length) {
       return;
     }
-    return this.windowIds
+    return this.windowIds()
       .filter((wid, i) => i > curIndex)
       .map((_) => this.closeWindow(_));
   }
 
   closeOtherWindows(windowId: string) {
-    return this.windowIds
+    return this.windowIds()
       .filter((wid) => wid !== windowId)
       .map((_) => this.closeWindow(_));
   }

@@ -1,9 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  Input,
   OnInit,
   Output,
+  input
 } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
@@ -55,7 +55,7 @@ export class AuthorizationOauth2Component implements OnInit {
   authFormat = AuthFormat;
   requestFormat = RequestFormat;
 
-  @Input() authData?: unknown;
+  readonly authData = input<unknown>();
   @Output() authDataChange = this.form.valueChanges;
 
   optionsShape = this.getOptionsShape();
@@ -67,8 +67,9 @@ export class AuthorizationOauth2Component implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.authData) {
-      this.form.patchValue(this.authData);
+    const authData = this.authData();
+    if (authData) {
+      this.form.patchValue(authData);
     }
   }
 

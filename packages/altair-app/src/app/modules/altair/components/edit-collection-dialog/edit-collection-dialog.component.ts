@@ -1,11 +1,11 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
@@ -23,8 +23,8 @@ import { linter } from '@codemirror/lint';
   standalone: false,
 })
 export class EditCollectionDialogComponent implements OnChanges {
-  @Input() showEditCollectionDialog = true;
-  @Input() collection?: IQueryCollection;
+  readonly showEditCollectionDialog = input(true);
+  readonly collection = input<IQueryCollection>();
   @Output() toggleDialogChange = new EventEmitter();
   @Output() importCurlChange = new EventEmitter<string>();
   @Output() updateCollectionChange = new EventEmitter<{
@@ -57,11 +57,12 @@ export class EditCollectionDialogComponent implements OnChanges {
   }
 
   updateCollection() {
-    if (!this.collection) {
+    const collectionValue = this.collection();
+    if (!collectionValue) {
       throw new Error('this should never happen');
     }
     const collection = {
-      ...this.collection,
+      ...collectionValue,
       title: this.title,
       preRequest: this.preRequest,
       postRequest: this.postRequest,

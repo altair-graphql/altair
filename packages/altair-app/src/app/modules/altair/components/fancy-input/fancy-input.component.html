@@ -3,7 +3,7 @@
     #fancyInputEl
     type="text"
     class="fancy-input-content fancy-input-element"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder()"
     [(ngModel)]="value"
     (input)="handleInput()"
     (scroll)="handleScroll()"

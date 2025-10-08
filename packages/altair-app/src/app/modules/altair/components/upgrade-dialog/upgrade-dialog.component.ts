@@ -3,10 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   OnChanges,
   Output,
   SimpleChanges,
+  input
 } from '@angular/core';
 import { apiClient } from '../../services/api/api.service';
 import { externalLink } from '../../utils';
@@ -19,9 +19,9 @@ import { externalLink } from '../../utils';
   standalone: false,
 })
 export class UpgradeDialogComponent implements OnChanges {
-  @Input() showDialog = true;
-  @Input() userPlan: IPlan | undefined;
-  @Input() planInfos: IPlanInfo[] = [];
+  readonly showDialog = input(true);
+  readonly userPlan = input<IPlan>();
+  readonly planInfos = input<IPlanInfo[]>([]);
   @Output() toggleDialogChange = new EventEmitter<boolean>();
 
   proPlanInfo: IPlanInfo | undefined;

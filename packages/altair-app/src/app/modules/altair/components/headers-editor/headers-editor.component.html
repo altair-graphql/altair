@@ -1,6 +1,6 @@
 <div class="headers-editor">
   <div class="headers-editor__list">
-    @for (header of headers; track $index; let i = $index) {
+    @for (header of headers(); track $index; let i = $index) {
       <div
         class="headers-editor__list-item"
         [ngClass]="{

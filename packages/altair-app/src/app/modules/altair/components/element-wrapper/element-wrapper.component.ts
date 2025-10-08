@@ -2,12 +2,12 @@ import {
   Component,
   OnInit,
   AfterViewInit,
-  Input,
   ViewChild,
   ElementRef,
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 
 @Component({
@@ -18,9 +18,9 @@ import {
   standalone: false,
 })
 export class ElementWrapperComponent implements AfterViewInit, OnChanges {
-  @Input() element?: HTMLElement;
-  @Input() windowId = '';
-  @Input() activeWindowId = '';
+  readonly element = input<HTMLElement>();
+  readonly windowId = input('');
+  readonly activeWindowId = input('');
 
   @ViewChild('elRef', { static: true }) elRef?: ElementRef<HTMLDivElement>;
 
@@ -33,12 +33,14 @@ export class ElementWrapperComponent implements AfterViewInit, OnChanges {
   }
 
   handleRender() {
-    if (this.element && this.elRef) {
-      if (this.windowId && this.windowId !== this.activeWindowId) {
+    const element = this.element();
+    if (element && this.elRef) {
+      const windowId = this.windowId();
+      if (windowId && windowId !== this.activeWindowId()) {
         return;
       }
 
-      this.elRef.nativeElement.appendChild(this.element);
+      this.elRef.nativeElement.appendChild(element);
     }
   }
 }

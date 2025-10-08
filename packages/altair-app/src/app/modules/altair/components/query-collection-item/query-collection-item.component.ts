@@ -6,6 +6,7 @@ import {
   ChangeDetectionStrategy,
   OnChanges,
   SimpleChanges,
+  input
 } from '@angular/core';
 import {
   IQuery,
@@ -25,9 +26,9 @@ import { memoize } from '../../utils/memoize';
 })
 export class QueryCollectionItemComponent implements OnChanges {
   @Input() collectionTree?: IQueryCollectionTree;
-  @Input() loggedIn = false;
-  @Input() queriesSortBy: SortByOptions = 'newest';
-  @Input() expanded = true;
+  readonly loggedIn = input(false);
+  readonly queriesSortBy = input<SortByOptions>('newest');
+  readonly expanded = input(true);
 
   @Output() selectQueryChange = new EventEmitter();
   @Output() deleteQueryChange: EventEmitter<{

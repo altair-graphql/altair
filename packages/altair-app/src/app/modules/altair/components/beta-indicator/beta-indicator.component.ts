@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, input } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -12,11 +12,11 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class BetaIndicatorComponent {
-  @Input() title = '';
-  @Input() description = '';
+  readonly title = input('');
+  readonly description = input('');
 
   // the matching feature name in the settings namespaced with "beta.disable.". For example if you have "beta.disable.newEditor" in settings, this should be "newEditor"
-  @Input() featureKey = '';
+  readonly featureKey = input('');
 
   value$: Observable<boolean>;
 
@@ -27,7 +27,7 @@ export class BetaIndicatorComponent {
   }
 
   getSettingKey() {
-    return ('beta.disable.' + this.featureKey) as keyof SettingsState;
+    return ('beta.disable.' + this.featureKey()) as keyof SettingsState;
   }
 
   setValue(val: boolean) {

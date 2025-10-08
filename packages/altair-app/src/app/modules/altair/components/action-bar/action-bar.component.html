@@ -36,7 +36,7 @@
     <button
       class="app-button show-docs-button"
       (click)="toggleDocsChange.emit()"
-      [ngClass]="{ 'active-grey': showDocs }"
+      [ngClass]="{ 'active-grey': showDocs() }"
     >
       {{ 'SHOW_DOCS_BUTTON' | translate }}
     </button>

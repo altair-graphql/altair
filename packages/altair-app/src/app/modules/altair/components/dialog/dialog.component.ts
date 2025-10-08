@@ -4,6 +4,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 
 @Component({
@@ -15,11 +16,11 @@ import {
 })
 export class DialogComponent {
   @Input() showDialog = false;
-  @Input() heading = '';
-  @Input() subheading = '';
-  @Input() showHeader = true;
-  @Input() showFooter = true;
-  @Input() width = 520;
+  readonly heading = input('');
+  readonly subheading = input('');
+  readonly showHeader = input(true);
+  readonly showFooter = input(true);
+  readonly width = input(520);
   @Output() toggleDialog = new EventEmitter();
   @Output() saveChange = new EventEmitter();
 

@@ -12,7 +12,7 @@
         class="query-editor__input"
         [fullHeight]="true"
         [extensions]="editorExtensions"
-        [ngModel]="query"
+        [ngModel]="query()"
         (ngModelChange)="queryChange.emit($event)"
         ngDefaultControl
       ></app-codemirror>
@@ -47,11 +47,11 @@
           ></div>
           <div class="variables-editor-input-container">
             <app-variables-editor
-              [variables]="variables?.variables"
-              [variableToType]="variableToType"
-              [tabSize]="tabSize"
+              [variables]="variables()?.variables"
+              [variableToType]="variableToType()"
+              [tabSize]="tabSize()"
               [showVariableDialog]="showVariableDialog"
-              [enableExperimental]="enableExperimental"
+              [enableExperimental]="enableExperimental()"
               (variablesChange)="variablesChange.emit($event)"
             ></app-variables-editor>
           </div>
@@ -73,7 +73,7 @@
             </a>
             <div class="variables-files-list">
               @for (
-                file of variables?.files;
+                file of variables()?.files;
                 track trackByIndex(index, file);
                 let index = $index
               ) {
@@ -108,24 +108,24 @@
   </nz-tab>
   <nz-tab [nzTitle]="preRequestTitleTemplate">
     <ng-template #preRequestTitleTemplate>
-      <span [ngClass]="{ 'ant-tabs--status-enabled': preRequest?.enabled }">
+      <span [ngClass]="{ 'ant-tabs--status-enabled': preRequest()?.enabled }">
         {{ 'PRE_REQUEST_TAB' | translate }}
       </span>
     </ng-template>
     <app-pre-request-editor
-      [preRequest]="preRequest"
+      [preRequest]="preRequest()"
       (preRequestScriptChange)="preRequestScriptChange.emit($event)"
       (preRequestEnabledChange)="preRequestEnabledChange.emit($event)"
     ></app-pre-request-editor>
   </nz-tab>
   <nz-tab [nzTitle]="postRequestTitleTemplate">
     <ng-template #postRequestTitleTemplate>
-      <span [ngClass]="{ 'ant-tabs--status-enabled': postRequest?.enabled }">
+      <span [ngClass]="{ 'ant-tabs--status-enabled': postRequest()?.enabled }">
         {{ 'POST_REQUEST_TAB' | translate }}
       </span>
     </ng-template>
     <app-post-request-editor
-      [postRequest]="postRequest"
+      [postRequest]="postRequest()"
       (postRequestScriptChange)="postRequestScriptChange.emit($event)"
       (postRequestEnabledChange)="postRequestEnabledChange.emit($event)"
     ></app-post-request-editor>
@@ -134,8 +134,7 @@
     <ng-template #authorizationTitleTemplate>
       <span
         [ngClass]="{
-          'ant-tabs--status-enabled':
-            authorizationState && isAuthorizationEnabled(authorizationState),
+          'ant-tabs--status-enabled': isAuthorizationEnabled(),
         }"
       >
         {{ 'AUTHORIZATION_TAB' | translate }}
@@ -143,7 +142,7 @@
     </ng-template>
 
     <app-authorization-editor
-      [authorizationState]="authorizationState"
+      [authorizationState]="authorizationState()"
       (authTypeChange)="authTypeChange.emit($event)"
       (authDataChange)="authDataChange.emit($event)"
     />

@@ -3,10 +3,10 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  Input,
   Output,
   EventEmitter,
   forwardRef,
+  input
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -61,7 +61,7 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
   }
 
   // @Input() value = '';
-  @Input() placeholder = '';
+  readonly placeholder = input('');
   @Output() blurChange = new EventEmitter();
   @Output() submitChange = new EventEmitter();
 

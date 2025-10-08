@@ -25,7 +25,7 @@
         </div>
         <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
       </div>
-      @if (loggedIn && collectionTree.storageType === 'api') {
+      @if (loggedIn() && collectionTree.storageType === 'api') {
         <span
           class="query-collections__item-synced-icon"
           [title]="'CLOUD_SYNC_TEXT' | translate"
@@ -47,7 +47,7 @@
         </span>
         <nz-dropdown-menu #collectionItemMenu="nzDropdownMenu">
           <ul nz-menu>
-            @if (loggedIn && !(collectionTree.storageType === 'api')) {
+            @if (loggedIn() && !(collectionTree.storageType === 'api')) {
               <li
                 nz-menu-item
                 data-test-id="sync-collection"
@@ -124,7 +124,7 @@
         ) {
           <app-query-collection-item
             [collectionTree]="subcollectionTree"
-            [loggedIn]="loggedIn"
+            [loggedIn]="loggedIn()"
             (selectQueryChange)="selectQueryChange.next($event)"
             (deleteQueryChange)="deleteQueryChange.next($event)"
             (deleteCollectionChange)="deleteCollectionChange.next($event)"
@@ -135,7 +135,7 @@
       </div>
       <div class="query-collections__item-queries">
         @for (
-          query of sortedCollectionQueries(collectionTree.queries, queriesSortBy);
+          query of sortedCollectionQueries(collectionTree.queries, queriesSortBy());
           track trackById($index, query)
         ) {
           <div class="query-collections__item-queries-item">
@@ -172,7 +172,7 @@
                 >
               </ng-template>
             </span>
-            @if (loggedIn && query.storageType === 'api') {
+            @if (loggedIn() && query.storageType === 'api') {
               <span
                 class="query-collections__item-queries-item-synced-icon"
                 [title]="'CLOUD_SYNC_TEXT' | translate"
@@ -194,7 +194,7 @@
               </span>
               <nz-dropdown-menu #collectionQueryItemMenu="nzDropdownMenu">
                 <ul nz-menu>
-                  @if (loggedIn && query.storageType === 'api') {
+                  @if (loggedIn() && query.storageType === 'api') {
                     <li
                       nz-menu-item
                       (click)="copyQueryShareLinkChange.emit(query.id)"

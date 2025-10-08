@@ -1,5 +1,5 @@
 <nz-modal
-  [nzVisible]="showEditCollectionDialog"
+  [nzVisible]="showEditCollectionDialog()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
   [nzCloseIcon]="'close-circle'"
   [nzTitle]="modalTitle"
@@ -18,7 +18,7 @@
   </ng-template>
 
   <ng-template #modalContent>
-    @if (collection) {
+    @if (collection()) {
       <div class="app-dialog-body">
         <div class="app-dialog-section">
           <div class="form-group">
@@ -48,7 +48,7 @@
                 class="environments-editor-textarea"
                 [extensions]="editorExtensions"
                 [fullHeight]="true"
-                [redrawLayout]="showEditCollectionDialog"
+                [redrawLayout]="showEditCollectionDialog()"
                 [(ngModel)]="environmentVariablesStr"
                 (ngModelChange)="onEnvironmentVariablesChange($event)"
               ></app-codemirror>

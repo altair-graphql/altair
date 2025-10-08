@@ -1,6 +1,5 @@
 import {
   Component,
-  Input,
   Output,
   ViewChild,
   EventEmitter,
@@ -8,6 +7,7 @@ import {
   SimpleChanges,
   AfterViewInit,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 
 import { IDictionary } from '../../interfaces/shared';
@@ -26,11 +26,11 @@ export const VARIABLE_EDITOR_COMPONENT_ELEMENT_NAME = 'app-variables-editor';
   standalone: false,
 })
 export class VariablesEditorComponent implements AfterViewInit, OnChanges {
-  @Input() variables = '';
-  @Input() variableToType: IDictionary = {};
-  @Input() tabSize = 4;
-  @Input() showVariableDialog = false;
-  @Input() enableExperimental = false;
+  readonly variables = input('');
+  readonly variableToType = input<IDictionary>({});
+  readonly tabSize = input(4);
+  readonly showVariableDialog = input(false);
+  readonly enableExperimental = input(false);
 
   @Output() variablesChange = new EventEmitter<string>();
 
@@ -39,8 +39,9 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
   editorExtensions = [gqlVariables()];
 
   ngAfterViewInit() {
-    if (this.editor?.view && this.variableToType) {
-      updateSchema(this.editor.view, vttToJsonSchema(this.variableToType));
+    const variableToType = this.variableToType();
+    if (this.editor?.view && variableToType) {
+      updateSchema(this.editor.view, vttToJsonSchema(variableToType));
     }
   }
 

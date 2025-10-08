@@ -1,11 +1,11 @@
 import {
   Component,
   OnInit,
-  Input,
   Output,
   EventEmitter,
   SimpleChanges,
   OnChanges,
+  input
 } from '@angular/core';
 
 import { debug } from '../../utils/logger';
@@ -27,9 +27,9 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
   standalone: false,
 })
 export class SettingsDialogComponent implements OnInit, OnChanges {
-  @Input() settings?: SettingsState;
-  @Input() appVersion = '';
-  @Input() showSettingsDialog = false;
+  readonly settings = input<SettingsState>();
+  readonly appVersion = input('');
+  readonly showSettingsDialog = input(false);
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
 

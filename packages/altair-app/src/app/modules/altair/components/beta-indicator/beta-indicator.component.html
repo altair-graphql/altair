@@ -2,7 +2,7 @@
   <div
     class="beta-indicator"
     nz-popover
-    [nzPopoverTitle]="'Beta - ' + title"
+    [nzPopoverTitle]="'Beta - ' + title()"
     [nzPopoverContent]="contentTemplate"
     [nzPopoverTrigger]="'click'"
     [nzPopoverOverlayStyle]="{ 'font-size': '12px', width: '300px' }"
@@ -10,7 +10,7 @@
     <span>Beta</span>
   </div>
   <ng-template #contentTemplate>
-    {{ description }}
+    {{ description() }}
     <div class="beta-indicator__section">
       Please report any bugs/improvements you find on
       <a

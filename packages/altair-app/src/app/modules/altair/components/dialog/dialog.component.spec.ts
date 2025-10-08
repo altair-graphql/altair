@@ -28,10 +28,10 @@ describe('DialogComponent', () => {
   it('should have default property values', () => {
     const component = wrapper.componentInstance;
     expect(component.showDialog).toBe(false);
-    expect(component.heading).toBe('');
-    expect(component.subheading).toBe('');
-    expect(component.showHeader).toBe(true);
-    expect(component.showFooter).toBe(true);
+    expect(component.heading()).toBe('');
+    expect(component.subheading()).toBe('');
+    expect(component.showHeader()).toBe(true);
+    expect(component.showFooter()).toBe(true);
   });
 
   it('should emit toggleDialog and saveChange events when onClickSave is called with showDialog false', () => {

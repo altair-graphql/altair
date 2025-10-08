@@ -13,6 +13,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  input
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension, Prec, StateEffect } from '@codemirror/state';
@@ -64,15 +65,15 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 export class CodemirrorComponent
   implements AfterViewInit, OnChanges, ControlValueAccessor, OnDestroy
 {
-  @Input() extensions: Extension[] = [];
+  readonly extensions = input<Extension[]>([]);
   @Input() @HostBinding('class.cm6-full-height') fullHeight = false;
-  @Input() showLineNumber = true;
-  @Input() foldGutter = true;
-  @Input() wrapLines = true;
-  @Input() redrawLayout = false;
+  readonly showLineNumber = input(true);
+  readonly foldGutter = input(true);
+  readonly wrapLines = input(true);
+  readonly redrawLayout = input(false);
 
   // Specifies the editor should not have any default extensions
-  @Input() bare = false;
+  readonly bare = input(false);
 
   @Output() focusChange = new EventEmitter<boolean>();
 
@@ -185,7 +186,7 @@ export class CodemirrorComponent
     this.focusChange.emit(focused);
   }
 
-  getExtensions(extraExtensions = this.extensions) {
+  getExtensions(extraExtensions = this.extensions()) {
     const updateListener = EditorView.updateListener.of((vu: ViewUpdate) => {
       if (vu.docChanged) {
         const doc = vu.state.doc;
@@ -403,9 +404,9 @@ export class CodemirrorComponent
           indentWithTab,
         ])
       ),
-      this.showLineNumber ? lineNumbers() : [], // TODO: Create own compartment
-      this.foldGutter ? foldGutter() : [], // TODO: Create own compartment
-      this.wrapLines ? EditorView.lineWrapping : [], // TODO: Create own compartment
+      this.showLineNumber() ? lineNumbers() : [], // TODO: Create own compartment
+      this.foldGutter() ? foldGutter() : [], // TODO: Create own compartment
+      this.wrapLines() ? EditorView.lineWrapping : [], // TODO: Create own compartment
       drawSelection(),
       EditorState.allowMultipleSelections.of(true),
       EditorView.cspNonce.of(this.altairConfig.cspNonce),
@@ -441,7 +442,7 @@ export class CodemirrorComponent
           },
         ])
       ),
-      !this.bare ? [...baseExtensions] : [],
+      !this.bare() ? [...baseExtensions] : [],
 
       baseTheme,
     ];

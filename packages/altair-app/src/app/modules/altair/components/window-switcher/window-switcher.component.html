@@ -2,18 +2,18 @@
   cdkDropList
   cdkDropListOrientation="horizontal"
   class="window-switcher__list"
-  [ngClass]="{ 'window-switcher__no-scrollbar': !enableScrollbar }"
-  [cdkDropListData]="windowIds"
+  [ngClass]="{ 'window-switcher__no-scrollbar': !enableScrollbar() }"
+  [cdkDropListData]="windowIds()"
   (cdkDropListDropped)="onDropEnd($event)"
 >
-  @for (windowId of windowIds; track windowId; let index = $index) {
+  @for (windowId of windowIds(); track windowId; let index = $index) {
     <app-window-switcher-item
       cdkDrag
-      [window]="windows[windowId]"
-      [activeWindowId]="activeWindowId"
+      [window]="windows()[windowId]"
+      [activeWindowId]="activeWindowId()"
       [isEditing]="windowId === windowIdEditing"
-      [isClosable]="windowIds.length > 1"
-      [collections]="collections"
+      [isClosable]="windowIds().length > 1"
+      [collections]="collections()"
       (clickWindowChange)="onClickWindow($event)"
       (editWindowNameInput)="editWindowNameInput($event)"
       (saveWindowNameChange)="saveWindowName(windowId, $event)"
@@ -44,7 +44,7 @@
         </li>
         <!-- divider -->
         <li nz-menu-divider></li>
-        @if (windowIds.length > 1) {
+        @if (windowIds().length > 1) {
           <li nz-menu-item (click)="closeWindow(windowId)">
             <div class="menu-item">
               <span class="menu-icon">
@@ -76,7 +76,7 @@
             </span>
           </div>
         </li>
-        @if (closedWindows.length) {
+        @if (closedWindows().length) {
           <li nz-menu-item (click)="reopenClosedTab()">
             <div class="menu-item">
               <span class="menu-icon">
@@ -91,7 +91,7 @@
       </ul>
     </nz-dropdown-menu>
   }
-  @if (windowIds.length < maxWindowCount) {
+  @if (windowIds().length < maxWindowCount) {
     <div class="window-switcher__item" (click)="newWindowChange.next($event)">
       {{ 'ADD_NEW_WINDOW_TEXT' | translate }}
     </div>

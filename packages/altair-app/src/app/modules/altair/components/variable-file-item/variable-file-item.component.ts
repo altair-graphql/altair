@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  Input,
   Output,
   EventEmitter,
   ViewChild,
@@ -9,6 +8,7 @@ import {
   OnChanges,
   SimpleChanges,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
@@ -22,7 +22,7 @@ import { truncateText } from '../../utils';
   standalone: false,
 })
 export class VariableFileItemComponent implements OnInit, OnChanges {
-  @Input() fileVariable?: FileVariable;
+  readonly fileVariable = input<FileVariable>();
 
   @Output() fileVariableNameChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter<{
@@ -42,12 +42,13 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   constructor(private storageService: StorageService) {}
 
   async ngOnInit() {
-    if (this.fileVariable) {
-      this.updateLocalState(this.fileVariable);
+    const fileVariable = this.fileVariable();
+    if (fileVariable) {
+      this.updateLocalState(fileVariable);
       if (this.invalidFileData) {
-        if (this.fileVariable.id) {
+        if (fileVariable.id) {
           const selectedFiles = await this.storageService.selectedFiles.get(
-            this.fileVariable.id
+            fileVariable.id
           );
 
           if (selectedFiles) {
@@ -85,7 +86,7 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
       ? fileVariable.data.filter((data) => data instanceof File)
       : [];
     this.invalidFileData =
-      (this.fileVariable?.data as [])?.length > this.validFileData.length;
+      (this.fileVariable()?.data as [])?.length > this.validFileData.length;
     this.showWarning = Boolean(
       !fileVariable?.isMultiple && (fileVariable.data as [])?.length > 1
     );

@@ -6,6 +6,7 @@ import {
   Input,
   Output,
   ViewChild,
+  input
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
@@ -31,11 +32,11 @@ export class WindowSwitcherItemComponent {
   @Input() set window(value: PerWindowState | undefined) {
     this.windowSubject.next(value);
   }
-  @Input() activeWindowId = '';
+  readonly activeWindowId = input('');
   @Input() set isEditing(value: boolean) {
     this.isEditingSubject.next(value);
   }
-  @Input() isClosable = true;
+  readonly isClosable = input(true);
   @Input() set collections(value: IQueryCollection[]) {
     this.collectionsSubject.next(value);
   }

@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  input
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
@@ -21,7 +22,7 @@ import { IdentityProvider } from '@altairgraphql/db';
   standalone: false,
 })
 export class AccountDialogComponent {
-  @Input() showDialog = true;
+  readonly showDialog = input(true);
   @Input() account: AccountState | undefined;
   @Output() toggleDialogChange = new EventEmitter<boolean>();
   @Output() handleLoginChange = new EventEmitter<IdentityProvider>();

@@ -1,5 +1,5 @@
 <nz-modal
-  [nzVisible]="showDialog"
+  [nzVisible]="showDialog()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
   [nzCloseIcon]="'close-circle'"
   [nzTitle]="modalTitle"
@@ -18,7 +18,7 @@
     <div class="app-dialog-body">
       <div class="history-container">
         @for (
-          item of historyList;
+          item of historyList();
           track trackByIndex(index, item);
           let index = $index
         ) {

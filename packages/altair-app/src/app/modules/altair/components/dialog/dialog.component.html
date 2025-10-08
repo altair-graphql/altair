@@ -2,16 +2,16 @@
   [nzVisible]="showDialog"
   (nzVisibleChange)="toggleDialog.emit($event)"
   [nzCloseIcon]="'close-circle'"
-  [nzTitle]="showHeader ? modalTitle : null"
+  [nzTitle]="showHeader() ? modalTitle : null"
   [nzContent]="modalContent"
-  [nzFooter]="showFooter ? modalFooter : null"
-  [nzWidth]="width"
+  [nzFooter]="showFooter() ? modalFooter : null"
+  [nzWidth]="width()"
   (nzOnCancel)="toggleDialog.emit()"
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
-      <div class="app-dialog-title">{{ heading }}</div>
-      {{ subheading }}
+      <div class="app-dialog-title">{{ heading() }}</div>
+      {{ subheading() }}
     </div>
   </ng-template>
 
@@ -23,7 +23,7 @@
   </ng-template>
 
   <ng-template #modalFooter>
-    @if (showFooter) {
+    @if (showFooter()) {
       <div class="app-dialog-footer">
         <button class="btn btn--primary right" (click)="onClickSave($event)">
           {{ 'SAVE_BUTTON' | translate }}

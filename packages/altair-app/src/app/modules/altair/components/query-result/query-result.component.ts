@@ -9,6 +9,7 @@ import {
   QueryList,
   AfterViewInit,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -34,22 +35,22 @@ import { parseJson } from '../../utils';
   standalone: false,
 })
 export class QueryResultComponent implements AfterViewInit {
-  @Input() responseTime = 0;
-  @Input() responseStatus = 0;
-  @Input() responseStatusText = '';
-  @Input() responseHeaders: IDictionary<string> = {};
+  readonly responseTime = input(0);
+  readonly responseStatus = input(0);
+  readonly responseStatusText = input('');
+  readonly responseHeaders = input<IDictionary<string>>({});
   @Input() requestScriptLogs: LogLine[] = [];
-  @Input() isRunning = false;
-  @Input() isSubscribed = false;
-  @Input() queryResponses: QueryResponse[] = [];
-  @Input() subscriptionUrl = '';
-  @Input() tabSize = 2;
-  @Input() autoscrollResponseList = true;
-  @Input() windowId = '';
-  @Input() activeWindowId = '';
-  @Input() uiActions: AltairUiAction[] = [];
-  @Input() bottomPanels: AltairPanel[] = [];
-  @Input() hideExtensions = false;
+  readonly isRunning = input(false);
+  readonly isSubscribed = input(false);
+  readonly queryResponses = input<QueryResponse[]>([]);
+  readonly subscriptionUrl = input('');
+  readonly tabSize = input(2);
+  readonly autoscrollResponseList = input(true);
+  readonly windowId = input('');
+  readonly activeWindowId = input('');
+  readonly uiActions = input<AltairUiAction[]>([]);
+  readonly bottomPanels = input<AltairPanel[]>([]);
+  readonly hideExtensions = input(false);
 
   @Output() downloadResultChange = new EventEmitter<string>();
   @Output() clearResultChange = new EventEmitter();
@@ -70,8 +71,8 @@ export class QueryResultComponent implements AfterViewInit {
   editorExtensions: Extension[] = [
     json(),
     EditorState.readOnly.of(true),
-    indentUnit.of(' '.repeat(this.tabSize)),
-    EditorState.tabSize.of(this.tabSize),
+    indentUnit.of(' '.repeat(this.tabSize())),
+    EditorState.tabSize.of(this.tabSize()),
   ];
 
   bottomPaneHeight = '50%';
@@ -95,12 +96,12 @@ export class QueryResultComponent implements AfterViewInit {
         ? parseJson(item.content, item.content)
         : undefined;
 
-      if (parsedContent?.extensions && this.hideExtensions) {
+      if (parsedContent?.extensions && this.hideExtensions()) {
         // If extensions are present and hideExtensions is true, remove them
         Reflect.deleteProperty(parsedContent, 'extensions');
       }
 
-      return JSON.stringify(parsedContent, null, this.tabSize);
+      return JSON.stringify(parsedContent, null, this.tabSize());
     }
     return item.content;
   }
@@ -111,7 +112,7 @@ export class QueryResultComponent implements AfterViewInit {
 
   private scrollToBottom(): void {
     setTimeout(() => {
-      if (this.queryResultList && this.autoscrollResponseList) {
+      if (this.queryResultList && this.autoscrollResponseList()) {
         const scrollTop = this.queryResultList.nativeElement.scrollHeight + 50;
         this.queryResultList.nativeElement.scroll({
           top: scrollTop,
@@ -123,7 +124,7 @@ export class QueryResultComponent implements AfterViewInit {
   }
 
   hasActiveBottomPanel(): boolean {
-    return this.bottomPanels.some((panel) => panel.isActive);
+    return this.bottomPanels().some((panel) => panel.isActive);
   }
 
   // using arrow function, as it seems the this context in angular-resize-element is changed

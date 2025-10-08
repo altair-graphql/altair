@@ -30,7 +30,7 @@
         {{ 'DOCS_VALUES_TEXT' | translate }}
       </div>
       @for (item of getTypeEnumValues(data); track schemaItemTrackBy($index, item)) {
-        @if (!(hideDeprecatedDocItems && item?.isDeprecated)) {
+        @if (!(hideDeprecatedDocItems() && item?.isDeprecated)) {
           <div
             class="doc-viewer-item doc-viewer-item-query"
             [ngClass]="{ 'doc-viewer-item--deprecated': item.isDeprecated }"
@@ -100,7 +100,7 @@
             class="btn btn--small"
           >
             <app-icon name="arrow-down-wide-narrow"></app-icon>
-            @switch (sortByOption) {
+            @switch (sortByOption()) {
               @case ('a-z') {
                 {{ 'SORT_BY_A_Z' | translate }}
               }
@@ -129,10 +129,10 @@
       </div>
       @for (
         item of getTypeFields(data)
-          | collectionTransform: sortFieldsTransformer : sortByOption;
+          | collectionTransform: sortFieldsTransformer : sortByOption();
         track schemaItemTrackBy($index, item)
       ) {
-        @if (!(hideDeprecatedDocItems && item?.isDeprecated)) {
+        @if (!(hideDeprecatedDocItems() && item?.isDeprecated)) {
           <div
             class="doc-viewer-item doc-viewer-item-query"
             [ngClass]="{ 'doc-viewer-item--deprecated': item.isDeprecated }"

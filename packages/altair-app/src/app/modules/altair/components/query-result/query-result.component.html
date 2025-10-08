@@ -7,7 +7,7 @@
 >
   <nz-tab [nzTitle]="'QUERY_RESULT_TAB' | translate">
     <div class="query-result-container">
-      @if (!queryResponses.length) {
+      @if (!queryResponses().length) {
         <div class="query-result__none">
           <div class="query-result__none-inner">
             <div class="query-result__none-subtext">
@@ -25,12 +25,12 @@
               </div>
             </div>
             <app-tips
-              [activeWindowId]="activeWindowId"
-              [windowId]="windowId"
-              [loading]="isRunning"
+              [activeWindowId]="activeWindowId()"
+              [windowId]="windowId()"
+              [loading]="isRunning()"
             />
 
-            @if (isRunning) {
+            @if (isRunning()) {
               <button
                 class="btn btn--small btn--light btn--destructive"
                 (click)="cancelRequestChange.emit()"
@@ -46,30 +46,30 @@
           <div class="query-result__top-section">
             <span
               class="response-status-code response-stats__item"
-              [attr.data-status-code]="responseStatus"
+              [attr.data-status-code]="responseStatus()"
             >
-              {{ responseStatus }} {{ responseStatusText }}
+              {{ responseStatus() }} {{ responseStatusText() }}
             </span>
             <span class="response-time response-stats__item">
-              <app-icon name="clock"></app-icon> {{ responseTime }}ms
+              <app-icon name="clock"></app-icon> {{ responseTime() }}ms
             </span>
-            @if (isSubscribed && isRunning) {
-              <span class="query-result__uri">{{ subscriptionUrl }}</span>
+            @if (isSubscribed() && isRunning()) {
+              <span class="query-result__uri">{{ subscriptionUrl() }}</span>
             }
           </div>
           <div class="query-result__top-section">
-            @if (isRunning && queryResponses.length > 1) {
+            @if (isRunning() && queryResponses().length > 1) {
               <button
                 track-id="autoscroll"
                 class="btn btn--small btn--light"
-                [ngClass]="{ 'btn--primary': autoscrollResponseList }"
+                [ngClass]="{ 'btn--primary': autoscrollResponseList() }"
                 (click)="autoscrollResponseListChange.emit()"
               >
                 <app-icon name="arrow-down-narrow-wide"></app-icon>
                 {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
               </button>
             }
-            @if (!isRunning && queryResponses.length) {
+            @if (!isRunning() && queryResponses().length) {
               <button
                 track-id="clear_result"
                 class="btn btn--small"
@@ -80,7 +80,7 @@
               </button>
             }
 
-            @if (isRunning) {
+            @if (isRunning()) {
               <button
                 class="btn btn--small btn--light btn--destructive"
                 (click)="cancelRequestChange.emit()"
@@ -92,7 +92,7 @@
           </div>
         </div>
         <div class="query-result__list" #queryResultList>
-          @for (item of queryResponses; track $index) {
+          @for (item of queryResponses(); track $index) {
             <div class="query-result__list-item" #queryResultItem>
               <app-codemirror
                 [ngModel]="getItemContent(item)"
@@ -111,7 +111,7 @@
                   <app-icon name="download"></app-icon>
                   {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
                 </button>
-                @for (uiAction of uiActions; track uiAction) {
+                @for (uiAction of uiActions(); track uiAction) {
                   <button
                     class="btn btn--small"
                     (click)="uiActionExecuteChange.emit(uiAction)"
@@ -163,10 +163,10 @@
             </tr>
           </thead>
           <tbody>
-            @for (headerKey of responseHeaders | keys; track headerKey) {
+            @for (headerKey of responseHeaders() | keys; track headerKey) {
               <tr>
                 <td>{{ headerKey }}</td>
-                <td>{{ responseHeaders[headerKey] }}</td>
+                <td>{{ responseHeaders()[headerKey] }}</td>
               </tr>
             }
           </tbody>
@@ -197,7 +197,7 @@
     [ngClass]="{ hide: !hasActiveBottomPanel() }"
   ></div>
   <nav class="query-result__bottom-pane__title-wrapper">
-    @for (panel of bottomPanels; track trackById($index, panel)) {
+    @for (panel of bottomPanels(); track trackById($index, panel)) {
       <div
         (click)="togglePanelActive(panel)"
         attr.aria-label="{{ panel.title }}"
@@ -209,13 +209,13 @@
     }
   </nav>
   <div class="query-result__bottom-pane__panels">
-    @for (panel of bottomPanels; track trackById($index, panel)) {
+    @for (panel of bottomPanels(); track trackById($index, panel)) {
       @if (panel.isActive) {
         <div class="query-result__bottom-pane__panel">
           <app-element-wrapper
             [element]="panel.element"
-            [windowId]="windowId"
-            [activeWindowId]="activeWindowId"
+            [windowId]="windowId()"
+            [activeWindowId]="activeWindowId()"
           ></app-element-wrapper>
         </div>
       }

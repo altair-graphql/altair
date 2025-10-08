@@ -17,13 +17,13 @@
       <div class="doc-viewer-item-query-inner">
         <button
           class="doc-viewer-item-query-add-btn"
-          (click)="addToEditor({ name: data.name, parentType: parentType })"
+          (click)="addToEditor({ name: data.name, parentType: parentType() })"
           track-id="add_query"
         >
-          @if (isRootType(parentType)) {
+          @if (isRootType(parentType())) {
             {{ 'DOCS_ADD_QUERY_TEXT' | translate }}
           }
-          @if (!isRootType(parentType)) {
+          @if (!isRootType(parentType())) {
             {{ 'DOCS_ADD_FRAGMENT_TEXT' | translate }}
           }
         </button>
@@ -76,8 +76,8 @@
   <app-doc-viewer-type
     [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
     [gqlSchema]="gqlSchema"
-    [sortByOption]="sortByOption"
-    [hideDeprecatedDocItems]="hideDeprecatedDocItems"
+    [sortByOption]="sortByOption()"
+    [hideDeprecatedDocItems]="hideDeprecatedDocItems()"
     (goToFieldChange)="goToField($event.name, $event.parentType)"
     (goToTypeChange)="goToType($event.name)"
     (addToEditorChange)="addToEditor($event)"
