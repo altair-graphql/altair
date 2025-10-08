@@ -23,6 +23,8 @@ import { Toast } from 'ngx-toastr';
     ]),
   ],
   standalone: false,
+  // components with animations don't work well with OnPush change detection
+  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfirmToastComponent extends Toast {
   action(event: Event) {
