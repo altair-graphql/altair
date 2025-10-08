@@ -1,4 +1,4 @@
-import { Action, ActionReducer, INIT } from '@ngrx/store';
+import { ActionReducer, INIT } from '@ngrx/store';
 
 import * as windowsActions from './windows.action';
 import { IDictionary } from '../../interfaces/shared';

@@ -22,10 +22,14 @@ import * as variablesActions from './variables/variables.action';
 import * as windowsActions from './windows/windows.action';
 import * as windowsMetaActions from './windows-meta/windows-meta.action';
 import * as authorizationActions from './authorization/authorization.action';
-import { InitAction } from '@ngrx/store-devtools/src/reducer';
+import { INIT } from '@ngrx/store';
 
 export const INIT_WINDOW = '___INIT_WINDOW___';
 export const APP_INIT_ACTION = 'APP_INIT_ACTION';
+
+export class InitAction {
+  readonly type = INIT;
+}
 
 export class InitWindowAction {
   readonly type = INIT_WINDOW;

@@ -28,7 +28,7 @@ describe('oauth2 helpers', () => {
   });
   describe('base64UrlEncode', () => {
     it('should encode a string to base64url', () => {
-      const out = base64UrlEncode(new TextEncoder().encode('hello world'));
+      const out = base64UrlEncode(new TextEncoder().encode('hello world').buffer);
       expect(out).toBe('aGVsbG8gd29ybGQ');
     });
   });

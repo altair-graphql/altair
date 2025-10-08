@@ -43,7 +43,7 @@
     "wrangler": "^2.0.27"
   },
   "engines": {
-    "node": ">= 20"
+    "node": ">= 22"
   },
   "funding": {
     "type": "opencollective",
@@ -78,7 +78,7 @@
     "start:app": "pnpm -F @altairgraphql/app start",
     "start:redirect": "pnpm -F @altairgraphql/login-redirect dev",
     "start:sandbox": "pnpm -F @altairgraphql/iframe-sandbox dev",
-    "start:docs": "pnpm -F @altair/docs dev",
+    "start:docs": "pnpm -F @altairgraphql/docs dev",
     "start:electron": "pnpm -F altair dev",
     "start:tauri": "pnpm --F @altairgraphql/tauri dev",
     "start:stripe:listen": "stripe listen --forward-to http://localhost:3000/stripe-webhook",

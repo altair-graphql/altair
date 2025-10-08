@@ -8,4 +8,4 @@ packages:
 
 catalog:
   electron: ^33.2.1
-  typescript: ^5.5.4
+  typescript: ^5.8.0
