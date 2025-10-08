@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 import { HttpClient } from '@angular/common/http';
 import { PluginRegistryService } from './plugin-registry.service';
@@ -54,23 +54,23 @@ describe('PluginRegistryService', () => {
   });
 
   it('should be created', () => {
-    const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+    const service: PluginRegistryService = TestBed.inject(PluginRegistryService);
     expect(service).toBeTruthy();
   });
 
   describe('.getPluginInfoFromString()', () => {
     it('return undefined for empty string', () => {
-      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      const service: PluginRegistryService = TestBed.inject(PluginRegistryService);
       expect(service.getPluginInfoFromString('')).toBeUndefined();
     });
 
     it('return undefined if plugin name does not follow specification', () => {
-      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      const service: PluginRegistryService = TestBed.inject(PluginRegistryService);
       expect(service.getPluginInfoFromString('plugin-name')).toBeUndefined();
     });
 
     it('return version as latest, if version is not specified', () => {
-      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      const service: PluginRegistryService = TestBed.inject(PluginRegistryService);
       expect(
         service.getPluginInfoFromString('altair-graphql-plugin-plugin-name')
       ).toEqual({
@@ -81,7 +81,7 @@ describe('PluginRegistryService', () => {
     });
 
     it('return pluginSource as npm, if pluginSource is not specified', () => {
-      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      const service: PluginRegistryService = TestBed.inject(PluginRegistryService);
       expect(
         service.getPluginInfoFromString('altair-graphql-plugin-plugin-name@0.0.1')
       ).toEqual({
@@ -92,7 +92,7 @@ describe('PluginRegistryService', () => {
     });
 
     it('retrieve plugin info for github plugin', () => {
-      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      const service: PluginRegistryService = TestBed.inject(PluginRegistryService);
       expect(
         service.getPluginInfoFromString(
           'github:altair-graphql-plugin-plugin-name::[repo]->[imolorhe/altair]'
@@ -106,7 +106,7 @@ describe('PluginRegistryService', () => {
     });
 
     it('return extra option if specified', () => {
-      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      const service: PluginRegistryService = TestBed.inject(PluginRegistryService);
       expect(
         service.getPluginInfoFromString(
           'altair-graphql-plugin-plugin-name@0.0.1::[opt]->[1]'
@@ -130,7 +130,7 @@ describe('PluginRegistryService', () => {
     });
 
     it('return specified values', () => {
-      const service: PluginRegistryService = TestBed.get(PluginRegistryService);
+      const service: PluginRegistryService = TestBed.inject(PluginRegistryService);
       expect(
         service.getPluginInfoFromString(
           'url:altair-graphql-plugin-plugin-name@0.1.1'

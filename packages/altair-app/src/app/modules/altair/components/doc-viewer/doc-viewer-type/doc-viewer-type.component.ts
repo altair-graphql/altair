@@ -11,7 +11,6 @@ import {
   GraphQLObjectType,
   GraphQLSchema,
   GraphQLType,
-  GraphQLAbstractType,
   GraphQLArgument,
   GraphQLField,
   GraphQLNamedType,
@@ -19,8 +18,6 @@ import {
   GraphQLEnumType,
   isUnionType,
   isInterfaceType,
-  GraphQLInputObjectType,
-  isInputType,
 } from 'graphql';
 
 @Component({
@@ -90,7 +87,7 @@ export class DocViewerTypeComponent {
    */
   getTypeImplementations(type: GraphQLType) {
     if (isInterfaceType(type)) {
-      return this.gqlSchema?.getPossibleTypes(type as GraphQLAbstractType) || [];
+      return this.gqlSchema?.getPossibleTypes(type) || [];
     }
     return [];
   }
