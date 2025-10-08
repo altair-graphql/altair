@@ -1,15 +1,13 @@
 import {
   Component,
-  OnInit,
-  Input,
   Output,
   EventEmitter,
   ViewChild,
   ElementRef,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectionStrategy,
-  input
+  input,
+  linkedSignal,
+  computed,
 } from '@angular/core';
 
 import {
@@ -30,8 +28,8 @@ import { NotifyService } from '../../services';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class EnvironmentManagerComponent implements OnInit, OnChanges {
-  @Input() environments?: EnvironmentsState;
+export class EnvironmentManagerComponent {
+  readonly environments = input.required<EnvironmentsState>();
   readonly showEnvironmentManager = input(false);
   @Output() toggleDialogChange = new EventEmitter();
   @Output() baseEnvironmentJsonChange = new EventEmitter();
@@ -47,24 +45,35 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
 
   editorExtensions: Extension[] = [json(), linter(jsonParseLinter())];
 
-  selectedEnvironmentId = 'base';
-  selectedEnvironment?: EnvironmentState | BaseEnvironmentState;
-  editorContent = '{}';
-  editorTitle = '';
+  selectedEnvironmentId = linkedSignal(() => {
+    const environments = this.environments();
+    if (environments?.activeSubEnvironment) {
+      return environments.activeSubEnvironment;
+    }
+    return 'base';
+  });
+  selectedEnvironment = computed<
+    BaseEnvironmentState | EnvironmentState | undefined
+  >(() => {
+    const selectedId = this.selectedEnvironmentId();
+    const environments = this.environments();
+    if (selectedId === 'base') {
+      return environments.base;
+    }
+    return environments.subEnvironments.find((env) => env.id === selectedId);
+  });
+  editorContent = linkedSignal(() => {
+    return this.selectedEnvironment()?.variablesJson || '{}';
+  });
+  editorTitle = linkedSignal(() => {
+    const selectedEnvironment = this.selectedEnvironment();
+    if (selectedEnvironment && 'title' in selectedEnvironment) {
+      return selectedEnvironment.title || '';
+    }
+    return '';
+  });
 
   constructor(private notifyService: NotifyService) {}
-
-  ngOnInit() {
-    if (this.environments) {
-      this.selectEnvironment(this.environments.activeSubEnvironment);
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes?.environments?.currentValue) {
-      this.selectEnvironment(this.selectedEnvironmentId);
-    }
-  }
 
   onSortSubEnvironments(event: CdkDragDrop<any, any, any>) {
     this.repositionSubEnvironmentsChange.emit({
@@ -86,7 +95,7 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
         throw new Error('Invalid key');
       }
 
-      if (this.selectedEnvironmentId === 'base') {
+      if (this.selectedEnvironmentId() === 'base') {
         this.baseEnvironmentJsonChange.next({ value: content });
       } else {
         this.subEnvironmentJsonChange.next({
@@ -104,28 +113,6 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
       id: this.selectedEnvironmentId,
       value: content,
     });
-  }
-
-  selectEnvironment(id?: string) {
-    if (!this.environments) {
-      throw new Error('should never happen');
-    }
-    this.selectedEnvironmentId = id || 'base';
-
-    if (this.selectedEnvironmentId === 'base') {
-      this.selectedEnvironment = this.environments.base;
-    } else {
-      this.selectedEnvironment = this.environments.subEnvironments.find(
-        (env) => env.id === this.selectedEnvironmentId
-      );
-    }
-
-    if (this.selectedEnvironment) {
-      this.editorContent = this.selectedEnvironment.variablesJson;
-      if ('title' in this.selectedEnvironment) {
-        this.editorTitle = this.selectedEnvironment.title;
-      }
-    }
   }
 
   getExportedEnvironment(
@@ -149,7 +136,8 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
   onDeleteSubEnvironment() {
     if (confirm('Are you sure you want to delete this environment?')) {
       this.deleteSubEnvironmentChange.next({ id: this.selectedEnvironmentId });
-      this.selectEnvironment();
+      // After deletion, set the active environment to base
+      this.selectedEnvironmentId.set('base');
     }
   }
 

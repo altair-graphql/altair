@@ -2,9 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
-  input
+  input,
 } from '@angular/core';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import {
@@ -32,8 +31,8 @@ export class HeaderComponent {
   readonly isElectron = input(false);
   readonly headerPanels = input<AltairPanel[]>([]);
   readonly collections = input<IQueryCollection[]>([]);
-  @Input() activeEnvironment?: EnvironmentState;
-  @Input() environments?: EnvironmentsState;
+  readonly activeEnvironment = input<EnvironmentState>();
+  readonly environments = input<EnvironmentsState>();
   readonly settings = input<SettingsState>();
   @Output() activeWindowChange = new EventEmitter<string>();
   @Output() newWindowChange = new EventEmitter();

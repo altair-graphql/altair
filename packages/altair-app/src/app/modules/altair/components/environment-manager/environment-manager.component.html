@@ -25,10 +25,10 @@
             <div class="environment-manager__list">
               <div
                 class="environment-manager__list-item"
-                (click)="selectEnvironment('base')"
+                (click)="selectedEnvironmentId.set('base')"
                 [ngClass]="{
                   'environment-manager__list-item--selected':
-                    selectedEnvironmentId === 'base',
+                    selectedEnvironmentId() === 'base',
                 }"
               >
                 {{ 'BASE_ENVIRONMENT_TEXT' | translate }}
@@ -44,19 +44,19 @@
                 cdkDropListOrientation="vertical"
                 (cdkDropListDropped)="onSortSubEnvironments($event)"
               >
-                @if (environments?.subEnvironments?.length) {
+                @if (environments().subEnvironments.length) {
                   @for (
-                    item of environments?.subEnvironments;
+                    item of environments().subEnvironments;
                     track trackById($index, item)
                   ) {
                     <div
                       cdkDrag
                       class="environment-manager__list-item"
-                      (click)="selectEnvironment(item.id)"
+                      (click)="selectedEnvironmentId.set(item.id ?? '')"
                       (dblclick)="setFocusOnEnvironmentTitle()"
                       [ngClass]="{
                         'environment-manager__list-item--selected':
-                          selectedEnvironmentId === item.id,
+                          selectedEnvironmentId() === item.id,
                       }"
                     >
                       <app-icon name="more-vertical"></app-icon>
@@ -84,7 +84,7 @@
             </div>
           </div>
           <div class="environment-manager__editor-wrapper">
-            @if (selectedEnvironmentId !== 'base') {
+            @if (selectedEnvironmentId() !== 'base') {
               <div class="environment-manager__editor-meta">
                 <div class="environment-manager__editor-meta-input-wrapper">
                   <input
@@ -103,7 +103,7 @@
                     class="btn btn--small"
                     (click)="
                       exportEnvironmentChange.emit(
-                        getExportedEnvironment(selectedEnvironment)
+                        getExportedEnvironment(selectedEnvironment())
                       )
                     "
                   >

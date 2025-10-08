@@ -1,12 +1,13 @@
 import {
   Component,
   OnInit,
-  Input,
   Output,
   EventEmitter,
-  SimpleChanges,
-  OnChanges,
-  input
+  input,
+  signal,
+  computed,
+  Signal,
+  effect,
 } from '@angular/core';
 import {
   IQueryCollection,
@@ -15,26 +16,31 @@ import {
   IQuery,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { map, debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import { QueryCollectionService } from '../../services';
 import { WorkspaceOption } from '../../store';
+
+export function debounce<T>(input: Signal<T>, delay = 300) {
+  const out = signal(input());
+  let timeout: any;
+
+  effect(() => {
+    const value = input();
+    clearTimeout(timeout);
+    timeout = setTimeout(() => out.set(value), delay);
+  });
+
+  return out.asReadonly();
+}
 
 @Component({
   selector: 'app-query-collections',
   templateUrl: './query-collections.component.html',
   standalone: false,
 })
-export class QueryCollectionsComponent implements OnInit, OnChanges {
+export class QueryCollectionsComponent implements OnInit {
   readonly showCollections = input(true);
-  @Input() set collections(val: IQueryCollection[] | undefined) {
-    if (val) {
-      this.collections$.next(val);
-    }
-  }
-  @Input() set workspaces(val: WorkspaceOption[]) {
-    this.workspaces$.next(val);
-  }
+  readonly collections = input<IQueryCollection[]>([]);
+  readonly workspaces = input<WorkspaceOption[]>([]);
   readonly sortBy = input<SortByOptions>('newest');
   readonly queriesSortBy = input<SortByOptions>('newest');
   readonly loggedIn = input(false);
@@ -59,16 +65,45 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   @Output() showQueryRevisionsChange = new EventEmitter<string>();
   @Output() copyQueryShareLinkChange = new EventEmitter<string>();
 
-  collections$ = new BehaviorSubject<IQueryCollection[]>([]);
-  workspaces$ = new BehaviorSubject<WorkspaceOption[]>([]);
-  workspaceId$ = new BehaviorSubject('');
+  workspaceId = signal('');
+  searchInput = signal('');
+  searchTerm = debounce(this.searchInput, 300);
 
-  searchTerm$ = new BehaviorSubject<string>('');
-  searchInput$ = new Subject<string>();
+  showSearch = signal(false);
 
-  expandedMap: { [id: string]: boolean } = {};
+  filteredCollectionTrees = computed(() => {
+    let trees = this.collectionService.getCollectionTrees(this.collections());
 
-  showSearch$ = new BehaviorSubject(false);
+    if (this.searchTerm()) {
+      trees = trees
+        .map((tree) => this.filterCollectionTree(tree, this.searchTerm()))
+        .filter((tree): tree is IQueryCollectionTree => !!tree);
+    }
+
+    // workspace filtering (if needed)
+    if (this.workspaceId()) {
+      if (this.workspaceId() === WORKSPACES.LOCAL) {
+        trees = trees.filter((t) => ['local', undefined].includes(t.storageType));
+      } else {
+        trees = trees.filter((t) => t.workspaceId === this.workspaceId());
+      }
+    }
+    return trees;
+  });
+  expandedMap = computed<{ [id: string]: boolean }>(() => {
+    const map: { [id: string]: boolean } = {};
+    if (!this.searchTerm()) {
+      return map;
+    }
+    // Expand all when searching
+    this.filteredCollectionTrees().forEach((c) => {
+      map[c.id] = true;
+    });
+    return map;
+  });
+  collectionTrees = computed(() =>
+    this.collectionService.getCollectionTrees(this.collections())
+  );
 
   // Recursively filter collections and their subcollections for matching queries
   private filterCollectionTree(
@@ -95,56 +130,10 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
     return null;
   }
 
-  filteredCollectionTrees$ = combineLatest([
-    this.collections$,
-    this.workspaceId$,
-    this.searchTerm$.pipe(debounceTime(300), distinctUntilChanged()),
-  ]).pipe(
-    map(([collections, workspaceId, searchTerm]) => {
-      let trees = this.collectionService.getCollectionTrees(collections);
-      let expandedMap: { [id: string]: boolean } = {};
-
-      if (searchTerm) {
-        trees = trees
-          .map((tree) => this.filterCollectionTree(tree, searchTerm))
-          .filter((tree): tree is IQueryCollectionTree => !!tree);
-        expandedMap = Object.fromEntries(trees.map((c) => [c.id, true]));
-      }
-
-      // workspace filtering (if needed)
-      if (workspaceId) {
-        if (workspaceId === WORKSPACES.LOCAL) {
-          trees = trees.filter((t) => ['local', undefined].includes(t.storageType));
-        } else {
-          trees = trees.filter((t) => t.workspaceId === workspaceId);
-        }
-      }
-      return { trees, expandedMap };
-    }),
-    tap(({ expandedMap }) => {
-      this.expandedMap = expandedMap;
-    }),
-    map(({ trees }) => trees)
-  );
-
-  collectionTrees: IQueryCollectionTree[] = [];
-
   constructor(private collectionService: QueryCollectionService) {}
 
   ngOnInit() {
     this.loadCollectionsChange.emit();
-    this.searchInput$
-      .pipe(debounceTime(300))
-      .subscribe((value) => this.setSearchTerm(value));
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes?.collections?.currentValue) {
-      this.setCollectionTrees(changes.collections.currentValue);
-    }
-  }
-
-  setCollectionTrees(collections: IQueryCollection[]) {
-    this.collectionTrees = this.collectionService.getCollectionTrees(collections);
   }
 
   trackById<T extends { id: string }>(index: number, collection: T) {
@@ -152,10 +141,6 @@ export class QueryCollectionsComponent implements OnInit, OnChanges {
   }
 
   onSearchInput(value: string) {
-    this.searchInput$.next(value);
-  }
-
-  setSearchTerm(term: string) {
-    this.searchTerm$.next(term);
+    this.searchInput.set(value);
   }
 }

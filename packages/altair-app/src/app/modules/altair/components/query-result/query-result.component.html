@@ -126,14 +126,14 @@
       }
     </div>
   </nz-tab>
-  @if (requestScriptLogs.length) {
+  @if (requestScriptLogs().length) {
     <nz-tab
       [nzTitle]="'REQUEST_SCRIPT_LOGS_TAB' | translate"
-      [nzDisabled]="!requestScriptLogs.length"
+      [nzDisabled]="!requestScriptLogs().length"
     >
       <div class="request-script-logs">
         <div class="request-script-logs__list">
-          @for (item of requestScriptLogs; track item.id) {
+          @for (item of requestScriptLogs(); track item.id) {
             <div class="request-script-logs__line">
               <div class="request-script-logs__line-time">
                 {{ item.time | date: 'mediumTime' }}

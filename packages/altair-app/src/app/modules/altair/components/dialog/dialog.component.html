@@ -1,5 +1,5 @@
 <nz-modal
-  [nzVisible]="showDialog"
+  [nzVisible]="showDialog()"
   (nzVisibleChange)="toggleDialog.emit($event)"
   [nzCloseIcon]="'close-circle'"
   [nzTitle]="showHeader() ? modalTitle : null"

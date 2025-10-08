@@ -2,9 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
-  input
+  input,
+  model,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
@@ -18,14 +18,14 @@ import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
   standalone: false,
 })
 export class UrlBoxComponent {
-  @Input() apiUrl = '';
+  readonly apiUrl = model('');
   readonly httpVerb = input('POST');
   readonly isSubscribed = input(false);
   readonly isLoading = input(false);
   readonly showDocs = input(false);
-  @Input() selectedOperation = '';
+  readonly selectedOperation = input('');
   readonly queryOperations = input<OperationDefinitionNode[]>([]);
-  @Input() streamState = '';
+  readonly streamState = input('');
   readonly currentCollection = input<IQueryCollection>();
   readonly hasUnsavedChanges = input(false);
   readonly windowId = input('');
@@ -45,7 +45,7 @@ export class UrlBoxComponent {
   BATCHED_REQUESTS_OPERATION = BATCHED_REQUESTS_OPERATION;
 
   setApiUrl() {
-    const sanitizedUrl = this.sanitizeUrl(this.apiUrl);
+    const sanitizedUrl = this.sanitizeUrl(this.apiUrl());
     this.urlChange.emit(sanitizedUrl);
   }
 

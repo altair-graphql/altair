@@ -58,7 +58,7 @@
         <nz-form-label> Save collection to </nz-form-label>
         <nz-form-control>
           <nz-tree-select
-            [nzNodes]="collectionNodes"
+            [nzNodes]="collectionNodes()"
             [nzNotFoundContent]="'No collections found'"
             nzShowSearch
             nzPlaceHolder="Select collection"
@@ -68,7 +68,9 @@
         </nz-form-control>
       </div>
       <!-- if logged in, and not saving to a parent collection, then show workspaces option -->
-      @if (loggedIn() && newCollectionParentCollectionId === parentCollectionRootId) {
+      @if (
+        loggedIn() && newCollectionParentCollectionId() === parentCollectionRootId
+      ) {
         <div class="app-dialog-section">
           <nz-form-label>{{
             'SAVE_TO_COLLECTION_SELECT_WORKSPACE' | translate

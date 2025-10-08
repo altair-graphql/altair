@@ -1,16 +1,14 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
   OnChanges,
   SimpleChanges,
-  input
+  input,
 } from '@angular/core';
 import {
   IQuery,
-  IQueryCollection,
   IQueryCollectionTree,
   SortByOptions,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
@@ -25,7 +23,7 @@ import { memoize } from '../../utils/memoize';
   standalone: false,
 })
 export class QueryCollectionItemComponent implements OnChanges {
-  @Input() collectionTree?: IQueryCollectionTree;
+  readonly collectionTree = input.required<IQueryCollectionTree>();
   readonly loggedIn = input(false);
   readonly queriesSortBy = input<SortByOptions>('newest');
   readonly expanded = input(true);
@@ -76,7 +74,7 @@ export class QueryCollectionItemComponent implements OnChanges {
         if (this.collectionTree) {
           this.deleteQueryChange.emit({
             query,
-            collectionId: this.collectionTree.id,
+            collectionId: this.collectionTree().id,
           });
         }
       },
@@ -96,7 +94,7 @@ export class QueryCollectionItemComponent implements OnChanges {
       nzOnOk: () => {
         if (this.collectionTree) {
           this.deleteCollectionChange.emit({
-            collectionId: this.collectionTree.id,
+            collectionId: this.collectionTree().id,
           });
         }
       },
@@ -107,14 +105,14 @@ export class QueryCollectionItemComponent implements OnChanges {
     if (!this.collectionTree) {
       throw new Error('should never happen');
     }
-    this.editCollectionChange.emit({ collection: this.collectionTree });
+    this.editCollectionChange.emit({ collection: this.collectionTree() });
   }
 
   syncCollection() {
     if (!this.collectionTree) {
       throw new Error('should never happen');
     }
-    this.syncCollectionChange.emit({ collection: this.collectionTree });
+    this.syncCollectionChange.emit({ collection: this.collectionTree() });
   }
 
   exportCollection() {
@@ -122,7 +120,7 @@ export class QueryCollectionItemComponent implements OnChanges {
       throw new Error('should never happen');
     }
     this.exportCollectionChange.emit({
-      collectionId: this.collectionTree.id,
+      collectionId: this.collectionTree().id,
     });
   }
   setQueriesSortBy(sortBy: SortByOptions) {

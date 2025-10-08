@@ -333,7 +333,7 @@ export class GqlService {
     selectedOperation?: SelectedOperation;
     selectIfOneOperation?: boolean;
   }) {
-    let newSelectedOperation = null;
+    let newSelectedOperation: string | null = null;
     const operations = this.getOperations(query);
     let requestSelectedOperationFromUser = false;
 

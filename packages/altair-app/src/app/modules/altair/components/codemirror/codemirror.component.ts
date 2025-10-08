@@ -6,14 +6,15 @@ import {
   EventEmitter,
   forwardRef,
   HostBinding,
-  Input,
   NgZone,
   OnChanges,
   OnDestroy,
   Output,
   SimpleChanges,
   ViewChild,
-  input
+  input,
+  signal,
+  effect,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension, Prec, StateEffect } from '@codemirror/state';
@@ -66,7 +67,7 @@ export class CodemirrorComponent
   implements AfterViewInit, OnChanges, ControlValueAccessor, OnDestroy
 {
   readonly extensions = input<Extension[]>([]);
-  @Input() @HostBinding('class.cm6-full-height') fullHeight = false;
+  readonly fullHeight = input(false);
   readonly showLineNumber = input(true);
   readonly foldGutter = input(true);
   readonly wrapLines = input(true);
@@ -80,19 +81,28 @@ export class CodemirrorComponent
   @ViewChild('ref') ref!: ElementRef<HTMLTextAreaElement>;
 
   view?: EditorView;
-  private innerValue = '';
   private onTouched = () => {};
   private onChange = (s: string) => {};
+
+  @HostBinding('class.cm6-full-height')
+  get fullHeightClass() {
+    return this.fullHeight();
+  }
+  readonly value = signal('');
 
   constructor(
     private zone: NgZone,
     private altairConfig: AltairConfig
-  ) {}
+  ) {
+    effect(() => {
+      this.onChange(this.value());
+    });
+  }
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
       const startState = EditorState.create({
-        doc: this.value,
+        doc: this.value(),
         extensions: this.getExtensions(),
       });
 
@@ -132,19 +142,8 @@ export class CodemirrorComponent
     this.view?.destroy();
   }
 
-  // get accessor
-  get value() {
-    return this.innerValue;
-  }
-
-  @Input()
-  // set accessor including call the onchange callback
-  set value(v: string) {
-    this.writeValue(v);
-  }
-
   writeValue(value: string) {
-    if (value === this.innerValue) {
+    if (!this.view) {
       return;
     }
     if (value === null || value === undefined) {
@@ -152,14 +151,10 @@ export class CodemirrorComponent
     }
     value = `${value}`;
 
-    if (!this.view) {
-      return;
-    }
-
     const editorValue = this.view.state.doc.toString();
 
     if (editorValue !== value) {
-      this.innerValue = value;
+      this.value.set(value);
       this.view.dispatch({
         changes: { from: 0, to: this.view.state.doc.length, insert: value },
       });
@@ -175,9 +170,8 @@ export class CodemirrorComponent
   }
 
   codemirrorValueChanged(value: string) {
-    if (this.innerValue !== value) {
-      this.innerValue = value;
-      this.onChange(value);
+    if (this.value() !== value) {
+      this.value.set(value);
     }
   }
 

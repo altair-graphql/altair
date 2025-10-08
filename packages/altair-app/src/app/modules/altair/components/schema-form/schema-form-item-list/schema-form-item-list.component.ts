@@ -1,11 +1,12 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input,
+  model,
+  effect,
 } from '@angular/core';
-import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import {
   getSchemaFormProperty,
   SchemaFormProperty,
@@ -20,29 +21,45 @@ import { JSONSchema6 } from 'json-schema';
   standalone: false,
 })
 export class SchemaFormItemListComponent {
-  @Input() item?: SchemaFormProperty;
-  @Input() data: unknown[] | undefined;
+  readonly item = input<SchemaFormProperty>();
+  readonly data = model<unknown[]>();
 
   @Output() dataChange = new EventEmitter();
 
+  constructor() {
+    effect(() => {
+      this.dataChange.emit(this.data());
+    });
+  }
+
   addField() {
-    if (!this.data || !Array.isArray(this.data)) {
-      this.data = [];
+    let data = this.data();
+    if (!data || !Array.isArray(data)) {
+      data = [];
     }
 
-    this.data.push('');
-    this.dataChange.next(this.data);
+    data.push('');
+    this.data.set(data);
   }
 
   removeField(index: number) {
-    if (this.data && Array.isArray(this.data)) {
-      this.data = this.data.filter((_, i) => i !== index);
-      this.dataChange.next(this.data);
+    const data = this.data();
+    if (data && Array.isArray(data)) {
+      data.splice(index, 1);
+      this.data.set(data);
     }
   }
 
   getSchemaFormPropertyForListItem(index: number, schema: JSONSchema6) {
-    return getSchemaFormProperty(`${this.item?.key}[${index}]`, schema);
+    return getSchemaFormProperty(`${this.item()?.key}[${index}]`, schema);
+  }
+
+  setSchemaFormPropertyForListItem(index: number, value: unknown) {
+    const data = this.data();
+    if (data && Array.isArray(data)) {
+      data[index] = value;
+      this.data.set(data);
+    }
   }
 
   isJsonSchema(p: JSONSchema6['items']): p is JSONSchema6 {

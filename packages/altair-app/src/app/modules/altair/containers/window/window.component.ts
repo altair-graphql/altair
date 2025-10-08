@@ -7,7 +7,8 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Store, createSelector, select } from '@ngrx/store';
 
 import * as fromRoot from '../../store';
@@ -34,7 +35,7 @@ import {
   RequestHandlerRegistryService,
   WindowService,
 } from '../../services';
-import { Observable, EMPTY, combineLatest, of, BehaviorSubject } from 'rxjs';
+import { Observable, EMPTY, combineLatest, of } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
 import { fadeInOutAnimationTrigger } from '../../animations';
 import { IDictionary, TrackByIdItem } from '../../interfaces/shared';
@@ -129,18 +130,10 @@ export class WindowComponent implements OnInit {
 
   windowState$: Observable<PerWindowState>;
 
-  // Using getter/setter for the windowId to update the windowId$ subject.
-  // We need the windowId$ subject to update the getWindowState observable
+  readonly windowId = input.required<string>();
+  // We need the windowId$ observable to update the getWindowState observable
   // whenever the windowId changes, in order to get the right window state.
-  private _windowId = '';
-  @Input() set windowId(val: string) {
-    this._windowId = val;
-    this.windowId$.next(val);
-  }
-  get windowId() {
-    return this._windowId;
-  }
-  windowId$ = new BehaviorSubject(this._windowId);
+  windowId$ = toObservable(this.windowId);
 
   isElectron = isElectron;
   apiUrl = '';
@@ -301,10 +294,11 @@ export class WindowComponent implements OnInit {
   }
 
   ngOnInit() {
+    // TODO: Migrate store select to use signal.
     this.store
       .pipe(
         untilDestroyed(this),
-        map((data) => data.windows[this.windowId]),
+        map((data) => data.windows[this.windowId()]),
         distinctUntilChanged()
       )
       .subscribe((data) => {
@@ -336,7 +330,7 @@ export class WindowComponent implements OnInit {
           const schema = this.gql.getIntrospectionSchema(data.schema.introspection);
           if (schema) {
             this.store.dispatch(
-              new schemaActions.SetSchemaAction(this.windowId, schema)
+              new schemaActions.SetSchemaAction(this.windowId(), schema)
             );
           }
         }
@@ -364,42 +358,42 @@ export class WindowComponent implements OnInit {
         }
       });
 
-    this.windowService.setupWindow(this.windowId);
+    this.windowService.setupWindow(this.windowId());
   }
 
   setApiUrl(url: string) {
     if (url !== this.apiUrl) {
-      this.store.dispatch(new queryActions.SetUrlAction({ url }, this.windowId));
+      this.store.dispatch(new queryActions.SetUrlAction({ url }, this.windowId()));
       this.store.dispatch(
-        new queryActions.SendIntrospectionQueryRequestAction(this.windowId)
+        new queryActions.SendIntrospectionQueryRequestAction(this.windowId())
       );
     }
   }
 
   setApiMethod(httpVerb: HttpVerb) {
     this.store.dispatch(
-      new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId)
+      new queryActions.SetHTTPMethodAction({ httpVerb }, this.windowId())
     );
   }
 
   sendRequest(opts: { operationName?: string } = {}) {
     if (opts.operationName) {
       this.store.dispatch(
-        new queryActions.SetSelectedOperationAction(this.windowId, {
+        new queryActions.SetSelectedOperationAction(this.windowId(), {
           selectedOperation: opts.operationName,
         })
       );
     }
-    this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId));
+    this.store.dispatch(new queryActions.SendQueryRequestAction(this.windowId()));
   }
 
   cancelRequest() {
-    this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId));
+    this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId()));
   }
 
   selectOperation(selectedOperation: string) {
     this.store.dispatch(
-      new queryActions.SetSelectedOperationAction(this.windowId, {
+      new queryActions.SetSelectedOperationAction(this.windowId(), {
         selectedOperation,
       })
     );
@@ -408,24 +402,24 @@ export class WindowComponent implements OnInit {
 
   setQueryEditorState(queryEditorState: QueryEditorState) {
     this.store.dispatch(
-      new queryActions.SetQueryEditorStateAction(this.windowId, queryEditorState)
+      new queryActions.SetQueryEditorStateAction(this.windowId(), queryEditorState)
     );
   }
 
   toggleAutoscrollSubscriptionResponses() {
     this.store.dispatch(
-      new queryActions.ToggleAutoscrollResponseListAction(this.windowId)
+      new queryActions.ToggleAutoscrollResponseListAction(this.windowId())
     );
   }
 
   updateQuery(query: string) {
-    this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId));
+    this.store.dispatch(new queryActions.SetQueryAction(query, this.windowId()));
   }
 
   toggleHeader(isOpen: boolean | undefined = undefined) {
     if (this.showHeaderDialog !== isOpen) {
       this.store.dispatch(
-        new dialogsActions.ToggleHeaderDialogAction(this.windowId)
+        new dialogsActions.ToggleHeaderDialogAction(this.windowId())
       );
     }
   }
@@ -433,14 +427,14 @@ export class WindowComponent implements OnInit {
   toggleVariableDialog(isOpen = undefined) {
     if (this.showVariableDialog !== isOpen) {
       this.store.dispatch(
-        new dialogsActions.ToggleVariableDialogAction(this.windowId)
+        new dialogsActions.ToggleVariableDialogAction(this.windowId())
       );
     }
   }
 
   toggleRequestHandlerDialog(isOpen: boolean) {
     this.store.dispatch(
-      new dialogsActions.ToggleRequestHandlerDialogAction(this.windowId, {
+      new dialogsActions.ToggleRequestHandlerDialogAction(this.windowId(), {
         value: isOpen,
       })
     );
@@ -449,7 +443,7 @@ export class WindowComponent implements OnInit {
   toggleHistoryDialog(isOpen: boolean) {
     if (this.showHistoryDialog !== isOpen) {
       this.store.dispatch(
-        new dialogsActions.ToggleHistoryDialogAction(this.windowId)
+        new dialogsActions.ToggleHistoryDialogAction(this.windowId())
       );
     }
   }
@@ -458,7 +452,7 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(
       new windowsMetaActions.ShowAddToCollectionDialogAction({
         value,
-        windowId: this.windowId,
+        windowId: this.windowId(),
       })
     );
   }
@@ -466,14 +460,14 @@ export class WindowComponent implements OnInit {
   togglePreRequestDialog(isOpen: boolean) {
     if (this.showPreRequestDialog !== isOpen) {
       this.store.dispatch(
-        new dialogsActions.TogglePreRequestDialogAction(this.windowId)
+        new dialogsActions.TogglePreRequestDialogAction(this.windowId())
       );
     }
   }
 
   toggleRequestExtensionsDialog(isOpen: boolean) {
     this.store.dispatch(
-      new dialogsActions.ToggleRequestExtensionsDialogAction(this.windowId, {
+      new dialogsActions.ToggleRequestExtensionsDialogAction(this.windowId(), {
         value: isOpen,
       })
     );
@@ -481,7 +475,7 @@ export class WindowComponent implements OnInit {
 
   updateRequestExtensions(requestExtensions: string) {
     this.store.dispatch(
-      new queryActions.SetRequestExtensionsDataAction(this.windowId, {
+      new queryActions.SetRequestExtensionsDataAction(this.windowId(), {
         data: requestExtensions,
       })
     );
@@ -498,7 +492,7 @@ export class WindowComponent implements OnInit {
 
   setDocView(docView: DocView) {
     this.store.dispatch(
-      new docsActions.SetDocViewAction(this.windowId, { docView })
+      new docsActions.SetDocViewAction(this.windowId(), { docView })
     );
   }
   onShowTokenInDocs(docView: DocView) {
@@ -512,43 +506,43 @@ export class WindowComponent implements OnInit {
     });
   }
   toggleDocs() {
-    this.store.dispatch(new docsActions.ToggleDocsViewAction(this.windowId));
+    this.store.dispatch(new docsActions.ToggleDocsViewAction(this.windowId()));
   }
 
   reloadDocs() {
     this.store.dispatch(
-      new queryActions.SendIntrospectionQueryRequestAction(this.windowId)
+      new queryActions.SendIntrospectionQueryRequestAction(this.windowId())
     );
   }
 
   addHeader() {
-    this.store.dispatch(new headerActions.AddHeaderAction(this.windowId));
+    this.store.dispatch(new headerActions.AddHeaderAction(this.windowId()));
   }
 
   headerKeyChange(val: string, i: number) {
     this.store.dispatch(
-      new headerActions.EditHeaderKeyAction({ val, i }, this.windowId)
+      new headerActions.EditHeaderKeyAction({ val, i }, this.windowId())
     );
   }
   headerValueChange(val: string, i: number) {
     this.store.dispatch(
-      new headerActions.EditHeaderValueAction({ val, i }, this.windowId)
+      new headerActions.EditHeaderValueAction({ val, i }, this.windowId())
     );
   }
 
   headerEnabledChange(val: boolean, i: number) {
     this.store.dispatch(
-      new headerActions.EditHeaderEnabledAction({ val, i }, this.windowId)
+      new headerActions.EditHeaderEnabledAction({ val, i }, this.windowId())
     );
   }
 
   removeHeader(i: number) {
-    this.store.dispatch(new headerActions.RemoveHeaderAction(i, this.windowId));
+    this.store.dispatch(new headerActions.RemoveHeaderAction(i, this.windowId()));
   }
 
   updateVariables(variables: string) {
     this.store.dispatch(
-      new variableActions.UpdateVariablesAction(variables, this.windowId)
+      new variableActions.UpdateVariablesAction(variables, this.windowId())
     );
   }
 
@@ -558,12 +552,12 @@ export class WindowComponent implements OnInit {
     isMultiple: boolean;
   }) {
     this.store.dispatch(
-      new variableActions.AddFileVariableAction(this.windowId, fileVariable)
+      new variableActions.AddFileVariableAction(this.windowId(), fileVariable)
     );
   }
   updateFileVariableName({ index, name }: { index: number; name: string }) {
     this.store.dispatch(
-      new variableActions.UpdateFileVariableNameAction(this.windowId, {
+      new variableActions.UpdateFileVariableNameAction(this.windowId(), {
         index,
         name,
       })
@@ -578,7 +572,7 @@ export class WindowComponent implements OnInit {
     isMultiple: boolean;
   }) {
     this.store.dispatch(
-      new variableActions.UpdateFileVariableIsMultipleAction(this.windowId, {
+      new variableActions.UpdateFileVariableIsMultipleAction(this.windowId(), {
         index,
         isMultiple,
       })
@@ -595,7 +589,7 @@ export class WindowComponent implements OnInit {
     fromCache?: boolean;
   }) {
     this.store.dispatch(
-      new variableActions.UpdateFileVariableDataAction(this.windowId, {
+      new variableActions.UpdateFileVariableDataAction(this.windowId(), {
         index,
         fileData,
         fromCache,
@@ -605,25 +599,25 @@ export class WindowComponent implements OnInit {
 
   deleteFileVariable({ index }: { index: number }) {
     this.store.dispatch(
-      new variableActions.DeleteFileVariableAction(this.windowId, { index })
+      new variableActions.DeleteFileVariableAction(this.windowId(), { index })
     );
   }
 
   upateRequestHandlerInfo(info: RequestHandlerInfo) {
     this.store.dispatch(
-      new queryActions.SetRequestHandlerInfoAction(this.windowId, info)
+      new queryActions.SetRequestHandlerInfoAction(this.windowId(), info)
     );
   }
 
   updatePreRequestScript(script: string) {
     this.store.dispatch(
-      new preRequestActions.SetPreRequestScriptAction(this.windowId, { script })
+      new preRequestActions.SetPreRequestScriptAction(this.windowId(), { script })
     );
   }
 
   updatePreRequestEnabled(enabled: boolean) {
     this.store.dispatch(
-      new preRequestActions.SetPreRequestEnabledAction(this.windowId, {
+      new preRequestActions.SetPreRequestEnabledAction(this.windowId(), {
         enabled,
       })
     );
@@ -631,7 +625,7 @@ export class WindowComponent implements OnInit {
 
   updatePostRequestScript(script: string) {
     this.store.dispatch(
-      new postRequestActions.SetPostRequestScriptAction(this.windowId, {
+      new postRequestActions.SetPostRequestScriptAction(this.windowId(), {
         script,
       })
     );
@@ -639,7 +633,7 @@ export class WindowComponent implements OnInit {
 
   updatePostRequestEnabled(enabled: boolean) {
     this.store.dispatch(
-      new postRequestActions.SetPostRequestEnabledAction(this.windowId, {
+      new postRequestActions.SetPostRequestEnabledAction(this.windowId(), {
         enabled,
       })
     );
@@ -647,7 +641,7 @@ export class WindowComponent implements OnInit {
 
   updateAuthType(type: AuthorizationTypes) {
     this.store.dispatch(
-      new authorizationActions.SelectAuthorizationTypeAction(this.windowId, {
+      new authorizationActions.SelectAuthorizationTypeAction(this.windowId(), {
         type,
       })
     );
@@ -655,7 +649,7 @@ export class WindowComponent implements OnInit {
 
   updateAuthData(data: unknown) {
     this.store.dispatch(
-      new authorizationActions.UpdateAuthorizationDataAction(this.windowId, {
+      new authorizationActions.UpdateAuthorizationDataAction(this.windowId(), {
         data,
       })
     );
@@ -666,7 +660,7 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(
       new queryActions.SetQueryAction(
         `${this.query}\n${queryData.query}`,
-        this.windowId
+        this.windowId()
       )
     );
 
@@ -677,15 +671,15 @@ export class WindowComponent implements OnInit {
   }
 
   clearResult() {
-    this.store.dispatch(new queryActions.ClearResultAction(this.windowId));
+    this.store.dispatch(new queryActions.ClearResultAction(this.windowId()));
     this.store.dispatch(
-      new queryActions.SetQueryResponsesAction(this.windowId, { responses: [] })
+      new queryActions.SetQueryResponsesAction(this.windowId(), { responses: [] })
     );
   }
 
   downloadResult(content: string) {
     this.store.dispatch(
-      new queryActions.DownloadResultAction(this.windowId, { content })
+      new queryActions.DownloadResultAction(this.windowId(), { content })
     );
   }
 
@@ -695,20 +689,20 @@ export class WindowComponent implements OnInit {
       this.store.dispatch(
         new queryActions.SetQueryAction(
           this.historyList[index]?.query ?? '',
-          this.windowId
+          this.windowId()
         )
       );
     }
   }
 
   clearHistory() {
-    this.store.dispatch(new historyActions.ClearHistoryAction(this.windowId));
+    this.store.dispatch(new historyActions.ClearHistoryAction(this.windowId()));
   }
 
   updateQueryInCollection() {
     this.store.dispatch(
       new collectionActions.UpdateQueryInCollectionAction({
-        windowId: this.windowId,
+        windowId: this.windowId(),
       })
     );
   }
@@ -718,11 +712,11 @@ export class WindowComponent implements OnInit {
   }
 
   exportSDL() {
-    this.store.dispatch(new schemaActions.ExportSDLAction(this.windowId));
+    this.store.dispatch(new schemaActions.ExportSDLAction(this.windowId()));
   }
 
   loadSchemaFromSDL() {
-    this.store.dispatch(new schemaActions.LoadSDLSchemaAction(this.windowId));
+    this.store.dispatch(new schemaActions.LoadSDLSchemaAction(this.windowId()));
   }
 
   onExecuteUiAction(uiAction: AltairUiAction) {
@@ -734,7 +728,7 @@ export class WindowComponent implements OnInit {
    */
   exportWindowData() {
     this.store.dispatch(
-      new windowActions.ExportWindowAction({ windowId: this.windowId })
+      new windowActions.ExportWindowAction({ windowId: this.windowId() })
     );
   }
 

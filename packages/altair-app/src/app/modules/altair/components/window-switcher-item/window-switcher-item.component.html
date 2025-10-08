@@ -1,12 +1,12 @@
 <div
   class="window-switcher__item"
   [ngClass]="{
-    'window-switcher__item--active': (window$ | async)?.windowId === activeWindowId(),
+    'window-switcher__item--active': window()?.windowId === activeWindowId(),
   }"
   (click)="onClickWindow()"
   (dblclick)="onDoubleClick()"
 >
-  @switch (iconState$ | async) {
+  @switch (iconState()) {
     @case ('is-editing') {
       <app-icon name="pencil"></app-icon>
     }
@@ -30,15 +30,15 @@
     #wTitle
     class="window-switcher__input"
     [ngClass]="{
-      'window-switcher__input--editing': isEditing$ | async,
+      'window-switcher__input--editing': isEditing(),
     }"
-    [attr.contenteditable]="isEditing$ | async"
+    [attr.contenteditable]="isEditing()"
     (blur)="saveWindowNameChange.emit(wTitle.innerText)"
     (keydown.enter)="saveWindowNameChange.emit(wTitle.innerText)"
   >
-    {{ (window$ | async)?.layout?.title || '' }}
+    {{ window()?.layout?.title || '' }}
   </div>
-  <span class="window-switcher__unsaved-indicator" *ngIf="isWindowUnsaved$ | async">
+  <span class="window-switcher__unsaved-indicator" *ngIf="isWindowUnsaved()">
     *
   </span>
   @if (isClosable()) {

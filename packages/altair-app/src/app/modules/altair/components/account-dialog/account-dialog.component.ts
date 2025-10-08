@@ -2,14 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
-  OnInit,
   Output,
-  input
+  input,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
-import { environment } from 'environments/environment';
 import { apiClient } from '../../services/api/api.service';
 import { externalLink } from '../../utils';
 import { IdentityProvider } from '@altairgraphql/db';
@@ -23,7 +19,7 @@ import { IdentityProvider } from '@altairgraphql/db';
 })
 export class AccountDialogComponent {
   readonly showDialog = input(true);
-  @Input() account: AccountState | undefined;
+  readonly account = input<AccountState>();
   @Output() toggleDialogChange = new EventEmitter<boolean>();
   @Output() handleLoginChange = new EventEmitter<IdentityProvider>();
   @Output() logoutChange = new EventEmitter();

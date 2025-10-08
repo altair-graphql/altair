@@ -2,21 +2,19 @@ import {
   Component,
   Output,
   EventEmitter,
-  Input,
-  OnChanges,
-  SimpleChanges,
-  input
+  input,
+  effect,
+  ChangeDetectionStrategy,
+  signal,
+  computed,
 } from '@angular/core';
-import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
 import {
   IQueryCollection,
   IQueryCollectionTree,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { NzTreeNodeOptions } from 'ng-zorro-antd/tree';
-import { Observable } from 'rxjs';
 import { QueryCollectionService } from '../../services';
-import { capitalize } from '../../utils';
 import { WorkspaceOption } from '../../store';
 
 @Component({
@@ -24,49 +22,61 @@ import { WorkspaceOption } from '../../store';
   templateUrl: './add-collection-query-dialog.component.html',
   styles: [],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AddCollectionQueryDialogComponent implements OnChanges {
+export class AddCollectionQueryDialogComponent {
   readonly showDialog = input(false);
-  @Input() windowTitle = '';
+  readonly windowTitle = input('');
   readonly collections = input<IQueryCollection[]>([]);
   readonly loggedIn = input(false);
   readonly workspaces = input<WorkspaceOption[]>([]);
 
   @Output() toggleDialogChange = new EventEmitter();
-  @Output() createCollectionAndSaveQueryToCollectionChange = new EventEmitter();
-  @Output() saveQueryToCollectionChange = new EventEmitter();
+  @Output() createCollectionAndSaveQueryToCollectionChange = new EventEmitter<{
+    queryName: string;
+    collectionName: string;
+    parentCollectionId: string;
+    workspaceId: string;
+  }>();
+  @Output() saveQueryToCollectionChange = new EventEmitter<{
+    queryName: string;
+    collectionId: string;
+  }>();
   @Output() newCollectionParentCollectionIdChange = new EventEmitter();
 
   get parentCollectionRootId() {
     return '0'; // 0 for root
   }
-  newCollectionQueryTitle = this.windowTitle;
-  newCollectionTitle = '';
-  collectionId = '';
-  newCollectionParentCollectionId = this.parentCollectionRootId;
-  collectionNodes?: NzTreeNodeOptions[];
-  workspaceId = WORKSPACES.LOCAL;
+  newCollectionQueryTitle = signal(this.windowTitle());
+  newCollectionTitle = signal('');
+  collectionId = signal('');
+  newCollectionParentCollectionId = signal(this.parentCollectionRootId);
+  workspaceId = signal(WORKSPACES.LOCAL);
+  isNewCollection = computed(() => this.collectionId() === '-1');
+  collectionNodes = computed(() => {
+    const collectionTree = this.collectionService.getCollectionTrees(
+      this.collections()
+    );
+    return collectionTree.map((tree) => this.collectionTreeToNzTreeNode(tree));
+  });
 
-  constructor(private collectionService: QueryCollectionService) {}
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes?.windowTitle?.currentValue) {
-      this.windowTitle = changes.windowTitle.currentValue;
+  private resetEffect = effect(() => {
+    if (this.windowTitle()) {
       this.reset();
     }
-    if (changes?.collections?.currentValue) {
-      this.setTreeNodes(changes.collections.currentValue);
-    }
-  }
+  });
+
+  constructor(private collectionService: QueryCollectionService) {}
 
   createCollectionAndSaveQueryToCollection() {
     this.createCollectionAndSaveQueryToCollectionChange.emit({
-      queryName: this.newCollectionQueryTitle,
-      collectionName: this.newCollectionTitle,
+      queryName: this.newCollectionQueryTitle(),
+      collectionName: this.newCollectionTitle(),
       parentCollectionId:
-        this.newCollectionParentCollectionId === '0'
+        this.newCollectionParentCollectionId() === '0'
           ? ''
-          : this.newCollectionParentCollectionId,
-      workspaceId: this.workspaceId,
+          : this.newCollectionParentCollectionId(),
+      workspaceId: this.workspaceId(),
     });
 
     this.reset();
@@ -74,15 +84,11 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
 
   saveQueryToCollection() {
     this.saveQueryToCollectionChange.emit({
-      queryName: this.newCollectionQueryTitle,
-      collectionId: this.collectionId,
+      queryName: this.newCollectionQueryTitle(),
+      collectionId: this.collectionId(),
     });
 
     this.reset();
-  }
-
-  isNewCollection() {
-    return this.collectionId === '-1';
   }
 
   onSaveChange() {
@@ -90,25 +96,18 @@ export class AddCollectionQueryDialogComponent implements OnChanges {
       return this.createCollectionAndSaveQueryToCollection();
     }
 
-    if (this.collectionId) {
+    if (this.collectionId()) {
       return this.saveQueryToCollection();
     }
   }
 
   reset() {
-    this.newCollectionQueryTitle = this.windowTitle;
-    this.newCollectionTitle = '';
+    this.newCollectionQueryTitle.set(this.windowTitle());
+    this.newCollectionTitle.set('');
   }
 
   trackById(index: number, item: { id: string }) {
     return item.id;
-  }
-
-  setTreeNodes(collections: IQueryCollection[]) {
-    const collectionTree = this.collectionService.getCollectionTrees(collections);
-    this.collectionNodes = collectionTree.map((tree) =>
-      this.collectionTreeToNzTreeNode(tree)
-    );
   }
 
   collectionTreeToNzTreeNode(

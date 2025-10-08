@@ -1,9 +1,15 @@
 import { ICreateTeamDto, ReturnedTeamMembership } from '@altairgraphql/api-utils';
-import { Component, EventEmitter, Input, Output, input } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  computed,
+  effect,
+  input,
+  signal,
+} from '@angular/core';
 import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map, take } from 'rxjs/operators';
 import { AccountService, NotifyService } from '../../services';
 import { debug } from '../../utils/logger';
 import { getApiErrorCode, getErrorResponse } from '../../utils/errors';
@@ -18,42 +24,39 @@ import * as windowsMetaActions from '../../store/windows-meta/windows-meta.actio
   standalone: false,
 })
 export class TeamsDialogComponent {
-  @Input() set teams(val: Team[] | undefined) {
-    if (val) {
-      this.teams$.next(val);
-    }
-  }
+  readonly teams = input<Team[]>();
   readonly showDialog = input(true);
   @Output() toggleDialogChange = new EventEmitter<boolean>();
   @Output() reloadTeamChange = new EventEmitter<string>();
 
-  teamName = '';
-  teamDescription = '';
-  membersOfSelectedTeam: ReturnedTeamMembership[] = [];
+  teamName = computed(() => this.selectedTeam()?.name ?? '');
+  teamDescription = computed(() => this.selectedTeam()?.description ?? '');
+  membersOfSelectedTeam = signal(<ReturnedTeamMembership[]>[]);
 
-  teams$ = new BehaviorSubject<Team[]>([]);
-  selectedTeamId$ = new BehaviorSubject<string | undefined>(undefined);
+  selectedTeamId = signal<string | undefined>(undefined);
 
-  selectedTeam$ = combineLatest([this.teams$, this.selectedTeamId$]).pipe(
-    map(([teams, selectedTeamId]) => {
-      if (!selectedTeamId) {
-        return teams[0];
-      }
-      return teams.find((t) => t.id === selectedTeamId);
-    })
-  );
-
-  showTeamForm = false;
-  editTeamId = '';
+  selectedTeam = computed(() => {
+    const teams = this.teams();
+    const selectedTeamId = this.selectedTeamId();
+    if (!teams || teams.length === 0) {
+      return undefined;
+    }
+    if (!selectedTeamId) {
+      return teams[0];
+    }
+    return teams.find((t) => t.id === selectedTeamId);
+  });
+  showTeamForm = signal(false);
+  editTeamId = signal<string | undefined>(undefined);
   teamForm = this.formBuilder.group({
     name: '',
     description: '',
   });
 
-  loading = false;
+  loading = signal(false);
 
-  showMemberForm = false;
-  editUserId = '';
+  showMemberForm = signal(false);
+  editUserId = signal<string | undefined>(undefined);
   memberForm = this.formBuilder.group({
     email: new FormControl('', {
       validators: [Validators.required, Validators.email],
@@ -67,19 +70,35 @@ export class TeamsDialogComponent {
     private readonly formBuilder: NonNullableFormBuilder,
     private readonly store: Store<RootState>
   ) {
-    this.selectedTeam$.subscribe(async (team) => {
-      if (!team) {
+    effect(async () => {
+      const selectedTeamId = this.selectedTeamId();
+      if (!selectedTeamId) {
+        this.membersOfSelectedTeam.set([]);
         return;
       }
-      this.teamName = team.name;
-      this.teamDescription = team.description ?? '';
-
-      this.membersOfSelectedTeam = await accountService.getTeamMembers(team.id);
+      this.membersOfSelectedTeam.set(
+        (await this.accountService.getTeamMembers(selectedTeamId)) || []
+      );
     });
-  }
 
-  selectTeam(id?: string) {
-    return this.selectedTeamId$.next(id);
+    effect(() => {
+      const team = this.teams()?.find((t) => t.id === this.editTeamId());
+      if (team) {
+        this.teamForm.setValue({
+          name: team.name,
+          description: team.description ?? '',
+        });
+      }
+    });
+    // this.selectedTeam$.subscribe(async (team) => {
+    //   if (!team) {
+    //     return;
+    //   }
+    //   this.teamName = team.name;
+    //   this.teamDescription = team.description ?? '';
+
+    //   this.membersOfSelectedTeam = await accountService.getTeamMembers(team.id);
+    // });
   }
 
   async onDeleteTeam(id: string) {
@@ -91,38 +110,26 @@ export class TeamsDialogComponent {
 
   onCreateTeam() {
     this.resetTeamForm();
-    this.showTeamForm = true;
-  }
-  onEditTeam(teamId: string) {
-    this.teams$.subscribe((teams) => {
-      const team = teams.find((t) => t.id === teamId);
-      if (team) {
-        this.teamForm.setValue({
-          name: team.name,
-          description: team.description ?? '',
-        });
-        this.showTeamForm = true;
-        this.editTeamId = teamId;
-      }
-    });
+    this.showTeamForm.set(true);
   }
 
   resetTeamForm() {
-    this.editTeamId = '';
+    this.editTeamId.set('');
     this.teamForm.reset();
   }
 
   async onSubmitTeamForm() {
     try {
-      this.loading = true;
+      this.loading.set(true);
 
       const teamDto: ICreateTeamDto = {
         name: this.teamForm.value.name ?? '',
         description: this.teamForm.value.description,
       };
+      const editTeamId = this.editTeamId();
 
-      if (this.editTeamId) {
-        await this.accountService.updateTeam(this.editTeamId, teamDto);
+      if (editTeamId) {
+        await this.accountService.updateTeam(editTeamId, teamDto);
       } else {
         await this.accountService.createTeam(teamDto);
       }
@@ -142,44 +149,44 @@ export class TeamsDialogComponent {
       }
       this.notifyService.errorWithError(rawError, 'Could not save team');
     } finally {
-      this.loading = false;
+      this.loading.set(false);
     }
   }
 
   onEditTeamMember(userId: string) {
-    const member = this.membersOfSelectedTeam.find((m) => m.userId === userId);
+    const member = this.membersOfSelectedTeam().find((m) => m.userId === userId);
     if (member) {
       // TODO:
       // this.memberForm.setValue({
       //   name: team.name,
       //   description: team.description ?? '',
       // });
-      this.showMemberForm = true;
-      this.editUserId = userId;
+      this.showMemberForm.set(true);
+      this.editUserId.set(userId);
     }
   }
 
   onAddTeamMember() {
     this.resetMemberForm();
-    this.showMemberForm = true;
+    this.showMemberForm.set(true);
   }
 
   resetMemberForm() {
-    this.editUserId = '';
+    this.editUserId.set(undefined);
     this.memberForm.reset();
   }
 
   async onSubmitMemberForm() {
-    const selectedTeamId = await this.selectedTeamId$.pipe(take(1)).toPromise();
+    const selectedTeamId = this.selectedTeamId();
     if (!selectedTeamId) {
       debug.error('No selected team ID.');
       return;
     }
 
     try {
-      this.loading = true;
+      this.loading.set(true);
 
-      if (this.editUserId) {
+      if (this.editUserId()) {
         // TODO: await this.accountService.updateTeamMember(this.editTeamId, teamDto);
         this.notifyService.error('Editing team members is not supported yet');
       } else {
@@ -207,7 +214,7 @@ export class TeamsDialogComponent {
 
       this.notifyService.errorWithError(rawError, 'Could not add team member');
     } finally {
-      this.loading = false;
+      this.loading.set(false);
     }
   }
 

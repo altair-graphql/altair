@@ -6,14 +6,13 @@ import {
   EventEmitter,
   Output,
   ChangeDetectionStrategy,
-  input
+  input,
 } from '@angular/core';
 import {
-  getPropertyRef,
   getSchemaFormProperty,
   SchemaFormProperty,
 } from '../../../utils/settings_addons';
-import { JSONSchema6Definition, JSONSchema6 } from 'json-schema';
+import { JSONSchema6 } from 'json-schema';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Component({
@@ -24,8 +23,8 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
   standalone: false,
 })
 export class SchemaFormComponent implements OnInit, OnChanges {
-  readonly schema = input({});
-  readonly data = input(null);
+  readonly schema = input<JSONSchema6>({});
+  readonly data = input<unknown>(null);
 
   @Output() dataChange = new EventEmitter<IDictionary>();
 
@@ -57,7 +56,7 @@ export class SchemaFormComponent implements OnInit, OnChanges {
     // console.log('DATA:', this.data);
   }
 
-  onInput(event: Event, item: SchemaFormProperty) {
+  onInput() {
     // console.log(event, item);
     this.dataChange.next(this.formData);
   }

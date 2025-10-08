@@ -5,10 +5,11 @@ import {
   Component,
   EventEmitter,
   forwardRef,
-  Input,
   NgZone,
   Output,
-  input
+  input,
+  effect,
+  signal,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
@@ -68,7 +69,6 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   extensions: Extension[] = [];
 
   ready = false;
-  private innerValue = '';
   private environmentVariables: EnvironmentVariables = {};
 
   highlightEnvVariable = StateEffect.define<{
@@ -87,12 +87,18 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   highlightField = this.getHighlightField();
 
+  readonly value = signal('');
+
   constructor(
     private store: Store<RootState>,
     private environmentService: EnvironmentService,
     private zone: NgZone,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    effect(() => {
+      this.onChangeCallback(this.value());
+    });
+  }
 
   ngAfterViewInit(): void {
     this.setReady();
@@ -334,27 +340,11 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     });
   }
 
-  // get accessor
-  get value() {
-    return this.innerValue;
-  }
-
-  @Input()
-  // set accessor including call the onchange callback
-  set value(v: string) {
-    if (v !== this.innerValue) {
-      this.innerValue = v;
-      this.onChangeCallback(v);
-    }
-  }
-
   // From ControlValueAccessor interface
   writeValue(value: string) {
     this.setReady();
-    if (value !== this.innerValue) {
-      this.innerValue = value;
-      this.cdr.markForCheck(); // TODO: why is this needed? the underlying codemirror component refused to update immediately without this
-      this.onChangeCallback(value);
+    if (value !== undefined) {
+      this.value.set(value);
     }
   }
 
@@ -370,7 +360,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   focusChanged(focused: boolean) {
     if (!focused) {
-      this.blurChange.emit(this.innerValue);
+      this.blurChange.emit(this.value());
     }
   }
 

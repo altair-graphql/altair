@@ -60,10 +60,10 @@
       [nzDropdownMenu]="environmentsMenu"
       class="header__menu-item"
     >
-      @if (activeEnvironment) {
+      @if (activeEnvironment()) {
         <span>
           <app-icon name="eye"></app-icon>
-          <span>{{ activeEnvironment.title }}</span>
+          <span>{{ activeEnvironment()?.title }}</span>
         </span>
       }
       @if (activeEnvironment === undefined) {
@@ -75,15 +75,15 @@
     </li>
     <nz-dropdown-menu #environmentsMenu="nzDropdownMenu">
       <ul nz-menu class="environments-dropdown__list">
-        @if (environments?.subEnvironments?.length) {
+        @if (environments()?.subEnvironments?.length) {
           @for (
-            environment of environments?.subEnvironments;
+            environment of environments()?.subEnvironments;
             track trackById($index, environment)
           ) {
             <li
               nz-menu-item
               (click)="selectActiveEnvironmentChange.emit(environment.id)"
-              [ngClass]="{ active: environment.id === activeEnvironment?.id }"
+              [ngClass]="{ active: environment.id === activeEnvironment()?.id }"
             >
               {{ environment.title }}
             </li>

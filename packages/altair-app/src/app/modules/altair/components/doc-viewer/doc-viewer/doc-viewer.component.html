@@ -1,13 +1,13 @@
-@if (allowIntrospection()) {
+@if (allowIntrospection() && docView(); as docView) {
   <div #docViewer class="app-doc-viewer">
-    @if (isLoading) {
+    @if (isLoading()) {
       <div class="app-doc-loader" [@fadeInOutAnimation]>
         <div class="app-doc-loader-content">
           <img
             src="assets/img/logo.svg"
             alt=""
             class="anim"
-            [ngClass]="{ 'anim-rotate': isLoading }"
+            [ngClass]="{ 'anim-rotate': isLoading() }"
           />
           {{ 'LOADING_INDICATOR_TEXT' | translate }}
         </div>
@@ -43,7 +43,7 @@
           </div>
           <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
             <ul nz-menu>
-              @if (gqlSchema) {
+              @if (gqlSchema()) {
                 <li nz-menu-item (click)="exportSDL()">
                   {{ 'DOCS_EXPORT_SDL' | translate }}
                 </li>
@@ -79,7 +79,7 @@
         [nzDefaultActiveFirstOption]="false"
         (selectionChange)="searchDocs(autocompleteInput.value)"
       >
-        @for (option of autocompleteOptions; track $index) {
+        @for (option of autocompleteOptions(); track $index) {
           <nz-auto-option [nzValue]="option" [nzLabel]="option.search">
             <div class="doc-viewer-autocomplete-item">
               {{ option.search }}
@@ -95,7 +95,7 @@
       </nz-autocomplete>
     </div>
     <div class="doc-viewer-items">
-      @if (gqlSchema) {
+      @if (gqlSchema()) {
         <div>
           @switch (docView.view) {
             @case ('root') {
@@ -103,7 +103,7 @@
                 <div class="doc-viewer-section-title">
                   {{ 'DOCS_ROOT_TYPES_TEXT' | translate }}
                 </div>
-                @for (item of rootTypes; track item.name) {
+                @for (item of rootTypes(); track item.name) {
                   <div class="doc-viewer-item">
                     @if (item) {
                       <span class="no-link-link" (click)="goToType(item.name)">{{
@@ -113,12 +113,12 @@
                   </div>
                 }
               </div>
-              @if (directives.length) {
+              @if (directives().length) {
                 <div class="mb-40">
                   <div class="doc-viewer-section-title">
                     {{ 'DOCS_DIRECTIVES_TEXT' | translate }}
                   </div>
-                  @for (item of directives; track directiveTrackBy($index, item)) {
+                  @for (item of directives(); track directiveTrackBy($index, item)) {
                     <div class="doc-viewer-item">
                       <span class="no-link-link" (click)="goToDirective(item.name)">
                         {{ '@' }}{{ item.name }}
@@ -129,12 +129,12 @@
               }
             }
             @case ('type') {
-              @if (docView.view === 'type' && gqlSchema.getType(docView.name)) {
+              @if (typeData()) {
                 <app-doc-viewer-type
-                  [data]="gqlSchema.getType(docView.name)"
-                  [gqlSchema]="gqlSchema"
+                  [data]="typeData()"
+                  [gqlSchema]="gqlSchema()"
                   [sortByOption]="sortFieldsByOption"
-                  [hideDeprecatedDocItems]="hideDeprecatedDocItems"
+                  [hideDeprecatedDocItems]="hideDeprecatedDocItems()"
                   (goToFieldChange)="goToField($event.name, $event.parentType)"
                   (goToTypeChange)="goToType($event.name)"
                   (addToEditorChange)="addToEditor($event.name, $event.parentType)"
@@ -144,15 +144,15 @@
             }
             @case ('field') {
               @if (
-                !(hideDeprecatedDocItems && getField(docView)?.isDeprecated) &&
+                !(hideDeprecatedDocItems() && getField(docView)?.isDeprecated) &&
                 docView.view === 'field'
               ) {
                 <app-doc-viewer-field
                   [data]="getField(docView)"
-                  [gqlSchema]="gqlSchema"
+                  [gqlSchema]="gqlSchema()"
                   [parentType]="docView.parentType"
                   [sortByOption]="sortFieldsByOption"
-                  [hideDeprecatedDocItems]="hideDeprecatedDocItems"
+                  [hideDeprecatedDocItems]="hideDeprecatedDocItems()"
                   (goToFieldChange)="goToField($event.name, $event.parentType)"
                   (goToTypeChange)="goToType($event.name)"
                   (addToEditorChange)="addToEditor($event.name, $event.parentType)"
@@ -164,14 +164,14 @@
               @if (docView.view === 'directive' && getDirective(docView)) {
                 <app-doc-viewer-directive
                   [data]="getDirective(docView)"
-                  [gqlSchema]="gqlSchema"
+                  [gqlSchema]="gqlSchema()"
                   (goToTypeChange)="goToType($event.name)"
                 ></app-doc-viewer-directive>
               }
             }
             @case ('search') {
               <app-doc-viewer-search-results
-                [results]="searchResult"
+                [results]="searchResult()"
                 (goToFieldChange)="goToField($event.name, $event.parentType)"
                 (goToTypeChange)="goToType($event.name)"
                 (goToDirectiveChange)="goToDirective($event.name)"
@@ -183,9 +183,9 @@
     </div>
   </div>
 }
-@if (gqlSchema && lastUpdatedAt) {
+@if (gqlSchema() && lastUpdatedAt()) {
   <div class="doc-viewer__last-updated">
-    {{ 'DOCS_LAST_UPDATED' | translate }}: {{ lastUpdatedAt | date: 'medium' }}
+    {{ 'DOCS_LAST_UPDATED' | translate }}: {{ lastUpdatedAt() | date: 'medium' }}
   </div>
 }
 @if (!allowIntrospection()) {

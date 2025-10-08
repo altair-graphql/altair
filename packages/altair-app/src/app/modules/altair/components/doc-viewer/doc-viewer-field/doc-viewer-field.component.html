@@ -1,4 +1,4 @@
-@if (data) {
+@if (data(); as data) {
   <div class="doc-viewer-section">
     <!--Field name and description-->
     <div class="doc-viewer-item doc-viewer-item-field">
@@ -72,10 +72,10 @@
 
 <!--Field type-->
 <div class="doc-viewer-section-title">{{ 'DOCS_TYPE_TEXT' | translate }}</div>
-@if (gqlSchema && data && gqlSchema.getType(cleanName(data.type.inspect()))) {
+@if (fieldType()) {
   <app-doc-viewer-type
-    [data]="gqlSchema.getType(cleanName(data.type.inspect()))"
-    [gqlSchema]="gqlSchema"
+    [data]="fieldType()"
+    [gqlSchema]="gqlSchema()"
     [sortByOption]="sortByOption()"
     [hideDeprecatedDocItems]="hideDeprecatedDocItems()"
     (goToFieldChange)="goToField($event.name, $event.parentType)"

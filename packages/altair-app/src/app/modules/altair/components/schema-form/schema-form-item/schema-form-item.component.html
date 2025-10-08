@@ -1,41 +1,33 @@
-@if (item) {
+@if (item(); as item) {
   <nz-form-item class="ui-form__item">
     @switch (item.type) {
       @case ('number') {
         <nz-form-label>{{ item.description }}</nz-form-label>
         <nz-form-control>
-          <nz-input-number
-            [(ngModel)]="data"
-            [name]="item.key"
-            (ngModelChange)="onInput($event, item)"
-          ></nz-input-number>
+          <nz-input-number [(ngModel)]="data" [name]="item.key"></nz-input-number>
         </nz-form-control>
       }
       @case ('boolean') {
         <nz-form-label>{{ item.description }}</nz-form-label>
         <nz-form-control>
-          <nz-switch
-            [(ngModel)]="data"
-            [name]="item.key"
-            (ngModelChange)="onInput($event, item)"
-          ></nz-switch>
+          <nz-switch [(ngModel)]="data" [name]="item.key"></nz-switch>
         </nz-form-control>
       }
       @case ('string') {
-        @if (isStringOrUndefined(data)) {
+        @if (isStringOrUndefined(data())) {
           <app-schema-form-item-input
             [item]="item"
-            [(data)]="data"
-            (dataChange)="onInput($event, item)"
+            [data]="asStringOrUndefined(data())"
+            (dataChange)="data.set($event)"
           ></app-schema-form-item-input>
         }
       }
       @case ('array') {
-        @if (isArrayOrUndefined(data)) {
+        @if (isArrayOrUndefined(data())) {
           <app-schema-form-item-list
             [item]="item"
-            [(data)]="data"
-            (dataChange)="onInput($event, item)"
+            [data]="asArrayOrUndefined(data())"
+            (dataChange)="data.set($event)"
           ></app-schema-form-item-list>
         }
       }
@@ -49,7 +41,7 @@
                   [(ngModel)]="data"
                   name="item.key"
                   nzPlaceHolder="Choose"
-                  (ngModelChange)="onInput($event, item)"
+                  (ngModelChange)="data.set($event)"
                 >
                   @for (option of getSelectOptions(item); track option) {
                     <nz-option

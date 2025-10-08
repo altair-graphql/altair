@@ -1,12 +1,13 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input,
+  model,
+  effect,
 } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
-import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 
 @Component({
@@ -17,12 +18,16 @@ import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
   standalone: false,
 })
 export class SchemaFormItemComponent {
-  @Input() item?: SchemaFormProperty;
-  @Input() data: unknown = {};
+  readonly item = input<SchemaFormProperty>();
+  readonly data = model<unknown>();
 
   @Output() dataChange = new EventEmitter();
 
-  constructor(private altairConfig: AltairConfig) {}
+  constructor(private altairConfig: AltairConfig) {
+    effect(() => {
+      this.dataChange.emit(this.data());
+    });
+  }
 
   getOptionLabel(item: SchemaFormProperty, option: string) {
     switch (item?.key) {
@@ -74,15 +79,16 @@ export class SchemaFormItemComponent {
     return Array.isArray(data) || typeof data === 'undefined';
   }
 
+  asStringOrUndefined(data: unknown): string | undefined {
+    if (typeof data === 'string') {
+      return data;
+    }
+    return undefined;
+  }
   asArrayOrUndefined(data: unknown): unknown[] | undefined {
     if (Array.isArray(data)) {
       return data;
     }
     return undefined;
-  }
-
-  onInput(event: Event, item: SchemaFormProperty) {
-    // console.log(event, item);
-    this.dataChange.next(this.data);
   }
 }

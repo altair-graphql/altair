@@ -1,4 +1,4 @@
-@if (collectionTree) {
+@if (collectionTree()) {
   <div class="query-collections__item">
     <div class="query-collections__item-details-wrapper">
       <div
@@ -17,15 +17,15 @@
               ><app-icon name="folder-plus"></app-icon
             ></span>
           }
-          <span>{{ collectionTree.title }}</span>
+          <span>{{ collectionTree().title }}</span>
         </div>
         <div class="query-collections__item-meta">
           {{ 'COLLECTIONS_NUMBER_OF_REQUESTS' | translate }}
-          {{ getQueryCount(collectionTree) }}
+          {{ getQueryCount(collectionTree()) }}
         </div>
         <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
       </div>
-      @if (loggedIn() && collectionTree.storageType === 'api') {
+      @if (loggedIn() && collectionTree().storageType === 'api') {
         <span
           class="query-collections__item-synced-icon"
           [title]="'CLOUD_SYNC_TEXT' | translate"
@@ -47,7 +47,7 @@
         </span>
         <nz-dropdown-menu #collectionItemMenu="nzDropdownMenu">
           <ul nz-menu>
-            @if (loggedIn() && !(collectionTree.storageType === 'api')) {
+            @if (loggedIn() && !(collectionTree().storageType === 'api')) {
               <li
                 nz-menu-item
                 data-test-id="sync-collection"
@@ -119,7 +119,7 @@
     >
       <div class="query-collections__item-nested">
         @for (
-          subcollectionTree of collectionTree.collections;
+          subcollectionTree of collectionTree().collections;
           track trackById($index, subcollectionTree)
         ) {
           <app-query-collection-item
@@ -135,7 +135,10 @@
       </div>
       <div class="query-collections__item-queries">
         @for (
-          query of sortedCollectionQueries(collectionTree.queries, queriesSortBy());
+          query of sortedCollectionQueries(
+            collectionTree().queries,
+            queriesSortBy()
+          );
           track trackById($index, query)
         ) {
           <div class="query-collections__item-queries-item">
@@ -145,7 +148,7 @@
               (click)="
                 selectQueryChange.next({
                   query: query,
-                  collectionId: collectionTree.id,
+                  collectionId: collectionTree().id,
                   windowIdInCollection: query.id,
                 })
               "

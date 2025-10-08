@@ -1,20 +1,20 @@
-@if (banner?.enabled) {
+@if (banner()?.enabled) {
   <nz-alert
     nzBanner
     [nzMessage]="message"
-    [nzCloseable]="banner?.dismissible"
+    [nzCloseable]="banner()?.dismissible"
     (nzOnClose)="onDismiss()"
   ></nz-alert>
 }
 <ng-template #message>
   <span class="alert-text">
-    @if (banner?.icon) {
-      <app-icon [name]="banner?.icon"></app-icon>
+    @if (banner()?.icon) {
+      <app-icon [name]="banner()?.icon"></app-icon>
     }
-    {{ banner?.message }}
+    {{ banner()?.message }}
   </span>
-  @if (banner?.actions) {
-    @for (action of banner?.actions; track $index) {
+  @if (banner()?.actions) {
+    @for (action of banner()?.actions; track $index) {
       <button
         class="btn btn--primary btn--light"
         (click)="action.handler()"

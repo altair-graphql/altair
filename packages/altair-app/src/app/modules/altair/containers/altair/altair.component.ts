@@ -856,8 +856,8 @@ export class AltairComponent {
   createCollectionAndSaveQueryToCollection({
     queryName = '',
     collectionName = '',
-    parentCollectionId = 0,
-    workspaceId = WORKSPACES.LOCAL,
+    parentCollectionId = '',
+    workspaceId = WORKSPACES.LOCAL as string,
   }) {
     this.store.dispatch(
       new collectionActions.CreateCollectionAndSaveQueryToCollectionAction({
@@ -872,7 +872,7 @@ export class AltairComponent {
     this.setShowAddToCollectionDialog(false);
   }
 
-  saveQueryToCollection({ queryName = '', collectionId = 0 }) {
+  saveQueryToCollection({ queryName = '', collectionId = '' }) {
     this.store.dispatch(
       new collectionActions.SaveQueryToCollectionAction({
         windowId: this.activeWindowId,

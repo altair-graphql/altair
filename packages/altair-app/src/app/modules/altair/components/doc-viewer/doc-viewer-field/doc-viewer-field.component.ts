@@ -1,20 +1,13 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  input
+  input,
+  computed,
 } from '@angular/core';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import {
-  GraphQLSchema,
-  GraphQLType,
-  GraphQLArgs,
-  GraphQLArgument,
-  GraphQLField,
-  GraphQLInputField,
-} from 'graphql';
+import { GraphQLSchema, GraphQLArgument, GraphQLField } from 'graphql';
 
 @Component({
   selector: 'app-doc-viewer-field',
@@ -24,8 +17,8 @@ import {
   standalone: false,
 })
 export class DocViewerFieldComponent {
-  @Input() data?: GraphQLField<any, any>;
-  @Input() gqlSchema?: GraphQLSchema;
+  readonly data = input<GraphQLField<unknown, unknown>>();
+  readonly gqlSchema = input<GraphQLSchema>();
   readonly parentType = input('');
   readonly sortByOption = input<SortByOptions>('none');
   readonly hideDeprecatedDocItems = input<boolean>(false);
@@ -34,6 +27,16 @@ export class DocViewerFieldComponent {
   @Output() goToTypeChange = new EventEmitter();
   @Output() addToEditorChange = new EventEmitter();
   @Output() sortFieldsByChange = new EventEmitter();
+
+  fieldType = computed(() => {
+    const data = this.data();
+    const gqlSchema = this.gqlSchema();
+    if (!gqlSchema || !data) {
+      return;
+    }
+
+    return gqlSchema.getType(this.cleanName(data.type.inspect()));
+  });
 
   cleanName(name: string) {
     return name.replace(/[[\]!]/g, '');
@@ -44,16 +47,15 @@ export class DocViewerFieldComponent {
    * @param type
    */
   isRootType(type: string) {
-    if (!type || !this.gqlSchema) {
+    const gqlSchema = this.gqlSchema();
+    if (!type || !gqlSchema) {
       return false;
     }
 
     switch (type) {
-      case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType()!.name:
-      case this.gqlSchema.getMutationType() &&
-        this.gqlSchema.getMutationType()!.name:
-      case this.gqlSchema.getSubscriptionType() &&
-        this.gqlSchema.getSubscriptionType()!.name:
+      case gqlSchema.getQueryType() && gqlSchema.getQueryType()!.name:
+      case gqlSchema.getMutationType() && gqlSchema.getMutationType()!.name:
+      case gqlSchema.getSubscriptionType() && gqlSchema.getSubscriptionType()!.name:
         return true;
     }
 

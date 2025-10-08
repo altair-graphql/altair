@@ -1,4 +1,4 @@
-@if (item) {
+@if (item(); as item) {
   @if (item.description) {
     <nz-form-label>{{ item.description }}</nz-form-label>
   }
@@ -8,7 +8,6 @@
       [placeholder]="item.key || ''"
       [(ngModel)]="data"
       [name]="item.key"
-      (ngModelChange)="dataChange.next($event)"
       [nzAutocomplete]="auto"
     />
     <nz-autocomplete

@@ -3,7 +3,6 @@ import {
   OnInit,
   AfterViewInit,
   OnChanges,
-  Input,
   Output,
   EventEmitter,
   SimpleChanges,
@@ -64,7 +63,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   readonly disableLineNumbers = input(false);
 
   readonly variables = input<VariableState>();
-  @Input() showVariableDialog = false;
+  readonly showVariableDialog = input(false);
   readonly variableToType = input<IDictionary>();
 
   readonly shortcutMapping = input<IDictionary>({});
@@ -113,9 +112,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     const state = this.authorizationState();
     return !!state && isAuthorizationEnabled(state);
   });
-
-  // TODO: Antipattern, move to state
-  // isAuthorizationEnabled = isAuthorizationEnabled;
 
   cm6ActionToFn: Record<string, Command> = {
     showAutocomplete: startCompletion,

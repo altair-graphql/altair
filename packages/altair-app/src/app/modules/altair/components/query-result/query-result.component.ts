@@ -1,6 +1,5 @@
 import {
   Component,
-  Input,
   Output,
   ViewChild,
   EventEmitter,
@@ -9,7 +8,7 @@ import {
   QueryList,
   AfterViewInit,
   ChangeDetectionStrategy,
-  input
+  input,
 } from '@angular/core';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -39,7 +38,7 @@ export class QueryResultComponent implements AfterViewInit {
   readonly responseStatus = input(0);
   readonly responseStatusText = input('');
   readonly responseHeaders = input<IDictionary<string>>({});
-  @Input() requestScriptLogs: LogLine[] = [];
+  readonly requestScriptLogs = input<LogLine[]>([]);
   readonly isRunning = input(false);
   readonly isSubscribed = input(false);
   readonly queryResponses = input<QueryResponse[]>([]);

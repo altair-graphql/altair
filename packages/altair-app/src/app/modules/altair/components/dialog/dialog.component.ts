@@ -1,10 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  input
+  input,
 } from '@angular/core';
 
 @Component({
@@ -15,7 +14,7 @@ import {
   standalone: false,
 })
 export class DialogComponent {
-  @Input() showDialog = false;
+  readonly showDialog = input(false);
   readonly heading = input('');
   readonly subheading = input('');
   readonly showHeader = input(true);

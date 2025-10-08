@@ -1,13 +1,13 @@
-@if (item) {
+@if (item(); as item) {
   <nz-form-label>{{ item.description }}</nz-form-label>
-  @if (data) {
+  @if (data(); as data) {
     @for (subdata of data; track trackByIndex(index, subdata); let index = $index) {
       <div class="ui-form__list-wrapper">
         @if (isJsonSchema(item.items)) {
           <app-schema-form-item
             [item]="getSchemaFormPropertyForListItem(index, item.items)"
-            [(data)]="data[index]"
-            (dataChange)="dataChange.next(data)"
+            [data]="data[index]"
+            (dataChange)="setSchemaFormPropertyForListItem(index, $event)"
           ></app-schema-form-item>
         }
         <span class="ui-form__list-item-close" (click)="removeField(index)"

@@ -6,18 +6,18 @@
   (toggleDialog)="toggleDialogChange.emit($event)"
 >
   <div class="teams-wrapper">
-    <ul nz-list [nzDataSource]="teams$ | async" [nzNoResult]="'No team'">
-      @for (team of teams$ | async; track team) {
+    <ul nz-list [nzDataSource]="teams()" [nzNoResult]="'No team'">
+      @for (team of teams(); track team) {
         <li nz-list-item nzNoFlex>
           <ul nz-list-item-actions>
             <nz-list-item-action>
-              <a (click)="selectTeam(team.id)">
+              <a (click)="selectedTeamId.set(team.id)">
                 <app-icon name="list"></app-icon>
                 {{ 'TEAM_MEMBERS_TEXT' | translate }}
               </a>
             </nz-list-item-action>
             <nz-list-item-action>
-              <a (click)="onEditTeam(team.id)">
+              <a (click)="editTeamId.set(team.id)">
                 <app-icon name="edit"></app-icon>
                 {{ 'EDIT_TEXT' | translate }}
               </a>
@@ -42,8 +42,8 @@
 </app-dialog>
 
 <app-dialog
-  [showDialog]="showTeamForm"
-  [heading]="(editTeamId ? 'UPDATE_TEAM_TEXT' : 'CREATE_TEAM_TEXT') | translate"
+  [showDialog]="showTeamForm()"
+  [heading]="(editTeamId() ? 'UPDATE_TEAM_TEXT' : 'CREATE_TEAM_TEXT') | translate"
   [showFooter]="false"
   (toggleDialog)="showTeamForm = $event"
 >
@@ -74,13 +74,17 @@
 </app-dialog>
 
 <app-dialog
-  [showDialog]="!!(selectedTeamId$ | async)"
+  [showDialog]="!!selectedTeam()"
   [heading]="'TEAM_MEMBERS_TEXT' | translate"
   [showFooter]="false"
-  (toggleDialog)="selectTeam()"
+  (toggleDialog)="selectedTeamId.set(undefined)"
 >
-  <ul nz-list [nzDataSource]="membersOfSelectedTeam" [nzNoResult]="'No team member'">
-    @for (member of membersOfSelectedTeam; track member) {
+  <ul
+    nz-list
+    [nzDataSource]="membersOfSelectedTeam()"
+    [nzNoResult]="'No team member'"
+  >
+    @for (member of membersOfSelectedTeam(); track member) {
       <li nz-list-item nzNoFlex>
         <ul nz-list-item-actions>
           <nz-list-item-action>
@@ -100,12 +104,12 @@
 </app-dialog>
 
 <app-dialog
-  [showDialog]="showMemberForm"
+  [showDialog]="showMemberForm()"
   [heading]="
-    (editUserId ? 'UPDATE_TEAM_MEMBER_TEXT' : 'ADD_TEAM_MEMBER_TEXT') | translate
+    (editUserId() ? 'UPDATE_TEAM_MEMBER_TEXT' : 'ADD_TEAM_MEMBER_TEXT') | translate
   "
   [showFooter]="false"
-  (toggleDialog)="showMemberForm = $event"
+  (toggleDialog)="showMemberForm.set($event)"
 >
   <nz-alert
     nzType="warning"

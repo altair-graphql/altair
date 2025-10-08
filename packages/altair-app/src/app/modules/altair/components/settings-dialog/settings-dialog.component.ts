@@ -5,7 +5,7 @@ import {
   EventEmitter,
   SimpleChanges,
   OnChanges,
-  input
+  input,
 } from '@angular/core';
 
 import { debug } from '../../utils/logger';
@@ -19,6 +19,7 @@ import { Extension } from '@codemirror/state';
 import settingsSchema from 'altair-graphql-core/build/typegen/settings.schema.json';
 import { getEditorExtensions } from './extensions';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
+import { JSONSchema6 } from 'json-schema';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -36,7 +37,7 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
   themes = this.altairConfig.themes;
   languages = Object.entries(this.altairConfig.languages);
   shortcutCategories: KeyboardShortcutCategory[] = [];
-  settingsSchema = settingsSchema;
+  settingsSchema = settingsSchema as JSONSchema6;
   showForm = true;
 
   jsonSettings = '';

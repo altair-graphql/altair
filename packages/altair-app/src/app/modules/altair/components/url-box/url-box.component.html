@@ -24,10 +24,10 @@
     </nz-dropdown-menu>
   </div>
   <div class="url-box__input-container">
-    @if (streamState) {
+    @if (streamState()) {
       <div class="url-box__input-prepend">
         <div class="url-box__connection-indicator">
-          @if (streamState === 'uncertain') {
+          @if (streamState() === 'uncertain') {
             <app-icon
               name="alert-circle"
               class="connection-indicator--uncertain"
@@ -36,7 +36,7 @@
               [nzTooltipOverlayStyle]="{ 'white-space': 'nowrap' }"
             ></app-icon>
           }
-          @if (streamState === 'connected') {
+          @if (streamState() === 'connected') {
             <app-icon
               name="check-circle"
               class="connection-indicator--connected"
@@ -145,17 +145,17 @@
         @if (isLoading()) {
           <span>{{ 'LOADING_INDICATOR_TEXT' | translate }}</span>
         } @else {
-          @if (selectedOperation) {
+          @if (selectedOperation()) {
             <span>{{ 'SEND_REQUEST_BUTTON_SHORT' | translate }}</span>
           } @else {
             <span>{{ 'SEND_REQUEST_BUTTON' | translate }}</span>
           }
         }
-        @if (selectedOperation === BATCHED_REQUESTS_OPERATION) {
+        @if (selectedOperation() === BATCHED_REQUESTS_OPERATION) {
           <span>(Batched)</span>
-        } @else if (selectedOperation) {
-          <span [title]="selectedOperation"
-            >({{ selectedOperation | truncate: 7 }})</span
+        } @else if (selectedOperation()) {
+          <span [title]="selectedOperation()"
+            >({{ selectedOperation() | truncate: 7 }})</span
           >
         }
         <app-icon name="chevron-down"></app-icon>

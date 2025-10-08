@@ -6,7 +6,7 @@
   (toggleDialog)="toggleDialogChange.emit($event)"
 >
   <div class="account-signin-wrapper">
-    @if (!account?.loggedIn) {
+    @if (!account()?.loggedIn) {
       <div class="account-dialog__not-logged-in">
         <div class="account-dialog__not-logged-in__inner">
           <nz-avatar
@@ -37,14 +37,14 @@
       </div>
     }
 
-    @if (account?.loggedIn) {
+    @if (account()?.loggedIn) {
       <div class="app-dialog-section">
         <div class="account-dialog__welcome">
           <nz-avatar
-            [nzText]="account?.firstName?.at(0)"
-            [nzSrc]="account?.picture"
+            [nzText]="account()?.firstName?.at(0)"
+            [nzSrc]="account()?.picture"
           ></nz-avatar>
-          {{ 'ACCOUNT_HELLO' | translate }}, {{ account?.firstName }}
+          {{ 'ACCOUNT_HELLO' | translate }}, {{ account()?.firstName }}
         </div>
       </div>
       <p>
@@ -52,7 +52,7 @@
           Billing
           <app-icon name="external-link"></app-icon>
         </a>
-        @if (account?.plan?.canUpgradePro) {
+        @if (account()?.plan?.canUpgradePro) {
           <button
             class="btn btn--primary btn--light btn--small"
             (click)="openUpgradeProUrl($event)"
@@ -70,27 +70,27 @@
             [nzTooltipTitle]="'ACCOUNT_PLAN_STATS_DESCRIPTION' | translate"
           ></app-icon>
         </div>
-        <div>Plan: {{ account?.plan?.id }}</div>
+        <div>Plan: {{ account()?.plan?.id }}</div>
         <div>
-          Queries: {{ account?.stats?.queriesCount ?? 0 }} /
-          {{ account?.plan?.maxQueriesCount ?? 0 }}
+          Queries: {{ account()?.stats?.queriesCount ?? 0 }} /
+          {{ account()?.plan?.maxQueriesCount ?? 0 }}
         </div>
         <div>
-          Teams: {{ account?.stats?.teamsCount ?? 0 }} /
-          {{ account?.plan?.maxTeamsCount ?? 0 }}
+          Teams: {{ account()?.stats?.teamsCount ?? 0 }} /
+          {{ account()?.plan?.maxTeamsCount ?? 0 }}
         </div>
-        <div>Fixed Credits: {{ account?.availableCredits?.fixed ?? 0 }}</div>
+        <div>Fixed Credits: {{ account()?.availableCredits?.fixed ?? 0 }}</div>
         <div>
           Monthly Credits (Pro users only):
-          {{ account?.availableCredits?.monthly ?? 0 }}
+          {{ account()?.availableCredits?.monthly ?? 0 }}
         </div>
         <button
           class="btn btn--primary btn--light btn--small"
           (click)="buyCredits($event)"
-          [disabled]="account?.plan?.canUpgradePro"
+          [disabled]="account()?.plan?.canUpgradePro"
         >
           <app-icon name="coins"></app-icon> Buy Credits
-          @if (account?.plan?.canUpgradePro) {
+          @if (account()?.plan?.canUpgradePro) {
             (Pro users only)
           }
         </button>

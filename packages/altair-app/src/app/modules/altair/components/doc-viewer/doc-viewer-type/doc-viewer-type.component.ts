@@ -1,10 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  input
+  input,
 } from '@angular/core';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import {
@@ -29,7 +28,7 @@ import {
   standalone: false,
 })
 export class DocViewerTypeComponent {
-  @Input() data?: GraphQLNamedType | null;
+  readonly data = input<GraphQLNamedType>();
   readonly gqlSchema = input<GraphQLSchema>();
   readonly sortByOption = input<SortByOptions>('none');
   readonly hideDeprecatedDocItems = input<boolean>(false);
@@ -51,10 +50,8 @@ export class DocViewerTypeComponent {
 
     switch (type) {
       case gqlSchema.getQueryType() && gqlSchema.getQueryType()!.name:
-      case gqlSchema.getMutationType() &&
-        gqlSchema.getMutationType()!.name:
-      case gqlSchema.getSubscriptionType() &&
-        gqlSchema.getSubscriptionType()!.name:
+      case gqlSchema.getMutationType() && gqlSchema.getMutationType()!.name:
+      case gqlSchema.getSubscriptionType() && gqlSchema.getSubscriptionType()!.name:
         return true;
     }
 

@@ -39,7 +39,7 @@
           data-test-id="search-collection"
           nz-tooltip
           [nzTooltipTitle]="'SEARCH_COLLECTIONS_PLACEHOLDER' | translate"
-          (click)="showSearch$.next(!showSearch$.getValue())"
+          (click)="showSearch.set(!showSearch())"
         >
           <app-icon name="search"></app-icon>
         </button>
@@ -85,13 +85,13 @@
         </div>
       </div>
 
-      @if (showSearch$ | async) {
+      @if (showSearch()) {
         <div class="query-collections__search-wrapper">
           <input
             type="text"
             class="input"
             placeholder="{{ 'SEARCH_COLLECTIONS_PLACEHOLDER' | translate }}"
-            [value]="searchTerm$ | async"
+            [value]="searchTerm()"
             #searchInput
             (input)="onSearchInput(searchInput.value)"
           />
@@ -104,8 +104,8 @@
         <nz-form-control>
           <nz-select
             class="dialog-block"
-            [ngModel]="workspaceId$ | async"
-            (ngModelChange)="workspaceId$.next($event)"
+            [ngModel]="workspaceId()"
+            (ngModelChange)="workspaceId.set($event)"
             name="collection"
             nzPlaceHolder="Choose"
           >
@@ -113,10 +113,7 @@
               nzValue=""
               [nzLabel]="'COLLECTIONS_WORKSPACES_SELECT_ALL' | translate"
             ></nz-option>
-            @for (
-              workspace of workspaces$ | async;
-              track trackById($index, workspace)
-            ) {
+            @for (workspace of workspaces(); track trackById($index, workspace)) {
               <nz-option
                 nzCustomContent
                 [nzValue]="workspace.id"
@@ -137,14 +134,14 @@
       <div class="query-collections__items-wrapper">
         <!-- TODO: Group by spaces -->
         @for (
-          collectionTree of filteredCollectionTrees$ | async;
+          collectionTree of filteredCollectionTrees();
           track trackById($index, collectionTree)
         ) {
           <app-query-collection-item
             [collectionTree]="collectionTree"
             [loggedIn]="loggedIn()"
             [queriesSortBy]="queriesSortBy()"
-            [expanded]="expandedMap[collectionTree.id] || false"
+            [expanded]="expandedMap()[collectionTree.id] || false"
             (selectQueryChange)="selectQueryChange.emit($event)"
             (deleteQueryChange)="deleteQueryChange.emit($event)"
             (deleteCollectionChange)="deleteCollectionChange.emit($event)"
@@ -156,7 +153,7 @@
             (copyQueryShareLinkChange)="copyQueryShareLinkChange.emit($event)"
           ></app-query-collection-item>
         }
-        @if (!collectionTrees.length) {
+        @if (!collectionTrees().length) {
           <div class="query-collections__empty">
             <div class="query-collections__empty-icon">
               <app-icon name="sidebar" size="40"></app-icon>
