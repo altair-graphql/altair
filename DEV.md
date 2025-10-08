@@ -152,6 +152,17 @@ yarn prisma migrate dev
 psql --file=data.sql --dbname=altairgraphql-db --port=5432 --host=localhost --username=my_db_user
 ```
 
+### watchman issues
+
+Getting error `jest-haste-map: Watchman crawl failed. Retrying once with node crawler.`
+
+Run the following commands to reset watchman
+
+```bash
+watchman shutdown-server
+watchman watch-del-all
+```
+
 ## Tips
 
 - add `&pgbouncer=true` to your connection url in order to enable pgbouncer mode in Prisma

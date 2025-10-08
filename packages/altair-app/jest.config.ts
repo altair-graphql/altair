@@ -13,6 +13,7 @@ const presetConfig = presets.createCjsPreset();
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 const jestConfig: Config = {
   ...presetConfig,
+  transform: presetConfig.transform as any, // TODO: Somehow the type from jest-preset-angular is not matching, need to investigate
   resolver: '<rootDir>/jest.resolver.js',
   collectCoverage: true,
   modulePaths: ['src'],
