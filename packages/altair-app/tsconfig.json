@@ -9,22 +9,30 @@
     "sourceRoot": "/",
     "declarationMap": false,
     "declaration": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "ES2022",
     "forceConsistentCasingInFileNames": true,
-    // TODO: Consider figuring out if it's possible to fix the third party library typings so this can be removed
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "typeRoots": ["node_modules/@types", "../../node_modules/@types"],
+    "typeRoots": [
+      "node_modules/@types",
+      "../../node_modules/@types"
+    ],
     "types": [
       "jest",
       "node",
       "chrome",
       "firefox-webext-browser"
     ],
-    "lib": ["es2017", "dom", "dom.iterable", "esnext", "esnext.asynciterable"],
+    "lib": [
+      "es2017",
+      "dom",
+      "dom.iterable",
+      "esnext",
+      "esnext.asynciterable"
+    ],
     "module": "es2022",
     "esModuleInterop": true,
     "strictNullChecks": true,
