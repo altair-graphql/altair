@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renderAltair should return expected string 1`] = `
-"<!DOCTYPE html>
+"<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -33,25 +33,12 @@ exports[`renderAltair should return expected string 1`] = `
         </div>
       </div>
     </app-root>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% RUNTIME_SCRIPT %]"
-    ></script>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% POLYFILLS_SCRIPT %]"
-    ></script>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% MAIN_SCRIPT %]"
-    ></script>
-  <script nonce="">
+
+    <!-- [PRELOAD_MODULES] -->
+
+    <script type="module" src="[% POLYFILLS_SCRIPT %]"></script>
+    <script type="module" src="[% MAIN_SCRIPT %]"></script>
+  <script type="module" nonce="">
         AltairGraphQL.init({
 initialQuery: \`query {
         Hello
@@ -65,7 +52,7 @@ initialVariables: \`{ variable: 1 }\`,
 `;
 
 exports[`renderAltair should return expected string with $$ 1`] = `
-"<!DOCTYPE html>
+"<!doctype html>
 <html>
   <head>
     <meta charset="utf-8" />
@@ -97,25 +84,12 @@ exports[`renderAltair should return expected string with $$ 1`] = `
         </div>
       </div>
     </app-root>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% RUNTIME_SCRIPT %]"
-    ></script>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% POLYFILLS_SCRIPT %]"
-    ></script>
-    <script
-      rel="preload"
-      as="script"
-      type="text/javascript"
-      src="[% MAIN_SCRIPT %]"
-    ></script>
-  <script nonce="">
+
+    <!-- [PRELOAD_MODULES] -->
+
+    <script type="module" src="[% POLYFILLS_SCRIPT %]"></script>
+    <script type="module" src="[% MAIN_SCRIPT %]"></script>
+  <script type="module" nonce="">
         AltairGraphQL.init({
 initialQuery: \`{
           MyDomains (
