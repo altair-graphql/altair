@@ -9,7 +9,7 @@
     "@altairgraphql/electron-interop": "workspace:*",
     "@altairgraphql/tauri": "workspace:*",
     "@angular/animations": "20.3.3",
-    "@angular/cdk": "19.2.19",
+    "@angular/cdk": "20.2.7",
     "@angular/cli": "20.3.4",
     "@angular/common": "20.3.3",
     "@angular/core": "^20.3.3",
