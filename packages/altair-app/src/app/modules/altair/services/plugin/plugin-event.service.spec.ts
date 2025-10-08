@@ -12,12 +12,12 @@ describe('PluginEventService', () => {
   });
 
   it('should be created', () => {
-    const service: PluginEventService = TestBed.get(PluginEventService);
+    const service: PluginEventService = TestBed.inject(PluginEventService);
     expect(service).toBeTruthy();
   });
 
   it('should call subscriber with data when new event is emitted', () => {
-    const service: PluginEventService = TestBed.get(PluginEventService);
+    const service: PluginEventService = TestBed.inject(PluginEventService);
 
     const cb = jest.fn();
     service.on('query-result.change', cb);
@@ -34,7 +34,7 @@ describe('PluginEventService', () => {
   });
 
   it('should not call subscriber after unsubscribed', () => {
-    const service: PluginEventService = TestBed.get(PluginEventService);
+    const service: PluginEventService = TestBed.inject(PluginEventService);
 
     const cb = jest.fn();
     const sub = service.on('query-result.change', cb);
@@ -63,7 +63,7 @@ describe('PluginEventService', () => {
 
   describe('.group', () => {
     it('should still subscribe with the created group', () => {
-      const service: PluginEventService = TestBed.get(PluginEventService);
+      const service: PluginEventService = TestBed.inject(PluginEventService);
 
       const grp = service.group();
       const cb = jest.fn();
@@ -81,7 +81,7 @@ describe('PluginEventService', () => {
     });
 
     it('can unsubscribe from within the created group', () => {
-      const service: PluginEventService = TestBed.get(PluginEventService);
+      const service: PluginEventService = TestBed.inject(PluginEventService);
 
       const grp = service.group();
       const cb = jest.fn();
@@ -99,7 +99,7 @@ describe('PluginEventService', () => {
     });
 
     it('can emit from within the created group', () => {
-      const service: PluginEventService = TestBed.get(PluginEventService);
+      const service: PluginEventService = TestBed.inject(PluginEventService);
 
       const grp = service.group();
       const cb = jest.fn();
@@ -117,7 +117,7 @@ describe('PluginEventService', () => {
     });
 
     it('should unsubscribe all events subscribed within the group', () => {
-      const service: PluginEventService = TestBed.get(PluginEventService);
+      const service: PluginEventService = TestBed.inject(PluginEventService);
 
       const grp = service.group();
       const cb = jest.fn();
