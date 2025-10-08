@@ -2,6 +2,18 @@
 
 set -euo pipefail
 
+# Verify Node.js version
+REQUIRED_NODE_VERSION=22
+CURRENT_NODE_VERSION=$(node -v | sed 's/v//;s/\..*//')
+
+if [ "$CURRENT_NODE_VERSION" -lt "$REQUIRED_NODE_VERSION" ]; then
+  echo "❌ Error: Node.js version $REQUIRED_NODE_VERSION or higher is required."
+  echo "   Current version: $(node -v)"
+  echo "   Please upgrade Node.js to continue (nvm install $REQUIRED_NODE_VERSION)."
+  exit 1
+fi
+
+
 SCRIPT_DIR=$(dirname "$0")
 ROOT=$(cd "$SCRIPT_DIR/../" && pwd)/
 cd "$ROOT"

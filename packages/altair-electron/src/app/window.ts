@@ -313,8 +313,6 @@ export class WindowManager {
       if (['mainFrame', 'subFrame'].includes(details.resourceType)) {
         // Set the CSP
         const initialSnippet = renderInitSnippet(this.getRenderOptions());
-        console.log('Initial snippet for CSP hash:');
-        console.log(initialSnippet);
         const scriptSrc = [
           `'self'`,
           `'sha256-1Sj1x3xsk3UVwnakQHbO0yQ3Xm904avQIfGThrdrjcc='`,
@@ -413,7 +411,7 @@ export class WindowManager {
         indexPath
       );
       return new Response(
-        data, // Could also be a string or ReadableStream.
+        new Blob([new Uint8Array(data)]), // Convert Buffer to Uint8Array for Blob
         { headers: { 'content-type': mimeType } }
       );
     });
