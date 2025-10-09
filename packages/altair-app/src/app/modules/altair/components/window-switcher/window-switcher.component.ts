@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Output, EventEmitter, HostBinding, input } from '@angular/core';
+import { Component, Output, EventEmitter, HostBinding, input, inject } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
@@ -18,6 +18,9 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
   standalone: false,
 })
 export class WindowSwitcherComponent {
+  private altairConfig = inject(AltairConfig);
+  private nzContextMenuService = inject(NzContextMenuService);
+
   readonly windows = input<WindowState>({});
   readonly windowIds = input<string[]>([]);
   readonly closedWindows = input<PerWindowState[]>([]);
@@ -39,11 +42,6 @@ export class WindowSwitcherComponent {
 
   windowIdEditing = '';
   maxWindowCount = this.altairConfig.max_windows;
-
-  constructor(
-    private altairConfig: AltairConfig,
-    private nzContextMenuService: NzContextMenuService
-  ) {}
 
   onDropEnd(event: CdkDragDrop<any, any, any>) {
     this.moveWindow(event.previousIndex || 0, event.currentIndex || 0);

@@ -1,15 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ElementRef,
-  OnChanges,
-  SimpleChanges,
-  ChangeDetectionStrategy,
-  input
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges, ChangeDetectionStrategy, input, inject } from '@angular/core';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
 import { truncateText } from '../../utils';
@@ -22,6 +11,8 @@ import { truncateText } from '../../utils';
   standalone: false,
 })
 export class VariableFileItemComponent implements OnInit, OnChanges {
+  private storageService = inject(StorageService);
+
   readonly fileVariable = input<FileVariable>();
 
   @Output() fileVariableNameChange = new EventEmitter();
@@ -32,6 +23,7 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   @Output() fileVariableIsMultipleChange = new EventEmitter();
   @Output() deleteFileVariableChange = new EventEmitter();
 
+  // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('fileEl', { static: true }) fileEl?: ElementRef<HTMLInputElement>;
 
   validFileData: File[] = [];
@@ -39,8 +31,7 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   showWarning = false;
   filesText = '';
 
-  constructor(private storageService: StorageService) {}
-
+  // eslint-disable-next-line @angular-eslint/no-async-lifecycle-method
   async ngOnInit() {
     const fileVariable = this.fileVariable();
     if (fileVariable) {

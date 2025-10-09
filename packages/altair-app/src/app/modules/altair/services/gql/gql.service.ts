@@ -2,7 +2,7 @@ import { Observable, of, throwError } from 'rxjs';
 
 import { map, catchError, switchMap, toArray } from 'rxjs/operators';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import {
   buildClientSchema,
@@ -93,6 +93,9 @@ interface IntrospectionRequestOptions
 
 @Injectable()
 export class GqlService {
+  private http = inject(HttpClient);
+  private notifyService = inject(NotifyService);
+
   defaultHeaders = {
     'Content-Type': 'application/json',
     Accept: 'application/json',
@@ -100,11 +103,6 @@ export class GqlService {
 
   headers = new HttpHeaders();
   introspectionData = {};
-
-  constructor(
-    private http: HttpClient,
-    private notifyService: NotifyService
-  ) {}
 
   getIntrospectionRequest(opts: IntrospectionRequestOptions) {
     return this._getIntrospectionRequest(opts).pipe(

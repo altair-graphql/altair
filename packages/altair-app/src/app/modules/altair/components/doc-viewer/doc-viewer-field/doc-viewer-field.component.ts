@@ -28,7 +28,7 @@ export class DocViewerFieldComponent {
   @Output() addToEditorChange = new EventEmitter();
   @Output() sortFieldsByChange = new EventEmitter();
 
-  fieldType = computed(() => {
+  readonly fieldType = computed(() => {
     const data = this.data();
     const gqlSchema = this.gqlSchema();
     if (!gqlSchema || !data) {

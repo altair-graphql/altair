@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import hotkeys from 'hotkeys-js';
 import { Store } from '@ngrx/store';
 import { WindowService } from '../window.service';
@@ -27,16 +27,16 @@ export interface KeyboardShortcut {
 
 @Injectable()
 export class KeybinderService {
+  private store = inject<Store<RootState>>(Store);
+  private windowService = inject(WindowService);
+  private zone = inject(NgZone);
+
   windowIds: string[] = [];
   activeWindowId = '';
 
   private shortcuts: KeyboardShortcut[] = [];
 
-  constructor(
-    private store: Store<RootState>,
-    private windowService: WindowService,
-    private zone: NgZone
-  ) {
+  constructor() {
     this.store.subscribe((data) => {
       this.windowIds = Object.keys(data.windows);
       this.activeWindowId = data.windowsMeta.activeWindowId;

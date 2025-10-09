@@ -6,7 +6,8 @@ import {
   Output,
   EventEmitter,
   forwardRef,
-  input
+  input,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -40,13 +41,16 @@ type Range = [number, number];
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FancyInputComponent),
+      useExisting: FancyInputComponent,
       multi: true,
     },
   ],
   standalone: false,
 })
 export class FancyInputComponent implements ControlValueAccessor, OnInit {
+  private store = inject<Store<RootState>>(Store);
+  private environmentService = inject(EnvironmentService);
+
   // get accessor
   get value(): string {
     return this.innerValue;
@@ -77,10 +81,10 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   activeEnvironment = {};
 
-  constructor(
-    private store: Store<RootState>,
-    private environmentService: EnvironmentService
-  ) {
+  constructor() {
+    const store = this.store;
+    const environmentService = this.environmentService;
+
     store
       .pipe(
         map((data) => data.environments),

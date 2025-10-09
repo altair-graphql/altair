@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  input
-} from '@angular/core';
+import { Component, EventEmitter, OnChanges, Output, SimpleChanges, input, inject } from '@angular/core';
 import { ApiService } from '../../services';
 import { QueryItemRevision } from '@altairgraphql/db';
 import { QueryItemRevisionWithUsername } from '@altairgraphql/api-utils';
@@ -17,14 +10,14 @@ import { QueryItemRevisionWithUsername } from '@altairgraphql/api-utils';
   standalone: false,
 })
 export class QueryRevisionDialogComponent implements OnChanges {
+  private api = inject(ApiService);
+
   readonly showDialog = input(true);
   readonly queryId = input('');
   @Output() restoreRevision = new EventEmitter<QueryItemRevision>();
   @Output() toggleDialogChange = new EventEmitter<boolean>();
 
   revisions: QueryItemRevisionWithUsername[] = [];
-
-  constructor(private api: ApiService) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.queryId?.currentValue) {

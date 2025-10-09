@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
 import { Store } from '@ngrx/store';
@@ -56,15 +56,13 @@ interface PluginInfo extends Record<string, string> {
 
 @Injectable()
 export class PluginRegistryService {
-  private fetchedPlugins: Promise<any>[] = [];
+  private http = inject(HttpClient);
+  private pluginContextService = inject(PluginContextService);
+  private db = inject(DbService);
+  private notifyService = inject(NotifyService);
+  private store = inject<Store<RootState>>(Store);
 
-  constructor(
-    private http: HttpClient,
-    private pluginContextService: PluginContextService,
-    private db: DbService,
-    private notifyService: NotifyService,
-    private store: Store<RootState>
-  ) {}
+  private fetchedPlugins: Promise<any>[] = [];
 
   addV1Plugin(name: string, plugin: AltairV1Plugin) {
     const context = this.pluginContextService.createV1Context(name, plugin);

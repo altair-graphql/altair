@@ -1,4 +1,4 @@
-import { ErrorHandler, Injector, ApplicationRef, Injectable } from '@angular/core';
+import { ErrorHandler, Injector, ApplicationRef, Injectable, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { debug } from './utils/logger';
 import { NotifyService } from './services';
@@ -8,7 +8,8 @@ import { getIssueUrl } from './utils/issue';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
-  constructor(private injector: Injector) {}
+  private injector = inject(Injector);
+
   handleError(error: UnknownError) {
     // const appRef = this.injector.get(ApplicationRef);
     if (error instanceof HttpErrorResponse) {

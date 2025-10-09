@@ -1,13 +1,5 @@
 import { ICreateTeamDto, ReturnedTeamMembership } from '@altairgraphql/api-utils';
-import {
-  Component,
-  EventEmitter,
-  Output,
-  computed,
-  effect,
-  input,
-  signal,
-} from '@angular/core';
+import { Component, EventEmitter, Output, computed, effect, input, signal, inject } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { AccountService, NotifyService } from '../../services';
@@ -24,18 +16,23 @@ import * as windowsMetaActions from '../../store/windows-meta/windows-meta.actio
   standalone: false,
 })
 export class TeamsDialogComponent {
+  private readonly accountService = inject(AccountService);
+  private readonly notifyService = inject(NotifyService);
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+  private readonly store = inject<Store<RootState>>(Store);
+
   readonly teams = input<Team[]>();
   readonly showDialog = input(true);
   @Output() toggleDialogChange = new EventEmitter<boolean>();
   @Output() reloadTeamChange = new EventEmitter<string>();
 
-  teamName = computed(() => this.selectedTeam()?.name ?? '');
-  teamDescription = computed(() => this.selectedTeam()?.description ?? '');
-  membersOfSelectedTeam = signal(<ReturnedTeamMembership[]>[]);
+  readonly teamName = computed(() => this.selectedTeam()?.name ?? '');
+  readonly teamDescription = computed(() => this.selectedTeam()?.description ?? '');
+  readonly membersOfSelectedTeam = signal(<ReturnedTeamMembership[]>[]);
 
-  selectedTeamId = signal<string | undefined>(undefined);
+  readonly selectedTeamId = signal<string | undefined>(undefined);
 
-  selectedTeam = computed(() => {
+  readonly selectedTeam = computed(() => {
     const teams = this.teams();
     const selectedTeamId = this.selectedTeamId();
     if (!teams || teams.length === 0) {
@@ -46,17 +43,17 @@ export class TeamsDialogComponent {
     }
     return teams.find((t) => t.id === selectedTeamId);
   });
-  showTeamForm = signal(false);
-  editTeamId = signal<string | undefined>(undefined);
+  readonly showTeamForm = signal(false);
+  readonly editTeamId = signal<string | undefined>(undefined);
   teamForm = this.formBuilder.group({
     name: '',
     description: '',
   });
 
-  loading = signal(false);
+  readonly loading = signal(false);
 
-  showMemberForm = signal(false);
-  editUserId = signal<string | undefined>(undefined);
+  readonly showMemberForm = signal(false);
+  readonly editUserId = signal<string | undefined>(undefined);
   memberForm = this.formBuilder.group({
     email: new FormControl('', {
       validators: [Validators.required, Validators.email],
@@ -64,12 +61,7 @@ export class TeamsDialogComponent {
     }),
   });
 
-  constructor(
-    private readonly accountService: AccountService,
-    private readonly notifyService: NotifyService,
-    private readonly formBuilder: NonNullableFormBuilder,
-    private readonly store: Store<RootState>
-  ) {
+  constructor() {
     effect(async () => {
       const selectedTeamId = this.selectedTeamId();
       if (!selectedTeamId) {

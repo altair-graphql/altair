@@ -7,7 +7,7 @@ import {
   SimpleChanges,
   AfterViewInit,
   ChangeDetectionStrategy,
-  input
+  input,
 } from '@angular/core';
 
 import { IDictionary } from '../../interfaces/shared';
@@ -34,6 +34,7 @@ export class VariablesEditorComponent implements AfterViewInit, OnChanges {
 
   @Output() variablesChange = new EventEmitter<string>();
 
+  // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('editor') editor: CodemirrorComponent | undefined;
 
   editorExtensions = [gqlVariables()];

@@ -1,10 +1,5 @@
 import 'reflect-metadata';
-import {
-  DebugElement,
-  ɵReflectionCapabilities as ReflectionCapabilities,
-  Component,
-  ViewContainerRef,
-} from '@angular/core';
+import { DebugElement, ɵReflectionCapabilities as ReflectionCapabilities, Component, ViewContainerRef, Signal, inject } from '@angular/core';
 import {
   TestBed,
   TestModuleMetadata,
@@ -69,14 +64,38 @@ export function setValue<C>(
 function getComponentMeta(compType: any, propsData: IDictionary) {
   const rc = new ReflectionCapabilities();
   const props = compType.__prop__metadata__ || rc.ownPropMetadata(compType) || {};
-  const inputs: string[] = [];
+
+  /**
+   * All @Input inputs of the component
+   */
+  const normalInputs: string[] = [];
+
+  /**
+   * Inputs that are signals
+   */
+  const signalInputs: string[] = [];
+
+  /**
+   * Inputs that have values provided in propsData (i.e. passed to the mount function)
+   * These are the inputs that will actually be set on the component instance in the test host component
+   * to ensure that the input lifecycle is properly triggered.
+   */
   const availableInputs: string[] = [];
+
+  /**
+   * All outputs of the component
+   */
   const outputs: string[] = [];
 
   Object.keys(props).forEach((prop) => {
     const member = props[prop][0];
     if (member.ngMetadataName === 'Input') {
-      inputs.push(prop);
+      // Check if it's a signal input
+      if (member.isSignal) {
+        signalInputs.push(prop);
+      } else {
+        normalInputs.push(prop);
+      }
       if (typeof propsData[prop] !== 'undefined') {
         availableInputs.push(prop);
       }
@@ -89,14 +108,18 @@ function getComponentMeta(compType: any, propsData: IDictionary) {
   });
 
   return {
-    inputs,
+    normalInputs,
+    signalInputs,
     availableInputs,
     outputs,
   };
 }
 
+type ComponentMeta = ReturnType<typeof getComponentMeta>;
+
 export class BaseTestHostComponent {
   mock!: IDictionary<{ calls: any[] }>;
+  props!: ComponentMeta;
   inputs!: IDictionary;
   outputList!: string[];
 }
@@ -106,16 +129,24 @@ type Ctor<C> = new (...args: any[]) => C;
 type FilteredNonFunctionKeys<T> = {
   [P in keyof T]: T[P] extends (...args: any[]) => any ? never : P;
 }[keyof T];
+type FilteredSignalKeys<T> = {
+  [P in keyof T]: T[P] extends Signal<unknown> ? P : never;
+}[keyof T];
+export type AllowedPropsDataKeys<T> =
+  | FilteredNonFunctionKeys<T>
+  | FilteredSignalKeys<T>;
+export type AllowedPropsDataValue<T, K extends keyof T> =
+  T[K] extends Signal<infer U> ? U : T[K];
 interface TestMountOptions<C = any> extends TestModuleMetadata {
   component: Ctor<C>;
   propsData?: Partial<{
-    [K in FilteredNonFunctionKeys<C>]-?: C[K];
+    [K in AllowedPropsDataKeys<C>]-?: AllowedPropsDataValue<C, K>;
   }>;
 }
 export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   const MainComponent = mountOptions.component;
   const propsData = mountOptions.propsData || {};
-  const props = getComponentMeta(MainComponent, propsData);
+  const props: ComponentMeta = getComponentMeta(MainComponent, propsData);
   const annotations = Reflect.getOwnPropertyDescriptor(
     MainComponent,
     '__annotations__'
@@ -125,33 +156,37 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   }
   const COMPONENT_TAG_NAME = annotations.selector;
 
-  const template = buildTestHostComponentTemplate(
-    COMPONENT_TAG_NAME,
-    props.inputs,
-    props.outputs
-  );
+  const template = buildTestHostComponentTemplate(COMPONENT_TAG_NAME, props);
 
   @Component({
+    selector: 'app-test-host',
     template: template,
     standalone: false,
   })
   class TestHostComponent extends BaseTestHostComponent {
+    private viewContainerRef = inject(ViewContainerRef);
+
     mock = {};
+    props = props;
     inputs: IDictionary;
     outputList = props.outputs;
 
-    constructor(private viewContainerRef: ViewContainerRef) {
+    constructor() {
       super();
       // create the main component to retrieve default values to be applied to the actual component instance used for testing
       const componentRef = this.viewContainerRef.createComponent(MainComponent);
-      const newTemplateInputs = props.inputs.reduce((acc, cur) => {
+      const newTemplateInputs = [
+        ...props.normalInputs,
+        ...props.signalInputs,
+      ].reduce((acc, cur) => {
         // Set default props values
         return {
           ...acc,
           [cur]:
             propsData[cur as keyof typeof propsData] ??
-            (componentRef.instance as any)?.[cur] ??
-            undefined,
+            props.signalInputs.includes(cur)
+              ? (componentRef.instance as any)?.[cur]()
+              : (componentRef.instance as any)?.[cur] ?? undefined,
         };
       }, {});
       this.inputs = newTemplateInputs;
@@ -193,11 +228,12 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
 
 export function buildTestHostComponentTemplate(
   componentTagName: string,
-  inputs: string[],
-  outputs: string[]
+  props: ComponentMeta
 ) {
-  const inputTmpl = inputs.map((input) => `[${input}]="inputs.${input}"`).join('\n');
-  const outputTmpl = outputs
+  const inputTmpl = [...props.normalInputs, ...props.signalInputs]
+    .map((input) => `[${input}]="inputs.${input}"`)
+    .join('\n');
+  const outputTmpl = props.outputs
     .map((output) => `(${output})="${output}($event)"`)
     .join('\n');
   const template = `

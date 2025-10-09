@@ -1,10 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  input
-} from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy, input, inject } from '@angular/core';
 import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -19,6 +13,8 @@ import { APSPluginDefinition } from 'altair-graphql-core/build/plugin/server/typ
   standalone: false,
 })
 export class PluginManagerComponent {
+  private pluginRegistry = inject(PluginRegistryService);
+
   readonly showPluginManager = input(false);
   readonly settings = input<SettingsState>();
 
@@ -30,7 +26,7 @@ export class PluginManagerComponent {
 
   shouldRestart = false;
 
-  constructor(private pluginRegistry: PluginRegistryService) {
+  constructor() {
     this.remotePlugins$ = this.pluginRegistry.getRemotePluginList().pipe(
       catchError((error) => {
         return of(null);

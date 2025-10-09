@@ -6,6 +6,7 @@ import {
   OnChanges,
   SimpleChanges,
   input,
+  inject,
 } from '@angular/core';
 import {
   IQuery,
@@ -23,6 +24,8 @@ import { memoize } from '../../utils/memoize';
   standalone: false,
 })
 export class QueryCollectionItemComponent implements OnChanges {
+  private modal = inject(NzModalService);
+
   readonly collectionTree = input.required<IQueryCollectionTree>();
   readonly loggedIn = input(false);
   readonly queriesSortBy = input<SortByOptions>('newest');
@@ -48,8 +51,6 @@ export class QueryCollectionItemComponent implements OnChanges {
   @Output() copyQueryShareLinkChange = new EventEmitter<string>();
 
   showContent = true;
-
-  constructor(private modal: NzModalService) {}
   ngOnChanges(changes: SimpleChanges) {
     if (changes.expanded?.currentValue !== undefined) {
       this.showContent = changes.expanded.currentValue;
@@ -71,7 +72,7 @@ export class QueryCollectionItemComponent implements OnChanges {
       nzOkText: 'Yes',
       nzCancelText: 'Cancel',
       nzOnOk: () => {
-        if (this.collectionTree) {
+        if (this.collectionTree()) {
           this.deleteQueryChange.emit({
             query,
             collectionId: this.collectionTree().id,
@@ -92,7 +93,7 @@ export class QueryCollectionItemComponent implements OnChanges {
       nzOkText: 'Yes',
       nzCancelText: 'Cancel',
       nzOnOk: () => {
-        if (this.collectionTree) {
+        if (this.collectionTree()) {
           this.deleteCollectionChange.emit({
             collectionId: this.collectionTree().id,
           });
@@ -102,21 +103,21 @@ export class QueryCollectionItemComponent implements OnChanges {
   }
 
   editCollection() {
-    if (!this.collectionTree) {
+    if (!this.collectionTree()) {
       throw new Error('should never happen');
     }
     this.editCollectionChange.emit({ collection: this.collectionTree() });
   }
 
   syncCollection() {
-    if (!this.collectionTree) {
+    if (!this.collectionTree()) {
       throw new Error('should never happen');
     }
     this.syncCollectionChange.emit({ collection: this.collectionTree() });
   }
 
   exportCollection() {
-    if (!this.collectionTree) {
+    if (!this.collectionTree()) {
       throw new Error('should never happen');
     }
     this.exportCollectionChange.emit({

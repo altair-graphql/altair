@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -26,13 +26,12 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class QueryService {
-  constructor(
-    private notifyService: NotifyService,
-    private environmentService: EnvironmentService,
-    private preRequestService: PreRequestService,
-    private requestHandlerRegistryService: RequestHandlerRegistryService,
-    private store: Store<RootState>
-  ) {}
+  private notifyService = inject(NotifyService);
+  private environmentService = inject(EnvironmentService);
+  private preRequestService = inject(PreRequestService);
+  private requestHandlerRegistryService = inject(RequestHandlerRegistryService);
+  private store = inject<Store<RootState>>(Store);
+
 
   getWindowState$(windowId: string) {
     return this.store.pipe(select(fromRoot.selectWindowState(windowId)));

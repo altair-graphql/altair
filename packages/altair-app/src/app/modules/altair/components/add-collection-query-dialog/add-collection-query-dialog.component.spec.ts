@@ -55,8 +55,9 @@ describe('AddCollectionQueryDialogComponent', () => {
   it('should set showDialog on app-dialog with [showDialog]', async () => {
     const appDialog = wrapper.find<DialogComponent>('app-dialog');
     wrapper.setProps({ showDialog: true });
+    await wrapper.nextTick();
 
-    expect(appDialog.componentInstance.showDialog).toBe(true);
+    expect(appDialog.componentInstance.showDialog()).toBe(true);
   });
 
   it('should render correctly with [windowTitle]', async () => {
@@ -119,7 +120,7 @@ describe('AddCollectionQueryDialogComponent', () => {
 
     const newCollectionName = wrapper.find('[data-test-id="new-collection-name"]');
 
-    expect(wrapper.componentInstance.collectionId).toBe('-1');
+    expect(wrapper.componentInstance.collectionId()).toBe('-1');
     expect(newCollectionName.exists()).toBeTruthy();
   });
 

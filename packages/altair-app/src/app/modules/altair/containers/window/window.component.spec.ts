@@ -95,6 +95,7 @@ describe('WindowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WindowComponent);
     component = fixture.componentInstance;
+    // eslint-disable-next-line @angular-eslint/require-lifecycle-on-prototype
     component.ngOnInit = () => {};
     fixture.detectChanges();
   });

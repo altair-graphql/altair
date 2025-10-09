@@ -15,6 +15,7 @@ import {
   input,
   signal,
   effect,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension, Prec, StateEffect } from '@codemirror/state';
@@ -56,7 +57,7 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CodemirrorComponent),
+      useExisting: CodemirrorComponent,
       multi: true,
     },
   ],
@@ -66,6 +67,9 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 export class CodemirrorComponent
   implements AfterViewInit, OnChanges, ControlValueAccessor, OnDestroy
 {
+  private zone = inject(NgZone);
+  private altairConfig = inject(AltairConfig);
+
   readonly extensions = input<Extension[]>([]);
   readonly fullHeight = input(false);
   readonly showLineNumber = input(true);
@@ -90,10 +94,7 @@ export class CodemirrorComponent
   }
   readonly value = signal('');
 
-  constructor(
-    private zone: NgZone,
-    private altairConfig: AltairConfig
-  ) {
+  constructor() {
     effect(() => {
       this.onChange(this.value());
     });

@@ -7,7 +7,7 @@ import {
   timeout,
   catchError,
 } from 'rxjs/operators';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, forkJoin, of, from, firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -89,6 +89,25 @@ import { consumeQueryParam } from '../../utils/url';
   standalone: false,
 })
 export class AltairComponent {
+  private windowService = inject(WindowService);
+  private store = inject<Store<RootState>>(Store);
+  private translate = inject(TranslateService);
+  private donationService = inject(DonationService);
+  private electronApp = inject(ElectronAppService);
+  private keybinder = inject(KeybinderService);
+  private pluginRegistry = inject(PluginRegistryService);
+  private pluginEvent = inject(PluginEventService);
+  private collectionService = inject(QueryCollectionService);
+  private themeRegistry = inject(ThemeRegistryService);
+  private sharingService = inject(SharingService);
+  private filesService = inject(FilesService);
+  private environmentService = inject(EnvironmentService);
+  private notifyService = inject(NotifyService);
+  private bannerService = inject(BannerService);
+  private dbService = inject(DbService);
+  private webExtensionsService = inject(WebExtensionsService);
+  private altairConfig = inject(AltairConfig);
+
   windowIds$: Observable<any[]>;
   settings$: Observable<SettingsState>;
   collection$: Observable<CollectionState>;
@@ -127,26 +146,10 @@ export class AltairComponent {
   sidebarPanels$: Observable<AltairPanel[]>;
   headerPanels$: Observable<AltairPanel[]>;
 
-  constructor(
-    private windowService: WindowService,
-    private store: Store<RootState>,
-    private translate: TranslateService,
-    private donationService: DonationService,
-    private electronApp: ElectronAppService,
-    private keybinder: KeybinderService,
-    private pluginRegistry: PluginRegistryService,
-    private pluginEvent: PluginEventService,
-    private collectionService: QueryCollectionService,
-    private themeRegistry: ThemeRegistryService,
-    private sharingService: SharingService,
-    private filesService: FilesService,
-    private environmentService: EnvironmentService,
-    private notifyService: NotifyService,
-    private bannerService: BannerService,
-    private dbService: DbService,
-    private webExtensionsService: WebExtensionsService,
-    private altairConfig: AltairConfig
-  ) {
+  constructor() {
+    const windowService = this.windowService;
+    const altairConfig = this.altairConfig;
+
     this.isWebApp = altairConfig.isWebApp;
     this.authEnabled = !altairConfig.initialData.disableAccount;
     this.cspNonce = altairConfig.cspNonce;

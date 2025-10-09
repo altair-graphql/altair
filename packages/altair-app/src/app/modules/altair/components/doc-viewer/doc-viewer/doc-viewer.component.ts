@@ -9,6 +9,7 @@ import {
   computed,
   effect,
   signal,
+  inject,
 } from '@angular/core';
 
 import { debug } from '../../../utils/logger';
@@ -33,6 +34,9 @@ import { debounce } from 'lodash-es';
   standalone: false,
 })
 export class DocViewerComponent {
+  private gqlService = inject(GqlService);
+  private altairConfig = inject(AltairConfig);
+
   readonly gqlSchema = input<GraphQLSchema>();
   readonly allowIntrospection = input(true);
   readonly hideDeprecatedDocItems = input(false);
@@ -83,7 +87,7 @@ export class DocViewerComponent {
 
   sortFieldsByOption: SortByOptions = 'none';
 
-  typeData = computed(() => {
+  readonly typeData = computed(() => {
     const docView = this.docView();
     const gqlSchema = this.gqlSchema();
     if (docView.view === 'type' && gqlSchema) {
@@ -92,10 +96,7 @@ export class DocViewerComponent {
     return;
   });
 
-  constructor(
-    private gqlService: GqlService,
-    private altairConfig: AltairConfig
-  ) {
+  constructor() {
     effect(async () => {
       const schema = this.gqlSchema();
       if (!schema) {
@@ -137,7 +138,7 @@ export class DocViewerComponent {
       term = term.name;
     }
 
-    if (!this.hasSearchIndex) {
+    if (!this.hasSearchIndex()) {
       return false;
     }
     this.updateDocHistory();
@@ -176,7 +177,7 @@ export class DocViewerComponent {
    * Update the doc history with the current view
    */
   updateDocHistory() {
-    if (this.docView && this.docView().view !== 'search') {
+    if (this.docView() && this.docView().view !== 'search') {
       this.docHistory().push({ ...this.docView() });
     }
   }
@@ -214,7 +215,7 @@ export class DocViewerComponent {
   }
 
   async addToEditor(name: string, parentType: string) {
-    if (!this.hasSearchIndex) {
+    if (!this.hasSearchIndex()) {
       debug.log('No search index, so cannot add to editor');
       return false;
     }

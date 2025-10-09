@@ -1,14 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  ViewChild,
-  ElementRef,
-  ChangeDetectionStrategy,
-  input,
-  linkedSignal,
-  computed,
-} from '@angular/core';
+import { Component, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectionStrategy, input, linkedSignal, computed, inject } from '@angular/core';
 
 import {
   BaseEnvironmentState,
@@ -29,6 +19,8 @@ import { NotifyService } from '../../services';
   standalone: false,
 })
 export class EnvironmentManagerComponent {
+  private notifyService = inject(NotifyService);
+
   readonly environments = input.required<EnvironmentsState>();
   readonly showEnvironmentManager = input(false);
   @Output() toggleDialogChange = new EventEmitter();
@@ -45,14 +37,14 @@ export class EnvironmentManagerComponent {
 
   editorExtensions: Extension[] = [json(), linter(jsonParseLinter())];
 
-  selectedEnvironmentId = linkedSignal(() => {
+  readonly selectedEnvironmentId = linkedSignal(() => {
     const environments = this.environments();
     if (environments?.activeSubEnvironment) {
       return environments.activeSubEnvironment;
     }
     return 'base';
   });
-  selectedEnvironment = computed<
+  readonly selectedEnvironment = computed<
     BaseEnvironmentState | EnvironmentState | undefined
   >(() => {
     const selectedId = this.selectedEnvironmentId();
@@ -62,18 +54,16 @@ export class EnvironmentManagerComponent {
     }
     return environments.subEnvironments.find((env) => env.id === selectedId);
   });
-  editorContent = linkedSignal(() => {
+  readonly editorContent = linkedSignal(() => {
     return this.selectedEnvironment()?.variablesJson || '{}';
   });
-  editorTitle = linkedSignal(() => {
+  readonly editorTitle = linkedSignal(() => {
     const selectedEnvironment = this.selectedEnvironment();
     if (selectedEnvironment && 'title' in selectedEnvironment) {
       return selectedEnvironment.title || '';
     }
     return '';
   });
-
-  constructor(private notifyService: NotifyService) {}
 
   onSortSubEnvironments(event: CdkDragDrop<any, any, any>) {
     this.repositionSubEnvironmentsChange.emit({

@@ -27,19 +27,20 @@ describe('DialogComponent', () => {
 
   it('should have default property values', () => {
     const component = wrapper.componentInstance;
-    expect(component.showDialog).toBe(false);
+    expect(component.showDialog()).toBe(false);
     expect(component.heading()).toBe('');
     expect(component.subheading()).toBe('');
     expect(component.showHeader()).toBe(true);
     expect(component.showFooter()).toBe(true);
   });
 
-  it('should emit toggleDialog and saveChange events when onClickSave is called with showDialog false', () => {
+  it('should emit toggleDialog and saveChange events when onClickSave is called with showDialog false', async () => {
     const component = wrapper.componentInstance;
     const mockEvent = new Event('click');
 
-    component.showDialog = false;
+    wrapper.setProps({ showDialog: false });
     component.onClickSave(mockEvent);
+    await wrapper.nextTick();
 
     expect(wrapper.emitted('toggleDialog')).toBeTruthy();
     expect(wrapper.emitted('saveChange')).toBeTruthy();
@@ -51,11 +52,12 @@ describe('DialogComponent', () => {
     expect(saveEmitted).toBe(mockEvent);
   });
 
-  it('should emit toggleDialog and saveChange events when onClickSave is called with showDialog true', () => {
+  it('should emit toggleDialog and saveChange events when onClickSave is called with showDialog true', async () => {
     const component = wrapper.componentInstance;
     const mockEvent = new Event('click');
 
-    component.showDialog = true;
+    wrapper.setProps({ showDialog: true });
+    await wrapper.nextTick();
     component.onClickSave(mockEvent);
 
     expect(wrapper.emitted('toggleDialog')).toBeTruthy();
@@ -72,7 +74,7 @@ describe('DialogComponent', () => {
     const component = wrapper.componentInstance;
     const mockEvent = new Event('submit');
 
-    component.showDialog = false;
+    wrapper.setProps({ showDialog: false });
     component.onSubmit(mockEvent);
 
     expect(wrapper.emitted('toggleDialog')).toBeTruthy();
@@ -85,11 +87,12 @@ describe('DialogComponent', () => {
     expect(saveEmitted).toBe(mockEvent);
   });
 
-  it('should emit toggleDialog and saveChange events when onSubmit is called with showDialog true', () => {
+  it('should emit toggleDialog and saveChange events when onSubmit is called with showDialog true', async () => {
     const component = wrapper.componentInstance;
     const mockEvent = new Event('submit');
 
-    component.showDialog = true;
+    wrapper.setProps({ showDialog: true });
+    await wrapper.nextTick();
     component.onSubmit(mockEvent);
 
     expect(wrapper.emitted('toggleDialog')).toBeTruthy();

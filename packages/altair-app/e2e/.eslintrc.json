@@ -26,7 +26,8 @@
             "type": "element",
             "style": "kebab-case"
           }
-        ]
+        ],
+        "@angular-eslint/no-uncalled-signals": ["error"]
       }
     },
     {

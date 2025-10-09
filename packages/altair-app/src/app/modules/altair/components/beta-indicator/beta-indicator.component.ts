@@ -1,4 +1,4 @@
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit, input, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -12,6 +12,8 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class BetaIndicatorComponent {
+  private store = inject<Store<RootState>>(Store);
+
   readonly title = input('');
   readonly description = input('');
 
@@ -20,7 +22,7 @@ export class BetaIndicatorComponent {
 
   value$: Observable<boolean>;
 
-  constructor(private store: Store<RootState>) {
+  constructor() {
     this.value$ = this.store.select(
       (state) => !state.settings[this.getSettingKey()]
     );

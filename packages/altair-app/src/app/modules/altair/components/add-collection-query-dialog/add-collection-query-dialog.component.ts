@@ -1,13 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  input,
-  effect,
-  ChangeDetectionStrategy,
-  signal,
-  computed,
-} from '@angular/core';
+import { Component, Output, EventEmitter, input, effect, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
 import {
   IQueryCollection,
@@ -25,6 +16,8 @@ import { WorkspaceOption } from '../../store';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCollectionQueryDialogComponent {
+  private collectionService = inject(QueryCollectionService);
+
   readonly showDialog = input(false);
   readonly windowTitle = input('');
   readonly collections = input<IQueryCollection[]>([]);
@@ -47,13 +40,13 @@ export class AddCollectionQueryDialogComponent {
   get parentCollectionRootId() {
     return '0'; // 0 for root
   }
-  newCollectionQueryTitle = signal(this.windowTitle());
-  newCollectionTitle = signal('');
-  collectionId = signal('');
-  newCollectionParentCollectionId = signal(this.parentCollectionRootId);
-  workspaceId = signal(WORKSPACES.LOCAL);
-  isNewCollection = computed(() => this.collectionId() === '-1');
-  collectionNodes = computed(() => {
+  readonly newCollectionQueryTitle = signal(this.windowTitle());
+  readonly newCollectionTitle = signal('');
+  readonly collectionId = signal('');
+  readonly newCollectionParentCollectionId = signal(this.parentCollectionRootId);
+  readonly workspaceId = signal(WORKSPACES.LOCAL);
+  readonly isNewCollection = computed(() => this.collectionId() === '-1');
+  readonly collectionNodes = computed(() => {
     const collectionTree = this.collectionService.getCollectionTrees(
       this.collections()
     );
@@ -65,8 +58,6 @@ export class AddCollectionQueryDialogComponent {
       this.reset();
     }
   });
-
-  constructor(private collectionService: QueryCollectionService) {}
 
   createCollectionAndSaveQueryToCollection() {
     this.createCollectionAndSaveQueryToCollectionChange.emit({

@@ -179,11 +179,11 @@ const providers = [
   providers,
 })
 export class AltairModule {
-  constructor(
-    applicationInitStatus: ApplicationInitStatus,
-    store: Store<RootState>,
-    reducerBootstrapper: ReducerBootstrapper
-  ) {
+  constructor() {
+    const applicationInitStatus = inject(ApplicationInitStatus);
+    const store = inject<Store<RootState>>(Store);
+    const reducerBootstrapper = inject(ReducerBootstrapper);
+
     applicationInitStatus.donePromise.then(() =>
       store.dispatch(
         new AppInitAction({ initialState: reducerBootstrapper.initialState })

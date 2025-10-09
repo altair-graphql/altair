@@ -58,9 +58,11 @@ export class QueryResultComponent implements AfterViewInit {
   @Output() uiActionExecuteChange = new EventEmitter();
   @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
 
+  // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('queryResultList', { static: false })
   queryResultList?: ElementRef;
 
+  // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChildren('queryResultItem') queryResultItems?: QueryList<unknown>;
 
   isElectron = isElectron;

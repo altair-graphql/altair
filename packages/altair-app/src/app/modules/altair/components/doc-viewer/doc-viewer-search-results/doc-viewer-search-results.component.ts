@@ -3,7 +3,7 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  input
+  input,
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { GraphQLArgument } from 'graphql';
@@ -13,6 +13,7 @@ import { DocumentIndexEntry } from '../models';
   selector: 'app-doc-viewer-search-results',
   templateUrl: './doc-viewer-search-results.component.html',
   styleUrls: ['./doc-viewer-search-results.component.scss'],
+  // eslint-disable-next-line @angular-eslint/component-max-inline-declarations
   animations: [
     trigger('showResultItem', [
       transition(':enter', [

@@ -40,17 +40,17 @@ export class WindowSwitcherItemComponent {
 
   @ViewChild('wTitle') private wTitle!: ElementRef<HTMLElement>;
 
-  isWindowInCollection = computed(() => {
+  readonly isWindowInCollection = computed(() => {
     const w = this.window();
     const collections = this.collections();
     return !!w && !!getWindowCollection(w, collections);
   });
-  isWindowUnsaved = computed(() => {
+  readonly isWindowUnsaved = computed(() => {
     const w = this.window();
     const collections = this.collections();
     return !!w && windowHasUnsavedChanges(w, collections);
   });
-  iconState = computed(() => {
+  readonly iconState = computed(() => {
     const w = this.window();
     const isInCollection = this.isWindowInCollection();
     const isEditing = this.isEditing();

@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnInit,
-  Output,
-  input
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Output, input, inject } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
@@ -15,14 +9,14 @@ import { NonNullableFormBuilder } from '@angular/forms';
   standalone: false,
 })
 export class AuthorizationBasicComponent implements OnInit {
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+
   basicForm = this.formBuilder.group({
     username: '',
     password: '',
   });
   readonly authData = input<unknown>();
   @Output() authDataChange = this.basicForm.valueChanges;
-
-  constructor(private readonly formBuilder: NonNullableFormBuilder) {}
 
   ngOnInit(): void {
     const authData = this.authData();

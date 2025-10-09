@@ -1,14 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  input,
-  signal,
-  computed,
-  Signal,
-  effect,
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, input, signal, computed, Signal, effect, inject } from '@angular/core';
 import {
   IQueryCollection,
   IQueryCollectionTree,
@@ -38,6 +28,8 @@ export function debounce<T>(input: Signal<T>, delay = 300) {
   standalone: false,
 })
 export class QueryCollectionsComponent implements OnInit {
+  private collectionService = inject(QueryCollectionService);
+
   readonly showCollections = input(true);
   readonly collections = input<IQueryCollection[]>([]);
   readonly workspaces = input<WorkspaceOption[]>([]);
@@ -65,13 +57,13 @@ export class QueryCollectionsComponent implements OnInit {
   @Output() showQueryRevisionsChange = new EventEmitter<string>();
   @Output() copyQueryShareLinkChange = new EventEmitter<string>();
 
-  workspaceId = signal('');
-  searchInput = signal('');
+  readonly workspaceId = signal('');
+  readonly searchInput = signal('');
   searchTerm = debounce(this.searchInput, 300);
 
-  showSearch = signal(false);
+  readonly showSearch = signal(false);
 
-  filteredCollectionTrees = computed(() => {
+  readonly filteredCollectionTrees = computed(() => {
     let trees = this.collectionService.getCollectionTrees(this.collections());
 
     if (this.searchTerm()) {
@@ -90,7 +82,7 @@ export class QueryCollectionsComponent implements OnInit {
     }
     return trees;
   });
-  expandedMap = computed<{ [id: string]: boolean }>(() => {
+  readonly expandedMap = computed<{ [id: string]: boolean }>(() => {
     const map: { [id: string]: boolean } = {};
     if (!this.searchTerm()) {
       return map;
@@ -101,7 +93,7 @@ export class QueryCollectionsComponent implements OnInit {
     });
     return map;
   });
-  collectionTrees = computed(() =>
+  readonly collectionTrees = computed(() =>
     this.collectionService.getCollectionTrees(this.collections())
   );
 
@@ -129,8 +121,6 @@ export class QueryCollectionsComponent implements OnInit {
     }
     return null;
   }
-
-  constructor(private collectionService: QueryCollectionService) {}
 
   ngOnInit() {
     this.loadCollectionsChange.emit();

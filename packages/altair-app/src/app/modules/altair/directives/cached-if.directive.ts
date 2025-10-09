@@ -1,28 +1,19 @@
-import {
-  Directive,
-  effect,
-  EmbeddedViewRef,
-  input,
-  OnDestroy,
-  signal,
-  TemplateRef,
-  ViewContainerRef,
-} from '@angular/core';
+import { Directive, effect, EmbeddedViewRef, input, OnDestroy, signal, TemplateRef, ViewContainerRef, inject } from '@angular/core';
 
 @Directive({
   selector: '[appCachedIf]',
   standalone: false,
 })
 export class CachedIfDirective implements OnDestroy {
+  private templateRef = inject<TemplateRef<unknown>>(TemplateRef);
+  private viewContainer = inject(ViewContainerRef);
+
   private readonly hasView = signal(false);
   private cachedViewRef?: EmbeddedViewRef<unknown>;
 
   readonly appCachedIf = input(false);
 
-  constructor(
-    private templateRef: TemplateRef<unknown>,
-    private viewContainer: ViewContainerRef
-  ) {
+  constructor() {
     effect(() => {
       const val = this.appCachedIf();
       if (val) {

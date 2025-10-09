@@ -1,7 +1,7 @@
 import { EMPTY, Observable } from 'rxjs';
 
 import { switchMap } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Action } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
@@ -13,6 +13,9 @@ import { openFile } from '../utils';
 
 @Injectable()
 export class WindowsMetaEffects {
+  private actions$ = inject(Actions);
+  private electronAppService = inject(ElectronAppService);
+
   exportBackupData$: Observable<Action> = createEffect(
     () => {
       return this.actions$.pipe(
@@ -40,9 +43,4 @@ export class WindowsMetaEffects {
     },
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private electronAppService: ElectronAppService
-  ) {}
 }

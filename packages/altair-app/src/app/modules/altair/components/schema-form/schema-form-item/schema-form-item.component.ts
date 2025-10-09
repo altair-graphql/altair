@@ -1,12 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  input,
-  model,
-  effect,
-} from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy, input, model, effect, inject } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 
@@ -18,12 +10,14 @@ import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
   standalone: false,
 })
 export class SchemaFormItemComponent {
+  private altairConfig = inject(AltairConfig);
+
   readonly item = input<SchemaFormProperty>();
   readonly data = model<unknown>();
 
   @Output() dataChange = new EventEmitter();
 
-  constructor(private altairConfig: AltairConfig) {
+  constructor() {
     effect(() => {
       this.dataChange.emit(this.data());
     });

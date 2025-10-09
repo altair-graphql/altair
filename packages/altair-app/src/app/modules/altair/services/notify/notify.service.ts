@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HotToastService } from '@ngneat/hot-toast';
 import { ToastrService, ActiveToast, IndividualConfig } from 'ngx-toastr';
 import { isExtension } from 'altair-graphql-core/build/crx';
@@ -23,12 +23,12 @@ type NotifyOptions = Partial<IndividualConfig & { data?: NotifyData }>;
 type NotifyType = 'success' | 'error' | 'warning' | 'info';
 @Injectable()
 export class NotifyService {
+  private toast = inject(ToastrService);
+  private store = inject<Store<RootState>>(Store);
+
   extensionNotifications: IDictionary = {};
 
-  constructor(
-    private toast: ToastrService,
-    private store: Store<RootState>
-  ) {
+  constructor() {
     this.manageExtensionNotifications();
   }
 

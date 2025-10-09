@@ -7,7 +7,7 @@ import {
   take,
   withLatestFrom,
 } from 'rxjs/operators';
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input, OnInit, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { Store, createSelector, select } from '@ngrx/store';
 
@@ -81,6 +81,12 @@ import { SettingsState } from 'altair-graphql-core/build/types/state/settings.in
   standalone: false,
 })
 export class WindowComponent implements OnInit {
+  private gql = inject(GqlService);
+  private notifyService = inject(NotifyService);
+  private store = inject<Store<RootState>>(Store);
+  private windowService = inject(WindowService);
+  private requestHandlerRegistry = inject(RequestHandlerRegistryService);
+
   query$: Observable<QueryState>;
   showDocs$: Observable<boolean>;
   docView$: Observable<any>;
@@ -154,13 +160,7 @@ export class WindowComponent implements OnInit {
 
   historyList: History[] = [];
 
-  constructor(
-    private gql: GqlService,
-    private notifyService: NotifyService,
-    private store: Store<RootState>,
-    private windowService: WindowService,
-    private requestHandlerRegistry: RequestHandlerRegistryService
-  ) {
+  constructor() {
     this.addQueryDepthLimit$ = this.store.pipe(
       select((state) => state.settings.addQueryDepthLimit)
     );

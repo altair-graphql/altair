@@ -1,7 +1,15 @@
-import { ComponentFixture } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement, EventEmitter, Type } from '@angular/core';
-import { setProps, setValue, BaseTestHostComponent, flushPromises } from '../utils';
+import {
+  setProps,
+  setValue,
+  BaseTestHostComponent,
+  flushPromises,
+  AllowedPropsDataKeys,
+  AllowedPropsDataValue,
+  testLog,
+} from '../utils';
 import { IDictionary } from '../../app/modules/altair/interfaces/shared';
 
 type FilteredKeys<T, U> = {
@@ -108,13 +116,18 @@ export class NgxTestWrapper<C> {
     }
   }
 
-  setProps(valueObj: Partial<C> = {}) {
+  async setProps(
+    valueObj: Partial<{
+      [K in AllowedPropsDataKeys<C>]-?: AllowedPropsDataValue<C, K>;
+    }> = {}
+  ) {
     if (this._isWrapper) {
       const componentInputs = Object.keys(
         this._testHostFixture.componentInstance.inputs
       );
       Object.keys(valueObj).forEach((prop) => {
         if (componentInputs.includes(prop)) {
+          // testLog('....', this._testHostFixture.componentInstance.inputs, valueObj);
           // For component inputs (@input), we set the data on the test host itself, which would pass the value as input.
           // This is to properly trigger the full input lifecycle of the component.
           // Setting the input directly on the component instance would not do that.
@@ -124,9 +137,12 @@ export class NgxTestWrapper<C> {
           ];
         }
       });
-      return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
+      return this.nextTick();
+      // return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
     }
-    return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
+    testLog('..not a wrapper', valueObj);
+    setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
+    return this.nextTick();
   }
 
   setValue(value = '') {
@@ -157,6 +173,7 @@ export class NgxTestWrapper<C> {
 
   async nextTick() {
     this._testHostFixture.detectChanges();
+    TestBed.tick();
     await this._testHostFixture.whenStable();
     await flushPromises();
 

@@ -1,4 +1,4 @@
-import { Directive, ElementRef, effect, input } from '@angular/core';
+import { Directive, ElementRef, effect, input, inject } from '@angular/core';
 import { IDictionary } from '../../interfaces/shared';
 
 @Directive({
@@ -6,9 +6,11 @@ import { IDictionary } from '../../interfaces/shared';
   standalone: false,
 })
 export class SetCssVariablesDirective {
+  private element = inject(ElementRef);
+
   readonly appSetCssVariables = input<IDictionary>({});
 
-  constructor(private element: ElementRef) {
+  constructor() {
     effect(() => {
       const appSetCssVariables = this.appSetCssVariables();
       if (appSetCssVariables) {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store, Action } from '@ngrx/store';
 import { Observable, EMPTY } from 'rxjs';
@@ -14,6 +14,10 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 
 @Injectable()
 export class PluginEventEffects {
+  private actions$ = inject(Actions);
+  private store = inject<Store<RootState>>(Store);
+  private pluginEventService = inject(PluginEventService);
+
   onSetQuery$: Observable<Action> = createEffect(
     () => {
       return this.actions$.pipe(
@@ -148,10 +152,4 @@ export class PluginEventEffects {
     },
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<RootState>,
-    private pluginEventService: PluginEventService
-  ) {}
 }

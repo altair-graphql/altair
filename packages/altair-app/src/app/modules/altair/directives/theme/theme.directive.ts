@@ -1,4 +1,4 @@
-import { Directive, input, effect } from '@angular/core';
+import { Directive, input, effect, inject } from '@angular/core';
 import { ICustomTheme, getCSS } from 'altair-graphql-core/build/theme';
 
 import createEmotion, { Emotion } from '@emotion/css/create-instance';
@@ -9,6 +9,8 @@ import { NzConfigService } from 'ng-zorro-antd/core/config';
   standalone: false,
 })
 export class ThemeDirective {
+  private nzConfigService = inject(NzConfigService);
+
   readonly appTheme = input<ICustomTheme>({});
   readonly appDarkTheme = input<ICustomTheme>({});
   readonly appAccentColor = input<string>('');
@@ -17,7 +19,7 @@ export class ThemeDirective {
   private emotionInstance?: Emotion;
   private className = '';
 
-  constructor(private nzConfigService: NzConfigService) {
+  constructor() {
     effect(() => {
       this.applyTheme(this.appTheme(), this.appDarkTheme(), this.appAccentColor());
     });

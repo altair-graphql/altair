@@ -10,6 +10,7 @@ import {
   input,
   effect,
   signal,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
@@ -52,7 +53,7 @@ const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
     // Fixes 'no value accessor for form control with unspecified name attribute' error
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => XInputComponent),
+      useExisting: XInputComponent,
       multi: true,
     },
   ],
@@ -60,6 +61,11 @@ const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
   standalone: false,
 })
 export class XInputComponent implements AfterViewInit, ControlValueAccessor {
+  private store = inject<Store<RootState>>(Store);
+  private environmentService = inject(EnvironmentService);
+  private zone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
+
   readonly placeholder = input('');
   readonly readonly = input(false);
   readonly windowId = input('');
@@ -89,12 +95,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   readonly value = signal('');
 
-  constructor(
-    private store: Store<RootState>,
-    private environmentService: EnvironmentService,
-    private zone: NgZone,
-    private cdr: ChangeDetectorRef
-  ) {
+  constructor() {
     effect(() => {
       this.onChangeCallback(this.value());
     });

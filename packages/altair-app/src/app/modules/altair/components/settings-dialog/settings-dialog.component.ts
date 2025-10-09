@@ -1,12 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Output,
-  EventEmitter,
-  SimpleChanges,
-  OnChanges,
-  input,
-} from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, SimpleChanges, OnChanges, input, inject } from '@angular/core';
 
 import { debug } from '../../utils/logger';
 
@@ -28,6 +20,11 @@ import { JSONSchema6 } from 'json-schema';
   standalone: false,
 })
 export class SettingsDialogComponent implements OnInit, OnChanges {
+  private notifyService = inject(NotifyService);
+  private keybinderService = inject(KeybinderService);
+  private storageService = inject(StorageService);
+  private altairConfig = inject(AltairConfig);
+
   readonly settings = input<SettingsState>();
   readonly appVersion = input('');
   readonly showSettingsDialog = input(false);
@@ -44,13 +41,6 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
   localSettings = null;
 
   editorExtensions: Extension[] = getEditorExtensions();
-
-  constructor(
-    private notifyService: NotifyService,
-    private keybinderService: KeybinderService,
-    private storageService: StorageService,
-    private altairConfig: AltairConfig
-  ) {}
 
   ngOnInit() {
     this.shortcutCategories = this.keybinderService.getShortcuts();

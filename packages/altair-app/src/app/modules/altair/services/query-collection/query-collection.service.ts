@@ -1,5 +1,5 @@
 import { from as observableFrom, of } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 import {
   ExportCollectionState,
@@ -29,11 +29,10 @@ const COLLECTION_PATH_SEPARATOR = '/';
 // https://github.com/dexie/Dexie.js/issues/749
 @Injectable()
 export class QueryCollectionService {
-  constructor(
-    private storage: StorageService,
-    private api: ApiService,
-    private accountService: AccountService
-  ) {}
+  private storage = inject(StorageService);
+  private api = inject(ApiService);
+  private accountService = inject(AccountService);
+
 
   /**
    *

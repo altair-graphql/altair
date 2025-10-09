@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -10,6 +10,11 @@ import * as workspaceActions from '../store/workspace/workspace.action';
 
 @Injectable()
 export class WorkspaceEffects {
+  private actions$ = inject(Actions);
+  private store = inject<Store<RootState>>(Store);
+  private storageService = inject(StorageService);
+  private accountService = inject(AccountService);
+
   loadWorkspaces$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -32,11 +37,4 @@ export class WorkspaceEffects {
     },
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<RootState>,
-    private storageService: StorageService,
-    private accountService: AccountService
-  ) {}
 }

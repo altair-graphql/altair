@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  input
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, input, inject } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import {
   AUTHORIZATION_TYPES,
@@ -25,6 +18,8 @@ import { AUTHORIZATION_MAPPING } from '../authorizations';
   standalone: false,
 })
 export class AuthorizationEditorComponent implements OnInit {
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+
   typeForm = this.formBuilder.group<{
     type: AuthorizationTypes;
   }>({
@@ -39,8 +34,6 @@ export class AuthorizationEditorComponent implements OnInit {
   @Output() authDataChange = new EventEmitter();
   AUTH_MAPPING = AUTHORIZATION_MAPPING;
   AUTH_TYPES = AUTHORIZATION_TYPE_LIST;
-
-  constructor(private readonly formBuilder: NonNullableFormBuilder) {}
 
   ngOnInit(): void {
     const authorizationState = this.authorizationState();

@@ -24,12 +24,12 @@ export class DialogComponent {
   @Output() saveChange = new EventEmitter();
 
   onClickSave(e: Event) {
-    this.toggleDialog.emit(!this.showDialog);
+    this.toggleDialog.emit(!this.showDialog());
     this.saveChange.emit(e);
   }
 
   onSubmit(e: Event) {
-    this.toggleDialog.emit(!this.showDialog);
+    this.toggleDialog.emit(!this.showDialog());
     this.saveChange.emit(e);
   }
 }

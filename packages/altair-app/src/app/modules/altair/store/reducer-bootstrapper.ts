@@ -1,19 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { ElectronAppService, NotifyService, StorageService } from '../services';
 import { getAppStateFromStorage } from './async-storage-sync';
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class ReducerBootstrapper {
-  initialState: Partial<RootState> | undefined;
+  private altairConfig = inject(AltairConfig);
+  private storageService = inject(StorageService);
+  private electronAppService = inject(ElectronAppService);
+  private notifyService = inject(NotifyService);
 
-  constructor(
-    private altairConfig: AltairConfig,
-    private storageService: StorageService,
-    private electronAppService: ElectronAppService,
-    private notifyService: NotifyService
-  ) {}
+  initialState: Partial<RootState> | undefined;
 
   async bootstrap() {
     if (this.altairConfig.initialData.preserveState) {

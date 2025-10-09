@@ -11,6 +11,7 @@ import {
   NgZone,
   input,
   computed,
+  inject,
 } from '@angular/core';
 
 import { updateSchema, showInDocsCommand, fillAllFieldsCommands } from 'cm6-graphql';
@@ -54,6 +55,11 @@ import { isAuthorizationEnabled } from '../../store';
   standalone: false,
 })
 export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
+  private gqlService = inject(GqlService);
+  private notifyService = inject(NotifyService);
+  private store = inject<Store<RootState>>(Store);
+  private zone = inject(NgZone);
+
   readonly windowId = input('');
   readonly activeWindowId = input('');
   readonly query = input('');
@@ -100,6 +106,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() authDataChange = new EventEmitter();
 
   // TODO: Add static: true
+  // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('editor') editor: CodemirrorComponent | undefined;
 
   @HostBinding('style.flex-grow') public resizeFactor = 1;
@@ -131,13 +138,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   editorExtensions: Extension[] = this.graphqlExtension();
 
   updateWidgetTimeout?: ReturnType<typeof setTimeout>;
-
-  constructor(
-    private gqlService: GqlService,
-    private notifyService: NotifyService,
-    private store: Store<RootState>,
-    private zone: NgZone
-  ) {}
 
   ngOnInit() {
     const gqlSchema = this.gqlSchema();
@@ -407,7 +407,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   // using arrow function, as it seems the this context in angular-resize-element is changed
   validate = (event: ResizeEvent): boolean => {
     const MIN_DIMENSIONS_PX = 50;
-    if (!this.showVariableDialog) {
+    if (!this.showVariableDialog()) {
       return false;
     }
 
