@@ -15,7 +15,7 @@
         [ngModel]="query()"
         (ngModelChange)="queryChange.emit($event)"
         ngDefaultControl
-      ></app-codemirror>
+      />
     </div>
     <div
       class="variables-editor-container"
@@ -53,10 +53,11 @@
               [showVariableDialog]="showVariableDialog()"
               [enableExperimental]="enableExperimental()"
               (variablesChange)="variablesChange.emit($event)"
-            ></app-variables-editor>
+            />
           </div>
           <div class="variables-files-container">
             <button
+              type="button"
               class="variables-add-files-button"
               track-id="add_file_variable"
               (click)="addFileVariableChange.emit()"
@@ -68,37 +69,33 @@
               target="_blank"
               rel="noopener"
             >
-              <app-icon name="info"></app-icon>
+              <app-icon name="info" />
               {{ 'LEARN_MORE_TEXT' | translate }}
             </a>
             <div class="variables-files-list">
-              @for (
-                file of variables()?.files;
-                track trackByIndex(index, file);
-                let index = $index
-              ) {
+              @for (file of variables()?.files; track trackByIndex($index, file)) {
                 <app-variable-file-item
                   [fileVariable]="file"
                   (fileVariableNameChange)="
-                    fileVariableNameChange.emit({ index: index, name: $event })
+                    fileVariableNameChange.emit({ index: $index, name: $event })
                   "
                   (fileVariableDataChange)="
                     fileVariableDataChange.emit({
-                      index: index,
+                      index: $index,
                       fileData: $event.files,
                       fromCache: $event.fromCache,
                     })
                   "
                   (fileVariableIsMultipleChange)="
                     fileVariableIsMultipleChange.emit({
-                      index: index,
+                      index: $index,
                       isMultiple: $event,
                     })
                   "
                   (deleteFileVariableChange)="
-                    deleteFileVariableChange.emit({ index: index })
+                    deleteFileVariableChange.emit({ index: $index })
                   "
-                ></app-variable-file-item>
+                />
               }
             </div>
           </div>
@@ -116,7 +113,7 @@
       [preRequest]="preRequest()"
       (preRequestScriptChange)="preRequestScriptChange.emit($event)"
       (preRequestEnabledChange)="preRequestEnabledChange.emit($event)"
-    ></app-pre-request-editor>
+    />
   </nz-tab>
   <nz-tab [nzTitle]="postRequestTitleTemplate">
     <ng-template #postRequestTitleTemplate>
@@ -128,7 +125,7 @@
       [postRequest]="postRequest()"
       (postRequestScriptChange)="postRequestScriptChange.emit($event)"
       (postRequestEnabledChange)="postRequestEnabledChange.emit($event)"
-    ></app-post-request-editor>
+    />
   </nz-tab>
   <nz-tab [nzTitle]="authorizationTitleTemplate">
     <ng-template #authorizationTitleTemplate>

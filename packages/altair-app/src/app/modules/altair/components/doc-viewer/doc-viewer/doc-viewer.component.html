@@ -22,13 +22,13 @@
               (click)="goBack()"
               track-id="go_back_docs"
             >
-              <app-icon name="arrow-left"></app-icon>
+              <app-icon name="arrow-left" />
               <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
             </div>
           }
           @if (docView.view !== 'root') {
             <div class="doc-viewer-navigation__option" (click)="goHome()">
-              <app-icon name="home"></app-icon>
+              <app-icon name="home" />
             </div>
           }
         </div>
@@ -39,7 +39,7 @@
             [nzDropdownMenu]="docViewerMenu"
             class="doc-viewer-navigation__option"
           >
-            <app-icon name="more-horizontal"></app-icon>
+            <app-icon name="more-horizontal" />
           </div>
           <nz-dropdown-menu #docViewerMenu="nzDropdownMenu">
             <ul nz-menu>
@@ -57,7 +57,7 @@
             class="doc-viewer-navigation__option"
             (click)="toggleDocsChange.emit()"
           >
-            <app-icon name="x"></app-icon>
+            <app-icon name="x" />
           </div>
         </div>
       </div>
@@ -139,7 +139,7 @@
                   (goToTypeChange)="goToType($event.name)"
                   (addToEditorChange)="addToEditor($event.name, $event.parentType)"
                   (sortFieldsByChange)="setSortFieldsByOption($event)"
-                ></app-doc-viewer-type>
+                />
               }
             }
             @case ('field') {
@@ -157,7 +157,7 @@
                   (goToTypeChange)="goToType($event.name)"
                   (addToEditorChange)="addToEditor($event.name, $event.parentType)"
                   (sortFieldsByChange)="setSortFieldsByOption($event)"
-                ></app-doc-viewer-field>
+                />
               }
             }
             @case ('directive') {
@@ -166,7 +166,7 @@
                   [data]="getDirective(docView)"
                   [gqlSchema]="gqlSchema()"
                   (goToTypeChange)="goToType($event.name)"
-                ></app-doc-viewer-directive>
+                />
               }
             }
             @case ('search') {
@@ -175,7 +175,7 @@
                 (goToFieldChange)="goToField($event.name, $event.parentType)"
                 (goToTypeChange)="goToType($event.name)"
                 (goToDirectiveChange)="goToDirective($event.name)"
-              ></app-doc-viewer-search-results>
+              />
             }
           }
         </div>

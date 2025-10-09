@@ -34,7 +34,7 @@
               nz-tooltip
               [nzTooltipTitle]="'STREAM_CONNECTION_TRYING' | translate"
               [nzTooltipOverlayStyle]="{ 'white-space': 'nowrap' }"
-            ></app-icon>
+            />
           }
           @if (streamState() === 'connected') {
             <app-icon
@@ -43,7 +43,7 @@
               nz-tooltip
               [nzTooltipTitle]="'STREAM_CONNECTION_CONNECTED' | translate"
               [nzTooltipOverlayStyle]="{ 'white-space': 'nowrap' }"
-            ></app-icon>
+            />
           }
         </div>
       </div>
@@ -56,7 +56,7 @@
       [(ngModel)]="apiUrl"
       (blurChange)="setApiUrl()"
       (submitChange)="setApiUrl()"
-    ></app-x-input>
+    />
   </div>
   <div class="url-box__input-actions">
     @if (currentCollection()) {
@@ -70,7 +70,7 @@
         [nzTooltipTitle]="'COLLECTION_UPDATE_WINDOW_IN_COLLECTION' | translate"
         nzTooltipPlacement="bottom"
       >
-        <app-icon name="save"></app-icon>
+        <app-icon name="save" />
       </button>
     }
     <button
@@ -82,7 +82,7 @@
       [nzTooltipTitle]="'SAVE_TO_COLLECTION_BUTTON' | translate"
       nzTooltipPlacement="bottom"
     >
-      <app-icon name="plus-circle"></app-icon>
+      <app-icon name="plus-circle" />
     </button>
     <button
       type="button"
@@ -93,7 +93,7 @@
       [nzTooltipTitle]="'EXPORT_WINDOW_TEXT' | translate"
       nzTooltipPlacement="bottom"
     >
-      <app-icon name="file-down"></app-icon>
+      <app-icon name="file-down" />
     </button>
     <button
       type="button"
@@ -104,7 +104,7 @@
       [nzTooltipTitle]="'RELOAD_DOCS_BUTTON' | translate"
       nzTooltipPlacement="bottom"
     >
-      <app-icon name="refresh-ccw"></app-icon>
+      <app-icon name="refresh-ccw" />
     </button>
     <button
       type="button"
@@ -119,6 +119,7 @@
   <div class="send-request__wrapper">
     @if (queryOperations().length < 2) {
       <button
+        type="button"
         class="app-button active-primary send-request__button"
         (click)="!isSubscribed() && this.sendRequest.emit()"
         [ngClass]="{ 'url-box__button--disabled': isLoading() }"
@@ -134,6 +135,7 @@
     }
     @if (queryOperations().length > 1) {
       <button
+        type="button"
         class="app-button active-primary send-request__button"
         [ngClass]="{ 'url-box__button--disabled': isLoading() }"
         track-id="send_request"
@@ -158,7 +160,7 @@
             >({{ selectedOperation() | truncate: 7 }})</span
           >
         }
-        <app-icon name="chevron-down"></app-icon>
+        <app-icon name="chevron-down" />
       </button>
     }
     <nz-dropdown-menu #queryOperationsMenu="nzDropdownMenu">

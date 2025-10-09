@@ -16,7 +16,9 @@
           {{ item.createdByUser.firstName }} {{ item.createdByUser.lastName }}
         </div>
         <div class="query-revisions__item-actions">
-          <button class="btn" (click)="restoreRevision.emit(item)">Restore</button>
+          <button type="button" class="btn" (click)="restoreRevision.emit(item)">
+            Restore
+          </button>
         </div>
       </div>
     }

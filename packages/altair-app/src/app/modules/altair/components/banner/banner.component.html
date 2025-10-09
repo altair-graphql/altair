@@ -4,18 +4,19 @@
     [nzMessage]="message"
     [nzCloseable]="banner()?.dismissible"
     (nzOnClose)="onDismiss()"
-  ></nz-alert>
+  />
 }
 <ng-template #message>
   <span class="alert-text">
     @if (banner()?.icon) {
-      <app-icon [name]="banner()?.icon"></app-icon>
+      <app-icon [name]="banner()?.icon" />
     }
     {{ banner()?.message }}
   </span>
   @if (banner()?.actions) {
     @for (action of banner()?.actions; track $index) {
       <button
+        type="button"
         class="btn btn--primary btn--light"
         (click)="action.handler()"
         track-id="donate"

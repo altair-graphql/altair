@@ -1,7 +1,7 @@
 <nz-modal
   [nzVisible]="showEditCollectionDialog()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
-  [nzCloseIcon]="'close-circle'"
+  nzCloseIcon="close-circle"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
@@ -33,14 +33,14 @@
                 [preRequest]="preRequest"
                 (preRequestScriptChange)="preRequest.script = $event"
                 (preRequestEnabledChange)="preRequest.enabled = $event"
-              ></app-pre-request-editor>
+              />
             </nz-tab>
             <nz-tab [nzTitle]="'POST_REQUEST_TAB' | translate">
               <app-post-request-editor
                 [postRequest]="postRequest"
                 (postRequestScriptChange)="postRequest.script = $event"
                 (postRequestEnabledChange)="postRequest.enabled = $event"
-              ></app-post-request-editor>
+              />
             </nz-tab>
             <nz-tab [nzTitle]="'ENVIRONMENTS_MANAGER_TEXT' | translate">
               <app-codemirror
@@ -51,7 +51,7 @@
                 [redrawLayout]="showEditCollectionDialog()"
                 [(ngModel)]="environmentVariablesStr"
                 (ngModelChange)="onEnvironmentVariablesChange($event)"
-              ></app-codemirror>
+              />
             </nz-tab>
             <nz-tab [nzTitle]="'HEADERS_TEXT' | translate">
               <app-headers-editor
@@ -74,6 +74,7 @@
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <button
+        type="button"
         class="btn btn--primary right"
         track-id=""
         (click)="updateCollection()"

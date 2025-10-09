@@ -26,7 +26,7 @@
       type="text"
       class="variables-file-item-name-input"
       data-tid="file_name"
-      placeholder="{{ 'FILE_NAME_PLACEHOLDER' | translate }}"
+      [placeholder]="'FILE_NAME_PLACEHOLDER' | translate"
       [ngModel]="fileVariable()?.name"
       (ngModelChange)="fileVariableNameChange.emit($event)"
     />
@@ -46,8 +46,12 @@
     >
       {{ validFileData.length }} file(s)
     </span>
-    <button class="app-button variables-file-item-button" (click)="fileEl.click()">
-      <app-icon name="paperclip"></app-icon>
+    <button
+      type="button"
+      class="app-button variables-file-item-button"
+      (click)="fileEl.click()"
+    >
+      <app-icon name="paperclip" />
       {{ 'FILES_SELECT_FILES' | translate }}
     </button>
   </div>

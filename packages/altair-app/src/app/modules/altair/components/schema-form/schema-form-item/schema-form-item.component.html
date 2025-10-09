@@ -4,13 +4,13 @@
       @case ('number') {
         <nz-form-label>{{ item.description }}</nz-form-label>
         <nz-form-control>
-          <nz-input-number [(ngModel)]="data" [name]="item.key"></nz-input-number>
+          <nz-input-number [(ngModel)]="data" [name]="item.key" />
         </nz-form-control>
       }
       @case ('boolean') {
         <nz-form-label>{{ item.description }}</nz-form-label>
         <nz-form-control>
-          <nz-switch [(ngModel)]="data" [name]="item.key"></nz-switch>
+          <nz-switch [(ngModel)]="data" [name]="item.key" />
         </nz-form-control>
       }
       @case ('string') {
@@ -19,7 +19,7 @@
             [item]="item"
             [data]="asStringOrUndefined(data())"
             (dataChange)="data.set($event)"
-          ></app-schema-form-item-input>
+          />
         }
       }
       @case ('array') {
@@ -28,7 +28,7 @@
             [item]="item"
             [data]="asArrayOrUndefined(data())"
             (dataChange)="data.set($event)"
-          ></app-schema-form-item-list>
+          />
         }
       }
       @default {
@@ -47,7 +47,7 @@
                     <nz-option
                       [nzValue]="option.value"
                       [nzLabel]="option.label"
-                    ></nz-option>
+                    />
                   }
                 </nz-select>
               </nz-form-control>

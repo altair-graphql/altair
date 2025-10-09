@@ -13,9 +13,10 @@
       <app-doc-viewer-deprecated
         [isDeprecated]="data.isDeprecated"
         [deprecatedReason]="data.deprecationReason"
-      ></app-doc-viewer-deprecated>
+      />
       <div class="doc-viewer-item-query-inner">
         <button
+          type="button"
           class="doc-viewer-item-query-add-btn"
           (click)="addToEditor({ name: data.name, parentType: parentType() })"
           track-id="add_query"
@@ -63,7 +64,7 @@
           <app-doc-viewer-deprecated
             [isDeprecated]="!!arg.deprecationReason"
             [deprecatedReason]="arg.deprecationReason"
-          ></app-doc-viewer-deprecated>
+          />
         </div>
       }
     </div>
@@ -82,5 +83,5 @@
     (goToTypeChange)="goToType($event.name)"
     (addToEditorChange)="addToEditor($event)"
     (sortFieldsByChange)="sortFieldsByChange.emit($event)"
-  ></app-doc-viewer-type>
+  />
 }

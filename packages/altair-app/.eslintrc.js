@@ -63,8 +63,26 @@ module.exports = {
     },
     {
       files: ['*.html'],
-      extends: ['plugin:@angular-eslint/template/recommended'],
-      rules: {},
+      extends: [
+        'plugin:@angular-eslint/template/recommended',
+        'plugin:@angular-eslint/template/all',
+      ],
+      rules: {
+        '@angular-eslint/template/conditional-complexity': 'off',
+        '@angular-eslint/template/i18n': 'off', // Disable for now as we don't have i18n setup
+        '@angular-eslint/template/attributes-order': 'off',
+        '@angular-eslint/template/no-call-expression': 'off',
+        '@angular-eslint/template/cyclomatic-complexity': 'warn',
+        '@angular-eslint/template/no-nested-tags': 'warn',
+        '@angular-eslint/template/no-inline-styles': 'off',
+        '@angular-eslint/template/label-has-associated-control': 'off',
+        '@angular-eslint/template/button-has-type': 'warn',
+
+        // TODO: Revisit these later
+        '@angular-eslint/template/interactive-supports-focus': 'warn',
+        '@angular-eslint/template/click-events-have-key-events': 'warn',
+        '@angular-eslint/template/prefer-ngsrc': 'warn',
+      },
     },
     {
       files: ['*.js'],

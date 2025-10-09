@@ -1,7 +1,7 @@
 <nz-modal
   [nzVisible]="showDialog()"
   (nzVisibleChange)="toggleDialog.emit($event)"
-  [nzCloseIcon]="'close-circle'"
+  nzCloseIcon="close-circle"
   [nzTitle]="showHeader() ? modalTitle : null"
   [nzContent]="modalContent"
   [nzFooter]="showFooter() ? modalFooter : null"
@@ -17,7 +17,7 @@
 
   <ng-template #modalContent>
     <form (ngSubmit)="onSubmit($event)">
-      <ng-content></ng-content>
+      <ng-content />
       <button type="submit" style="display: none"></button>
     </form>
   </ng-template>
@@ -25,7 +25,11 @@
   <ng-template #modalFooter>
     @if (showFooter()) {
       <div class="app-dialog-footer">
-        <button class="btn btn--primary right" (click)="onClickSave($event)">
+        <button
+          type="button"
+          class="btn btn--primary right"
+          (click)="onClickSave($event)"
+        >
           {{ 'SAVE_BUTTON' | translate }}
         </button>
       </div>

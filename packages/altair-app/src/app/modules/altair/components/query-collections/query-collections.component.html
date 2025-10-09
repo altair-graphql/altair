@@ -17,7 +17,7 @@
           nzTooltipPlacement="bottom"
           (click)="importCollectionsChange.emit()"
         >
-          <app-icon name="log-in"></app-icon>
+          <app-icon name="log-in" />
         </button>
         @if (loggedIn()) {
           <button
@@ -29,7 +29,7 @@
             nzTooltipPlacement="bottom"
             (click)="syncCollectionsChange.emit()"
           >
-            <app-icon name="refresh-ccw"></app-icon>
+            <app-icon name="refresh-ccw" />
           </button>
         }
 
@@ -41,7 +41,7 @@
           [nzTooltipTitle]="'SEARCH_COLLECTIONS_PLACEHOLDER' | translate"
           (click)="showSearch.set(!showSearch())"
         >
-          <app-icon name="search"></app-icon>
+          <app-icon name="search" />
         </button>
         <div class="query-collections__actions--right">
           <button
@@ -90,7 +90,7 @@
           <input
             type="text"
             class="input"
-            placeholder="{{ 'SEARCH_COLLECTIONS_PLACEHOLDER' | translate }}"
+            [placeholder]="'SEARCH_COLLECTIONS_PLACEHOLDER' | translate"
             [value]="searchTerm()"
             #searchInput
             (input)="onSearchInput(searchInput.value)"
@@ -112,7 +112,7 @@
             <nz-option
               nzValue=""
               [nzLabel]="'COLLECTIONS_WORKSPACES_SELECT_ALL' | translate"
-            ></nz-option>
+            />
             @for (workspace of workspaces(); track trackById($index, workspace)) {
               <nz-option
                 nzCustomContent
@@ -120,10 +120,10 @@
                 [nzLabel]="workspace.label"
               >
                 @if (workspace.id !== 'local') {
-                  <app-icon name="cloud" title="Remote"></app-icon>
+                  <app-icon name="cloud" title="Remote" />
                 }
                 @if (workspace.teamId) {
-                  <app-icon name="users" title="Team"></app-icon>
+                  <app-icon name="users" title="Team" />
                 }
                 {{ workspace.label }}
               </nz-option>
@@ -151,12 +151,12 @@
             (sortCollectionQueriesChange)="sortCollectionQueriesChange.emit($event)"
             (showQueryRevisionsChange)="showQueryRevisionsChange.emit($event)"
             (copyQueryShareLinkChange)="copyQueryShareLinkChange.emit($event)"
-          ></app-query-collection-item>
+          />
         }
         @if (!collectionTrees().length) {
           <div class="query-collections__empty">
             <div class="query-collections__empty-icon">
-              <app-icon name="sidebar" size="40"></app-icon>
+              <app-icon name="sidebar" size="40" />
             </div>
             <div class="query-collections__empty-description">
               {{ 'COLLECTIONS_EMPTY_TEXT' | translate }}

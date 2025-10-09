@@ -1,13 +1,17 @@
 @if (options.closeButton) {
-  <button (click)="remove()" class="toast-close-button" aria-label="Close">
+  <button
+    type="button"
+    (click)="remove()"
+    class="toast-close-button"
+    aria-label="Close"
+  >
     <span aria-hidden="true">&times;</span>
   </button>
 }
 @if (title) {
   <div
-    [class]="options.titleClass"
+    [class]="`app-dialog-section ${options.titleClass}`"
     [attr.aria-label]="title"
-    class="app-dialog-section"
   >
     {{ title }}
     @if (duplicatesCount) {
@@ -19,8 +23,7 @@
   <div
     role="alertdialog"
     aria-live="polite"
-    class="app-dialog-section"
-    [class]="options.messageClass"
+    [class]="`app-dialog-section ${options.messageClass}`"
     [innerHTML]="message"
   ></div>
 }
@@ -28,19 +31,20 @@
   <div
     role="alertdialog"
     aria-live="polite"
-    class="app-dialog-section"
-    [class]="options.messageClass"
+    [class]="`app-dialog-section ${options.messageClass}`"
     [attr.aria-label]="message"
   >
     {{ message }}
   </div>
 }
 <div>
-  <button class="btn btn--primary" (click)="action($event)">Yes</button>
-  <button class="btn" (click)="remove()">No</button>
+  <button type="button" class="btn btn--primary" (click)="action($event)">
+    Yes
+  </button>
+  <button type="button" class="btn" (click)="remove()">No</button>
 </div>
 @if (options.progressBar) {
   <div>
-    <div class="toast-progress" [style.width]="width + '%'"></div>
+    <div class="toast-progress" [style.width]="`${width}%`"></div>
   </div>
 }

@@ -20,7 +20,7 @@
   (windowNameChange)="windowNameChange.emit($event)"
   (reorderWindowsChange)="reorderWindowsChange.emit($event)"
   (reopenClosedWindowChange)="reopenClosedWindowChange.emit($event)"
-></app-window-switcher>
+/>
 
 <div class="header__actions">
   <ul class="header__menu">
@@ -33,7 +33,7 @@
         class="header__menu-item"
         [ngClass]="{ 'header__menu-item--active': panel.isActive }"
       >
-        <app-icon name="cpu"></app-icon>
+        <app-icon name="cpu" />
         <nz-modal
           [nzVisible]="panel.isActive"
           (nzVisibleChange)="togglePanelActiveChange.emit(panel)"
@@ -48,7 +48,7 @@
             </div>
           </ng-template>
           <ng-template #modalContent>
-            <app-element-wrapper [element]="panel.element"></app-element-wrapper>
+            <app-element-wrapper [element]="panel.element" />
           </ng-template>
         </nz-modal>
       </li>
@@ -62,13 +62,13 @@
     >
       @if (activeEnvironment()) {
         <span>
-          <app-icon name="eye"></app-icon>
+          <app-icon name="eye" />
           <span>{{ activeEnvironment()?.title }}</span>
         </span>
       }
       @if (activeEnvironment === undefined) {
         <span>
-          <app-icon name="eye-off"></app-icon>
+          <app-icon name="eye-off" />
           <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
         </span>
       }
@@ -104,7 +104,7 @@
       [nzDropdownMenu]="settingsMenu"
       class="header__menu-item"
     >
-      <app-icon name="settings"></app-icon>
+      <app-icon name="settings" />
     </li>
     <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
       <ul nz-menu>

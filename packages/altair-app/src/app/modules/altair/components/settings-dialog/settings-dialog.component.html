@@ -1,7 +1,7 @@
 <nz-modal
   [nzVisible]="showSettingsDialog()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
-  [nzCloseIcon]="'close-circle'"
+  nzCloseIcon="close-circle"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
@@ -30,7 +30,7 @@
             [schema]="settingsSchema"
             [data]="localSettings"
             (dataChange)="onFormDataChange($event)"
-          ></app-schema-form>
+          />
         </div>
       }
 
@@ -43,7 +43,7 @@
             [extensions]="editorExtensions"
             [ngModel]="jsonSettings"
             (ngModelChange)="onSettingsChange($event)"
-          ></app-codemirror>
+          />
           <small>{{ 'SETTINGS_SHOW_EDITOR_HINT' | translate }}</small>
           <small
             ><a
@@ -124,6 +124,7 @@
         </div>
       </div>
       <button
+        type="button"
         track-id="save_settings"
         class="btn btn--primary right"
         (click)="saveSettings()"

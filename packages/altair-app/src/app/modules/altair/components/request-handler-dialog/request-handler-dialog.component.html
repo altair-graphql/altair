@@ -19,7 +19,7 @@
             <nz-option
               [nzValue]="handler.id"
               [nzLabel]="handler.copyTag || '' | translate"
-            ></nz-option>
+            />
           }
         </nz-select>
       </div>
@@ -36,7 +36,7 @@
             [extensions]="connectionParamsExtensions"
             [showLineNumber]="false"
             [foldGutter]="false"
-          ></app-codemirror>
+          />
         </div>
       </div>
       <div class="request-handler-params-section">
@@ -60,7 +60,7 @@
               subscriptionUseDefaultRequestHandler: $event,
             })
           "
-        ></nz-switch>
+        />
         {{ 'SUBSCRIPTION_USE_DEFAULT_REQUEST_HANDLER' | translate }}
       </div>
 
@@ -81,7 +81,7 @@
                 <nz-option
                   [nzValue]="handler.id"
                   [nzLabel]="handler.copyTag || '' | translate"
-                ></nz-option>
+                />
               }
             </nz-select>
           </div>
@@ -100,7 +100,7 @@
                 [extensions]="connectionParamsExtensions"
                 [showLineNumber]="false"
                 [foldGutter]="false"
-              ></app-codemirror>
+              />
             </div>
           </div>
         </div>

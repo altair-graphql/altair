@@ -9,11 +9,7 @@
     @if (!account()?.loggedIn) {
       <div class="account-dialog__not-logged-in">
         <div class="account-dialog__not-logged-in__inner">
-          <nz-avatar
-            nzText="?"
-            nzSrc="assets/img/altair_logo.svg"
-            nzSize="large"
-          ></nz-avatar>
+          <nz-avatar nzText="?" nzSrc="assets/img/altair_logo.svg" nzSize="large" />
 
           <h2>Login to get started</h2>
           <p>
@@ -24,12 +20,20 @@
             /></a>
           </p>
           <div class="account-dialog__signin-actions">
-            <button class="btn btn--bordered" (click)="submitLogin('GOOGLE')">
+            <button
+              type="button"
+              class="btn btn--bordered"
+              (click)="submitLogin('GOOGLE')"
+            >
               <!-- <app-icon name="google"></app-icon> -->
               {{ 'SIGNIN_WITH_GOOGLE' | translate }}
             </button>
-            <button class="btn btn--bordered" (click)="submitLogin('GITHUB')">
-              <app-icon name="github"></app-icon>
+            <button
+              type="button"
+              class="btn btn--bordered"
+              (click)="submitLogin('GITHUB')"
+            >
+              <app-icon name="github" />
               {{ 'SIGNIN_WITH_GITHUB' | translate }}
             </button>
           </div>
@@ -43,21 +47,22 @@
           <nz-avatar
             [nzText]="account()?.firstName?.at(0)"
             [nzSrc]="account()?.picture"
-          ></nz-avatar>
+          />
           {{ 'ACCOUNT_HELLO' | translate }}, {{ account()?.firstName }}
         </div>
       </div>
       <p>
         <a class="link" target="_blank" (click)="openBillingPage($event)">
           Billing
-          <app-icon name="external-link"></app-icon>
+          <app-icon name="external-link" />
         </a>
         @if (account()?.plan?.canUpgradePro) {
           <button
+            type="button"
             class="btn btn--primary btn--light btn--small"
             (click)="openUpgradeProUrl($event)"
           >
-            <app-icon name="sparkles"></app-icon> Upgrade plan
+            <app-icon name="sparkles" /> Upgrade plan
           </button>
         }
       </p>
@@ -68,7 +73,7 @@
             name="info"
             nz-tooltip
             [nzTooltipTitle]="'ACCOUNT_PLAN_STATS_DESCRIPTION' | translate"
-          ></app-icon>
+          />
         </div>
         <div>Plan: {{ account()?.plan?.id }}</div>
         <div>
@@ -85,17 +90,18 @@
           {{ account()?.availableCredits?.monthly ?? 0 }}
         </div>
         <button
+          type="button"
           class="btn btn--primary btn--light btn--small"
           (click)="buyCredits($event)"
           [disabled]="account()?.plan?.canUpgradePro"
         >
-          <app-icon name="coins"></app-icon> Buy Credits
+          <app-icon name="coins" /> Buy Credits
           @if (account()?.plan?.canUpgradePro) {
             (Pro users only)
           }
         </button>
       </div>
-      <button class="btn" (click)="logoutChange.emit()">
+      <button type="button" class="btn" (click)="logoutChange.emit()">
         {{ 'LOGOUT_TEXT' | translate }}
       </button>
     }

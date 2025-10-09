@@ -9,13 +9,11 @@
         <div class="query-collections__item-title">
           @if (showContent) {
             <span class="query-title-icon"
-              ><app-icon name="folder-minus"></app-icon
-            ></span>
+              ><app-icon name="folder-minus" /></span>
           }
           @if (!showContent) {
             <span class="query-title-icon"
-              ><app-icon name="folder-plus"></app-icon
-            ></span>
+              ><app-icon name="folder-plus" /></span>
           }
           <span>{{ collectionTree().title }}</span>
         </div>
@@ -30,7 +28,7 @@
           class="query-collections__item-synced-icon"
           [title]="'CLOUD_SYNC_TEXT' | translate"
         >
-          <app-icon name="cloud"></app-icon>
+          <app-icon name="cloud" />
         </span>
       }
       <div class="query-collections__item-right">
@@ -42,7 +40,7 @@
             type="button"
             class="query-collections__item-icon__button"
           >
-            <app-icon name="more-horizontal"></app-icon>
+            <app-icon name="more-horizontal" />
           </button>
         </span>
         <nz-dropdown-menu #collectionItemMenu="nzDropdownMenu">
@@ -130,7 +128,7 @@
             (deleteCollectionChange)="deleteCollectionChange.next($event)"
             (editCollectionChange)="editCollectionChange.next($event)"
             (exportCollectionChange)="exportCollectionChange.next($event)"
-          ></app-query-collection-item>
+          />
         }
       </div>
       <div class="query-collections__item-queries">
@@ -153,7 +151,7 @@
                 })
               "
             >
-              <span class="query-title-icon"><app-icon name="file"></app-icon></span>
+              <span class="query-title-icon"><app-icon name="file" /></span>
               {{ query.windowName }}
               @if (!query.id) {
                 <span
@@ -162,7 +160,7 @@
                   [nzTooltipTitle]="deprecatedCollectionQuery"
                   nzTooltipPlacement="bottom"
                 >
-                  <app-icon name="alert-triangle"></app-icon>
+                  <app-icon name="alert-triangle" />
                 </span>
               }
               <ng-template #deprecatedCollectionQuery>
@@ -180,7 +178,7 @@
                 class="query-collections__item-queries-item-synced-icon"
                 [title]="'CLOUD_SYNC_TEXT' | translate"
               >
-                <app-icon name="cloud"></app-icon>
+                <app-icon name="cloud" />
               </span>
             }
             <span class="query-collections__item-queries-item-right">
@@ -192,7 +190,7 @@
                   [nzDropdownMenu]="collectionQueryItemMenu"
                   class="query-collections__item-icon__button"
                 >
-                  <app-icon name="more-horizontal"></app-icon>
+                  <app-icon name="more-horizontal" />
                 </button>
               </span>
               <nz-dropdown-menu #collectionQueryItemMenu="nzDropdownMenu">

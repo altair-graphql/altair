@@ -32,10 +32,11 @@
 
             @if (isRunning()) {
               <button
+                type="button"
                 class="btn btn--small btn--light btn--destructive"
                 (click)="cancelRequestChange.emit()"
               >
-                <app-icon name="x"></app-icon>
+                <app-icon name="x" />
                 {{ 'CANCEL_TEXT' | translate }}
               </button>
             }
@@ -51,7 +52,7 @@
               {{ responseStatus() }} {{ responseStatusText() }}
             </span>
             <span class="response-time response-stats__item">
-              <app-icon name="clock"></app-icon> {{ responseTime() }}ms
+              <app-icon name="clock" /> {{ responseTime() }}ms
             </span>
             @if (isSubscribed() && isRunning()) {
               <span class="query-result__uri">{{ subscriptionUrl() }}</span>
@@ -60,32 +61,35 @@
           <div class="query-result__top-section">
             @if (isRunning() && queryResponses().length > 1) {
               <button
+                type="button"
                 track-id="autoscroll"
                 class="btn btn--small btn--light"
                 [ngClass]="{ 'btn--primary': autoscrollResponseList() }"
                 (click)="autoscrollResponseListChange.emit()"
               >
-                <app-icon name="arrow-down-narrow-wide"></app-icon>
+                <app-icon name="arrow-down-narrow-wide" />
                 {{ 'SUBSCRIPTIONS_AUTOSCROLL_TEXT' | translate }}
               </button>
             }
             @if (!isRunning() && queryResponses().length) {
               <button
+                type="button"
                 track-id="clear_result"
                 class="btn btn--small"
                 (click)="clearResultChange.emit()"
               >
-                <app-icon name="trash-2"></app-icon>
+                <app-icon name="trash-2" />
                 {{ 'QUERY_RESULT_CLEAR_RESULT_BUTTON' | translate }}
               </button>
             }
 
             @if (isRunning()) {
               <button
+                type="button"
                 class="btn btn--small btn--light btn--destructive"
                 (click)="cancelRequestChange.emit()"
               >
-                <app-icon name="x"></app-icon>
+                <app-icon name="x" />
                 {{ 'CANCEL_TEXT' | translate }}
               </button>
             }
@@ -98,21 +102,23 @@
                 [ngModel]="getItemContent(item)"
                 [fullHeight]="true"
                 [extensions]="editorExtensions"
-              ></app-codemirror>
+              />
               <div class="query-result__list-item-info">
                 {{ item.timestamp | date: 'mediumTime' }}
               </div>
               <div class="query-result__list-item-actions">
                 <button
+                  type="button"
                   track-id="download_result"
                   class="btn btn--small"
                   (click)="downloadResultChange.emit(getItemContent(item))"
                 >
-                  <app-icon name="download"></app-icon>
+                  <app-icon name="download" />
                   {{ 'QUERY_RESULT_DOWNLOAD_RESULT_BUTTON' | translate }}
                 </button>
                 @for (uiAction of uiActions(); track uiAction) {
                   <button
+                    type="button"
                     class="btn btn--small"
                     (click)="uiActionExecuteChange.emit(uiAction)"
                   >
@@ -200,7 +206,7 @@
     @for (panel of bottomPanels(); track trackById($index, panel)) {
       <div
         (click)="togglePanelActive(panel)"
-        attr.aria-label="{{ panel.title }}"
+        [attr.aria-label]="panel.title"
         [ngClass]="{ 'query-result__bottom-pane__title--active': panel.isActive }"
         class="query-result__bottom-pane__title"
       >
@@ -216,7 +222,7 @@
             [element]="panel.element"
             [windowId]="windowId()"
             [activeWindowId]="activeWindowId()"
-          ></app-element-wrapper>
+          />
         </div>
       }
     }

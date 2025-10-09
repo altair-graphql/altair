@@ -8,7 +8,7 @@
 >
   @switch (iconState()) {
     @case ('is-editing') {
-      <app-icon name="pencil"></app-icon>
+      <app-icon name="pencil" />
     }
     @case ('in-collection') {
       <app-icon
@@ -16,13 +16,13 @@
         nz-tooltip
         [nzTooltipTitle]="'COLLECTION_OPEN_QUERY_TOOLTIP' | translate"
         nzTooltipPlacement="bottom"
-      ></app-icon>
+      />
     }
     @case ('is-loading') {
-      <app-icon name="loader" class="anim anim-rotate"></app-icon>
+      <app-icon name="loader" class="anim anim-rotate" />
     }
     @default {
-      <app-icon name="file" class="window-switcher__subdued"></app-icon>
+      <app-icon name="file" class="window-switcher__subdued" />
     }
   }
   <!-- TODO: Switch out for input element when editing -->
@@ -38,9 +38,9 @@
   >
     {{ window()?.layout?.title || '' }}
   </div>
-  <span class="window-switcher__unsaved-indicator" *ngIf="isWindowUnsaved()">
-    *
-  </span>
+  @if (isWindowUnsaved()) {
+    <span class="window-switcher__unsaved-indicator"> * </span>
+  }
   @if (isClosable()) {
     <div
       track-id="close_window_tab"

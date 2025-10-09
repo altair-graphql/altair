@@ -2,9 +2,9 @@
   <div
     class="beta-indicator"
     nz-popover
-    [nzPopoverTitle]="'Beta - ' + title()"
+    [nzPopoverTitle]="`Beta - ${title()}`"
     [nzPopoverContent]="contentTemplate"
-    [nzPopoverTrigger]="'click'"
+    nzPopoverTrigger="click"
     [nzPopoverOverlayStyle]="{ 'font-size': '12px', width: '300px' }"
   >
     <span>Beta</span>
@@ -24,7 +24,7 @@
         nzSize="small"
         [ngModel]="value$ | async"
         (ngModelChange)="setValue($event)"
-      ></nz-switch>
+      />
       Toggle this feature
     </div>
   </ng-template>

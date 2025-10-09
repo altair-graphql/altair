@@ -1,6 +1,6 @@
 <div class="headers-editor">
   <div class="headers-editor__list">
-    @for (header of headers(); track $index; let i = $index) {
+    @for (header of headers(); track $index) {
       <div
         class="headers-editor__list-item"
         [ngClass]="{
@@ -10,29 +10,34 @@
         <label
           nz-checkbox
           [ngModel]="header.enabled"
-          (ngModelChange)="headerEnabledChange.emit({ index: i, enabled: $event })"
+          (ngModelChange)="
+            headerEnabledChange.emit({ index: $index, enabled: $event })
+          "
         ></label>
         <div class="set-header-input-column">
           <app-x-input
             class="input"
             placeholder="Header key"
             [ngModel]="header.key"
-            (ngModelChange)="headerKeyChange.emit({ index: i, key: $event })"
+            (ngModelChange)="headerKeyChange.emit({ index: $index, key: $event })"
             (submitChange)="doneChange.emit()"
-          ></app-x-input>
+          />
         </div>
         <div class="set-header-input-column">
           <app-x-input
             class="input"
             placeholder="Header value"
             [ngModel]="header.value"
-            (ngModelChange)="headerValueChange.emit({ index: i, value: $event })"
+            (ngModelChange)="
+              headerValueChange.emit({ index: $index, value: $event })
+            "
             (submitChange)="doneChange.emit()"
-          ></app-x-input>
+          />
         </div>
         <button
+          type="button"
           class="header-input-remove-button"
-          (click)="removeHeaderChange.emit(i)"
+          (click)="removeHeaderChange.emit($index)"
         >
           &times;
         </button>

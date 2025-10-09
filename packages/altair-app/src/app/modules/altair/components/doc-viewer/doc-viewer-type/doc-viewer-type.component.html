@@ -45,7 +45,7 @@
               <app-doc-viewer-deprecated
                 [isDeprecated]="item.isDeprecated"
                 [deprecatedReason]="item.deprecationReason"
-              ></app-doc-viewer-deprecated>
+              />
             </div>
             @if (item.description) {
               <div
@@ -99,7 +99,7 @@
             type="button"
             class="btn btn--small"
           >
-            <app-icon name="arrow-down-wide-narrow"></app-icon>
+            <app-icon name="arrow-down-wide-narrow" />
             @switch (sortByOption()) {
               @case ('a-z') {
                 {{ 'SORT_BY_A_Z' | translate }}
@@ -190,13 +190,14 @@
             <app-doc-viewer-deprecated
               [isDeprecated]="item.isDeprecated"
               [deprecatedReason]="item.deprecationReason"
-            ></app-doc-viewer-deprecated>
+            />
             <div
               class="doc-viewer-item-query-description"
               markdown
               [data]="item.description || ''"
             ></div>
             <button
+              type="button"
               class="doc-viewer-item-query-add-btn"
               (click)="addToEditor(item.name, data.name)"
               track-id="add_query"
