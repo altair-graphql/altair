@@ -81,5 +81,3 @@ jobs:
       - name: Output deployment URL
         run: |
           echo "Deployment complete!"
-          echo "Project: ${{ inputs.project_name }}"
-          echo "Path: ${{ inputs.dist_path }}"
