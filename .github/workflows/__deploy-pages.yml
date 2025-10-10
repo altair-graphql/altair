@@ -1,0 +1,75 @@
+name: deploy-pages-workflow
+
+on:
+  workflow_call:
+    inputs:
+      project_name:
+        description: "Cloudflare Pages project name"
+        required: true
+        type: string
+      dist_path:
+        description: "Path to the built distribution files"
+        required: true
+        type: string
+      deployment_name:
+        description: "Display name for the deployment step"
+        required: false
+        type: string
+        default: "Deploy to Cloudflare Pages"
+      node_version:
+        description: "Node.js version to use"
+        required: false
+        type: string
+        default: "22"
+    secrets:
+      CLOUDFLARE_API_TOKEN:
+        description: "Cloudflare API token"
+        required: true
+      CLOUDFLARE_ACCOUNT_ID:
+        description: "Cloudflare account ID"
+        required: true
+      GITHUB_TOKEN:
+        description: "GitHub token for deployments"
+        required: false
+
+jobs:
+  deploy:
+    name: ${{ inputs.deployment_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ inputs.node_version }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: "--max_old_space_size=4096"
+
+      - name: Bootstrap monorepo
+        run: pnpm bootstrap
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_OPTIONS: "--max_old_space_size=4096"
+
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages publish "${{ inputs.dist_path }}" --project-name="${{ inputs.project_name }}"
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Output deployment URL
+        run: |
+          echo "Deployment complete!"
+          echo "Project: ${{ inputs.project_name }}"
+          echo "Path: ${{ inputs.dist_path }}"
