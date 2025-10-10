@@ -1,6 +1,8 @@
 <div
   class="header__logo-wrapper"
-  [ngClass]="{ 'header__logo-wrapper--experimental': settings()?.enableExperimental }"
+  [ngClass]="{
+    'header__logo-wrapper--experimental': settings()?.enableExperimental,
+  }"
 >
   <img src="assets/img/altair_logo.svg" alt="logo" class="header__logo" />
 </div>
@@ -66,7 +68,7 @@
           <span>{{ activeEnvironment()?.title }}</span>
         </span>
       }
-      @if (activeEnvironment === undefined) {
+      @if (activeEnvironment() === undefined) {
         <span>
           <app-icon name="eye-off" />
           <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>

@@ -2,7 +2,9 @@
 
 exports[`ImportCurlDialogComponent should render correctly 1`] = `
 <app-import-curl-dialog>
-  <nz-modal>
+  <nz-modal
+    nzcloseicon="close-circle"
+  >
     
     
     
