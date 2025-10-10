@@ -21,16 +21,26 @@ on:
         required: false
         type: string
         default: "22"
-    secrets:
-      CLOUDFLARE_API_TOKEN:
-        description: "Cloudflare API token"
+  workflow_dispatch:
+    inputs:
+      project_name:
+        description: "Cloudflare Pages project name"
         required: true
-      CLOUDFLARE_ACCOUNT_ID:
-        description: "Cloudflare account ID"
+        type: string
+      dist_path:
+        description: "Path to the built distribution files"
         required: true
-      GITHUB_TOKEN:
-        description: "GitHub token for deployments"
+        type: string
+      deployment_name:
+        description: "Display name for the deployment step"
         required: false
+        type: string
+        default: "Deploy to Cloudflare Pages"
+      node_version:
+        description: "Node.js version to use"
+        required: false
+        type: string
+        default: "22"
 
 jobs:
   deploy:
