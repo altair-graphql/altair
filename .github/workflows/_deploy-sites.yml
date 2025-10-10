@@ -65,87 +65,74 @@ on:
         type: boolean
 
 jobs:
-  deploy:
-    name: Deploy sites
+  delay:
+    name: Delay before deployment
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node_version }}
-          cache: "pnpm"
-      - run: pnpm i --frozen-lockfile
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          NODE_OPTIONS: "--max_old_space_size=4096" # Getting Javascript heap out of memory error. Increasing heap size
-      - run: pnpm bootstrap
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-          NODE_OPTIONS: "--max_old_space_size=4096" # Getting Javascript heap out of memory error. Increasing heap size
       - run: |
           if [ ${{ inputs.delay_seconds }} -gt 0 ]; then
             echo "Delaying for ${{ inputs.delay_seconds }} seconds as requested..."
             sleep ${{ inputs.delay_seconds }}
+          else
+            echo "No delay requested, proceeding immediately..."
           fi
-      # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
-      # TODO: Make this reusable
-      - name: Deploy web app
-        id: deploy-webapp
-        if: ${{ inputs.deploy_webapp }}
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages publish "packages/altair-app/dist/browser" --project-name="altair-webapp"
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-      - name: Deploy docs
-        id: deploy-docs
-        if: ${{ inputs.deploy_docs }}
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages publish "packages/altair-docs/.vitepress/dist" --project-name="altair-site"
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-      - name: Deploy login-redirect
-        id: deploy-login-redirect
-        if: ${{ inputs.deploy_redirect }}
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages publish "packages/login-redirect/dist" --project-name="altair-login-redirect"
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-      - name: Deploy sandbox
-        id: deploy-sandbox
-        if: ${{ inputs.deploy_sandbox }}
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages publish "packages/altair-iframe-sandbox/dist" --project-name="altair-iframe-sandbox"
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-      # - run: |
-      #     export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
-      #     export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
-      #     cd packages/altair-docs
-      #     npx wrangler@2 pages publish ".vitepress/dist" --project-name="altair-site"
-      #   if: ${{ inputs.deploy_docs }}
-      # - run: |
-      #     export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
-      #     export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
-      #     cd packages/login-redirect
-      #     npx wrangler@2 pages publish "dist" --project-name="altair-login-redirect"
-      #   if: ${{ inputs.deploy_redirect }}
-      # - run: |
-      #     export CLOUDFLARE_API_TOKEN="${{ secrets.CLOUDFLARE_API_TOKEN }}"
-      #     export CLOUDFLARE_ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
-      #     cd packages/altair-iframe-sandbox
-      #     npx wrangler@2 pages publish "dist" --project-name="altair-iframe-sandbox"
-      #   if: ${{ inputs.deploy_sandbox }}
+
+  deploy-webapp:
+    name: Deploy Web App
+    needs: delay
+    if: ${{ inputs.deploy_webapp }}
+    uses: ./.github/workflows/__deploy-pages.yml
+    with:
+      project_name: "altair-webapp"
+      dist_path: "packages/altair-app/dist/browser"
+      deployment_name: "Deploy Web App"
+      node_version: ${{ inputs.node_version }}
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-docs:
+    name: Deploy Docs
+    needs: delay
+    if: ${{ inputs.deploy_docs }}
+    uses: ./.github/workflows/__deploy-pages.yml
+    with:
+      project_name: "altair-site"
+      dist_path: "packages/altair-docs/.vitepress/dist"
+      deployment_name: "Deploy Documentation"
+      node_version: ${{ inputs.node_version }}
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-redirect:
+    name: Deploy Login Redirect
+    needs: delay
+    if: ${{ inputs.deploy_redirect }}
+    uses: ./.github/workflows/__deploy-pages.yml
+    with:
+      project_name: "altair-login-redirect"
+      dist_path: "packages/login-redirect/dist"
+      deployment_name: "Deploy Login Redirect"
+      node_version: ${{ inputs.node_version }}
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  deploy-sandbox:
+    name: Deploy Sandbox
+    needs: delay
+    if: ${{ inputs.deploy_sandbox }}
+    uses: ./.github/workflows/__deploy-pages.yml
+    with:
+      project_name: "altair-iframe-sandbox"
+      dist_path: "packages/altair-iframe-sandbox/dist"
+      deployment_name: "Deploy Iframe Sandbox"
+      node_version: ${{ inputs.node_version }}
+    secrets:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
