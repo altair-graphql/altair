@@ -1,5 +1,12 @@
 import 'reflect-metadata';
-import { DebugElement, ɵReflectionCapabilities as ReflectionCapabilities, Component, ViewContainerRef, Signal, inject } from '@angular/core';
+import {
+  DebugElement,
+  ɵReflectionCapabilities as ReflectionCapabilities,
+  Component,
+  ViewContainerRef,
+  Signal,
+  inject,
+} from '@angular/core';
 import {
   TestBed,
   TestModuleMetadata,
@@ -145,7 +152,7 @@ interface TestMountOptions<C = any> extends TestModuleMetadata {
 }
 export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   const MainComponent = mountOptions.component;
-  const propsData = mountOptions.propsData || {};
+  const propsData: Record<string, unknown> = mountOptions.propsData ?? {};
   const props: ComponentMeta = getComponentMeta(MainComponent, propsData);
   const annotations = Reflect.getOwnPropertyDescriptor(
     MainComponent,
@@ -180,14 +187,22 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
         ...props.signalInputs,
       ].reduce((acc, cur) => {
         // Set default props values
-        return {
-          ...acc,
-          [cur]:
-            propsData[cur as keyof typeof propsData] ??
-            props.signalInputs.includes(cur)
-              ? (componentRef.instance as any)?.[cur]()
-              : (componentRef.instance as any)?.[cur] ?? undefined,
-        };
+        let val = propsData[cur];
+        if (typeof val === 'undefined') {
+          // If value not provided, get the default value from the component instance created above
+          if (props.signalInputs.includes(cur)) {
+            val = (componentRef.instance as any)?.[cur]();
+          } else {
+            val = (componentRef.instance as any)?.[cur];
+          }
+        }
+        if (typeof val !== 'undefined') {
+          return {
+            ...acc,
+            [cur]: val,
+          };
+        }
+        return acc;
       }, {});
       this.inputs = newTemplateInputs;
       componentRef.destroy(); // component is no longer needed

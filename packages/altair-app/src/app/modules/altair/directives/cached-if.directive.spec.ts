@@ -1,16 +1,32 @@
 import { MockInstance } from 'ng-mocks';
 import { CachedIfDirective } from './cached-if.directive';
-import { TemplateRef, ViewContainerRef } from '@angular/core';
+import { ElementRef, TemplateRef, ViewContainerRef } from '@angular/core';
 import { mock } from 'testing';
+import { inject, TestBed } from '@angular/core/testing';
 
 describe('CachedIfDirective', () => {
-  it('should create an instance', () => {
-    const directive = new CachedIfDirective(
-      // MockInstance(TemplateRef),
-      // MockInstance(ViewContainerRef),
-      mock(),
-      mock()
-    );
-    expect(directive).toBeTruthy();
-  });
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      teardown: { destroyAfterEach: false },
+      imports: [],
+      providers: [
+        CachedIfDirective,
+        {
+          provide: TemplateRef,
+          useFactory: () => mock<TemplateRef<any>>(),
+        },
+        {
+          provide: ViewContainerRef,
+          useFactory: () => mock<ViewContainerRef>(),
+        },
+      ],
+    })
+  );
+
+  it('should create an instance', inject(
+    [CachedIfDirective],
+    (directive: CachedIfDirective) => {
+      expect(directive).toBeTruthy();
+    }
+  ));
 });

@@ -1,4 +1,15 @@
-import { Component, OnInit, Output, EventEmitter, input, signal, computed, Signal, effect, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  input,
+  signal,
+  computed,
+  Signal,
+  effect,
+  inject,
+} from '@angular/core';
 import {
   IQueryCollection,
   IQueryCollectionTree,
@@ -93,8 +104,8 @@ export class QueryCollectionsComponent implements OnInit {
     });
     return map;
   });
-  readonly collectionTrees = computed(() =>
-    this.collectionService.getCollectionTrees(this.collections())
+  readonly collectionTrees = computed(
+    () => this.collectionService.getCollectionTrees(this.collections()) || []
   );
 
   // Recursively filter collections and their subcollections for matching queries

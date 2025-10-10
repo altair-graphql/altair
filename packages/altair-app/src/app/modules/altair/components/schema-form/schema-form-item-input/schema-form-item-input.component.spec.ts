@@ -22,7 +22,7 @@ describe('SchemaFormItemInputComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormItemInputComponent);
     component = fixture.componentInstance;
-    component.data = '';
+    component.data.set('');
     fixture.detectChanges();
   });
 
