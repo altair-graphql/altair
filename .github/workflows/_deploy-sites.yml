@@ -87,10 +87,7 @@ jobs:
       dist_path: "packages/altair-app/dist/browser"
       deployment_name: "Deploy Web App"
       node_version: ${{ inputs.node_version }}
-    secrets:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
 
   deploy-docs:
     name: Deploy Docs
@@ -102,10 +99,7 @@ jobs:
       dist_path: "packages/altair-docs/.vitepress/dist"
       deployment_name: "Deploy Documentation"
       node_version: ${{ inputs.node_version }}
-    secrets:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
 
   deploy-redirect:
     name: Deploy Login Redirect
@@ -117,10 +111,7 @@ jobs:
       dist_path: "packages/login-redirect/dist"
       deployment_name: "Deploy Login Redirect"
       node_version: ${{ inputs.node_version }}
-    secrets:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
 
   deploy-sandbox:
     name: Deploy Sandbox
@@ -132,7 +123,4 @@ jobs:
       dist_path: "packages/altair-iframe-sandbox/dist"
       deployment_name: "Deploy Iframe Sandbox"
       node_version: ${{ inputs.node_version }}
-    secrets:
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
