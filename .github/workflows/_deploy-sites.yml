@@ -12,6 +12,11 @@ on:
         required: false
         default: 0
         type: number
+      deploy_webapp:
+        description: "Whether to deploy web app"
+        required: false
+        default: true
+        type: boolean
       deploy_docs:
         description: "Whether to deploy docs"
         required: false
@@ -38,6 +43,11 @@ on:
         required: false
         default: 0
         type: number
+      deploy_webapp:
+        description: "Whether to deploy web app"
+        required: false
+        default: true
+        type: boolean
       deploy_docs:
         description: "Whether to deploy docs"
         required: false
@@ -81,6 +91,16 @@ jobs:
           fi
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
       # TODO: Make this reusable
+      - name: Deploy web app
+        id: deploy-webapp
+        if: ${{ inputs.deploy_webapp }}
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages publish "packages/altair-app/dist/browser" --project-name="altair-webapp"
+          # Optional: Enable this if you want to have GitHub Deployments triggered
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Deploy docs
         id: deploy-docs
         if: ${{ inputs.deploy_docs }}
