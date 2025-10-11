@@ -1,6 +1,5 @@
 import {
   Component,
-  OnInit,
   EventEmitter,
   Output,
   ChangeDetectionStrategy,
@@ -21,7 +20,7 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SchemaFormComponent implements OnInit {
+export class SchemaFormComponent {
   readonly schema = input<JSONSchema6>({});
   readonly data = input<unknown>(null);
 
@@ -39,20 +38,12 @@ export class SchemaFormComponent implements OnInit {
     });
   }
 
-  ngOnInit() {
-    // console.log('SCHEMA:', this.schema);
-    const schema = this.schema();
-    if (schema) {
-      this.updateSchemaProperties(schema);
-    }
-  }
-
   updateSchemaProperties(schema: JSONSchema6) {
     this.schemaProperties = Object.entries(schema.properties || {})
       .map(([key, pty]) => getSchemaFormProperty(key, pty))
       .sort((a, b) => (a.key > b.key ? 1 : -1));
 
-    this.formData = JSON.parse(JSON.stringify(this.data()));
+    this.formData = JSON.parse(JSON.stringify(this.data() ?? {}));
     // console.log('PROPERTIES:', this.schemaProperties);
     // console.log('DATA:', this.data);
   }

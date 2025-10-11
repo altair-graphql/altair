@@ -1,4 +1,4 @@
-import { Directive, input, effect, inject } from '@angular/core';
+import { Directive, input, effect, inject, untracked } from '@angular/core';
 import { ICustomTheme, getCSS } from 'altair-graphql-core/build/theme';
 
 import createEmotion, { Emotion } from '@emotion/css/create-instance';
@@ -23,6 +23,12 @@ export class ThemeDirective {
     effect(() => {
       // recreate emotion instance if nonce changes
       this.createEmotionInstance(this.cspNonce());
+      untracked(() => {
+        // re-apply theme to use new emotion instance
+        this.applyTheme(this.appTheme(), this.appDarkTheme(), this.appAccentColor());
+      });
+    });
+    effect(() => {
       // re-apply theme to use new emotion instance
       this.applyTheme(this.appTheme(), this.appDarkTheme(), this.appAccentColor());
     });

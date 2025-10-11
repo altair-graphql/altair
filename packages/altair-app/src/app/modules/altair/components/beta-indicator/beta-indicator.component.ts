@@ -1,4 +1,4 @@
-import { Component, OnInit, input, inject } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';

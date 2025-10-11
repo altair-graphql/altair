@@ -32,9 +32,16 @@ export class QueryRevisionDialogComponent {
       const queryId = this.queryId();
       if (queryId) {
         // fetch revisions
-        this.api.getQueryRevisions(queryId).then((res) => {
-          this.revisions.set(res);
-        });
+        this.api
+          .getQueryRevisions(queryId)
+          .then((res) => {
+            this.revisions.set(res);
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to fetch query revisions:', error);
+            this.revisions.set([]);
+          });
       }
     });
   }

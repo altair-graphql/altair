@@ -45,9 +45,7 @@ export class VariableFileItemComponent implements OnInit {
   constructor() {
     effect(() => {
       const fileVariable = this.fileVariable();
-      if (Array.isArray(fileVariable?.data) && fileVariable.data.length) {
-        this.updateLocalState(fileVariable);
-      }
+      this.updateLocalState(fileVariable);
     });
   }
 
@@ -87,8 +85,8 @@ export class VariableFileItemComponent implements OnInit {
   }
 
   // TODO: Use signals instead
-  updateLocalState(fileVariable: FileVariable) {
-    this.validFileData = Array.isArray(fileVariable.data)
+  updateLocalState(fileVariable?: FileVariable) {
+    this.validFileData = Array.isArray(fileVariable?.data)
       ? fileVariable.data.filter((data) => data instanceof File)
       : [];
 
@@ -96,7 +94,7 @@ export class VariableFileItemComponent implements OnInit {
     this.invalidFileData =
       (Array.isArray(data) ? data.length : 0) > this.validFileData.length;
     this.showWarning = Boolean(
-      !fileVariable?.isMultiple && (fileVariable.data as [])?.length > 1
+      !fileVariable?.isMultiple && (fileVariable?.data as [])?.length > 1
     );
 
     if (this.invalidFileData) {
