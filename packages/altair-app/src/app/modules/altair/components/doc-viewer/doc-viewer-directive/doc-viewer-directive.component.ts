@@ -1,12 +1,11 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input,
 } from '@angular/core';
 import { GraphQLSchema, GraphQLDirective, GraphQLArgument } from 'graphql';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-doc-viewer-directive',
@@ -16,19 +15,11 @@ import { BehaviorSubject } from 'rxjs';
   standalone: false,
 })
 export class DocViewerDirectiveComponent {
-  @Input() set data(directive: GraphQLDirective | undefined) {
-    this.dataSubject.next(directive);
-  }
-  get data(): void {
-    return undefined;
-  }
+  readonly data = input<GraphQLDirective>();
 
-  @Input() gqlSchema?: GraphQLSchema;
+  readonly gqlSchema = input<GraphQLSchema>();
 
   @Output() goToTypeChange = new EventEmitter();
-
-  private dataSubject = new BehaviorSubject<GraphQLDirective | undefined>(undefined);
-  data$ = this.dataSubject.asObservable();
 
   goToType(name: string) {
     this.goToTypeChange.next({ name });

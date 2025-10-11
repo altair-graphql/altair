@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -11,6 +11,10 @@ import * as windowActions from '../store/windows/windows.action';
 
 @Injectable()
 export class LocalEffects {
+  private actions$ = inject(Actions);
+  private store = inject<Store<RootState>>(Store);
+  private storageService = inject(StorageService);
+
   storeFilesOnUpdateFileVariableData$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -76,10 +80,4 @@ export class LocalEffects {
     },
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<RootState>,
-    private storageService: StorageService
-  ) {}
 }

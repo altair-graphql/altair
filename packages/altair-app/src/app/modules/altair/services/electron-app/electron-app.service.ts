@@ -1,5 +1,5 @@
 import { distinctUntilChanged, take } from 'rxjs/operators';
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { init } from '@sentry/electron/renderer';
 
@@ -55,18 +55,18 @@ const BACKUP_INTERVAL_MINUTES = 60;
   providedIn: 'root',
 })
 export class ElectronAppService {
+  private store = inject<Store<RootState>>(Store);
+  private notifyService = inject(NotifyService);
+  private storageService = inject(StorageService);
+  private zone = inject(NgZone);
+
   activeWindowId = '';
 
   private api = electronAPI;
 
   private lastBackupTs = Date.now();
 
-  constructor(
-    private store: Store<RootState>,
-    private notifyService: NotifyService,
-    private storageService: StorageService,
-    private zone: NgZone
-  ) {
+  constructor() {
     this.store
       .select((state) => state.windowsMeta.activeWindowId)
       .pipe(distinctUntilChanged())

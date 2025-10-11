@@ -1,7 +1,7 @@
 <nz-modal
-  [nzVisible]="showPluginManager"
+  [nzVisible]="showPluginManager()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
-  [nzCloseIcon]="'close-circle'"
+  nzCloseIcon="close-circle"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
@@ -45,7 +45,7 @@
               href="https://www.npmjs.com/search?q=%22altair-graphql-plugin-%22"
               target="_blank"
             >
-              Find more plugins on npm <app-icon name="external-link"></app-icon>
+              Find more plugins on npm <app-icon name="external-link" />
             </a>
           </div>
           <div class="plugin-manager__item-details">
@@ -62,24 +62,30 @@
               <div class="plugin-manager__item-details-actions">
                 @if (!isPluginInstalled(selectedPluginItem.id)) {
                   <button
+                    type="button"
                     class="btn btn--small"
                     (click)="onAddPlugin(selectedPluginItem.id)"
                   >
-                    <app-icon name="plus-circle"></app-icon>
+                    <app-icon name="plus-circle" />
                     {{ 'PLUGIN_ADD_BUTTON' | translate }}
                   </button>
                 }
                 @if (isPluginInstalled(selectedPluginItem.id)) {
                   <button
+                    type="button"
                     class="btn btn--small btn--light btn--destructive"
                     (click)="onRemovePlugin(selectedPluginItem.id)"
                   >
-                    <app-icon name="x-circle"></app-icon>
+                    <app-icon name="x-circle" />
                     {{ 'PLUGIN_REMOVE_BUTTON' | translate }}
                   </button>
                 }
                 @if (shouldRestart) {
-                  <button class="btn btn--small" (click)="onRestartApp()">
+                  <button
+                    type="button"
+                    class="btn btn--small"
+                    (click)="onRestartApp()"
+                  >
                     {{ 'RESTART_TEXT' | translate }}
                   </button>
                 }
@@ -109,6 +115,7 @@
         >{{ 'PLUGIN_CREATE_BUTTON' | translate }}</a
       >
       <button
+        type="button"
         class="btn btn--orimary right"
         (click)="toggleDialogChange.next(false)"
       >

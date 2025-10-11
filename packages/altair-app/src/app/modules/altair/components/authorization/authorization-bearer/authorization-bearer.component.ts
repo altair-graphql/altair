@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Output, input, inject } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
@@ -15,17 +9,18 @@ import { NonNullableFormBuilder } from '@angular/forms';
   standalone: false,
 })
 export class AuthorizationBearerComponent implements OnInit {
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+
   bearerForm = this.formBuilder.group({
     token: '',
   });
-  @Input() authData?: unknown;
+  readonly authData = input<unknown>();
   @Output() authDataChange = this.bearerForm.valueChanges;
 
-  constructor(private readonly formBuilder: NonNullableFormBuilder) {}
-
   ngOnInit(): void {
-    if (this.authData) {
-      this.bearerForm.patchValue(this.authData);
+    const authData = this.authData();
+    if (authData) {
+      this.bearerForm.patchValue(authData);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -11,6 +11,10 @@ import * as settingsActions from '../store/settings/settings.action';
 
 @Injectable()
 export class ElectronEffects {
+  private actions$ = inject(Actions);
+  private store = inject<Store<RootState>>(Store);
+  private electronAppService = inject(ElectronAppService);
+
   updateSettingsOnFile$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -30,10 +34,4 @@ export class ElectronEffects {
     },
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<RootState>,
-    private electronAppService: ElectronAppService
-  ) {}
 }

@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
+  input
 } from '@angular/core';
 import { json } from '@codemirror/lang-json';
 import { Extension } from '@codemirror/state';
@@ -22,14 +22,14 @@ import { RequestHandlerInfo } from 'altair-graphql-core/build/types/state/query.
   standalone: false,
 })
 export class RequestHandlerDialogComponent {
-  @Input() requestHandlerId: RequestHandlerIds = HTTP_HANDLER_ID;
-  @Input() requestHandlerAdditionalParams = '{}';
-  @Input() subscriptionUrl = '';
-  @Input() subscriptionConnectionParams = '';
-  @Input() subscriptionUseDefaultRequestHandler = false;
-  @Input() selectedSubscriptionRequestHandlerId?: RequestHandlerIds;
-  @Input() requestHandlers: RequestHandlerData[] = [];
-  @Input() showDialog = false;
+  readonly requestHandlerId = input<RequestHandlerIds>(HTTP_HANDLER_ID);
+  readonly requestHandlerAdditionalParams = input('{}');
+  readonly subscriptionUrl = input('');
+  readonly subscriptionConnectionParams = input('');
+  readonly subscriptionUseDefaultRequestHandler = input(false);
+  readonly selectedSubscriptionRequestHandlerId = input<RequestHandlerIds>();
+  readonly requestHandlers = input<RequestHandlerData[]>([]);
+  readonly showDialog = input(false);
   @Output() toggleDialogChange = new EventEmitter();
   @Output() requestHandlerInfoChange = new EventEmitter<RequestHandlerInfo>();
 

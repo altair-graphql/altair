@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { combineLatest, map, Observable } from 'rxjs';
 import { Banner, BannerService } from '../../services/banner/banner.service';
 import { Store } from '@ngrx/store';
@@ -11,12 +11,12 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
   standalone: false,
 })
 export class BannerContainerComponent {
+  private readonly bannerService = inject(BannerService);
+  private readonly store = inject<Store<RootState>>(Store);
+
   banners$: Observable<Banner[]>;
 
-  constructor(
-    private readonly bannerService: BannerService,
-    private readonly store: Store<RootState>
-  ) {
+  constructor() {
     const bannersDisabled = this.store.select(
       (state) => state.settings['banners.disable']
     );

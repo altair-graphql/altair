@@ -8,7 +8,7 @@
             <nz-option
               [nzValue]="item"
               [nzLabel]="AUTH_MAPPING[item].copy | translate"
-            ></nz-option>
+            />
           }
         </nz-select>
       </nz-form-control>
@@ -17,25 +17,25 @@
   @switch (typeForm.controls.type.value) {
     @case ('api-key') {
       <app-authorization-apikey
-        [authData]="authorizationState?.data"
+        [authData]="authorizationState()?.data"
         (authDataChange)="authDataChange.emit($event)"
       />
     }
     @case ('basic') {
       <app-authorization-basic
-        [authData]="authorizationState?.data"
+        [authData]="authorizationState()?.data"
         (authDataChange)="authDataChange.emit($event)"
       />
     }
     @case ('bearer') {
       <app-authorization-bearer
-        [authData]="authorizationState?.data"
+        [authData]="authorizationState()?.data"
         (authDataChange)="authDataChange.emit($event)"
       />
     }
     @case ('oauth2') {
       <app-authorization-oauth2
-        [authData]="authorizationState?.data"
+        [authData]="authorizationState()?.data"
         (authDataChange)="authDataChange.emit($event)"
       />
     }

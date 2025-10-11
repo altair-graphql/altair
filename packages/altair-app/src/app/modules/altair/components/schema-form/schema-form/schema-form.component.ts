@@ -1,19 +1,16 @@
 import {
   Component,
-  OnInit,
-  Input,
-  SimpleChanges,
-  OnChanges,
   EventEmitter,
   Output,
   ChangeDetectionStrategy,
+  input,
+  effect,
 } from '@angular/core';
 import {
-  getPropertyRef,
   getSchemaFormProperty,
   SchemaFormProperty,
 } from '../../../utils/settings_addons';
-import { JSONSchema6Definition, JSONSchema6 } from 'json-schema';
+import { JSONSchema6 } from 'json-schema';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 
 @Component({
@@ -23,27 +20,22 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SchemaFormComponent implements OnInit, OnChanges {
-  @Input() schema = {};
-  @Input() data = null;
+export class SchemaFormComponent {
+  readonly schema = input<JSONSchema6>({});
+  readonly data = input<unknown>(null);
 
   @Output() dataChange = new EventEmitter<IDictionary>();
 
   schemaProperties: SchemaFormProperty[] = [];
   formData: IDictionary = {};
 
-  ngOnInit() {
-    // console.log('SCHEMA:', this.schema);
-    if (this.schema) {
-      this.updateSchemaProperties(this.schema);
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // If there is a new schema, update the schema properties
-    if (changes?.schema?.currentValue) {
-      this.updateSchemaProperties(changes.schema.currentValue);
-    }
+  constructor() {
+    effect(() => {
+      const schema = this.schema();
+      if (schema) {
+        this.updateSchemaProperties(schema);
+      }
+    });
   }
 
   updateSchemaProperties(schema: JSONSchema6) {
@@ -51,12 +43,12 @@ export class SchemaFormComponent implements OnInit, OnChanges {
       .map(([key, pty]) => getSchemaFormProperty(key, pty))
       .sort((a, b) => (a.key > b.key ? 1 : -1));
 
-    this.formData = JSON.parse(JSON.stringify(this.data));
+    this.formData = JSON.parse(JSON.stringify(this.data() ?? {}));
     // console.log('PROPERTIES:', this.schemaProperties);
     // console.log('DATA:', this.data);
   }
 
-  onInput(event: Event, item: SchemaFormProperty) {
+  onInput() {
     // console.log(event, item);
     this.dataChange.next(this.formData);
   }

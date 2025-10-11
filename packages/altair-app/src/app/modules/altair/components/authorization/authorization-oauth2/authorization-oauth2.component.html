@@ -6,15 +6,15 @@
         <nz-option
           [nzValue]="oauth2Type.AUTHORIZATION_CODE"
           nzLabel="Authorization Code"
-        ></nz-option>
+        />
         <nz-option
           [nzValue]="oauth2Type.AUTHORIZATION_CODE_PKCE"
           nzLabel="Authorization Code with PKCE"
-        ></nz-option>
+        />
         <nz-option
           [nzValue]="oauth2Type.CLIENT_CREDENTIALS"
           nzLabel="Client Credentials"
-        ></nz-option>
+        />
       </nz-select>
     </nz-form-control>
   </nz-form-item>
@@ -182,7 +182,7 @@
   }
 
   <nz-collapse nzGhost class="mb-20">
-    <nz-collapse-panel [nzHeader]="'Advanced options'" [nzActive]="false">
+    <nz-collapse-panel nzHeader="Advanced options" [nzActive]="false">
       <nz-form-item>
         <nz-form-label>Authentication format</nz-form-label>
         <nz-form-control
@@ -194,11 +194,11 @@
             <nz-option
               [nzValue]="authFormat.IN_BODY"
               nzLabel="In body (default)"
-            ></nz-option>
+            />
             <nz-option
               [nzValue]="authFormat.BASIC_AUTH"
               nzLabel="Basic Auth"
-            ></nz-option>
+            />
           </nz-select>
         </nz-form-control>
       </nz-form-item>
@@ -213,8 +213,8 @@
             <nz-option
               [nzValue]="requestFormat.FORM"
               nzLabel="Form encoded (default)"
-            ></nz-option>
-            <nz-option [nzValue]="requestFormat.JSON" nzLabel="JSON"></nz-option>
+            />
+            <nz-option [nzValue]="requestFormat.JSON" nzLabel="JSON" />
           </nz-select>
         </nz-form-control>
       </nz-form-item>

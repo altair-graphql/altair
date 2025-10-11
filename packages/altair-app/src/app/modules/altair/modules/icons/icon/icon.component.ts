@@ -1,12 +1,6 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  SecurityContext,
-  ChangeDetectionStrategy,
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, input } from '@angular/core';
 import { IconName } from '../icons';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-icon',
@@ -16,17 +10,18 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   standalone: false,
 })
 export class IconComponent implements OnInit {
-  @Input() name: IconName = 'box';
-  @Input() size = '';
-  @Input() svg: SafeHtml = '';
+  readonly name = input<IconName>('box');
+  readonly size = input('');
+  readonly svg = input<SafeHtml>('');
 
   styles = {};
 
   ngOnInit() {
-    if (this.size) {
+    const size = this.size();
+    if (size) {
       this.styles = {
-        width: this.size,
-        height: this.size,
+        width: size,
+        height: size,
       };
     }
   }

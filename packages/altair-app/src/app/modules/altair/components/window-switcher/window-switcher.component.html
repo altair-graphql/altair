@@ -2,30 +2,30 @@
   cdkDropList
   cdkDropListOrientation="horizontal"
   class="window-switcher__list"
-  [ngClass]="{ 'window-switcher__no-scrollbar': !enableScrollbar }"
-  [cdkDropListData]="windowIds"
+  [ngClass]="{ 'window-switcher__no-scrollbar': !enableScrollbar() }"
+  [cdkDropListData]="windowIds()"
   (cdkDropListDropped)="onDropEnd($event)"
 >
-  @for (windowId of windowIds; track windowId; let index = $index) {
+  @for (windowId of windowIds(); track windowId) {
     <app-window-switcher-item
       cdkDrag
-      [window]="windows[windowId]"
-      [activeWindowId]="activeWindowId"
+      [window]="windows()[windowId]"
+      [activeWindowId]="activeWindowId()"
       [isEditing]="windowId === windowIdEditing"
-      [isClosable]="windowIds.length > 1"
-      [collections]="collections"
+      [isClosable]="$count > 1"
+      [collections]="collections()"
       (clickWindowChange)="onClickWindow($event)"
       (editWindowNameInput)="editWindowNameInput($event)"
       (saveWindowNameChange)="saveWindowName(windowId, $event)"
       (closeWindowChange)="closeWindow(windowId)"
       (contextmenu)="contextMenu($event, tabContextMenu)"
-    ></app-window-switcher-item>
+    />
     <nz-dropdown-menu #tabContextMenu="nzDropdownMenu">
       <ul nz-menu>
         <li nz-menu-item (click)="editWindowNameInput(windowId)">
           <div class="menu-item">
             <span class="menu-icon">
-              <app-icon name="edit"></app-icon>
+              <app-icon name="edit" />
             </span>
             <span class="menu-text">
               {{ 'EDIT_WINDOW_TEXT' | translate }}
@@ -35,7 +35,7 @@
         <li nz-menu-item (click)="duplicateWindow(windowId)">
           <div class="menu-item">
             <span class="menu-icon">
-              <app-icon name="copy"></app-icon>
+              <app-icon name="copy" />
             </span>
             <span class="menu-text">
               {{ 'DUPLICATE_WINDOW_TEXT' | translate }}
@@ -44,11 +44,11 @@
         </li>
         <!-- divider -->
         <li nz-menu-divider></li>
-        @if (windowIds.length > 1) {
+        @if ($count > 1) {
           <li nz-menu-item (click)="closeWindow(windowId)">
             <div class="menu-item">
               <span class="menu-icon">
-                <app-icon name="x-square"></app-icon>
+                <app-icon name="x-square" />
               </span>
               <span class="menu-text">
                 {{ 'CLOSE_WINDOW_TEXT' | translate }}
@@ -56,10 +56,10 @@
             </div>
           </li>
         }
-        <li nz-menu-item (click)="closeWindowsToTheRight(index)">
+        <li nz-menu-item (click)="closeWindowsToTheRight($index)">
           <div class="menu-item">
             <span class="menu-icon">
-              <app-icon name="circle"></app-icon>
+              <app-icon name="circle" />
             </span>
             <span class="menu-text">
               {{ 'CLOSE_WINDOWS_TO_THE_RIGHT_TEXT' | translate }}
@@ -69,18 +69,18 @@
         <li nz-menu-item (click)="closeOtherWindows(windowId)">
           <div class="menu-item">
             <span class="menu-icon">
-              <app-icon name="circle"></app-icon>
+              <app-icon name="circle" />
             </span>
             <span class="menu-text">
               {{ 'CLOSE_OTHER_WINDOWS_TEXT' | translate }}
             </span>
           </div>
         </li>
-        @if (closedWindows.length) {
+        @if (closedWindows().length) {
           <li nz-menu-item (click)="reopenClosedTab()">
             <div class="menu-item">
               <span class="menu-icon">
-                <app-icon name="plus-square"></app-icon>
+                <app-icon name="plus-square" />
               </span>
               <span class="menu-text">
                 {{ 'REOPEN_CLOSED_WINDOW_TEXT' | translate }}
@@ -91,7 +91,7 @@
       </ul>
     </nz-dropdown-menu>
   }
-  @if (windowIds.length < maxWindowCount) {
+  @if (windowIds().length < maxWindowCount) {
     <div class="window-switcher__item" (click)="newWindowChange.next($event)">
       {{ 'ADD_NEW_WINDOW_TEXT' | translate }}
     </div>

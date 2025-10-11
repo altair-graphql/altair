@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WebExtensionMessage } from 'altair-graphql-core/build/types/messaging';
 import { WindowService } from '../window.service';
 import { debug } from '../../utils/logger';
@@ -8,7 +8,8 @@ import { isExtension, sendMessage } from 'altair-graphql-core/build/crx';
   providedIn: 'root',
 })
 export class WebExtensionsService {
-  constructor(private windowService: WindowService) {}
+  private windowService = inject(WindowService);
+
 
   connect() {
     const browser = window.browser || window.chrome;

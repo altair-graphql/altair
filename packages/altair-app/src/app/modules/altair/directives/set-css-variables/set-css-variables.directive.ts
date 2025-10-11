@@ -1,33 +1,30 @@
-import {
-  Directive,
-  OnChanges,
-  SimpleChanges,
-  Input,
-  ElementRef,
-} from '@angular/core';
+import { Directive, ElementRef, effect, input, inject } from '@angular/core';
 import { IDictionary } from '../../interfaces/shared';
 
 @Directive({
   selector: '[appSetCssVariables]',
   standalone: false,
 })
-export class SetCssVariablesDirective implements OnChanges {
-  @Input() appSetCssVariables: IDictionary = {};
+export class SetCssVariablesDirective {
+  private element = inject(ElementRef);
 
-  constructor(private element: ElementRef) {}
+  readonly appSetCssVariables = input<IDictionary>({});
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.appSetCssVariables) {
-      Object.keys(this.appSetCssVariables).forEach((variable) => {
-        if (this.appSetCssVariables[variable]) {
-          document.documentElement.style.setProperty(
-            variable,
-            this.appSetCssVariables[variable]
-          );
-        } else {
-          document.documentElement.style.removeProperty(variable);
-        }
-      });
-    }
+  constructor() {
+    effect(() => {
+      const appSetCssVariables = this.appSetCssVariables();
+      if (appSetCssVariables) {
+        Object.keys(appSetCssVariables).forEach((variable) => {
+          if (appSetCssVariables[variable]) {
+            document.documentElement.style.setProperty(
+              variable,
+              appSetCssVariables[variable]
+            );
+          } else {
+            document.documentElement.style.removeProperty(variable);
+          }
+        });
+      }
+    });
   }
 }

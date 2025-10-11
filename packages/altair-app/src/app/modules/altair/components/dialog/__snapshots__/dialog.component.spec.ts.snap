@@ -2,7 +2,9 @@
 
 exports[`DialogComponent should render correctly 1`] = `
 <app-dialog>
-  <nz-modal>
+  <nz-modal
+    nzcloseicon="close-circle"
+  >
     
     
     

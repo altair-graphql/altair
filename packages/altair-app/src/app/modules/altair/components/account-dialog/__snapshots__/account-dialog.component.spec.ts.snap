@@ -78,11 +78,13 @@ exports[`AccountDialogComponent should create 1`] = `
           >
             <button
               class="btn btn--bordered"
+              type="button"
             >
                SIGNIN_WITH_GOOGLE 
             </button>
             <button
               class="btn btn--bordered"
+              type="button"
             >
               <app-icon
                 name="github"

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { debug } from '../../utils/logger';
 import { HttpClient } from '@angular/common/http';
@@ -27,13 +27,12 @@ const storageNamespace = 'request-script';
   providedIn: 'root',
 })
 export class PreRequestService {
-  constructor(
-    private cookieService: CookieService,
-    private http: HttpClient,
-    private store: Store<RootState>,
-    private notifyService: NotifyService,
-    private dbService: DbService
-  ) {}
+  private cookieService = inject(CookieService);
+  private http = inject(HttpClient);
+  private store = inject<Store<RootState>>(Store);
+  private notifyService = inject(NotifyService);
+  private dbService = inject(DbService);
+
 
   async executeScript(
     script: string,

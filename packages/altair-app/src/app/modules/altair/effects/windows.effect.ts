@@ -1,7 +1,7 @@
 import { Observable, zip, of, EMPTY, from } from 'rxjs';
 
 import { switchMap, withLatestFrom, tap } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 
@@ -20,6 +20,11 @@ import { SharingService } from '../services';
 
 @Injectable()
 export class WindowsEffects {
+  private readonly actions$ = inject(Actions);
+  private readonly store = inject<Store<RootState>>(Store);
+  private readonly windowService = inject(WindowService);
+  private readonly sharingService = inject(SharingService);
+
   // Updates windowsMeta with window IDs when a window is added
   addWindowID$: Observable<Action> = createEffect(() => {
     return this.actions$.pipe(
@@ -233,11 +238,4 @@ export class WindowsEffects {
     },
     { dispatch: false }
   );
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly store: Store<RootState>,
-    private readonly windowService: WindowService,
-    private readonly sharingService: SharingService
-  ) {}
 }

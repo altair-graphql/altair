@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, input, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -12,22 +12,24 @@ import { Observable } from 'rxjs';
   standalone: false,
 })
 export class BetaIndicatorComponent {
-  @Input() title = '';
-  @Input() description = '';
+  private store = inject<Store<RootState>>(Store);
+
+  readonly title = input('');
+  readonly description = input('');
 
   // the matching feature name in the settings namespaced with "beta.disable.". For example if you have "beta.disable.newEditor" in settings, this should be "newEditor"
-  @Input() featureKey = '';
+  readonly featureKey = input.required<string>();
 
   value$: Observable<boolean>;
 
-  constructor(private store: Store<RootState>) {
+  constructor() {
     this.value$ = this.store.select(
       (state) => !state.settings[this.getSettingKey()]
     );
   }
 
   getSettingKey() {
-    return ('beta.disable.' + this.featureKey) as keyof SettingsState;
+    return ('beta.disable.' + this.featureKey()) as keyof SettingsState;
   }
 
   setValue(val: boolean) {

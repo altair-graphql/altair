@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WindowService } from '../window.service';
 import { QueryCollectionService } from '../query-collection/query-collection.service';
 import { getFileStr } from '../../utils';
@@ -12,13 +12,12 @@ import { AltairFile } from './types';
   providedIn: 'root',
 })
 export class FilesService {
-  constructor(
-    private windowService: WindowService,
-    private collectionService: QueryCollectionService,
-    private gqlService: GqlService,
-    private environmentService: EnvironmentService,
-    private notifyService: NotifyService
-  ) {}
+  private windowService = inject(WindowService);
+  private collectionService = inject(QueryCollectionService);
+  private gqlService = inject(GqlService);
+  private environmentService = inject(EnvironmentService);
+  private notifyService = inject(NotifyService);
+
 
   async handleImportedFile(file: File) {
     const dataStr = await getFileStr(file);

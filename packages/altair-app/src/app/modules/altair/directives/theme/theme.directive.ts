@@ -1,4 +1,4 @@
-import { Directive, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Directive, input, effect, inject, untracked } from '@angular/core';
 import { ICustomTheme, getCSS } from 'altair-graphql-core/build/theme';
 
 import createEmotion, { Emotion } from '@emotion/css/create-instance';
@@ -8,33 +8,30 @@ import { NzConfigService } from 'ng-zorro-antd/core/config';
   selector: '[appTheme]',
   standalone: false,
 })
-export class ThemeDirective implements OnInit, OnChanges {
-  @Input() appTheme: ICustomTheme = {};
-  @Input() appDarkTheme: ICustomTheme = {};
-  @Input() appAccentColor = '';
-  @Input() cspNonce = '';
+export class ThemeDirective {
+  private nzConfigService = inject(NzConfigService);
+
+  readonly appTheme = input<ICustomTheme>({});
+  readonly appDarkTheme = input<ICustomTheme>({});
+  readonly appAccentColor = input<string>('');
+  readonly cspNonce = input<string>('');
 
   private emotionInstance?: Emotion;
   private className = '';
 
-  constructor(private nzConfigService: NzConfigService) {}
-
-  ngOnInit() {
-    this.applyTheme(this.appTheme, this.appDarkTheme, this.appAccentColor);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (
-      changes?.appTheme?.currentValue ||
-      changes?.appDarkTheme?.currentValue ||
-      changes?.appAccentColor?.currentValue
-    ) {
-      this.applyTheme(
-        changes.appTheme?.currentValue,
-        changes.appDarkTheme?.currentValue,
-        changes.appAccentColor?.currentValue ?? this.appAccentColor
-      );
-    }
+  constructor() {
+    effect(() => {
+      // recreate emotion instance if nonce changes
+      this.createEmotionInstance(this.cspNonce());
+      untracked(() => {
+        // re-apply theme to use new emotion instance
+        this.applyTheme(this.appTheme(), this.appDarkTheme(), this.appAccentColor());
+      });
+    });
+    effect(() => {
+      // re-apply theme to use new emotion instance
+      this.applyTheme(this.appTheme(), this.appDarkTheme(), this.appAccentColor());
+    });
   }
 
   getDynamicClassName(
@@ -72,11 +69,16 @@ export class ThemeDirective implements OnInit, OnChanges {
 
   private getEmotionInstance() {
     if (!this.emotionInstance) {
-      this.emotionInstance = createEmotion({
-        key: 'altair-theme',
-        nonce: this.cspNonce || undefined,
-      });
+      this.emotionInstance = this.createEmotionInstance(this.cspNonce());
     }
+    return this.emotionInstance;
+  }
+
+  private createEmotionInstance(cspNonce?: string) {
+    this.emotionInstance = createEmotion({
+      key: 'altair-theme',
+      nonce: cspNonce,
+    });
     return this.emotionInstance;
   }
 }

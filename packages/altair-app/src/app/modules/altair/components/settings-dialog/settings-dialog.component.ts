@@ -1,11 +1,10 @@
 import {
   Component,
-  OnInit,
-  Input,
   Output,
   EventEmitter,
-  SimpleChanges,
-  OnChanges,
+  input,
+  inject,
+  effect,
 } from '@angular/core';
 
 import { debug } from '../../utils/logger';
@@ -19,6 +18,7 @@ import { Extension } from '@codemirror/state';
 import settingsSchema from 'altair-graphql-core/build/typegen/settings.schema.json';
 import { getEditorExtensions } from './extensions';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
+import { JSONSchema6 } from 'json-schema';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -26,17 +26,22 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
   styleUrls: ['./settings-dialog.component.scss'],
   standalone: false,
 })
-export class SettingsDialogComponent implements OnInit, OnChanges {
-  @Input() settings?: SettingsState;
-  @Input() appVersion = '';
-  @Input() showSettingsDialog = false;
+export class SettingsDialogComponent {
+  private notifyService = inject(NotifyService);
+  private keybinderService = inject(KeybinderService);
+  private storageService = inject(StorageService);
+  private altairConfig = inject(AltairConfig);
+
+  readonly settings = input<SettingsState>();
+  readonly appVersion = input('');
+  readonly showSettingsDialog = input(false);
   @Output() toggleDialogChange = new EventEmitter();
   @Output() settingsJsonChange = new EventEmitter();
 
   themes = this.altairConfig.themes;
   languages = Object.entries(this.altairConfig.languages);
   shortcutCategories: KeyboardShortcutCategory[] = [];
-  settingsSchema = settingsSchema;
+  settingsSchema = settingsSchema as JSONSchema6;
   showForm = true;
 
   jsonSettings = '';
@@ -44,23 +49,15 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
 
   editorExtensions: Extension[] = getEditorExtensions();
 
-  constructor(
-    private notifyService: NotifyService,
-    private keybinderService: KeybinderService,
-    private storageService: StorageService,
-    private altairConfig: AltairConfig
-  ) {}
-
-  ngOnInit() {
+  constructor() {
     this.shortcutCategories = this.keybinderService.getShortcuts();
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes?.settings?.currentValue) {
-      this.updateLocalSettings(
-        JSON.stringify(changes.settings.currentValue, null, 2)
-      );
-    }
+    effect(() => {
+      const currentSettings = this.settings();
+      if (currentSettings) {
+        this.updateLocalSettings(JSON.stringify(currentSettings, null, 2));
+      }
+    });
   }
 
   onSettingsChange(settingsStr: string) {

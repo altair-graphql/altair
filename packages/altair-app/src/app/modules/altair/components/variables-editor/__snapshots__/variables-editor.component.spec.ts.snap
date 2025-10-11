@@ -5,9 +5,7 @@ exports[`VariablesEditorComponent should render correctly 1`] = `
   <div
     class="variables-editor"
   >
-    <app-codemirror
-      class="mousetrap"
-    />
+    <app-codemirror />
     
   </div>
 </app-variables-editor>

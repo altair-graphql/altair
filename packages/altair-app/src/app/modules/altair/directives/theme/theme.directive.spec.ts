@@ -1,9 +1,19 @@
 import { ThemeDirective } from './theme.directive';
-import { mock } from '../../../../../testing';
+import { inject, TestBed } from '@angular/core/testing';
+import { NzConfigService } from 'ng-zorro-antd/core/config';
 
 describe('ThemeDirective', () => {
-  it('should create an instance', () => {
-    const directive = new ThemeDirective(mock());
-    expect(directive).toBeTruthy();
-  });
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      imports: [],
+      providers: [ThemeDirective, NzConfigService],
+    })
+  );
+
+  it('should create an instance', inject(
+    [ThemeDirective],
+    (directive: ThemeDirective) => {
+      expect(directive).toBeTruthy();
+    }
+  ));
 });

@@ -1,7 +1,7 @@
 import { EMPTY, firstValueFrom, from, Observable, of } from 'rxjs';
 
 import { tap, map, switchMap, take, catchError } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { v4 as uuid } from 'uuid';
@@ -41,12 +41,11 @@ interface ImportWindowDataOptions {
 
 @Injectable()
 export class WindowService {
-  constructor(
-    private store: Store<RootState>,
-    private gqlService: GqlService,
-    private collectionService: QueryCollectionService,
-    private notifyService: NotifyService
-  ) {}
+  private store = inject<Store<RootState>>(Store);
+  private gqlService = inject(GqlService);
+  private collectionService = inject(QueryCollectionService);
+  private notifyService = inject(NotifyService);
+
 
   newWindow(
     opts: {

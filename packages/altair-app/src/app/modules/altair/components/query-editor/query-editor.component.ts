@@ -2,14 +2,15 @@ import {
   Component,
   OnInit,
   AfterViewInit,
-  OnChanges,
-  Input,
   Output,
   EventEmitter,
-  SimpleChanges,
   ViewChild,
   HostBinding,
   NgZone,
+  input,
+  computed,
+  inject,
+  effect,
 } from '@angular/core';
 
 import { updateSchema, showInDocsCommand, fillAllFieldsCommands } from 'cm6-graphql';
@@ -52,26 +53,31 @@ import { isAuthorizationEnabled } from '../../store';
   styleUrls: ['./query-editor.component.scss'],
   standalone: false,
 })
-export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
-  @Input() windowId = '';
-  @Input() activeWindowId = '';
-  @Input() query = '';
-  @Input() gqlSchema?: GraphQLSchema;
-  @Input() tabSize = 2;
-  @Input() addQueryDepthLimit = 2;
-  @Input() disableLineNumbers = false;
+export class QueryEditorComponent implements OnInit, AfterViewInit {
+  private gqlService = inject(GqlService);
+  private notifyService = inject(NotifyService);
+  private store = inject<Store<RootState>>(Store);
+  private zone = inject(NgZone);
 
-  @Input() variables?: VariableState;
-  @Input() showVariableDialog = false;
-  @Input() variableToType?: IDictionary;
+  readonly windowId = input('');
+  readonly activeWindowId = input('');
+  readonly query = input('');
+  readonly gqlSchema = input<GraphQLSchema>();
+  readonly tabSize = input(2);
+  readonly addQueryDepthLimit = input(2);
+  readonly disableLineNumbers = input(false);
 
-  @Input() shortcutMapping: IDictionary = {};
-  @Input() enableExperimental = false;
+  readonly variables = input<VariableState>();
+  readonly showVariableDialog = input(false);
+  readonly variableToType = input<IDictionary>();
 
-  @Input() preRequest?: PrerequestState;
-  @Input() postRequest?: PostrequestState;
+  readonly shortcutMapping = input<IDictionary>({});
+  readonly enableExperimental = input(false);
 
-  @Input() authorizationState?: AuthorizationState;
+  readonly preRequest = input<PrerequestState>();
+  readonly postRequest = input<PostrequestState>();
+
+  readonly authorizationState = input<AuthorizationState>();
 
   @Output() preRequestScriptChange = new EventEmitter();
   @Output() preRequestEnabledChange = new EventEmitter();
@@ -99,6 +105,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() authDataChange = new EventEmitter();
 
   // TODO: Add static: true
+  // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('editor') editor: CodemirrorComponent | undefined;
 
   @HostBinding('style.flex-grow') public resizeFactor = 1;
@@ -107,8 +114,10 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   variableEditorHeight = '50%';
 
-  // TODO: Antipattern, move to state
-  isAuthorizationEnabled = isAuthorizationEnabled;
+  readonly isAuthorizationEnabled = computed(() => {
+    const state = this.authorizationState();
+    return !!state && isAuthorizationEnabled(state);
+  });
 
   cm6ActionToFn: Record<string, Command> = {
     showAutocomplete: startCompletion,
@@ -129,97 +138,82 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   updateWidgetTimeout?: ReturnType<typeof setTimeout>;
 
-  constructor(
-    private gqlService: GqlService,
-    private notifyService: NotifyService,
-    private store: Store<RootState>,
-    private zone: NgZone
-  ) {}
+  constructor() {
+    effect(() => {
+      const gqlSchema = this.gqlSchema();
+      // If there is a new schema, update the editor schema
+      if (gqlSchema) {
+        this.updateNewEditorSchema(gqlSchema);
+        // Validate the schema to know if we can work with it
+        const validationErrors = this.gqlService.validateSchema(gqlSchema);
+        if (validationErrors.length) {
+          const errorList = validationErrors
+            .map((error) => '<br><br>' + error.message)
+            .join('');
+          this.notifyService.warning(
+            `
+          The schema definition is invalid according to the GraphQL specs.
+          Linting and other functionalities would be unavailable.
+          ${errorList}
+        `,
+            'Altair',
+            { disableTimeOut: true }
+          );
+        }
+      }
+    });
+
+    effect(() => {
+      this.updateNewEditorTabSize(this.tabSize());
+    });
+
+    effect(() => {
+      this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
+    });
+
+    effect(() => {
+      this.updateNewEditorVariableState(this.variables());
+    });
+
+    effect(() => {
+      const windowId = this.windowId();
+      if (windowId && this.editor?.view) {
+        this.updateNewEditorWindowId(windowId);
+      }
+    });
+
+    effect(() => {
+      this.updateEditorShortcuts(this.shortcutMapping());
+    });
+
+    effect(() => {
+      if (this.query() && this.selectedIndex !== 0) {
+        // Set current tab to Query if query is updated
+        this.selectedIndex = 0;
+      }
+    });
+  }
 
   ngOnInit() {
-    if (this.gqlSchema) {
-      this.updateNewEditorTabSize(this.tabSize || 2);
-      this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
+    const gqlSchema = this.gqlSchema();
+    if (gqlSchema) {
+      this.updateNewEditorTabSize(this.tabSize() || 2);
+      this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
 
-      this.updateNewEditorSchema(this.gqlSchema);
-      this.updateNewEditorVariableState(this.variables);
-      this.updateNewEditorWindowId(this.windowId);
+      this.updateNewEditorSchema(gqlSchema);
+      this.updateNewEditorVariableState(this.variables());
+      this.updateNewEditorWindowId(this.windowId());
     }
   }
 
   ngAfterViewInit() {
     this.editorExtensions = this.graphqlExtension();
 
-    this.updateNewEditorSchema(this.gqlSchema);
-    this.updateNewEditorVariableState(this.variables);
-    this.updateNewEditorWindowId(this.windowId);
-    this.updateNewEditorTabSize(this.tabSize);
-    this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // If there is a new schema, update the editor schema
-    if (changes?.gqlSchema?.currentValue) {
-      this.updateNewEditorSchema(changes.gqlSchema.currentValue);
-      // Validate the schema to know if we can work with it
-      const validationErrors = this.gqlService.validateSchema(
-        changes.gqlSchema.currentValue
-      );
-      if (validationErrors.length) {
-        const errorList = validationErrors
-          .map((error) => '<br><br>' + error.message)
-          .join('');
-        this.notifyService.warning(
-          `
-          The schema definition is invalid according to the GraphQL specs.
-          Linting and other functionalities would be unavailable.
-          ${errorList}
-        `,
-          'Altair',
-          { disableTimeOut: true }
-        );
-      }
-    }
-
-    if (changes?.tabSize?.currentValue) {
-      this.updateNewEditorTabSize(changes.tabSize.currentValue);
-    }
-
-    if (changes?.disableLineNumbers?.currentValue) {
-      this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
-    }
-
-    if (changes?.query?.currentValue && this.selectedIndex !== 0) {
-      // Set current tab to Query if query is updated
-      this.selectedIndex = 0;
-    }
-
-    if (changes?.shortcutMapping?.currentValue) {
-      // Update the editor shortcuts based on the provided shortcuts
-      this.updateEditorShortcuts(changes.shortcutMapping.currentValue);
-    }
-
-    if (changes?.variables?.currentValue && this.editor?.view) {
-      this.updateNewEditorVariableState(changes.variables.currentValue);
-    }
-
-    if (changes?.windowId?.currentValue && this.editor?.view) {
-      this.updateNewEditorWindowId(changes.windowId.currentValue);
-    }
-
-    if (changes?.betaDisableNewEditor) {
-      // Using timeout to wait for editor to be initialized.
-      // This is hacky but should be fine since the beta should be temporary
-      setTimeout(() => {
-        if (this.editor?.view) {
-          this.updateNewEditorSchema(this.gqlSchema);
-          this.updateNewEditorVariableState(this.variables);
-          this.updateNewEditorWindowId(this.windowId);
-          this.updateNewEditorTabSize(this.tabSize);
-          this.updateNewEditorDisableLineNumber(this.disableLineNumbers);
-        }
-      }, 10);
-    }
+    this.updateNewEditorSchema(this.gqlSchema());
+    this.updateNewEditorVariableState(this.variables());
+    this.updateNewEditorWindowId(this.windowId());
+    this.updateNewEditorTabSize(this.tabSize());
+    this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
   }
 
   setTabSizeExtension(tabSize: number) {
@@ -284,7 +278,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     return [
       ...getCodemirrorGraphqlExtensions({
         store: this.store,
-        windowId: this.windowId,
+        windowId: this.windowId(),
         onShowInDocs: (field, type, parentType) => {
           this.zone.run(() => {
             if (field && parentType) {
@@ -312,7 +306,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
               cursor,
               token,
               {
-                maxDepth: this.addQueryDepthLimit,
+                maxDepth: this.addQueryDepthLimit(),
               }
             );
 
@@ -335,9 +329,9 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
           );
         },
       }),
-      this.tabSizeCompartment.of(this.setTabSizeExtension(this.tabSize)),
+      this.tabSizeCompartment.of(this.setTabSizeExtension(this.tabSize())),
       this.extraKeysCompartment.of(this.buildExtraKeysExtension(this.extraKeys)),
-      this.lineNumbersCompartment.of(this.setLineNumbers(this.disableLineNumbers)),
+      this.lineNumbersCompartment.of(this.setLineNumbers(this.disableLineNumbers())),
       this.editorStateListener(),
     ];
   }
@@ -403,7 +397,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
   // using arrow function, as it seems the this context in angular-resize-element is changed
   validate = (event: ResizeEvent): boolean => {
     const MIN_DIMENSIONS_PX = 50;
-    if (!this.showVariableDialog) {
+    if (!this.showVariableDialog()) {
       return false;
     }
 

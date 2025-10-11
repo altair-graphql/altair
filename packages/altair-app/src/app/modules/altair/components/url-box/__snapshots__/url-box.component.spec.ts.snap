@@ -121,6 +121,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
       <button
         class="app-button active-primary send-request__button"
         track-id="set_request"
+        type="button"
       >
         
         <span>
@@ -275,6 +276,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         nzplacement="bottomRight"
         nztrigger="click"
         track-id="send_request"
+        type="button"
       >
         
         

@@ -1,13 +1,15 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
-  OnChanges,
-  SimpleChanges,
   HostBinding,
   ElementRef,
   ViewChild,
+  input,
+  computed,
+  effect,
+  signal,
+  inject,
 } from '@angular/core';
 
 import { debug } from '../../../utils/logger';
@@ -31,17 +33,18 @@ import { debounce } from 'lodash-es';
   animations: [fadeInOutAnimationTrigger],
   standalone: false,
 })
-export class DocViewerComponent implements OnChanges {
-  @Input() gqlSchema?: GraphQLSchema;
-  @Input() allowIntrospection = true;
-  @Input() hideDeprecatedDocItems = false;
-  @Input() isLoading = false;
-  @Input() addQueryDepthLimit = this.altairConfig.add_query_depth_limit;
-  @Input() tabSize = this.altairConfig.tab_size;
-  @Input() docView: DocView = {
-    view: 'root', // type, field, root, search
-  };
-  @Input() lastUpdatedAt?: number;
+export class DocViewerComponent {
+  private gqlService = inject(GqlService);
+  private altairConfig = inject(AltairConfig);
+
+  readonly gqlSchema = input<GraphQLSchema>();
+  readonly allowIntrospection = input(true);
+  readonly hideDeprecatedDocItems = input(false);
+  readonly isLoading = input(false);
+  readonly addQueryDepthLimit = input(this.altairConfig.add_query_depth_limit);
+  readonly tabSize = input(this.altairConfig.tab_size);
+  readonly docView = input<DocView>({ view: 'root' });
+  readonly lastUpdatedAt = input<number>();
 
   @Output() toggleDocsChange = new EventEmitter();
   @Output() setDocViewChange = new EventEmitter<DocView>();
@@ -52,62 +55,71 @@ export class DocViewerComponent implements OnChanges {
   @HostBinding('style.flex-grow') public resizeFactor?: number;
   @ViewChild('docViewer') docViewerRef?: ElementRef;
 
-  rootTypes: GraphQLObjectType[] = [];
-  directives: readonly GraphQLDirective[] = [];
-  index: DocumentIndexEntry[] = [];
+  readonly rootTypes = computed<GraphQLObjectType[]>(() => {
+    const schema = this.gqlSchema();
+    if (schema) {
+      return getRootTypes(schema);
+    }
+    return [];
+  });
+  readonly directives = computed<readonly GraphQLDirective[]>(() => {
+    const schema = this.gqlSchema();
+    if (schema) {
+      return schema.getDirectives();
+    }
+    return [];
+  });
+  readonly index = signal<DocumentIndexEntry[]>([]);
 
   searchInputPlaceholder = 'Search docs...';
 
   // Used to determine if index related actions (like search, add query, etc.)
   // should be available
-  hasSearchIndex = false;
+  readonly hasSearchIndex = signal(false);
 
-  docHistory: DocView[] = [];
+  readonly docHistory = signal<DocView[]>([]);
 
-  searchResult: DocumentIndexEntry[] = [];
-  searchTerm = '';
-  autocompleteOptions: DocumentIndexEntry[] = [];
+  readonly searchResult = signal<DocumentIndexEntry[]>([]);
+  readonly searchTerm = signal('');
+  readonly autocompleteOptions = signal<DocumentIndexEntry[]>([]);
 
   docUtilWorker: any;
 
   sortFieldsByOption: SortByOptions = 'none';
 
-  constructor(
-    private gqlService: GqlService,
-    private altairConfig: AltairConfig
-  ) {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    // If there is a new schema, update the editor schema
-    if (changes?.gqlSchema?.currentValue) {
-      // const schema = changes.gqlSchema.currentValue;
-      this.gqlSchema = changes.gqlSchema.currentValue;
-      this.updateDocs(changes.gqlSchema.currentValue);
+  readonly typeData = computed(() => {
+    const docView = this.docView();
+    const gqlSchema = this.gqlSchema();
+    if (docView.view === 'type' && gqlSchema) {
+      return gqlSchema.getType(docView.name);
     }
-  }
+    return;
+  });
 
-  async updateDocs(schema: GraphQLSchema) {
-    debug.log(schema);
-    this.rootTypes = getRootTypes(schema);
-    this.directives = schema.getDirectives();
-
-    try {
-      const docUtilWorker = await this.getDocUtilsWorker();
-      const sdl = await this.gqlService.getSDL(schema);
-      await docUtilWorker.updateSchema(sdl);
-      this.index = await this.docUtilWorker.generateSearchIndex();
-      debug.log('Worker index:', this.index);
-      this.hasSearchIndex = true;
-    } catch (err) {
-      debug.log('Error while generating index.', err);
-      this.hasSearchIndex = false;
-    }
+  constructor() {
+    effect(async () => {
+      const schema = this.gqlSchema();
+      if (!schema) {
+        return;
+      }
+      try {
+        const docUtilWorker = await this.getDocUtilsWorker();
+        const sdl = await this.gqlService.getSDL(schema);
+        await docUtilWorker.updateSchema(sdl);
+        this.index.set(await this.docUtilWorker.generateSearchIndex());
+        debug.log('Worker index:', this.index());
+        this.hasSearchIndex.set(true);
+      } catch (err) {
+        debug.log('Error while generating index.', err);
+        this.hasSearchIndex.set(false);
+      }
+    });
   }
 
   async filterAutocompleteOptions(event: Event) {
     const term = (event.target as HTMLInputElement).value;
     const docUtils = await this.getDocUtilsWorker();
-    this.autocompleteOptions = await docUtils.searchDocs(term);
+    this.autocompleteOptions.set(await docUtils.searchDocs(term));
   }
   debouncedFilterAutocompleteOptions = debounce(this.filterAutocompleteOptions, 300);
 
@@ -126,13 +138,13 @@ export class DocViewerComponent implements OnChanges {
       term = term.name;
     }
 
-    if (!this.hasSearchIndex) {
+    if (!this.hasSearchIndex()) {
       return false;
     }
     this.updateDocHistory();
     this.setDocView({ view: 'search' });
     const docUtilWorker = await this.getDocUtilsWorker();
-    this.searchResult = await docUtilWorker.searchDocs(term);
+    this.searchResult.set(await docUtilWorker.searchDocs(term));
     debug.log(this.searchResult);
   }
 
@@ -148,8 +160,12 @@ export class DocViewerComponent implements OnChanges {
    * Go back through the doc history
    */
   goBack() {
-    if (this.docHistory.length) {
-      this.setDocView(this.docHistory.pop());
+    if (this.docHistory().length) {
+      const history = this.docHistory();
+      const lastItem = history.pop();
+      this.docHistory.set(history);
+      // Set the doc view to the last item in history
+      this.setDocView(lastItem);
     }
   }
 
@@ -158,15 +174,15 @@ export class DocViewerComponent implements OnChanges {
    */
   goHome() {
     this.setDocView({ view: 'root' });
-    this.docHistory = [];
+    this.docHistory.set([]);
   }
 
   /**
    * Update the doc history with the current view
    */
   updateDocHistory() {
-    if (this.docView && this.docView.view !== 'search') {
-      this.docHistory.push({ ...this.docView });
+    if (this.docView().view !== 'search') {
+      this.docHistory.set([...this.docHistory(), { ...this.docView() }]);
     }
   }
 
@@ -203,14 +219,14 @@ export class DocViewerComponent implements OnChanges {
   }
 
   async addToEditor(name: string, parentType: string) {
-    if (!this.hasSearchIndex) {
+    if (!this.hasSearchIndex()) {
       debug.log('No search index, so cannot add to editor');
       return false;
     }
     const docUtilsWorker = await this.getDocUtilsWorker();
     const generatedQuery = await docUtilsWorker.generateQueryV2(name, parentType, {
-      tabSize: this.tabSize,
-      addQueryDepthLimit: this.addQueryDepthLimit,
+      tabSize: this.tabSize(),
+      addQueryDepthLimit: this.addQueryDepthLimit(),
     });
     if (generatedQuery) {
       this.addQueryToEditorChange.next(generatedQuery);
@@ -219,7 +235,7 @@ export class DocViewerComponent implements OnChanges {
 
   getField(docView: DocView) {
     if (docView.view === 'field') {
-      const type = this.gqlSchema?.getType(docView.parentType);
+      const type = this.gqlSchema()?.getType(docView.parentType);
       if (type) {
         if (type instanceof GraphQLObjectType) {
           const fieldMap = type.getFields();
@@ -268,7 +284,7 @@ export class DocViewerComponent implements OnChanges {
 
   getDirective(docView: DocView) {
     if (docView.view === 'directive') {
-      return this.directives.find((d) => d.name === docView.name);
+      return this.directives().find((d) => d.name === docView.name);
     }
   }
 }

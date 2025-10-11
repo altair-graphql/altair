@@ -8,7 +8,7 @@ import {
   catchError,
   repeat,
 } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store, Action } from '@ngrx/store';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 
@@ -32,6 +32,13 @@ import { getApiErrorCode, getErrorResponse } from '../utils/errors';
 
 @Injectable()
 export class QueryCollectionEffects {
+  private actions$ = inject(Actions);
+  private store = inject<Store<RootState>>(Store);
+  private collectionService = inject(QueryCollectionService);
+  private apiService = inject(ApiService);
+  private windowService = inject(WindowService);
+  private notifyService = inject(NotifyService);
+
   // Updates windowsMeta with window IDs when a window is added
 
   createCollectionAndSaveQueryToCollection$: Observable<Action> = createEffect(
@@ -516,15 +523,6 @@ export class QueryCollectionEffects {
       repeat()
     );
   });
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<RootState>,
-    private collectionService: QueryCollectionService,
-    private apiService: ApiService,
-    private windowService: WindowService,
-    private notifyService: NotifyService
-  ) {}
 
   saveExistingWindowToCollection(
     windowId: string,

@@ -2,7 +2,7 @@
   <div class="request-script-editor__toggle-wrapper spacer--small">
     <label
       nz-checkbox
-      [ngModel]="preRequest.enabled"
+      [ngModel]="preRequest().enabled"
       (ngModelChange)="preRequestEnabledChange.next($event)"
       >{{ 'PRE_REQUEST_ENABLE_TEXT' | translate }}</label
     >
@@ -11,20 +11,20 @@
     title="Script editor v2.0"
     description="This is a complete rewrite of the existing scripting functionality with a focus on security and performance. The  new scripting engine is based on web workers and is completely sandboxed. So direct access to global variables like `window` and `document` is no longer possible."
     featureKey="newScript"
-  ></app-beta-indicator>
+  />
   <app-codemirror
     [extensions]="editorExtensions"
     [fullHeight]="true"
-    [ngModel]="preRequest.script"
+    [ngModel]="preRequest().script"
     (ngModelChange)="preRequestScriptChange.emit($event)"
-  ></app-codemirror>
+  />
   <small>
     <a
       href="https://altairgraphql.dev/docs/features/prerequest-scripts.html"
       target="_blank"
       aria-label="learn more"
     >
-      <app-icon name="info"></app-icon>
+      <app-icon name="info" />
       {{ 'LEARN_MORE_TEXT' | translate }}
     </a>
   </small>

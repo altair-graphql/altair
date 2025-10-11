@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
@@ -28,6 +28,12 @@ import { consumeQueryParam } from '../utils/url';
 
 @Injectable()
 export class AccountEffects {
+  private actions$ = inject(Actions);
+  private store = inject<Store<RootState>>(Store);
+  private accountService = inject(AccountService);
+  private notifyService = inject(NotifyService);
+  private sharingService = inject(SharingService);
+
   checkAccountLoginStatus$ = createEffect(
     () => {
       return this.actions$.pipe(
@@ -282,12 +288,4 @@ export class AccountEffects {
     },
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private store: Store<RootState>,
-    private accountService: AccountService,
-    private notifyService: NotifyService,
-    private sharingService: SharingService
-  ) {}
 }

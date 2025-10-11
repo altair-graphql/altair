@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input,
 } from '@angular/core';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import {
@@ -28,10 +28,10 @@ import {
   standalone: false,
 })
 export class DocViewerTypeComponent {
-  @Input() data?: GraphQLNamedType | null;
-  @Input() gqlSchema?: GraphQLSchema;
-  @Input() sortByOption: SortByOptions = 'none';
-  @Input() hideDeprecatedDocItems: boolean = false;
+  readonly data = input<GraphQLNamedType>();
+  readonly gqlSchema = input<GraphQLSchema>();
+  readonly sortByOption = input<SortByOptions>('none');
+  readonly hideDeprecatedDocItems = input<boolean>(false);
 
   @Output() goToFieldChange = new EventEmitter();
   @Output() goToTypeChange = new EventEmitter();
@@ -43,16 +43,15 @@ export class DocViewerTypeComponent {
    * @param type
    */
   isRootType(type: string) {
-    if (!type || !this.gqlSchema) {
+    const gqlSchema = this.gqlSchema();
+    if (!type || !gqlSchema) {
       return false;
     }
 
     switch (type) {
-      case this.gqlSchema.getQueryType() && this.gqlSchema.getQueryType()!.name:
-      case this.gqlSchema.getMutationType() &&
-        this.gqlSchema.getMutationType()!.name:
-      case this.gqlSchema.getSubscriptionType() &&
-        this.gqlSchema.getSubscriptionType()!.name:
+      case gqlSchema.getQueryType() && gqlSchema.getQueryType()!.name:
+      case gqlSchema.getMutationType() && gqlSchema.getMutationType()!.name:
+      case gqlSchema.getSubscriptionType() && gqlSchema.getSubscriptionType()!.name:
         return true;
     }
 
@@ -87,7 +86,7 @@ export class DocViewerTypeComponent {
    */
   getTypeImplementations(type: GraphQLType) {
     if (isInterfaceType(type)) {
-      return this.gqlSchema?.getPossibleTypes(type) || [];
+      return this.gqlSchema()?.getPossibleTypes(type) || [];
     }
     return [];
   }

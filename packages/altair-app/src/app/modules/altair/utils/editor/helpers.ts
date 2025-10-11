@@ -44,7 +44,7 @@ function pathFor(
   member: SyntaxNode,
   name: string
 ) {
-  const path = [];
+  const path: string[] = [];
   for (;;) {
     const obj = member.firstChild;
     let prop;
@@ -72,7 +72,7 @@ export const getListNodeChildren = (
     return [];
   }
   let curNode = first.nextSibling;
-  const children = [];
+  const children: SyntaxNode[] = [];
   while (curNode && curNode.name !== listClose) {
     children.push(curNode);
     curNode = curNode.nextSibling;

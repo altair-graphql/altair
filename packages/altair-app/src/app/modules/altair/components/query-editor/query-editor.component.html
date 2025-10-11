@@ -12,17 +12,17 @@
         class="query-editor__input"
         [fullHeight]="true"
         [extensions]="editorExtensions"
-        [ngModel]="query"
+        [ngModel]="query()"
         (ngModelChange)="queryChange.emit($event)"
         ngDefaultControl
-      ></app-codemirror>
+      />
     </div>
     <div
       class="variables-editor-container"
-      [ngClass]="{ 'show-variables': showVariableDialog }"
+      [ngClass]="{ 'show-variables': showVariableDialog() }"
       mwlResizable
       [ngStyle]="{
-        minHeight: showVariableDialog ? variableEditorHeight : undefined,
+        minHeight: showVariableDialog() ? variableEditorHeight : undefined,
       }"
       [enableGhostResize]="true"
       [validateResize]="validate"
@@ -35,10 +35,10 @@
       >
         {{ 'VARIABLES_TEXT' | translate }}
       </div>
-      @if (showVariableDialog) {
+      @if (showVariableDialog()) {
         <div
           class="variables-editor-inner"
-          [ngClass]="{ hide: !showVariableDialog }"
+          [ngClass]="{ hide: !showVariableDialog() }"
         >
           <div
             class="variable-editor-resizer"
@@ -47,16 +47,17 @@
           ></div>
           <div class="variables-editor-input-container">
             <app-variables-editor
-              [variables]="variables?.variables"
-              [variableToType]="variableToType"
-              [tabSize]="tabSize"
-              [showVariableDialog]="showVariableDialog"
-              [enableExperimental]="enableExperimental"
+              [variables]="variables()?.variables"
+              [variableToType]="variableToType()"
+              [tabSize]="tabSize()"
+              [showVariableDialog]="showVariableDialog()"
+              [enableExperimental]="enableExperimental()"
               (variablesChange)="variablesChange.emit($event)"
-            ></app-variables-editor>
+            />
           </div>
           <div class="variables-files-container">
             <button
+              type="button"
               class="variables-add-files-button"
               track-id="add_file_variable"
               (click)="addFileVariableChange.emit()"
@@ -68,37 +69,33 @@
               target="_blank"
               rel="noopener"
             >
-              <app-icon name="info"></app-icon>
+              <app-icon name="info" />
               {{ 'LEARN_MORE_TEXT' | translate }}
             </a>
             <div class="variables-files-list">
-              @for (
-                file of variables?.files;
-                track trackByIndex(index, file);
-                let index = $index
-              ) {
+              @for (file of variables()?.files; track trackByIndex($index, file)) {
                 <app-variable-file-item
                   [fileVariable]="file"
                   (fileVariableNameChange)="
-                    fileVariableNameChange.emit({ index: index, name: $event })
+                    fileVariableNameChange.emit({ index: $index, name: $event })
                   "
                   (fileVariableDataChange)="
                     fileVariableDataChange.emit({
-                      index: index,
+                      index: $index,
                       fileData: $event.files,
                       fromCache: $event.fromCache,
                     })
                   "
                   (fileVariableIsMultipleChange)="
                     fileVariableIsMultipleChange.emit({
-                      index: index,
+                      index: $index,
                       isMultiple: $event,
                     })
                   "
                   (deleteFileVariableChange)="
-                    deleteFileVariableChange.emit({ index: index })
+                    deleteFileVariableChange.emit({ index: $index })
                   "
-                ></app-variable-file-item>
+                />
               }
             </div>
           </div>
@@ -108,34 +105,33 @@
   </nz-tab>
   <nz-tab [nzTitle]="preRequestTitleTemplate">
     <ng-template #preRequestTitleTemplate>
-      <span [ngClass]="{ 'ant-tabs--status-enabled': preRequest?.enabled }">
+      <span [ngClass]="{ 'ant-tabs--status-enabled': preRequest()?.enabled }">
         {{ 'PRE_REQUEST_TAB' | translate }}
       </span>
     </ng-template>
     <app-pre-request-editor
-      [preRequest]="preRequest"
+      [preRequest]="preRequest()"
       (preRequestScriptChange)="preRequestScriptChange.emit($event)"
       (preRequestEnabledChange)="preRequestEnabledChange.emit($event)"
-    ></app-pre-request-editor>
+    />
   </nz-tab>
   <nz-tab [nzTitle]="postRequestTitleTemplate">
     <ng-template #postRequestTitleTemplate>
-      <span [ngClass]="{ 'ant-tabs--status-enabled': postRequest?.enabled }">
+      <span [ngClass]="{ 'ant-tabs--status-enabled': postRequest()?.enabled }">
         {{ 'POST_REQUEST_TAB' | translate }}
       </span>
     </ng-template>
     <app-post-request-editor
-      [postRequest]="postRequest"
+      [postRequest]="postRequest()"
       (postRequestScriptChange)="postRequestScriptChange.emit($event)"
       (postRequestEnabledChange)="postRequestEnabledChange.emit($event)"
-    ></app-post-request-editor>
+    />
   </nz-tab>
   <nz-tab [nzTitle]="authorizationTitleTemplate">
     <ng-template #authorizationTitleTemplate>
       <span
         [ngClass]="{
-          'ant-tabs--status-enabled':
-            authorizationState && isAuthorizationEnabled(authorizationState),
+          'ant-tabs--status-enabled': isAuthorizationEnabled(),
         }"
       >
         {{ 'AUTHORIZATION_TAB' | translate }}
@@ -143,7 +139,7 @@
     </ng-template>
 
     <app-authorization-editor
-      [authorizationState]="authorizationState"
+      [authorizationState]="authorizationState()"
       (authTypeChange)="authTypeChange.emit($event)"
       (authDataChange)="authDataChange.emit($event)"
     />

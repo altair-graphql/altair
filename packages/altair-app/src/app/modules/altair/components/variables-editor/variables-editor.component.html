@@ -1,10 +1,9 @@
 <div class="variables-editor">
   <app-codemirror
     #editor
-    class="mousetrap"
     [fullHeight]="true"
     [extensions]="editorExtensions"
-    [ngModel]="variables"
+    [ngModel]="variables()"
     (ngModelChange)="variablesChange.emit($event)"
-  ></app-codemirror>
+  />
 </div>

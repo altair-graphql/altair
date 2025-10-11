@@ -1,4 +1,4 @@
-@if (collectionTree) {
+@if (collectionTree()) {
   <div class="query-collections__item">
     <div class="query-collections__item-details-wrapper">
       <div
@@ -7,30 +7,26 @@
         (click)="toggleContent()"
       >
         <div class="query-collections__item-title">
-          @if (showContent) {
-            <span class="query-title-icon"
-              ><app-icon name="folder-minus"></app-icon
-            ></span>
+          @if (showContent()) {
+            <span class="query-title-icon"><app-icon name="folder-minus" /></span>
           }
-          @if (!showContent) {
-            <span class="query-title-icon"
-              ><app-icon name="folder-plus"></app-icon
-            ></span>
+          @if (!showContent()) {
+            <span class="query-title-icon"><app-icon name="folder-plus" /></span>
           }
-          <span>{{ collectionTree.title }}</span>
+          <span>{{ collectionTree().title }}</span>
         </div>
         <div class="query-collections__item-meta">
           {{ 'COLLECTIONS_NUMBER_OF_REQUESTS' | translate }}
-          {{ getQueryCount(collectionTree) }}
+          {{ getQueryCount(collectionTree()) }}
         </div>
         <!-- <div class="query-collections__item-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi velit voluptate, delectus possimus corrupti adipisci iusto itaque cum dignissimos sed quae eaque magni harum ratione laborum similique excepturi voluptatibus molestiae?</div> -->
       </div>
-      @if (loggedIn && collectionTree.storageType === 'api') {
+      @if (loggedIn() && collectionTree().storageType === 'api') {
         <span
           class="query-collections__item-synced-icon"
           [title]="'CLOUD_SYNC_TEXT' | translate"
         >
-          <app-icon name="cloud"></app-icon>
+          <app-icon name="cloud" />
         </span>
       }
       <div class="query-collections__item-right">
@@ -42,12 +38,12 @@
             type="button"
             class="query-collections__item-icon__button"
           >
-            <app-icon name="more-horizontal"></app-icon>
+            <app-icon name="more-horizontal" />
           </button>
         </span>
         <nz-dropdown-menu #collectionItemMenu="nzDropdownMenu">
           <ul nz-menu>
-            @if (loggedIn && !(collectionTree.storageType === 'api')) {
+            @if (loggedIn() && !(collectionTree().storageType === 'api')) {
               <li
                 nz-menu-item
                 data-test-id="sync-collection"
@@ -115,27 +111,30 @@
     </div>
     <div
       class="query-collections__item-content-wrapper"
-      [ngClass]="{ 'query-collections__item-content--hidden': !showContent }"
+      [ngClass]="{ 'query-collections__item-content--hidden': !showContent() }"
     >
       <div class="query-collections__item-nested">
         @for (
-          subcollectionTree of collectionTree.collections;
+          subcollectionTree of collectionTree().collections;
           track trackById($index, subcollectionTree)
         ) {
           <app-query-collection-item
             [collectionTree]="subcollectionTree"
-            [loggedIn]="loggedIn"
+            [loggedIn]="loggedIn()"
             (selectQueryChange)="selectQueryChange.next($event)"
             (deleteQueryChange)="deleteQueryChange.next($event)"
             (deleteCollectionChange)="deleteCollectionChange.next($event)"
             (editCollectionChange)="editCollectionChange.next($event)"
             (exportCollectionChange)="exportCollectionChange.next($event)"
-          ></app-query-collection-item>
+          />
         }
       </div>
       <div class="query-collections__item-queries">
         @for (
-          query of sortedCollectionQueries(collectionTree.queries, queriesSortBy);
+          query of sortedCollectionQueries(
+            collectionTree().queries,
+            queriesSortBy()
+          );
           track trackById($index, query)
         ) {
           <div class="query-collections__item-queries-item">
@@ -145,12 +144,12 @@
               (click)="
                 selectQueryChange.next({
                   query: query,
-                  collectionId: collectionTree.id,
+                  collectionId: collectionTree().id,
                   windowIdInCollection: query.id,
                 })
               "
             >
-              <span class="query-title-icon"><app-icon name="file"></app-icon></span>
+              <span class="query-title-icon"><app-icon name="file" /></span>
               {{ query.windowName }}
               @if (!query.id) {
                 <span
@@ -159,7 +158,7 @@
                   [nzTooltipTitle]="deprecatedCollectionQuery"
                   nzTooltipPlacement="bottom"
                 >
-                  <app-icon name="alert-triangle"></app-icon>
+                  <app-icon name="alert-triangle" />
                 </span>
               }
               <ng-template #deprecatedCollectionQuery>
@@ -172,12 +171,12 @@
                 >
               </ng-template>
             </span>
-            @if (loggedIn && query.storageType === 'api') {
+            @if (loggedIn() && query.storageType === 'api') {
               <span
                 class="query-collections__item-queries-item-synced-icon"
                 [title]="'CLOUD_SYNC_TEXT' | translate"
               >
-                <app-icon name="cloud"></app-icon>
+                <app-icon name="cloud" />
               </span>
             }
             <span class="query-collections__item-queries-item-right">
@@ -189,12 +188,12 @@
                   [nzDropdownMenu]="collectionQueryItemMenu"
                   class="query-collections__item-icon__button"
                 >
-                  <app-icon name="more-horizontal"></app-icon>
+                  <app-icon name="more-horizontal" />
                 </button>
               </span>
               <nz-dropdown-menu #collectionQueryItemMenu="nzDropdownMenu">
                 <ul nz-menu>
-                  @if (loggedIn && query.storageType === 'api') {
+                  @if (loggedIn() && query.storageType === 'api') {
                     <li
                       nz-menu-item
                       (click)="copyQueryShareLinkChange.emit(query.id)"

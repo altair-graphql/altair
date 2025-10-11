@@ -1,9 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 
 @Component({
@@ -14,7 +14,7 @@ import {
   standalone: false,
 })
 export class ImportCurlDialogComponent {
-  @Input() showImportCurlDialog = false;
+  readonly showImportCurlDialog = input(false);
   @Output() toggleDialogChange = new EventEmitter();
   @Output() importCurlChange = new EventEmitter<string>();
 

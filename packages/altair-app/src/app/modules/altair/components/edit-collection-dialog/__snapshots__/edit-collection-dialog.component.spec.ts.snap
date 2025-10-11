@@ -2,7 +2,9 @@
 
 exports[`EditCollectionDialogComponent should render correctly 1`] = `
 <app-edit-collection-dialog>
-  <nz-modal />
+  <nz-modal
+    nzcloseicon="close-circle"
+  />
   
 </app-edit-collection-dialog>
 `;

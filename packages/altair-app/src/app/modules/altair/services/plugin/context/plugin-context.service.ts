@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { v4 as uuid } from 'uuid';
 import {
@@ -60,15 +60,14 @@ import { firstValueFrom } from 'rxjs';
   providedIn: 'root',
 })
 export class PluginContextService implements PluginContextGenerator {
-  constructor(
-    private store: Store<RootState>,
-    private windowService: WindowService,
-    private pluginEventService: PluginEventService,
-    private themeRegistryService: ThemeRegistryService,
-    private requestHandlerRegistryService: RequestHandlerRegistryService,
-    private notifyService: NotifyService,
-    private sanitizer: DomSanitizer
-  ) {}
+  private store = inject<Store<RootState>>(Store);
+  private windowService = inject(WindowService);
+  private pluginEventService = inject(PluginEventService);
+  private themeRegistryService = inject(ThemeRegistryService);
+  private requestHandlerRegistryService = inject(RequestHandlerRegistryService);
+  private notifyService = inject(NotifyService);
+  private sanitizer = inject(DomSanitizer);
+
 
   createV1Context(pluginName: string, plugin: AltairV1Plugin): PluginContext {
     const self = this;

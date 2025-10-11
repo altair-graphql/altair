@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   IQuery,
   IQueryCollection,
@@ -56,7 +56,8 @@ export const serverCollectionToLocalCollection = (
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private accountService: AccountService) {}
+  private accountService = inject(AccountService);
+
 
   async createQueryCollection(
     queryCollection: CreateDTO<IQueryCollection>,

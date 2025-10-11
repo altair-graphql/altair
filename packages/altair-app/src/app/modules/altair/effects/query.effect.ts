@@ -11,7 +11,7 @@ import {
   filter,
   finalize,
 } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
 
@@ -62,6 +62,17 @@ function notNullOrUndefined<T>(x: T | null | undefined): x is T {
 
 @Injectable()
 export class QueryEffects {
+  private actions$ = inject(Actions);
+  private gqlService = inject(GqlService);
+  private notifyService = inject(NotifyService);
+  private dbService = inject(DbService);
+  private donationService = inject(DonationService);
+  private electronAppService = inject(ElectronAppService);
+  private environmentService = inject(EnvironmentService);
+  private queryService = inject(QueryService);
+  private apiService = inject(ApiService);
+  private store = inject<Store<RootState>>(Store);
+
   // TODO: Move more logic into query service
   // Sends the query request to the specified URL
   // with the specified headers and variables
@@ -1481,18 +1492,4 @@ export class QueryEffects {
     },
     { dispatch: false }
   );
-
-  // Get the introspection after setting the URL
-  constructor(
-    private actions$: Actions,
-    private gqlService: GqlService,
-    private notifyService: NotifyService,
-    private dbService: DbService,
-    private donationService: DonationService,
-    private electronAppService: ElectronAppService,
-    private environmentService: EnvironmentService,
-    private queryService: QueryService,
-    private apiService: ApiService,
-    private store: Store<RootState>
-  ) {}
 }

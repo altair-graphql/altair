@@ -1,8 +1,8 @@
-@if (isDeprecated) {
+@if (isDeprecated()) {
   <div class="doc-viewer-item-query-deprecated">
     <span class="doc-viewer-item-query-deprecated-title">
       {{ 'DOCS_DEPRECATED_TEXT' | translate }}
     </span>
-    <span markdown [data]="deprecatedReason || ''"> </span>
+    <span markdown [data]="deprecatedReason() || ''"> </span>
   </div>
 }

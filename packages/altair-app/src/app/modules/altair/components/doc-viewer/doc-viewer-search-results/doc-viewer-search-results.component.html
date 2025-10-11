@@ -3,7 +3,7 @@
     {{ 'DOCS_SEARCH_RESULTS_TEXT' | translate }}
   </div>
 
-  @for (result of results; track resultTrackBy($index, result)) {
+  @for (result of results(); track resultTrackBy($index, result)) {
     <div
       class="doc-viewer-search-result-item"
       (click)="goToItem(result)"
