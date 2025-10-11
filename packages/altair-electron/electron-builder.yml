@@ -57,6 +57,15 @@ snap:
       bind: $SNAP/usr/share/libdrm
 win:
   artifactName: ${name}_${version}_${arch}_win.${ext}
+  target:
+    - target: nsis
+      arch:
+        - x64
+        - arm64
+    - target: msi
+      arch:
+        - x64
+        - arm64
 # flatpak:
 #   artifactName: ${name}_${version}_${arch}_flatpak.${ext}
 #   runtime: org.freedesktop.Platform
