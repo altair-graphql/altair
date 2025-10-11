@@ -16,6 +16,12 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
     (e: MessageEvent<ScriptEventData<ScriptEvent>>) => void
   > = [];
 
+  private iframeLoadedPromise = new Promise<void>((resolve) => {
+    this.iframe.addEventListener('load', () => {
+      resolve();
+    });
+  });
+
   constructor(private sandboxUrl: string) {
     super();
   }
@@ -55,10 +61,9 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
     // FIXME: we shouldn't use any here
     this.messageListeners.push(listener as any);
   }
-  send(type: string, payload: any): void {
-    this.iframe.addEventListener('load', () => {
-      this.iframe.contentWindow?.postMessage({ type, payload }, this.sandboxUrl);
-    });
+  async send(type: string, payload: any): Promise<void> {
+    await this.iframeLoadedPromise;
+    this.iframe.contentWindow?.postMessage({ type, payload }, this.sandboxUrl);
   }
   onError(handler: (err: any) => void): void {
     this.iframe.addEventListener('error', handler);
