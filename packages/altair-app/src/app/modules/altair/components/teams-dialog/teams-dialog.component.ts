@@ -1,5 +1,14 @@
 import { ICreateTeamDto, ReturnedTeamMembership } from '@altairgraphql/api-utils';
-import { Component, EventEmitter, Output, computed, effect, input, signal, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  computed,
+  effect,
+  input,
+  signal,
+  inject,
+} from '@angular/core';
 import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { AccountService, NotifyService } from '../../services';
@@ -82,15 +91,6 @@ export class TeamsDialogComponent {
         });
       }
     });
-    // this.selectedTeam$.subscribe(async (team) => {
-    //   if (!team) {
-    //     return;
-    //   }
-    //   this.teamName = team.name;
-    //   this.teamDescription = team.description ?? '';
-
-    //   this.membersOfSelectedTeam = await accountService.getTeamMembers(team.id);
-    // });
   }
 
   async onDeleteTeam(id: string) {
@@ -106,7 +106,7 @@ export class TeamsDialogComponent {
   }
 
   resetTeamForm() {
-    this.editTeamId.set('');
+    this.editTeamId.set(undefined);
     this.teamForm.reset();
   }
 

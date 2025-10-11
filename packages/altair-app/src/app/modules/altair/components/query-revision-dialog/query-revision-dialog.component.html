@@ -6,7 +6,7 @@
   (toggleDialog)="toggleDialogChange.emit($event)"
 >
   <div class="query-revisions-wrapper">
-    @for (item of revisions; track item.id) {
+    @for (item of revisions(); track item.id) {
       <div class="query-revisions__item">
         <div class="query-revisions__item-time">
           {{ item.createdAt | date: 'medium' }}

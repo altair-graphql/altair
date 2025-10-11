@@ -161,7 +161,11 @@ export class DocViewerComponent {
    */
   goBack() {
     if (this.docHistory().length) {
-      this.setDocView(this.docHistory().pop());
+      const history = this.docHistory();
+      const lastItem = history.pop();
+      this.docHistory.set(history);
+      // Set the doc view to the last item in history
+      this.setDocView(lastItem);
     }
   }
 
@@ -177,8 +181,8 @@ export class DocViewerComponent {
    * Update the doc history with the current view
    */
   updateDocHistory() {
-    if (this.docView() && this.docView().view !== 'search') {
-      this.docHistory().push({ ...this.docView() });
+    if (this.docView().view !== 'search') {
+      this.docHistory.set([...this.docHistory(), { ...this.docView() }]);
     }
   }
 

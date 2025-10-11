@@ -7,13 +7,11 @@
         (click)="toggleContent()"
       >
         <div class="query-collections__item-title">
-          @if (showContent) {
-            <span class="query-title-icon"
-              ><app-icon name="folder-minus" /></span>
+          @if (showContent()) {
+            <span class="query-title-icon"><app-icon name="folder-minus" /></span>
           }
-          @if (!showContent) {
-            <span class="query-title-icon"
-              ><app-icon name="folder-plus" /></span>
+          @if (!showContent()) {
+            <span class="query-title-icon"><app-icon name="folder-plus" /></span>
           }
           <span>{{ collectionTree().title }}</span>
         </div>
@@ -113,7 +111,7 @@
     </div>
     <div
       class="query-collections__item-content-wrapper"
-      [ngClass]="{ 'query-collections__item-content--hidden': !showContent }"
+      [ngClass]="{ 'query-collections__item-content--hidden': !showContent() }"
     >
       <div class="query-collections__item-nested">
         @for (

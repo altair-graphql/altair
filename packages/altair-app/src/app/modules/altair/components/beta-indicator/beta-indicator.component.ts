@@ -18,7 +18,7 @@ export class BetaIndicatorComponent {
   readonly description = input('');
 
   // the matching feature name in the settings namespaced with "beta.disable.". For example if you have "beta.disable.newEditor" in settings, this should be "newEditor"
-  readonly featureKey = input('');
+  readonly featureKey = input.required<string>();
 
   value$: Observable<boolean>;
 

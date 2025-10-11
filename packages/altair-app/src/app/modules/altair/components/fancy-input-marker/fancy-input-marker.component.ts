@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnChanges, SimpleChanges, input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  input,
+  inject,
+  computed,
+} from '@angular/core';
 import { IDictionary } from '../../interfaces/shared';
 import {
   EnvironmentService,
@@ -14,15 +20,12 @@ import { HighlightSection } from '../fancy-input/fancy-input.component';
   preserveWhitespaces: false,
   standalone: false,
 })
-export class FancyInputMarkerComponent implements OnChanges {
+export class FancyInputMarkerComponent {
   private environmentService = inject(EnvironmentService);
 
   readonly section = input<HighlightSection>({ content: '' });
-  readonly activeEnvironment = input<IDictionary>({});
 
-  resolvedValue = '';
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.resolvedValue = this.environmentService.hydrate(this.section().content);
-  }
+  readonly resolvedValue = computed(() =>
+    this.environmentService.hydrate(this.section().content)
+  );
 }

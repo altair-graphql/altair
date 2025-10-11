@@ -3,10 +3,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  OnChanges,
   Output,
-  SimpleChanges,
-  input
+  computed,
+  input,
 } from '@angular/core';
 import { apiClient } from '../../services/api/api.service';
 import { externalLink } from '../../utils';
@@ -18,21 +17,15 @@ import { externalLink } from '../../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class UpgradeDialogComponent implements OnChanges {
+export class UpgradeDialogComponent {
   readonly showDialog = input(true);
   readonly userPlan = input<IPlan>();
   readonly planInfos = input<IPlanInfo[]>([]);
   @Output() toggleDialogChange = new EventEmitter<boolean>();
 
-  proPlanInfo: IPlanInfo | undefined;
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.planInfos?.currentValue) {
-      this.proPlanInfo = changes.planInfos.currentValue.find(
-        (planInfo: IPlanInfo) => planInfo.role === 'pro'
-      );
-    }
-  }
+  readonly proPlanInfo = computed<IPlanInfo | undefined>(() => {
+    return this.planInfos()?.find((planInfo: IPlanInfo) => planInfo.role === 'pro');
+  });
 
   async openUpgradeProUrl(e: MouseEvent) {
     const { url } = await apiClient.getUpgradeProUrl();

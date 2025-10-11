@@ -1,12 +1,11 @@
 import {
   Component,
   OnInit,
-  SimpleChanges,
-  OnChanges,
   EventEmitter,
   Output,
   ChangeDetectionStrategy,
   input,
+  effect,
 } from '@angular/core';
 import {
   getSchemaFormProperty,
@@ -22,7 +21,7 @@ import { IDictionary } from 'altair-graphql-core/build/types/shared';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class SchemaFormComponent implements OnInit, OnChanges {
+export class SchemaFormComponent implements OnInit {
   readonly schema = input<JSONSchema6>({});
   readonly data = input<unknown>(null);
 
@@ -31,18 +30,20 @@ export class SchemaFormComponent implements OnInit, OnChanges {
   schemaProperties: SchemaFormProperty[] = [];
   formData: IDictionary = {};
 
+  constructor() {
+    effect(() => {
+      const schema = this.schema();
+      if (schema) {
+        this.updateSchemaProperties(schema);
+      }
+    });
+  }
+
   ngOnInit() {
     // console.log('SCHEMA:', this.schema);
     const schema = this.schema();
     if (schema) {
       this.updateSchemaProperties(schema);
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // If there is a new schema, update the schema properties
-    if (changes?.schema?.currentValue) {
-      this.updateSchemaProperties(changes.schema.currentValue);
     }
   }
 

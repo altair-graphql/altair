@@ -9,6 +9,8 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   input,
+  OnInit,
+  computed,
 } from '@angular/core';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -69,12 +71,12 @@ export class QueryResultComponent implements AfterViewInit {
 
   selectedIndex = 0;
 
-  editorExtensions: Extension[] = [
+  readonly editorExtensions = computed<Extension[]>(() => [
     json(),
     EditorState.readOnly.of(true),
     indentUnit.of(' '.repeat(this.tabSize())),
     EditorState.tabSize.of(this.tabSize()),
-  ];
+  ]);
 
   bottomPaneHeight = '50%';
 

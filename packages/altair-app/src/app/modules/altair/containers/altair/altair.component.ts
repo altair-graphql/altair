@@ -860,7 +860,7 @@ export class AltairComponent {
     queryName = '',
     collectionName = '',
     parentCollectionId = '',
-    workspaceId = WORKSPACES.LOCAL as string,
+    workspaceId = WORKSPACES.LOCAL,
   }) {
     this.store.dispatch(
       new collectionActions.CreateCollectionAndSaveQueryToCollectionAction({

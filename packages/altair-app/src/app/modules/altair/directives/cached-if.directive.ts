@@ -1,4 +1,14 @@
-import { Directive, effect, EmbeddedViewRef, input, OnDestroy, signal, TemplateRef, ViewContainerRef, inject } from '@angular/core';
+import {
+  Directive,
+  effect,
+  EmbeddedViewRef,
+  input,
+  OnDestroy,
+  signal,
+  TemplateRef,
+  ViewContainerRef,
+  inject,
+} from '@angular/core';
 
 @Directive({
   selector: '[appCachedIf]',
@@ -22,11 +32,13 @@ export class CachedIfDirective implements OnDestroy {
           this.cachedViewRef = this.viewContainer.createEmbeddedView(
             this.templateRef
           );
+          this.hasView.set(true);
         } else {
           // Re-attach the cached view if not already attached
           if (!this.hasView()) {
             this.viewContainer.insert(this.cachedViewRef);
           }
+          this.hasView.set(true);
         }
       } else {
         if (this.hasView() && this.cachedViewRef) {
@@ -34,10 +46,10 @@ export class CachedIfDirective implements OnDestroy {
           const index = this.viewContainer.indexOf(this.cachedViewRef);
           if (index !== -1) {
             this.viewContainer.detach(index);
+            this.hasView.set(false);
           }
         }
       }
-      this.hasView.set(val);
     });
   }
 

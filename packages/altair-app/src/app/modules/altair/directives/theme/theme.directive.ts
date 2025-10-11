@@ -21,6 +21,9 @@ export class ThemeDirective {
 
   constructor() {
     effect(() => {
+      // recreate emotion instance if nonce changes
+      this.createEmotionInstance(this.cspNonce());
+      // re-apply theme to use new emotion instance
       this.applyTheme(this.appTheme(), this.appDarkTheme(), this.appAccentColor());
     });
   }
@@ -60,11 +63,16 @@ export class ThemeDirective {
 
   private getEmotionInstance() {
     if (!this.emotionInstance) {
-      this.emotionInstance = createEmotion({
-        key: 'altair-theme',
-        nonce: this.cspNonce() || undefined,
-      });
+      this.emotionInstance = this.createEmotionInstance(this.cspNonce());
     }
+    return this.emotionInstance;
+  }
+
+  private createEmotionInstance(cspNonce?: string) {
+    this.emotionInstance = createEmotion({
+      key: 'altair-theme',
+      nonce: cspNonce,
+    });
     return this.emotionInstance;
   }
 }

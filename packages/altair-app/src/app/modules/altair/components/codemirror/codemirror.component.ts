@@ -4,13 +4,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
   HostBinding,
   NgZone,
-  OnChanges,
   OnDestroy,
   Output,
-  SimpleChanges,
   ViewChild,
   input,
   signal,
@@ -65,7 +62,7 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
   standalone: false,
 })
 export class CodemirrorComponent
-  implements AfterViewInit, OnChanges, ControlValueAccessor, OnDestroy
+  implements AfterViewInit, ControlValueAccessor, OnDestroy
 {
   private zone = inject(NgZone);
   private altairConfig = inject(AltairConfig);
@@ -98,6 +95,33 @@ export class CodemirrorComponent
     effect(() => {
       this.onChange(this.value());
     });
+
+    effect(() => {
+      if (this.view && this.extensions()) {
+        this.view.dispatch({
+          effects: StateEffect.reconfigure.of(
+            Prec.high(this.getExtensions(this.extensions()))
+          ),
+        });
+      }
+    });
+
+    effect(() => {
+      if (this.redrawLayout()) {
+        // wait for animations to finish
+        setTimeout(() => {
+          if (this.view) {
+            this.view.dispatch({
+              changes: {
+                from: 0,
+                to: this.view.state.doc.length,
+                insert: this.view.state.doc.sliceString(0),
+              },
+            });
+          }
+        }, 250);
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -112,31 +136,6 @@ export class CodemirrorComponent
         parent: this.ref.nativeElement,
       });
     });
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.view && changes.extensions?.currentValue) {
-      this.view.dispatch({
-        effects: StateEffect.reconfigure.of(
-          Prec.high(this.getExtensions(changes.extensions.currentValue))
-        ),
-      });
-    }
-
-    if (changes.redrawLayout?.currentValue) {
-      // wait for animations to finish
-      setTimeout(() => {
-        if (this.view) {
-          this.view.dispatch({
-            changes: {
-              from: 0,
-              to: this.view.state.doc.length,
-              insert: this.view.state.doc.sliceString(0),
-            },
-          });
-        }
-      }, 250);
-    }
   }
 
   ngOnDestroy() {

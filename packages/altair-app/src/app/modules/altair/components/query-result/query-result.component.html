@@ -101,7 +101,7 @@
               <app-codemirror
                 [ngModel]="getItemContent(item)"
                 [fullHeight]="true"
-                [extensions]="editorExtensions"
+                [extensions]="editorExtensions()"
               />
               <div class="query-result__list-item-info">
                 {{ item.timestamp | date: 'mediumTime' }}

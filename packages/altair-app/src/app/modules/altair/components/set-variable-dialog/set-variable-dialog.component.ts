@@ -2,10 +2,8 @@ import {
   Component,
   Output,
   EventEmitter,
-  ViewChild,
-  OnChanges,
   ChangeDetectionStrategy,
-  input
+  input,
 } from '@angular/core';
 
 @Component({

@@ -5,7 +5,6 @@ import { NzConfigService } from 'ng-zorro-antd/core/config';
 describe('ThemeDirective', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      teardown: { destroyAfterEach: false },
       imports: [],
       providers: [ThemeDirective, NzConfigService],
     })

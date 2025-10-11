@@ -2,16 +2,15 @@ import {
   Component,
   OnInit,
   AfterViewInit,
-  OnChanges,
   Output,
   EventEmitter,
-  SimpleChanges,
   ViewChild,
   HostBinding,
   NgZone,
   input,
   computed,
   inject,
+  effect,
 } from '@angular/core';
 
 import { updateSchema, showInDocsCommand, fillAllFieldsCommands } from 'cm6-graphql';
@@ -54,7 +53,7 @@ import { isAuthorizationEnabled } from '../../store';
   styleUrls: ['./query-editor.component.scss'],
   standalone: false,
 })
-export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
+export class QueryEditorComponent implements OnInit, AfterViewInit {
   private gqlService = inject(GqlService);
   private notifyService = inject(NotifyService);
   private store = inject<Store<RootState>>(Store);
@@ -139,6 +138,62 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
 
   updateWidgetTimeout?: ReturnType<typeof setTimeout>;
 
+  constructor() {
+    effect(() => {
+      const gqlSchema = this.gqlSchema();
+      // If there is a new schema, update the editor schema
+      if (gqlSchema) {
+        this.updateNewEditorSchema(gqlSchema);
+        // Validate the schema to know if we can work with it
+        const validationErrors = this.gqlService.validateSchema(gqlSchema);
+        if (validationErrors.length) {
+          const errorList = validationErrors
+            .map((error) => '<br><br>' + error.message)
+            .join('');
+          this.notifyService.warning(
+            `
+          The schema definition is invalid according to the GraphQL specs.
+          Linting and other functionalities would be unavailable.
+          ${errorList}
+        `,
+            'Altair',
+            { disableTimeOut: true }
+          );
+        }
+      }
+    });
+
+    effect(() => {
+      this.updateNewEditorTabSize(this.tabSize());
+    });
+
+    effect(() => {
+      this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
+    });
+
+    effect(() => {
+      this.updateNewEditorVariableState(this.variables());
+    });
+
+    effect(() => {
+      const windowId = this.windowId();
+      if (windowId && this.editor?.view) {
+        this.updateNewEditorWindowId(windowId);
+      }
+    });
+
+    effect(() => {
+      this.updateEditorShortcuts(this.shortcutMapping());
+    });
+
+    effect(() => {
+      if (this.query() && this.selectedIndex !== 0) {
+        // Set current tab to Query if query is updated
+        this.selectedIndex = 0;
+      }
+    });
+  }
+
   ngOnInit() {
     const gqlSchema = this.gqlSchema();
     if (gqlSchema) {
@@ -159,71 +214,6 @@ export class QueryEditorComponent implements OnInit, AfterViewInit, OnChanges {
     this.updateNewEditorWindowId(this.windowId());
     this.updateNewEditorTabSize(this.tabSize());
     this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    // If there is a new schema, update the editor schema
-    if (changes?.gqlSchema?.currentValue) {
-      this.updateNewEditorSchema(changes.gqlSchema.currentValue);
-      // Validate the schema to know if we can work with it
-      const validationErrors = this.gqlService.validateSchema(
-        changes.gqlSchema.currentValue
-      );
-      if (validationErrors.length) {
-        const errorList = validationErrors
-          .map((error) => '<br><br>' + error.message)
-          .join('');
-        this.notifyService.warning(
-          `
-          The schema definition is invalid according to the GraphQL specs.
-          Linting and other functionalities would be unavailable.
-          ${errorList}
-        `,
-          'Altair',
-          { disableTimeOut: true }
-        );
-      }
-    }
-
-    if (changes?.tabSize?.currentValue) {
-      this.updateNewEditorTabSize(changes.tabSize.currentValue);
-    }
-
-    if (changes?.disableLineNumbers?.currentValue) {
-      this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
-    }
-
-    if (changes?.query?.currentValue && this.selectedIndex !== 0) {
-      // Set current tab to Query if query is updated
-      this.selectedIndex = 0;
-    }
-
-    if (changes?.shortcutMapping?.currentValue) {
-      // Update the editor shortcuts based on the provided shortcuts
-      this.updateEditorShortcuts(changes.shortcutMapping.currentValue);
-    }
-
-    if (changes?.variables?.currentValue && this.editor?.view) {
-      this.updateNewEditorVariableState(changes.variables.currentValue);
-    }
-
-    if (changes?.windowId?.currentValue && this.editor?.view) {
-      this.updateNewEditorWindowId(changes.windowId.currentValue);
-    }
-
-    if (changes?.betaDisableNewEditor) {
-      // Using timeout to wait for editor to be initialized.
-      // This is hacky but should be fine since the beta should be temporary
-      setTimeout(() => {
-        if (this.editor?.view) {
-          this.updateNewEditorSchema(this.gqlSchema());
-          this.updateNewEditorVariableState(this.variables());
-          this.updateNewEditorWindowId(this.windowId());
-          this.updateNewEditorTabSize(this.tabSize());
-          this.updateNewEditorDisableLineNumber(this.disableLineNumbers());
-        }
-      }, 10);
-    }
   }
 
   setTabSizeExtension(tabSize: number) {

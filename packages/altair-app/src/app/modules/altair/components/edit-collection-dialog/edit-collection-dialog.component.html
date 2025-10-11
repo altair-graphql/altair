@@ -23,23 +23,28 @@
         <div class="app-dialog-section">
           <div class="form-group">
             {{ 'COLLECTION_TITLE_LABEL' | translate }}
-            <input type="text" class="input" [(ngModel)]="title" />
+            <input
+              type="text"
+              class="input"
+              [ngModel]="title()"
+              (ngModelChange)="title.set($event)"
+            />
           </div>
         </div>
         <div class="app-dialog-section">
           <nz-tabset [nzAnimated]="false" nzSize="small" [nzTabBarGutter]="16">
             <nz-tab [nzTitle]="'PRE_REQUEST_TAB' | translate">
               <app-pre-request-editor
-                [preRequest]="preRequest"
-                (preRequestScriptChange)="preRequest.script = $event"
-                (preRequestEnabledChange)="preRequest.enabled = $event"
+                [preRequest]="preRequest()"
+                (preRequestScriptChange)="updatePreRequestScript($event)"
+                (preRequestEnabledChange)="updatePreRequestEnabled($event)"
               />
             </nz-tab>
             <nz-tab [nzTitle]="'POST_REQUEST_TAB' | translate">
               <app-post-request-editor
-                [postRequest]="postRequest"
-                (postRequestScriptChange)="postRequest.script = $event"
-                (postRequestEnabledChange)="postRequest.enabled = $event"
+                [postRequest]="postRequest()"
+                (postRequestScriptChange)="updatePostRequestScript($event)"
+                (postRequestEnabledChange)="updatePostRequestEnabled($event)"
               />
             </nz-tab>
             <nz-tab [nzTitle]="'ENVIRONMENTS_MANAGER_TEXT' | translate">
@@ -49,13 +54,13 @@
                 [extensions]="editorExtensions"
                 [fullHeight]="true"
                 [redrawLayout]="showEditCollectionDialog()"
-                [(ngModel)]="environmentVariablesStr"
+                [ngModel]="environmentVariablesStr()"
                 (ngModelChange)="onEnvironmentVariablesChange($event)"
               />
             </nz-tab>
             <nz-tab [nzTitle]="'HEADERS_TEXT' | translate">
               <app-headers-editor
-                [headers]="headers"
+                [headers]="headers()"
                 (headerEnabledChange)="
                   updateHeaderEnabled($event.enabled, $event.index)
                 "

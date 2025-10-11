@@ -37,17 +37,9 @@
             @case ('enum.string') {
               <nz-form-label>{{ item.description }}</nz-form-label>
               <nz-form-control>
-                <nz-select
-                  [(ngModel)]="data"
-                  name="item.key"
-                  nzPlaceHolder="Choose"
-                  (ngModelChange)="data.set($event)"
-                >
+                <nz-select [(ngModel)]="data" name="item.key" nzPlaceHolder="Choose">
                   @for (option of getSelectOptions(item); track option) {
-                    <nz-option
-                      [nzValue]="option.value"
-                      [nzLabel]="option.label"
-                    />
+                    <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
                   }
                 </nz-select>
               </nz-form-control>

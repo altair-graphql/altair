@@ -1,10 +1,8 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
-  forwardRef,
   NgZone,
   Output,
   input,
@@ -38,7 +36,6 @@ import {
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { Subscription } from 'rxjs';
-import { EnvironmentService } from '../../services/environment/environment.service';
 import { EnvironmentVariables } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { selectActiveEnvironmentsList } from '../../store';
 import { environmentsToEnvironmentVariables } from '../../store/environments/utils';
@@ -62,9 +59,7 @@ const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
 })
 export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   private store = inject<Store<RootState>>(Store);
-  private environmentService = inject(EnvironmentService);
   private zone = inject(NgZone);
-  private cdr = inject(ChangeDetectorRef);
 
   readonly placeholder = input('');
   readonly readonly = input(false);

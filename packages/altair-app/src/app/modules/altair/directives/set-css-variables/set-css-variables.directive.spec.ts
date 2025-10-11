@@ -6,7 +6,6 @@ class MockElementRef extends ElementRef {}
 describe('SetCssVariablesDirective', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      teardown: { destroyAfterEach: false },
       imports: [],
       providers: [
         SetCssVariablesDirective,

@@ -52,7 +52,7 @@
                     <div
                       cdkDrag
                       class="environment-manager__list-item"
-                      (click)="selectedEnvironmentId.set(item.id ?? '')"
+                      (click)="onSelectEnvironment(item.id)"
                       (dblclick)="setFocusOnEnvironmentTitle()"
                       [ngClass]="{
                         'environment-manager__list-item--selected':

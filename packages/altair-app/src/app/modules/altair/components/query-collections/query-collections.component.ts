@@ -20,14 +20,15 @@ import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.inte
 import { QueryCollectionService } from '../../services';
 import { WorkspaceOption } from '../../store';
 
-export function debounce<T>(input: Signal<T>, delay = 300) {
+function debounce<T>(input: Signal<T>, delay = 300) {
   const out = signal(input());
   let timeout: any;
 
-  effect(() => {
+  effect((onCleanup) => {
     const value = input();
     clearTimeout(timeout);
     timeout = setTimeout(() => out.set(value), delay);
+    onCleanup(() => clearTimeout(timeout));
   });
 
   return out.asReadonly();

@@ -7,7 +7,6 @@ import { inject, TestBed } from '@angular/core/testing';
 describe('CachedIfDirective', () => {
   beforeEach(() =>
     TestBed.configureTestingModule({
-      teardown: { destroyAfterEach: false },
       imports: [],
       providers: [
         CachedIfDirective,

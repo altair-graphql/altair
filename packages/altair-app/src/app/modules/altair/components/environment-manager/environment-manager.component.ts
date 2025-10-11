@@ -1,4 +1,17 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, ChangeDetectionStrategy, input, linkedSignal, computed, inject } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  ChangeDetectionStrategy,
+  input,
+  linkedSignal,
+  computed,
+  inject,
+  effect,
+  signal,
+} from '@angular/core';
 
 import {
   BaseEnvironmentState,
@@ -37,12 +50,11 @@ export class EnvironmentManagerComponent {
 
   editorExtensions: Extension[] = [json(), linter(jsonParseLinter())];
 
+  readonly activeEnvironmentId = computed(() => {
+    return this.environments().activeSubEnvironment || 'base';
+  });
   readonly selectedEnvironmentId = linkedSignal(() => {
-    const environments = this.environments();
-    if (environments?.activeSubEnvironment) {
-      return environments.activeSubEnvironment;
-    }
-    return 'base';
+    return this.activeEnvironmentId();
   });
   readonly selectedEnvironment = computed<
     BaseEnvironmentState | EnvironmentState | undefined
@@ -65,6 +77,14 @@ export class EnvironmentManagerComponent {
     return '';
   });
 
+  constructor() {
+    // effect(() => {
+    //   const environments = this.environments();
+    //   if (environments.activeSubEnvironment) {
+    //     this.selectedEnvironmentId.set(environments.activeSubEnvironment);
+    //   }
+    // });
+  }
   onSortSubEnvironments(event: CdkDragDrop<any, any, any>) {
     this.repositionSubEnvironmentsChange.emit({
       currentPosition: event.previousIndex || 0,
@@ -96,6 +116,12 @@ export class EnvironmentManagerComponent {
     } catch (ex) {
       // Do nothing.
     }
+  }
+  onSelectEnvironment(id?: string) {
+    if (!id) {
+      return;
+    }
+    this.selectedEnvironmentId.set(id);
   }
 
   onTitleChange(content: string) {

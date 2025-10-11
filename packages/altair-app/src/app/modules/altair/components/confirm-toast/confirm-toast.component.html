@@ -10,7 +10,7 @@
 }
 @if (title) {
   <div
-    [class]="`app-dialog-section ${options.titleClass}`"
+    [ngClass]="['app-dialog-section', options.titleClass]"
     [attr.aria-label]="title"
   >
     {{ title }}

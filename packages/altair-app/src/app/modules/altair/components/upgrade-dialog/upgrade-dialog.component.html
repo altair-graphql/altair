@@ -5,7 +5,7 @@
   (toggleDialog)="toggleDialogChange.emit($event)"
 >
   <div class="upgrade-pro-wrapper">
-    @if (proPlanInfo) {
+    @if (proPlanInfo(); as proPlanInfo) {
       <h2 class="upgrade-pro-title">Upgrade to Pro</h2>
       <p>Upgrade to Pro to get access to more features.</p>
       <p class="upgrade-price">

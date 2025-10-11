@@ -1,4 +1,4 @@
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { Action, Store } from '@ngrx/store';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { inject, TestBed } from '@angular/core/testing';
@@ -21,8 +21,24 @@ import {
   SetQueryAction,
 } from '../store/query/query.action';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
+import { Actions } from '@ngrx/effects';
 
 describe('query effects', () => {
+  let mockGqlService: GqlService;
+  let mockNotifyService: NotifyService;
+  let mockDonationService: DonationService;
+  let mockElectronAppService: ElectronAppService;
+  let mockEnvironmentService: EnvironmentService;
+  let mockQueryService: QueryService;
+
+  beforeEach(() => {
+    mockGqlService = mock();
+    mockNotifyService = mock();
+    mockDonationService = mock();
+    mockElectronAppService = mock();
+    mockEnvironmentService = mock();
+    mockQueryService = mock();
+  });
   beforeEach(() =>
     TestBed.configureTestingModule({
       teardown: { destroyAfterEach: false },
@@ -33,27 +49,27 @@ describe('query effects', () => {
         DbService,
         {
           provide: GqlService,
-          useFactory: () => mock(),
+          useFactory: () => mockGqlService,
         },
         {
           provide: DonationService,
-          useFactory: () => mock(),
+          useFactory: () => mockDonationService,
         },
         {
           provide: ElectronAppService,
-          useFactory: () => mock(),
+          useFactory: () => mockElectronAppService,
         },
         {
           provide: EnvironmentService,
-          useFactory: () => mock(),
+          useFactory: () => mockEnvironmentService,
         },
         {
           provide: QueryService,
-          useFactory: () => mock(),
+          useFactory: () => mockQueryService,
         },
         {
           provide: NotifyService,
-          useFactory: () => mock(),
+          useFactory: () => mockNotifyService,
         },
         {
           provide: Store,
@@ -69,68 +85,38 @@ describe('query effects', () => {
     })
   );
 
-  it('should be created', inject([QueryEffects], (effect: QueryEffects) => {
-    expect(effect).toBeTruthy();
+  it('should be created', inject([QueryEffects], (effects: QueryEffects) => {
+    expect(effects).toBeTruthy();
   }));
-  // let actions$: Observable<Action>;
-  // let mockGqlService: GqlService;
-  // let mockNotifyService: NotifyService;
-  // let mockDbService: DbService;
-  // let mockDonationService: DonationService;
-  // let mockElectronAppService: ElectronAppService;
-  // let mockEnvironmentService: EnvironmentService;
-  // let mockQueryService: QueryService;
-  // let mockRequestHandlerRegistryService: RequestHandlerRegistryService;
-  // let mockApiService: ApiService;
-  // let mockStore: Store<RootState>;
+  describe('.convertToNamedQuery', () => {
+    it('should dispatch set query action with named query', async () => {
+      TestBed.overrideProvider(Store, {
+        useFactory: () =>
+          mockStoreFactory<RootState>({
+            windows: {
+              window1: {
+                query: {
+                  query: 'query {}',
+                },
+              },
+            },
+          } as any),
+      });
+      TestBed.overrideProvider(Actions, {
+        useFactory: () => of(new ConvertToNamedQueryAction('window1')),
+      });
+      TestBed.overrideProvider(GqlService, {
+        useFactory: () =>
+          mock({
+            nameQuery() {
+              return 'query named {}';
+            },
+          } as any),
+      });
+      const effects = TestBed.inject(QueryEffects);
 
-  // beforeEach(() => {
-  //   actions$ = of({ type: 'Action One' });
-  //   mockGqlService = mock();
-  //   mockNotifyService = mock();
-  //   mockDbService = mock();
-  //   mockDonationService = mock();
-  //   mockElectronAppService = mock();
-  //   mockEnvironmentService = mock();
-  //   mockQueryService = mock();
-  //   mockRequestHandlerRegistryService = mock();
-  //   mockApiService = mock();
-  //   mockStore = mockStoreFactory();
-  // });
-  // describe('.convertToNamedQuery', () => {
-  //   it('should dispatch set query action with named query', (done) => {
-  //     actions$ = of(new ConvertToNamedQueryAction('window1'));
-  //     mockGqlService = mock({
-  //       nameQuery() {
-  //         return 'query named {}';
-  //       },
-  //     } as any);
-  //     mockStore = mockStoreFactory<RootState>({
-  //       windows: {
-  //         window1: {
-  //           query: {
-  //             query: 'query {}',
-  //           },
-  //         },
-  //       },
-  //     } as any);
-  //     const effects = new QueryEffects(
-  //       actions$,
-  //       mockGqlService,
-  //       mockNotifyService,
-  //       mockDbService,
-  //       mockDonationService,
-  //       mockElectronAppService,
-  //       mockEnvironmentService,
-  //       mockQueryService,
-  //       mockApiService,
-  //       mockStore
-  //     );
-
-  //     effects.convertToNamedQuery$.subscribe((action) => {
-  //       expect(action).toEqual(new SetQueryAction('query named {}', 'window1'));
-  //       done();
-  //     });
-  //   });
-  // });
+      const action = await firstValueFrom(effects.convertToNamedQuery$);
+      expect(action).toEqual(new SetQueryAction('query named {}', 'window1'));
+    });
+  });
 });

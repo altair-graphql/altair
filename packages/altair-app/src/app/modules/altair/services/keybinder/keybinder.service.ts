@@ -37,6 +37,10 @@ export class KeybinderService {
   private shortcuts: KeyboardShortcut[] = [];
 
   constructor() {
+    hotkeys.filter = function (event) {
+      // don't block shortcuts in input elements
+      return true;
+    };
     this.store.subscribe((data) => {
       this.windowIds = Object.keys(data.windows);
       this.activeWindowId = data.windowsMeta.activeWindowId;

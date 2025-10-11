@@ -121,7 +121,7 @@
       <button
         type="button"
         class="app-button active-primary send-request__button"
-        (click)="!isSubscribed() && this.sendRequest.emit()"
+        (click)="!isSubscribed() && sendRequest.emit()"
         [ngClass]="{ 'url-box__button--disabled': isLoading() }"
         track-id="set_request"
       >

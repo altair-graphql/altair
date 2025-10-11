@@ -3,10 +3,9 @@ import {
   Output,
   EventEmitter,
   ChangeDetectionStrategy,
-  OnChanges,
-  SimpleChanges,
   input,
   inject,
+  linkedSignal,
 } from '@angular/core';
 import {
   IQuery,
@@ -23,7 +22,7 @@ import { memoize } from '../../utils/memoize';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class QueryCollectionItemComponent implements OnChanges {
+export class QueryCollectionItemComponent {
   private modal = inject(NzModalService);
 
   readonly collectionTree = input.required<IQueryCollectionTree>();
@@ -50,19 +49,14 @@ export class QueryCollectionItemComponent implements OnChanges {
   @Output() showQueryRevisionsChange = new EventEmitter<string>();
   @Output() copyQueryShareLinkChange = new EventEmitter<string>();
 
-  showContent = true;
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.expanded?.currentValue !== undefined) {
-      this.showContent = changes.expanded.currentValue;
-    }
-  }
+  readonly showContent = linkedSignal(() => this.expanded());
 
   getQueryCount(collection: IQueryCollectionTree) {
     return collection.queries && collection.queries.length;
   }
 
   toggleContent() {
-    this.showContent = !this.showContent;
+    this.showContent.set(!this.showContent());
   }
 
   deleteQuery(query: IQuery) {

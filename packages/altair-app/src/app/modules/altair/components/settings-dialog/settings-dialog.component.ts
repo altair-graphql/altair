@@ -1,4 +1,11 @@
-import { Component, OnInit, Output, EventEmitter, SimpleChanges, OnChanges, input, inject } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  input,
+  inject,
+  effect,
+} from '@angular/core';
 
 import { debug } from '../../utils/logger';
 
@@ -19,7 +26,7 @@ import { JSONSchema6 } from 'json-schema';
   styleUrls: ['./settings-dialog.component.scss'],
   standalone: false,
 })
-export class SettingsDialogComponent implements OnInit, OnChanges {
+export class SettingsDialogComponent {
   private notifyService = inject(NotifyService);
   private keybinderService = inject(KeybinderService);
   private storageService = inject(StorageService);
@@ -42,16 +49,15 @@ export class SettingsDialogComponent implements OnInit, OnChanges {
 
   editorExtensions: Extension[] = getEditorExtensions();
 
-  ngOnInit() {
+  constructor() {
     this.shortcutCategories = this.keybinderService.getShortcuts();
-  }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes?.settings?.currentValue) {
-      this.updateLocalSettings(
-        JSON.stringify(changes.settings.currentValue, null, 2)
-      );
-    }
+    effect(() => {
+      const currentSettings = this.settings();
+      if (currentSettings) {
+        this.updateLocalSettings(JSON.stringify(currentSettings, null, 2));
+      }
+    });
   }
 
   onSettingsChange(settingsStr: string) {

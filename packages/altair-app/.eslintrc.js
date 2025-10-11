@@ -10,7 +10,6 @@ module.exports = {
         createDefaultProgram: true,
       },
       extends: [
-        'plugin:@angular-eslint/recommended',
         'plugin:@angular-eslint/all',
         'plugin:@angular-eslint/template/process-inline-templates',
         'plugin:@typescript-eslint/recommended',
@@ -63,10 +62,7 @@ module.exports = {
     },
     {
       files: ['*.html'],
-      extends: [
-        'plugin:@angular-eslint/template/recommended',
-        'plugin:@angular-eslint/template/all',
-      ],
+      extends: ['plugin:@angular-eslint/template/all'],
       rules: {
         '@angular-eslint/template/conditional-complexity': 'off',
         '@angular-eslint/template/i18n': 'off', // Disable for now as we don't have i18n setup

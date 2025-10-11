@@ -1,4 +1,15 @@
-import { Component, OnInit, Output, EventEmitter, ViewChild, ElementRef, OnChanges, SimpleChanges, ChangeDetectionStrategy, input, inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+  ChangeDetectionStrategy,
+  input,
+  inject,
+  effect,
+} from '@angular/core';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
 import { truncateText } from '../../utils';
@@ -10,7 +21,7 @@ import { truncateText } from '../../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class VariableFileItemComponent implements OnInit, OnChanges {
+export class VariableFileItemComponent implements OnInit {
   private storageService = inject(StorageService);
 
   readonly fileVariable = input<FileVariable>();
@@ -30,6 +41,15 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   invalidFileData = false;
   showWarning = false;
   filesText = '';
+
+  constructor() {
+    effect(() => {
+      const fileVariable = this.fileVariable();
+      if (Array.isArray(fileVariable?.data) && fileVariable.data.length) {
+        this.updateLocalState(fileVariable);
+      }
+    });
+  }
 
   // eslint-disable-next-line @angular-eslint/no-async-lifecycle-method
   async ngOnInit() {
@@ -53,12 +73,6 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.fileVariable?.currentValue?.data?.length) {
-      this.updateLocalState(changes.fileVariable.currentValue);
-    }
-  }
-
   onSelectFiles() {
     if (!this.fileEl) {
       return;
@@ -72,12 +86,15 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
     return this.fileVariableDataChange.emit({ files: Array.from(files) });
   }
 
+  // TODO: Use signals instead
   updateLocalState(fileVariable: FileVariable) {
     this.validFileData = Array.isArray(fileVariable.data)
       ? fileVariable.data.filter((data) => data instanceof File)
       : [];
+
+    const data = this.fileVariable()?.data;
     this.invalidFileData =
-      (this.fileVariable()?.data as [])?.length > this.validFileData.length;
+      (Array.isArray(data) ? data.length : 0) > this.validFileData.length;
     this.showWarning = Boolean(
       !fileVariable?.isMultiple && (fileVariable.data as [])?.length > 1
     );
