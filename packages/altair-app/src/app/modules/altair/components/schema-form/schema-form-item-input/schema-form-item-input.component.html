@@ -1,4 +1,4 @@
-@if (item) {
+@if (item(); as item) {
   @if (item.description) {
     <nz-form-label>{{ item.description }}</nz-form-label>
   }
@@ -6,15 +6,15 @@
     <input
       nz-input
       [placeholder]="item.key || ''"
-      [(ngModel)]="data"
+      [ngModel]="data()"
+      (ngModelChange)="dataChange.emit($event)"
       [name]="item.key"
-      (ngModelChange)="dataChange.next($event)"
       [nzAutocomplete]="auto"
     />
     <nz-autocomplete
       [nzDataSource]="getAutocompleteOptions(item)"
       nzBackfill
       #auto
-    ></nz-autocomplete>
+    />
   </nz-form-control>
 }

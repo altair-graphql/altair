@@ -4,8 +4,9 @@ exports[`utils buildTestHostComponentTemplate should return expected template st
 "
     <div class="test-host">
       <my-main-component
-        [disabled]="inputs.disabled"
+        [input1]="inputs.input1"
 [input2]="inputs.input2"
+[disabled]="inputs.disabled"
 [collections]="inputs.collections"
 
         (saveChange)="saveChange($event)"

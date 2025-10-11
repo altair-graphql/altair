@@ -3,7 +3,7 @@
     #fancyInputEl
     type="text"
     class="fancy-input-content fancy-input-element"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder()"
     [(ngModel)]="value"
     (input)="handleInput()"
     (scroll)="handleScroll()"
@@ -20,9 +20,8 @@
         @if (section.type === 'mark') {
           <app-fancy-input-marker
             [section]="section"
-            [activeEnvironment]="activeEnvironment"
             (click)="fancyInputEl.focus()"
-          ></app-fancy-input-marker>
+          />
         }
       }
     </div>

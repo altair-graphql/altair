@@ -1,18 +1,20 @@
 <div
   class="header__logo-wrapper"
-  [ngClass]="{ 'header__logo-wrapper--experimental': settings?.enableExperimental }"
+  [ngClass]="{
+    'header__logo-wrapper--experimental': settings()?.enableExperimental,
+  }"
 >
   <img src="assets/img/altair_logo.svg" alt="logo" class="header__logo" />
 </div>
 
 <app-window-switcher
-  [windows]="windows"
-  [windowIds]="windowIds"
-  [activeWindowId]="activeWindowId"
-  [closedWindows]="closedWindows"
-  [isElectron]="isElectron"
-  [collections]="collections"
-  [enableScrollbar]="settings?.enableTablistScrollbar"
+  [windows]="windows()"
+  [windowIds]="windowIds()"
+  [activeWindowId]="activeWindowId()"
+  [closedWindows]="closedWindows()"
+  [isElectron]="isElectron()"
+  [collections]="collections()"
+  [enableScrollbar]="settings()?.enableTablistScrollbar"
   (newWindowChange)="newWindowChange.emit($event)"
   (activeWindowChange)="activeWindowChange.emit($event)"
   (removeWindowChange)="removeWindowChange.emit($event)"
@@ -20,11 +22,11 @@
   (windowNameChange)="windowNameChange.emit($event)"
   (reorderWindowsChange)="reorderWindowsChange.emit($event)"
   (reopenClosedWindowChange)="reopenClosedWindowChange.emit($event)"
-></app-window-switcher>
+/>
 
 <div class="header__actions">
   <ul class="header__menu">
-    @for (panel of headerPanels; track trackById($index, panel)) {
+    @for (panel of headerPanels(); track trackById($index, panel)) {
       <li
         (click)="togglePanelActiveChange.emit(panel)"
         nz-tooltip
@@ -33,7 +35,7 @@
         class="header__menu-item"
         [ngClass]="{ 'header__menu-item--active': panel.isActive }"
       >
-        <app-icon name="cpu"></app-icon>
+        <app-icon name="cpu" />
         <nz-modal
           [nzVisible]="panel.isActive"
           (nzVisibleChange)="togglePanelActiveChange.emit(panel)"
@@ -48,7 +50,7 @@
             </div>
           </ng-template>
           <ng-template #modalContent>
-            <app-element-wrapper [element]="panel.element"></app-element-wrapper>
+            <app-element-wrapper [element]="panel.element" />
           </ng-template>
         </nz-modal>
       </li>
@@ -60,30 +62,30 @@
       [nzDropdownMenu]="environmentsMenu"
       class="header__menu-item"
     >
-      @if (activeEnvironment) {
+      @if (activeEnvironment()) {
         <span>
-          <app-icon name="eye"></app-icon>
-          <span>{{ activeEnvironment.title }}</span>
+          <app-icon name="eye" />
+          <span>{{ activeEnvironment()?.title }}</span>
         </span>
       }
-      @if (activeEnvironment === undefined) {
+      @if (activeEnvironment() === undefined) {
         <span>
-          <app-icon name="eye-off"></app-icon>
+          <app-icon name="eye-off" />
           <span>{{ 'NO_ENVIRONMENT_TEXT' | translate }}</span>
         </span>
       }
     </li>
     <nz-dropdown-menu #environmentsMenu="nzDropdownMenu">
       <ul nz-menu class="environments-dropdown__list">
-        @if (environments?.subEnvironments?.length) {
+        @if (environments()?.subEnvironments?.length) {
           @for (
-            environment of environments?.subEnvironments;
+            environment of environments()?.subEnvironments;
             track trackById($index, environment)
           ) {
             <li
               nz-menu-item
               (click)="selectActiveEnvironmentChange.emit(environment.id)"
-              [ngClass]="{ active: environment.id === activeEnvironment?.id }"
+              [ngClass]="{ active: environment.id === activeEnvironment()?.id }"
             >
               {{ environment.title }}
             </li>
@@ -104,7 +106,7 @@
       [nzDropdownMenu]="settingsMenu"
       class="header__menu-item"
     >
-      <app-icon name="settings"></app-icon>
+      <app-icon name="settings" />
     </li>
     <nz-dropdown-menu #settingsMenu="nzDropdownMenu">
       <ul nz-menu>

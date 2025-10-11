@@ -1,5 +1,5 @@
 // Based on: https://github.com/bennadel/JavaScript-Demos/blob/master/demos/message-bus-actions-angular6/app/message-bus.ts
-import { Injectable, ErrorHandler } from '@angular/core';
+import { Injectable, ErrorHandler, inject } from '@angular/core';
 import {
   PluginEvent,
   PluginEventCallback,
@@ -17,9 +17,9 @@ interface PluginEventData<E extends PluginEvent = PluginEvent> {
   providedIn: 'root',
 })
 export class PluginEventService {
-  private eventStream = new Subject<PluginEventData>();
+  private errorHandler = inject(ErrorHandler);
 
-  constructor(private errorHandler: ErrorHandler) {}
+  private eventStream = new Subject<PluginEventData>();
 
   /**
    * Creates a group for managing multiple subscriptions within single contexts

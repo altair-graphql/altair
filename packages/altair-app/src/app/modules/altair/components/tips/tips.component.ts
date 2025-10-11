@@ -1,9 +1,8 @@
 import {
-  AfterViewInit,
   Component,
-  Input,
-  OnChanges,
   OnDestroy,
+  effect,
+  input,
 } from '@angular/core';
 import { rand } from '../../utils';
 import { fadeInOutAnimationTrigger } from '../../animations';
@@ -26,10 +25,10 @@ const DEFAULT_TIP_INTERVAL = 60000;
   animations: [fadeInOutAnimationTrigger],
   standalone: false,
 })
-export class TipsComponent implements AfterViewInit, OnChanges, OnDestroy {
-  @Input() activeWindowId = '';
-  @Input() windowId = '';
-  @Input() loading = false;
+export class TipsComponent implements OnDestroy {
+  readonly activeWindowId = input('');
+  readonly windowId = input('');
+  readonly loading = input(false);
   currentTip: Tip | undefined;
 
   tipInterval: ReturnType<typeof setTimeout> | undefined = undefined;
@@ -58,14 +57,10 @@ export class TipsComponent implements AfterViewInit, OnChanges, OnDestroy {
     },
   ];
 
-  ngAfterViewInit() {
-    this.setupTipInterval();
-  }
-
-  ngOnChanges() {
-    // if not loading, disable interval
-    // if loading, set interval
-    this.setupTipInterval();
+  constructor() {
+    effect(() => {
+      this.setupTipInterval(this.activeWindowId(), this.windowId(), this.loading());
+    });
   }
 
   changeCurrentTip() {
@@ -84,11 +79,11 @@ export class TipsComponent implements AfterViewInit, OnChanges, OnDestroy {
       }
     }
 
-    this.setupTipInterval();
+    this.setupTipInterval(this.activeWindowId(), this.windowId(), this.loading());
   }
 
-  setupTipInterval() {
-    if (this.activeWindowId === this.windowId && !this.loading) {
+  setupTipInterval(activeWindowId: string, windowId: string, loading: boolean) {
+    if (activeWindowId === windowId && !loading) {
       clearTimeout(this.tipInterval);
       this.tipInterval = setTimeout(() => {
         if (this?.changeCurrentTip) {

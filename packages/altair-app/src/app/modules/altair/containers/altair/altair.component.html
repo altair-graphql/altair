@@ -48,10 +48,10 @@
       (showSettingsDialogChange)="showSettingsDialog()"
       (exportBackupDataChange)="exportBackupData()"
       (importBackupDataChange)="importBackupData()"
-    ></app-header>
+    />
     <nz-layout>
       @if (isWebApp) {
-        <nz-alert nzBanner [nzMessage]="webappLimitation"></nz-alert>
+        <nz-alert nzBanner [nzMessage]="webappLimitation" />
       }
       <ng-template #webappLimitation>
         <span class="alert-text">
@@ -60,6 +60,7 @@
           extensions instead.
         </span>
         <button
+          type="button"
           class="btn alert-action"
           (click)="openWebAppLimitationPost($event)"
           track-id="web_app_disclaimer_learn_more"
@@ -74,11 +75,11 @@
               <a
                 class="side-menu-item"
                 (click)="toggleHeader(true)"
-                attr.aria-label="{{ 'SET_HEADERS_BUTTON' | translate }}"
+                [attr.aria-label]="'SET_HEADERS_BUTTON' | translate"
                 track-id="show_set_headers"
               >
                 <div class="side-menu-item-icon">
-                  <app-icon name="loader"></app-icon>
+                  <app-icon name="loader" />
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'SET_HEADERS_BUTTON' | translate }}
@@ -87,11 +88,11 @@
               <a
                 class="side-menu-item"
                 (click)="toggleRequestHandlerDialog(true)"
-                attr.aria-label="{{ 'REQUEST_HANDLERS_TEXT' | translate }}"
+                [attr.aria-label]="'REQUEST_HANDLERS_TEXT' | translate"
                 track-id="show_request_handler_dialog"
               >
                 <div class="side-menu-item-icon">
-                  <app-icon name="repeat"></app-icon>
+                  <app-icon name="repeat" />
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'REQUEST_HANDLERS_TEXT' | translate }}
@@ -100,11 +101,11 @@
               <a
                 class="side-menu-item"
                 (click)="toggleHistoryDialog(true)"
-                attr.aria-label="{{ 'HISTORY_TEXT' | translate }}"
+                [attr.aria-label]="'HISTORY_TEXT' | translate"
                 track-id="show_history"
               >
                 <div class="side-menu-item-icon">
-                  <app-icon name="history"></app-icon>
+                  <app-icon name="history" />
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'HISTORY_TEXT' | translate }}
@@ -113,11 +114,11 @@
               <a
                 class="side-menu-item"
                 (click)="toggleRequestExtensionsDialog(true)"
-                attr.aria-label="{{ 'REQUEST_EXTENSIONS_TEXT' | translate }}"
+                [attr.aria-label]="'REQUEST_EXTENSIONS_TEXT' | translate"
                 track-id="request_extensions"
               >
                 <div class="side-menu-item-icon">
-                  <app-icon name="braces"></app-icon>
+                  <app-icon name="braces" />
                 </div>
                 <div class="side-menu-item-label">
                   {{ 'REQUEST_EXTENSIONS_TEXT' | translate }}
@@ -126,17 +127,17 @@
               <div class="side-menu-divider"></div>
               <div class="side-menu-item">
                 <div class="side-menu-item-icon">
-                  <app-icon name="briefcase"></app-icon>
+                  <app-icon name="briefcase" />
                 </div>
                 <div class="side-menu-item-submenu">
                   <a
                     class="submenu-item"
                     (click)="prettifyCode()"
-                    attr.aria-label="{{ 'PRETTIFY_BUTTON' | translate }}"
+                    [attr.aria-label]="'PRETTIFY_BUTTON' | translate"
                     track-id="prettify"
                   >
                     <div class="submenu-item-icon">
-                      <app-icon name="paintbrush"></app-icon>
+                      <app-icon name="paintbrush" />
                     </div>
                     <div class="submenu-item-label">
                       {{ 'PRETTIFY_BUTTON' | translate }}
@@ -145,11 +146,11 @@
                   <a
                     class="submenu-item"
                     (click)="compressQuery()"
-                    attr.aria-label="{{ 'COMPRESS_QUERY_BUTTON' | translate }}"
+                    [attr.aria-label]="'COMPRESS_QUERY_BUTTON' | translate"
                     track-id="compress_query"
                   >
                     <div class="submenu-item-icon">
-                      <app-icon name="minimize-2"></app-icon>
+                      <app-icon name="minimize-2" />
                     </div>
                     <div class="submenu-item-label">
                       {{ 'COMPRESS_QUERY_BUTTON' | translate }}
@@ -158,11 +159,11 @@
                   <a
                     class="submenu-item"
                     (click)="clearEditor()"
-                    attr.aria-label="{{ 'CLEAR_BUTTON' | translate }}"
+                    [attr.aria-label]="'CLEAR_BUTTON' | translate"
                     track-id="clear"
                   >
                     <div class="submenu-item-icon">
-                      <app-icon name="trash-2"></app-icon>
+                      <app-icon name="trash-2" />
                     </div>
                     <div class="submenu-item-label">
                       {{ 'CLEAR_BUTTON' | translate }}
@@ -171,11 +172,11 @@
                   <a
                     class="submenu-item"
                     (click)="copyAsCurl()"
-                    attr.aria-label="{{ 'COPY_AS_CURL_BUTTON' | translate }}"
+                    [attr.aria-label]="'COPY_AS_CURL_BUTTON' | translate"
                     track-id="copy_as_curl"
                   >
                     <div class="submenu-item-icon">
-                      <app-icon name="terminal"></app-icon>
+                      <app-icon name="terminal" />
                     </div>
                     <div class="submenu-item-label">
                       {{ 'COPY_AS_CURL_BUTTON' | translate }}
@@ -184,13 +185,11 @@
                   <a
                     class="submenu-item"
                     (click)="convertToNamedQuery()"
-                    attr.aria-label="{{
-                      'CONVERT_TO_NAMED_QUERY_BUTTON' | translate
-                    }}"
+                    [attr.aria-label]="'CONVERT_TO_NAMED_QUERY_BUTTON' | translate"
                     track-id="convert_to_named_query"
                   >
                     <div class="submenu-item-icon">
-                      <app-icon name="tag"></app-icon>
+                      <app-icon name="tag" />
                     </div>
                     <div class="submenu-item-label">
                       {{ 'CONVERT_TO_NAMED_QUERY_BUTTON' | translate }}
@@ -199,10 +198,10 @@
                   <a
                     class="submenu-item"
                     (click)="refactorQuery()"
-                    attr.aria-label="{{ 'REFACTOR_QUERY_BUTTON' | translate }}"
+                    [attr.aria-label]="'REFACTOR_QUERY_BUTTON' | translate"
                   >
                     <div class="submenu-item-icon">
-                      <app-icon name="disc"></app-icon>
+                      <app-icon name="disc" />
                     </div>
                     <div class="submenu-item-label">
                       {{ 'REFACTOR_QUERY_BUTTON' | translate }}
@@ -220,16 +219,16 @@
                   <a
                     class="side-menu-item"
                     (click)="togglePanelActive(panel)"
-                    attr.aria-label="{{ panel.title }}"
+                    [attr.aria-label]="panel.title"
                     [ngClass]="{ 'side-menu-item--active': panel.isActive }"
                   >
                     <div class="side-menu-item-icon">
                       @if (panel.iconUrl) {
                         <img [src]="panel.iconUrl" [alt]="panel.title" />
                       } @else if (panel.iconSvg) {
-                        <app-icon [svg]="panel.iconSvg"></app-icon>
+                        <app-icon [svg]="panel.iconSvg" />
                       } @else {
-                        <app-icon name="cpu"></app-icon>
+                        <app-icon name="cpu" />
                       }
                     </div>
                     <div class="side-menu-item-label">
@@ -240,28 +239,29 @@
               </div>
 
               <div class="side-menu__main-bottom">
-                <a
-                  *ngIf="(settings$ | async)?.enableExperimental"
-                  class="side-menu-item"
-                  (click)="togglePluginManager(true)"
-                  attr.aria-label="{{ 'PLUGINS_TEXT' | translate }}"
-                >
-                  <div class="side-menu-item-icon">
-                    <app-icon name="blocks"></app-icon>
-                  </div>
-                  <div class="side-menu-item-label">
-                    {{ 'PLUGINS_TEXT' | translate }}
-                  </div>
-                </a>
+                @if ((settings$ | async)?.enableExperimental) {
+                  <a
+                    class="side-menu-item"
+                    (click)="togglePluginManager(true)"
+                    [attr.aria-label]="'PLUGINS_TEXT' | translate"
+                  >
+                    <div class="side-menu-item-icon">
+                      <app-icon name="blocks" />
+                    </div>
+                    <div class="side-menu-item-label">
+                      {{ 'PLUGINS_TEXT' | translate }}
+                    </div>
+                  </a>
+                }
                 <a
                   class="side-menu-item"
                   (click)="toggleCollections()"
-                  attr.aria-label="{{ 'COLLECTIONS_TEXT' | translate }}"
+                  [attr.aria-label]="'COLLECTIONS_TEXT' | translate"
                   track-id="show_collections"
                   [ngClass]="{ 'side-menu-item--active': showCollections }"
                 >
                   <div class="side-menu-item-icon">
-                    <app-icon name="folder"></app-icon>
+                    <app-icon name="folder" />
                   </div>
                   <div class="side-menu-item-label">
                     {{ 'COLLECTIONS_TEXT' | translate }}
@@ -270,7 +270,7 @@
                 @if (serverReady && authEnabled) {
                   <a
                     class="side-menu-item"
-                    attr.aria-label="{{ 'ACCOUNT_TITLE' | translate }}"
+                    [attr.aria-label]="'ACCOUNT_TITLE' | translate"
                     track-id="show_collections"
                     [ngClass]="{
                       'side-menu-item--active': (account$ | async)?.loggedIn,
@@ -278,14 +278,14 @@
                   >
                     <div class="side-menu-item-icon">
                       @if (!(account$ | async)?.loggedIn) {
-                        <app-icon name="user"></app-icon>
+                        <app-icon name="user" />
                       }
                       @if ((account$ | async)?.loggedIn) {
                         <nz-avatar
                           [nzText]="(account$ | async)?.firstName?.at(0)"
                           [nzSrc]="(account$ | async)?.picture"
-                          [nzSize]="'small'"
-                        ></nz-avatar>
+                          nzSize="small"
+                        />
                       }
                     </div>
                     <div class="side-menu-item-label">
@@ -297,7 +297,7 @@
                       @if (!(account$ | async)?.loggedIn) {
                         <a class="submenu-item" (click)="setShowAccountDialog(true)">
                           <div class="submenu-item-icon">
-                            <app-icon name="log-in"></app-icon>
+                            <app-icon name="log-in" />
                           </div>
                           <div class="submenu-item-label">
                             {{ 'LOGIN_TAB' | translate }}
@@ -311,7 +311,7 @@
                             (click)="setShowUpgradeDialog(true)"
                           >
                             <div class="submenu-item-icon">
-                              <app-icon name="trending-up"></app-icon>
+                              <app-icon name="trending-up" />
                             </div>
                             <div class="submenu-item-label">
                               {{ 'UPGRADE_PRO_TEXT' | translate }}
@@ -320,7 +320,7 @@
                         }
                         <a class="submenu-item" (click)="setShowAccountDialog(true)">
                           <div class="submenu-item-icon">
-                            <app-icon name="user"></app-icon>
+                            <app-icon name="user" />
                           </div>
                           <div class="submenu-item-label">
                             {{ 'PROFILE_TEXT' | translate }}
@@ -328,7 +328,7 @@
                         </a>
                         <a class="submenu-item" (click)="setShowTeamsDialog(true)">
                           <div class="submenu-item-icon">
-                            <app-icon name="users"></app-icon>
+                            <app-icon name="users" />
                           </div>
                           <div class="submenu-item-label">
                             {{ 'TEAMS_TEXT' | translate }}
@@ -336,7 +336,7 @@
                         </a>
                         <a class="submenu-item" (click)="logout()">
                           <div class="submenu-item-icon">
-                            <app-icon name="log-out"></app-icon>
+                            <app-icon name="log-out" />
                           </div>
                           <div class="submenu-item-label">
                             {{ 'LOGOUT_TEXT' | translate }}
@@ -369,14 +369,12 @@
                 (syncCollectionsChange)="syncCollections()"
                 (showQueryRevisionsChange)="showQueryRevisions($event)"
                 (copyQueryShareLinkChange)="copyQueryShareLink($event)"
-              ></app-query-collections>
+              />
             </div>
             <div class="sidebar__panels">
               @for (panel of sidebarPanels$ | async; track panel.id) {
                 @if (panel.isActive) {
-                  <app-element-wrapper
-                    [element]="panel.element"
-                  ></app-element-wrapper>
+                  <app-element-wrapper [element]="panel.element" />
                 }
               }
             </div>
@@ -386,7 +384,7 @@
               *appCachedIf="windowId === activeWindowId"
               [windowId]="windowId"
               [class.hide]="windowId !== activeWindowId"
-            ></app-window>
+            />
           }
         </nz-content>
         <div class="dialogs">
@@ -402,13 +400,13 @@
             (repositionSubEnvironmentsChange)="repositionSubEnvironments($event)"
             (importEnvironmentChange)="importEnvironmentData()"
             (exportEnvironmentChange)="exportEnvironment($event)"
-          ></app-environment-manager>
+          />
           <app-plugin-manager
             [showPluginManager]="(windowsMeta$ | async)?.showPluginManager"
             [settings]="settings$ | async"
             (toggleDialogChange)="togglePluginManager(!!$event)"
             (settingsJsonChange)="setSettingsJson($event)"
-          ></app-plugin-manager>
+          />
           <app-settings-dialog
             [showSettingsDialog]="(windowsMeta$ | async)?.showSettingsDialog"
             [settings]="settings$ | async"
@@ -417,12 +415,12 @@
               $event ? showSettingsDialog() : hideSettingsDialog()
             "
             (settingsJsonChange)="setSettingsJson($event)"
-          ></app-settings-dialog>
+          />
           <app-import-curl-dialog
             [showImportCurlDialog]="showImportCurlDialog"
             (toggleDialogChange)="setShowImportCurlDialog($event)"
             (importCurlChange)="importWindowFromCurl($event)"
-          ></app-import-curl-dialog>
+          />
           <app-add-collection-query-dialog
             [showDialog]="(windowsMeta$ | async)?.showAddToCollectionDialog"
             [windowTitle]="(activeWindow$ | async)?.layout?.title"
@@ -434,48 +432,48 @@
             (createCollectionAndSaveQueryToCollectionChange)="
               createCollectionAndSaveQueryToCollection($event)
             "
-          ></app-add-collection-query-dialog>
+          />
           <app-edit-collection-dialog
             [showEditCollectionDialog]="showEditCollectionDialog"
             [collection]="(collection$ | async)?.activeCollection"
             (toggleDialogChange)="setShowEditCollectionDialog($event)"
             (updateCollectionChange)="updateCollection($event)"
-          ></app-edit-collection-dialog>
+          />
           <app-account-dialog
             [showDialog]="(windowsMeta$ | async)?.showAccountDialog"
             [account]="account$ | async"
             (toggleDialogChange)="setShowAccountDialog($event)"
             (handleLoginChange)="accountLogin($event)"
             (logoutChange)="logout()"
-          ></app-account-dialog>
+          />
           <app-teams-dialog
             [teams]="(account$ | async)?.teams"
             [showDialog]="(windowsMeta$ | async)?.showTeamsDialog"
             (toggleDialogChange)="setShowTeamsDialog($event)"
             (reloadTeamChange)="loadTeams()"
-          ></app-teams-dialog>
+          />
           <app-upgrade-dialog
             [showDialog]="(windowsMeta$ | async)?.showUpgradeDialog"
             [userPlan]="(account$ | async)?.plan"
             [planInfos]="(account$ | async)?.planInfos"
             (toggleDialogChange)="setShowUpgradeDialog($event)"
-          ></app-upgrade-dialog>
+          />
           <app-query-revision-dialog
             [showDialog]="!!queryRevisionQueryId"
             [queryId]="queryRevisionQueryId"
             (toggleDialogChange)="queryRevisionQueryId = ''"
             (restoreRevision)="restoreQueryRevision($event)"
-          ></app-query-revision-dialog>
+          />
         </div>
 
-        <app-banner-container></app-banner-container>
+        <app-banner-container />
         @if (showDonationAlert) {
           <nz-alert
             nzBanner
             [nzMessage]="supportDevelopment"
             nzCloseable
             (nzOnClose)="hideDonationAlert()"
-          ></nz-alert>
+          />
         }
         <ng-template #supportDevelopment>
           <span class="alert-text">
@@ -483,6 +481,7 @@
           </span>
           <button
             class="btn btn--primary btn--light"
+            type="button"
             (click)="openDonationPage($event)"
             track-id="donate"
           >
@@ -491,6 +490,7 @@
           @if ((account$ | async)?.plan?.canUpgradePro) {
             or
             <button
+              type="button"
               class="btn btn--primary btn--light"
               (click)="setShowUpgradeDialog(true)"
               track-id="upgrade_pro"

@@ -1,14 +1,14 @@
 import {
   Component,
   OnInit,
-  Input,
   Output,
   EventEmitter,
   ViewChild,
   ElementRef,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectionStrategy,
+  input,
+  inject,
+  effect,
 } from '@angular/core';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
@@ -21,8 +21,10 @@ import { truncateText } from '../../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class VariableFileItemComponent implements OnInit, OnChanges {
-  @Input() fileVariable?: FileVariable;
+export class VariableFileItemComponent implements OnInit {
+  private storageService = inject(StorageService);
+
+  readonly fileVariable = input<FileVariable>();
 
   @Output() fileVariableNameChange = new EventEmitter();
   @Output() fileVariableDataChange = new EventEmitter<{
@@ -32,6 +34,7 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   @Output() fileVariableIsMultipleChange = new EventEmitter();
   @Output() deleteFileVariableChange = new EventEmitter();
 
+  // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('fileEl', { static: true }) fileEl?: ElementRef<HTMLInputElement>;
 
   validFileData: File[] = [];
@@ -39,15 +42,22 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
   showWarning = false;
   filesText = '';
 
-  constructor(private storageService: StorageService) {}
+  constructor() {
+    effect(() => {
+      const fileVariable = this.fileVariable();
+      this.updateLocalState(fileVariable);
+    });
+  }
 
+  // eslint-disable-next-line @angular-eslint/no-async-lifecycle-method
   async ngOnInit() {
-    if (this.fileVariable) {
-      this.updateLocalState(this.fileVariable);
+    const fileVariable = this.fileVariable();
+    if (fileVariable) {
+      this.updateLocalState(fileVariable);
       if (this.invalidFileData) {
-        if (this.fileVariable.id) {
+        if (fileVariable.id) {
           const selectedFiles = await this.storageService.selectedFiles.get(
-            this.fileVariable.id
+            fileVariable.id
           );
 
           if (selectedFiles) {
@@ -58,12 +68,6 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
           }
         }
       }
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.fileVariable?.currentValue?.data?.length) {
-      this.updateLocalState(changes.fileVariable.currentValue);
     }
   }
 
@@ -80,14 +84,17 @@ export class VariableFileItemComponent implements OnInit, OnChanges {
     return this.fileVariableDataChange.emit({ files: Array.from(files) });
   }
 
-  updateLocalState(fileVariable: FileVariable) {
-    this.validFileData = Array.isArray(fileVariable.data)
+  // TODO: Use signals instead
+  updateLocalState(fileVariable?: FileVariable) {
+    this.validFileData = Array.isArray(fileVariable?.data)
       ? fileVariable.data.filter((data) => data instanceof File)
       : [];
+
+    const data = this.fileVariable()?.data;
     this.invalidFileData =
-      (this.fileVariable?.data as [])?.length > this.validFileData.length;
+      (Array.isArray(data) ? data.length : 0) > this.validFileData.length;
     this.showWarning = Boolean(
-      !fileVariable?.isMultiple && (fileVariable.data as [])?.length > 1
+      !fileVariable?.isMultiple && (fileVariable?.data as [])?.length > 1
     );
 
     if (this.invalidFileData) {

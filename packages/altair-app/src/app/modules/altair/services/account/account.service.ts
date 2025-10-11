@@ -1,5 +1,5 @@
 import { ICreateTeamDto, ICreateTeamMembershipDto } from '@altairgraphql/api-utils';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from 'environments/environment';
 import { EMPTY, from } from 'rxjs';
 import { isElectronApp } from '../../utils';
@@ -11,7 +11,8 @@ import { IdentityProvider } from '@altairgraphql/db';
   providedIn: 'root',
 })
 export class AccountService {
-  constructor(private electronApp: ElectronAppService) {}
+  private electronApp = inject(ElectronAppService);
+
 
   private async signin(provider: IdentityProvider = IdentityProvider.GOOGLE) {
     if (isElectronApp()) {

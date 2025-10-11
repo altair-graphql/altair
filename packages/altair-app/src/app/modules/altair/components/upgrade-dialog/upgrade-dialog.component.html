@@ -1,11 +1,11 @@
 <app-dialog
-  [showDialog]="showDialog"
+  [showDialog]="showDialog()"
   [showHeader]="false"
   [showFooter]="false"
   (toggleDialog)="toggleDialogChange.emit($event)"
 >
   <div class="upgrade-pro-wrapper">
-    @if (proPlanInfo) {
+    @if (proPlanInfo(); as proPlanInfo) {
       <h2 class="upgrade-pro-title">Upgrade to Pro</h2>
       <p>Upgrade to Pro to get access to more features.</p>
       <p class="upgrade-price">
@@ -17,34 +17,36 @@
       <h3>Highlighted features</h3>
       <ul class="upgrade-features-list">
         <li class="upgrade-features-list__item">
-          <app-icon name="check-circle"></app-icon>
+          <app-icon name="check-circle" />
           <span>Unlimited queries</span>
         </li>
         <li class="upgrade-features-list__item">
-          <app-icon name="check-circle"></app-icon>
+          <app-icon name="check-circle" />
           <span>Unlimited teams</span>
         </li>
         <li class="upgrade-features-list__item">
-          <app-icon name="check-circle"></app-icon>
+          <app-icon name="check-circle" />
           <span>Unlimited collections</span>
         </li>
         <li class="upgrade-features-list__item">
-          <app-icon name="check-circle"></app-icon>
+          <app-icon name="check-circle" />
           <span>Unlimited team members</span>
         </li>
       </ul>
       <nz-alert
         class="upgrade-pro-alert"
         nzType="warning"
-        [nzMessage]="
-          'Users in the plan will be calculated based on the number of users across your teams.'
-        "
-      ></nz-alert>
+        nzMessage="Users in the plan will be calculated based on the number of users across your teams."
+      />
       <div class="upgrade-pro-extra-tips">
-        You are currently on the {{ userPlan?.id }} plan. Upgrade to Pro to get
+        You are currently on the {{ userPlan()?.id }} plan. Upgrade to Pro to get
         access to more features. Reload the app after upgrading to Pro.
       </div>
-      <button class="btn btn--primary" (click)="openUpgradeProUrl($event)">
+      <button
+        type="button"
+        class="btn btn--primary"
+        (click)="openUpgradeProUrl($event)"
+      >
         Upgrade to Pro
       </button>
     }

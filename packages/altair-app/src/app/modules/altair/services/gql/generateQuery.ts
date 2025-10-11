@@ -22,6 +22,7 @@ import {
   isObjectType,
   isRequiredInputField,
   Kind,
+  ObjectFieldNode,
   OperationDefinitionNode,
   OperationTypeNode,
   print,
@@ -165,7 +166,7 @@ export const buildSelectionSet = (
   }
 
   const fields = namedType && namedType.getFields();
-  selectionSet.selections = Object.entries(fields).map(([fieldName, field]) => {
+  selectionSet.selections = Object.entries(fields).map(([, field]) => {
     const { node, metas } = buildSelectionNode(field, {
       maxDepth,
       currentDepth,
@@ -261,7 +262,7 @@ const maybeBuildDefaultArgumentValueNode = (
       return;
     }
 
-    const fieldNodes = [];
+    const fieldNodes: ObjectFieldNode[] = [];
     for (const field of Object.values(
       (type as GraphQLInputObjectType).getFields()
     )) {

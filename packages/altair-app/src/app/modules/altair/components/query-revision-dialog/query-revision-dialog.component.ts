@@ -1,10 +1,11 @@
 import {
   Component,
   EventEmitter,
-  Input,
-  OnChanges,
   Output,
-  SimpleChanges,
+  input,
+  inject,
+  effect,
+  signal,
 } from '@angular/core';
 import { ApiService } from '../../services';
 import { QueryItemRevision } from '@altairgraphql/db';
@@ -16,23 +17,32 @@ import { QueryItemRevisionWithUsername } from '@altairgraphql/api-utils';
   styles: ``,
   standalone: false,
 })
-export class QueryRevisionDialogComponent implements OnChanges {
-  @Input() showDialog = true;
-  @Input() queryId = '';
+export class QueryRevisionDialogComponent {
+  private api = inject(ApiService);
+
+  readonly showDialog = input(true);
+  readonly queryId = input('');
   @Output() restoreRevision = new EventEmitter<QueryItemRevision>();
   @Output() toggleDialogChange = new EventEmitter<boolean>();
 
-  revisions: QueryItemRevisionWithUsername[] = [];
+  readonly revisions = signal<QueryItemRevisionWithUsername[]>([]);
 
-  constructor(private api: ApiService) {}
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.queryId?.currentValue) {
-      const queryId = changes.queryId.currentValue;
-      // fetch revisions
-      this.api.getQueryRevisions(queryId).then((res) => {
-        this.revisions = res;
-      });
-    }
+  constructor() {
+    effect(() => {
+      const queryId = this.queryId();
+      if (queryId) {
+        // fetch revisions
+        this.api
+          .getQueryRevisions(queryId)
+          .then((res) => {
+            this.revisions.set(res);
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.error('Failed to fetch query revisions:', error);
+            this.revisions.set([]);
+          });
+      }
+    });
   }
 }

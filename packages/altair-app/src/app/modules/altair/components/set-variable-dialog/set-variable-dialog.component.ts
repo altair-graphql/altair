@@ -1,11 +1,9 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
-  ViewChild,
-  OnChanges,
   ChangeDetectionStrategy,
+  input,
 } from '@angular/core';
 
 @Component({
@@ -16,8 +14,8 @@ import {
   standalone: false,
 })
 export class SetVariableDialogComponent {
-  @Input() showVariableDialog = false;
-  @Input() variables = '';
+  readonly showVariableDialog = input(false);
+  readonly variables = input('');
   @Output() toggleVariableDialog = new EventEmitter();
   @Output() variablesChange = new EventEmitter();
 

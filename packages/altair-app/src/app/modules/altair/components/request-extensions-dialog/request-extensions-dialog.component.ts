@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
+  input
 } from '@angular/core';
 import { json } from '@codemirror/lang-json';
 import { Extension } from '@codemirror/state';
@@ -16,8 +16,8 @@ import { Extension } from '@codemirror/state';
   standalone: false,
 })
 export class RequestExtensionsDialogComponent {
-  @Input() data = '';
-  @Input() showDialog = false;
+  readonly data = input('');
+  readonly showDialog = input(false);
   @Output() toggleDialogChange = new EventEmitter();
   @Output() dataChange = new EventEmitter<string>();
 

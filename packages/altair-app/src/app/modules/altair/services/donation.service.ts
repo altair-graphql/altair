@@ -1,5 +1,5 @@
 import { Observable, zip } from 'rxjs';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import { DbService } from './db.service';
 import { uaSeedHash } from '../utils/simple_hash';
@@ -10,16 +10,14 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 
 @Injectable()
 export class DonationService {
+  private dbService = inject(DbService);
+  private store = inject<Store<RootState>>(Store);
+  private altairConfig = inject(AltairConfig);
+
   private actionCountKey = 'dac';
   private seedKey = 'ds';
   private hashKey = 'dh';
   private seedBuff = 100000;
-
-  constructor(
-    private dbService: DbService,
-    private store: Store<RootState>,
-    private altairConfig: AltairConfig
-  ) {}
 
   donated() {
     const seed = Math.random() * this.seedBuff;

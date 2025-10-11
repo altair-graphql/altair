@@ -1,5 +1,5 @@
 <nz-modal
-  [nzVisible]="showVariableDialog"
+  [nzVisible]="showVariableDialog()"
   (nzVisibleChange)="toggleVariableDialog.emit($event)"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
@@ -16,15 +16,16 @@
   <ng-template #modalContent>
     <div class="app-dialog-body">
       <app-variables-editor
-        [variables]="variables"
+        [variables]="variables()"
         (variablesChange)="variablesChange.emit($event)"
-      ></app-variables-editor>
+      />
     </div>
   </ng-template>
 
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <button
+        type="button"
         class="btn btn--primary right"
         track-id="close_set_variables_dialog"
         (click)="toggleVariableDialog.emit($event)"

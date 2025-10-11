@@ -1,12 +1,12 @@
 <app-dialog
-  [showDialog]="showDialog"
+  [showDialog]="showDialog()"
   [heading]="'QUERY_REVISIONS_TEXT' | translate"
   [subheading]="'QUERY_REVISIONS_SUB_TEXT' | translate"
   [showFooter]="false"
   (toggleDialog)="toggleDialogChange.emit($event)"
 >
   <div class="query-revisions-wrapper">
-    @for (item of revisions; track item.id) {
+    @for (item of revisions(); track item.id) {
       <div class="query-revisions__item">
         <div class="query-revisions__item-time">
           {{ item.createdAt | date: 'medium' }}
@@ -16,7 +16,9 @@
           {{ item.createdByUser.firstName }} {{ item.createdByUser.lastName }}
         </div>
         <div class="query-revisions__item-actions">
-          <button class="btn" (click)="restoreRevision.emit(item)">Restore</button>
+          <button type="button" class="btn" (click)="restoreRevision.emit(item)">
+            Restore
+          </button>
         </div>
       </div>
     }

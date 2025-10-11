@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiService } from '../api/api.service';
 import { WindowService } from '../window.service';
 import { NotifyService } from '../notify/notify.service';
@@ -27,12 +27,11 @@ type SharedUrlInfo = SharedRemoteQuery | SharedWindowData;
   providedIn: 'root',
 })
 export class SharingService {
-  constructor(
-    private apiService: ApiService,
-    private accountService: AccountService,
-    private windowService: WindowService,
-    private notifyService: NotifyService
-  ) {}
+  private apiService = inject(ApiService);
+  private accountService = inject(AccountService);
+  private windowService = inject(WindowService);
+  private notifyService = inject(NotifyService);
+
 
   /**
    * we check for shared urls on app initialization

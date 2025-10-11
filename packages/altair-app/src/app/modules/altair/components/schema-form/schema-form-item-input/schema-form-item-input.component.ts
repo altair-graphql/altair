@@ -1,4 +1,12 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  input,
+  model,
+  effect,
+  inject,
+} from '@angular/core';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 import { ThemeRegistryService } from '../../../services';
 
@@ -9,12 +17,18 @@ import { ThemeRegistryService } from '../../../services';
   standalone: false,
 })
 export class SchemaFormItemInputComponent {
-  @Input() item?: SchemaFormProperty;
-  @Input() data: string | undefined;
+  private themeRegistry = inject(ThemeRegistryService);
+
+  readonly item = input<SchemaFormProperty>();
+  readonly data = model<string>();
 
   @Output() dataChange = new EventEmitter();
 
-  constructor(private themeRegistry: ThemeRegistryService) {}
+  constructor() {
+    // effect(() => {
+    //   this.dataChange.emit(this.data());
+    // });
+  }
 
   getAutocompleteOptions(item: SchemaFormProperty) {
     switch (item?.key) {

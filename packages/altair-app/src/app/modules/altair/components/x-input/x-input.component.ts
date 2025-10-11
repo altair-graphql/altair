@@ -1,13 +1,14 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   EventEmitter,
-  forwardRef,
-  Input,
   NgZone,
   Output,
+  input,
+  effect,
+  signal,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
@@ -35,7 +36,6 @@ import {
 import { Store } from '@ngrx/store';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { Subscription } from 'rxjs';
-import { EnvironmentService } from '../../services/environment/environment.service';
 import { EnvironmentVariables } from 'altair-graphql-core/build/types/state/environments.interfaces';
 import { selectActiveEnvironmentsList } from '../../store';
 import { environmentsToEnvironmentVariables } from '../../store/environments/utils';
@@ -50,7 +50,7 @@ const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
     // Fixes 'no value accessor for form control with unspecified name attribute' error
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => XInputComponent),
+      useExisting: XInputComponent,
       multi: true,
     },
   ],
@@ -58,16 +58,18 @@ const VariableRegex = /{{\s*([\w.]+)\s*}}/g;
   standalone: false,
 })
 export class XInputComponent implements AfterViewInit, ControlValueAccessor {
-  @Input() placeholder = '';
-  @Input() readonly = false;
-  @Input() windowId = '';
+  private store = inject<Store<RootState>>(Store);
+  private zone = inject(NgZone);
+
+  readonly placeholder = input('');
+  readonly readonly = input(false);
+  readonly windowId = input('');
   @Output() blurChange = new EventEmitter();
   @Output() submitChange = new EventEmitter();
 
   extensions: Extension[] = [];
 
   ready = false;
-  private innerValue = '';
   private environmentVariables: EnvironmentVariables = {};
 
   highlightEnvVariable = StateEffect.define<{
@@ -86,12 +88,13 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   highlightField = this.getHighlightField();
 
-  constructor(
-    private store: Store<RootState>,
-    private environmentService: EnvironmentService,
-    private zone: NgZone,
-    private cdr: ChangeDetectorRef
-  ) {}
+  readonly value = signal('');
+
+  constructor() {
+    effect(() => {
+      this.onChangeCallback(this.value());
+    });
+  }
 
   ngAfterViewInit(): void {
     this.setReady();
@@ -158,8 +161,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
     return [
       inputTheme,
-      placeholder(this.placeholder),
-      EditorState.readOnly.of(this.readonly),
+      placeholder(this.placeholder()),
+      EditorState.readOnly.of(this.readonly()),
       keymap.of([
         {
           key: 'Enter',
@@ -212,9 +215,10 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
         unsubscribe: Subscription;
 
         constructor(view: EditorView) {
-          self.store.select(selectActiveEnvironmentsList(self.windowId));
+          const windowId = self.windowId();
+          self.store.select(selectActiveEnvironmentsList(windowId));
           this.unsubscribe = self.store
-            .select(selectActiveEnvironmentsList(self.windowId))
+            .select(selectActiveEnvironmentsList(windowId))
             .subscribe((list) => {
               self.environmentVariables = environmentsToEnvironmentVariables(list);
               self.updateEnvVarHighlights(view, self.environmentVariables);
@@ -332,27 +336,11 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
     });
   }
 
-  // get accessor
-  get value() {
-    return this.innerValue;
-  }
-
-  @Input()
-  // set accessor including call the onchange callback
-  set value(v: string) {
-    if (v !== this.innerValue) {
-      this.innerValue = v;
-      this.onChangeCallback(v);
-    }
-  }
-
   // From ControlValueAccessor interface
   writeValue(value: string) {
     this.setReady();
-    if (value !== this.innerValue) {
-      this.innerValue = value;
-      this.cdr.markForCheck(); // TODO: why is this needed? the underlying codemirror component refused to update immediately without this
-      this.onChangeCallback(value);
+    if (value !== undefined) {
+      this.value.set(value);
     }
   }
 
@@ -368,7 +356,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   focusChanged(focused: boolean) {
     if (!focused) {
-      this.blurChange.emit(this.innerValue);
+      this.blurChange.emit(this.value());
     }
   }
 

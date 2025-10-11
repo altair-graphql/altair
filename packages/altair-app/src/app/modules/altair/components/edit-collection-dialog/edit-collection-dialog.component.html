@@ -1,7 +1,7 @@
 <nz-modal
-  [nzVisible]="showEditCollectionDialog"
+  [nzVisible]="showEditCollectionDialog()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
-  [nzCloseIcon]="'close-circle'"
+  nzCloseIcon="close-circle"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
@@ -18,29 +18,34 @@
   </ng-template>
 
   <ng-template #modalContent>
-    @if (collection) {
+    @if (collection()) {
       <div class="app-dialog-body">
         <div class="app-dialog-section">
           <div class="form-group">
             {{ 'COLLECTION_TITLE_LABEL' | translate }}
-            <input type="text" class="input" [(ngModel)]="title" />
+            <input
+              type="text"
+              class="input"
+              [ngModel]="title()"
+              (ngModelChange)="title.set($event)"
+            />
           </div>
         </div>
         <div class="app-dialog-section">
           <nz-tabset [nzAnimated]="false" nzSize="small" [nzTabBarGutter]="16">
             <nz-tab [nzTitle]="'PRE_REQUEST_TAB' | translate">
               <app-pre-request-editor
-                [preRequest]="preRequest"
-                (preRequestScriptChange)="preRequest.script = $event"
-                (preRequestEnabledChange)="preRequest.enabled = $event"
-              ></app-pre-request-editor>
+                [preRequest]="preRequest()"
+                (preRequestScriptChange)="updatePreRequestScript($event)"
+                (preRequestEnabledChange)="updatePreRequestEnabled($event)"
+              />
             </nz-tab>
             <nz-tab [nzTitle]="'POST_REQUEST_TAB' | translate">
               <app-post-request-editor
-                [postRequest]="postRequest"
-                (postRequestScriptChange)="postRequest.script = $event"
-                (postRequestEnabledChange)="postRequest.enabled = $event"
-              ></app-post-request-editor>
+                [postRequest]="postRequest()"
+                (postRequestScriptChange)="updatePostRequestScript($event)"
+                (postRequestEnabledChange)="updatePostRequestEnabled($event)"
+              />
             </nz-tab>
             <nz-tab [nzTitle]="'ENVIRONMENTS_MANAGER_TEXT' | translate">
               <app-codemirror
@@ -48,14 +53,14 @@
                 class="environments-editor-textarea"
                 [extensions]="editorExtensions"
                 [fullHeight]="true"
-                [redrawLayout]="showEditCollectionDialog"
-                [(ngModel)]="environmentVariablesStr"
+                [redrawLayout]="showEditCollectionDialog()"
+                [ngModel]="environmentVariablesStr()"
                 (ngModelChange)="onEnvironmentVariablesChange($event)"
-              ></app-codemirror>
+              />
             </nz-tab>
             <nz-tab [nzTitle]="'HEADERS_TEXT' | translate">
               <app-headers-editor
-                [headers]="headers"
+                [headers]="headers()"
                 (headerEnabledChange)="
                   updateHeaderEnabled($event.enabled, $event.index)
                 "
@@ -74,6 +79,7 @@
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <button
+        type="button"
         class="btn btn--primary right"
         track-id=""
         (click)="updateCollection()"

@@ -1,14 +1,16 @@
 import {
   Component,
-  OnInit,
-  Input,
   Output,
   EventEmitter,
   ViewChild,
   ElementRef,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectionStrategy,
+  input,
+  linkedSignal,
+  computed,
+  inject,
+  effect,
+  signal,
 } from '@angular/core';
 
 import {
@@ -29,41 +31,66 @@ import { NotifyService } from '../../services';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class EnvironmentManagerComponent implements OnInit, OnChanges {
-  @Input() environments?: EnvironmentsState;
-  @Input() showEnvironmentManager = false;
-  @Output() toggleDialogChange = new EventEmitter();
-  @Output() baseEnvironmentJsonChange = new EventEmitter();
-  @Output() subEnvironmentJsonChange = new EventEmitter();
-  @Output() subEnvironmentTitleChange = new EventEmitter();
-  @Output() addSubEnvironmentChange = new EventEmitter();
-  @Output() deleteSubEnvironmentChange = new EventEmitter();
-  @Output() repositionSubEnvironmentsChange = new EventEmitter();
-  @Output() importEnvironmentChange = new EventEmitter();
+export class EnvironmentManagerComponent {
+  private notifyService = inject(NotifyService);
+
+  readonly environments = input.required<EnvironmentsState>();
+  readonly showEnvironmentManager = input(false);
+  @Output() toggleDialogChange = new EventEmitter<boolean>();
+  @Output() baseEnvironmentJsonChange = new EventEmitter<{ value: string }>();
+  @Output() subEnvironmentJsonChange = new EventEmitter<{
+    id: string;
+    value: string;
+  }>();
+  @Output() subEnvironmentTitleChange = new EventEmitter<{
+    id: string;
+    value: string;
+  }>();
+  @Output() addSubEnvironmentChange = new EventEmitter<{
+    id: string;
+    value: string;
+  }>();
+  @Output() deleteSubEnvironmentChange = new EventEmitter<{ id: string }>();
+  @Output() repositionSubEnvironmentsChange = new EventEmitter<{
+    currentPosition: number;
+    newPosition: number;
+  }>();
+  @Output() importEnvironmentChange = new EventEmitter<{
+    id: string;
+    value: string;
+  }>();
   @Output() exportEnvironmentChange = new EventEmitter<EnvironmentState>();
 
   @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl?: ElementRef;
 
   editorExtensions: Extension[] = [json(), linter(jsonParseLinter())];
 
-  selectedEnvironmentId = 'base';
-  selectedEnvironment?: EnvironmentState | BaseEnvironmentState;
-  editorContent = '{}';
-  editorTitle = '';
-
-  constructor(private notifyService: NotifyService) {}
-
-  ngOnInit() {
-    if (this.environments) {
-      this.selectEnvironment(this.environments.activeSubEnvironment);
+  readonly activeEnvironmentId = computed(() => {
+    return this.environments().activeSubEnvironment || 'base';
+  });
+  readonly selectedEnvironmentId = linkedSignal(() => {
+    return this.activeEnvironmentId();
+  });
+  readonly selectedEnvironment = computed<
+    BaseEnvironmentState | EnvironmentState | undefined
+  >(() => {
+    const selectedId = this.selectedEnvironmentId();
+    const environments = this.environments();
+    if (selectedId === 'base') {
+      return environments.base;
     }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes?.environments?.currentValue) {
-      this.selectEnvironment(this.selectedEnvironmentId);
+    return environments.subEnvironments.find((env) => env.id === selectedId);
+  });
+  readonly editorContent = linkedSignal(() => {
+    return this.selectedEnvironment()?.variablesJson || '{}';
+  });
+  readonly editorTitle = linkedSignal(() => {
+    const selectedEnvironment = this.selectedEnvironment();
+    if (selectedEnvironment && 'title' in selectedEnvironment) {
+      return selectedEnvironment.title || '';
     }
-  }
+    return '';
+  });
 
   onSortSubEnvironments(event: CdkDragDrop<any, any, any>) {
     this.repositionSubEnvironmentsChange.emit({
@@ -85,11 +112,11 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
         throw new Error('Invalid key');
       }
 
-      if (this.selectedEnvironmentId === 'base') {
+      if (this.selectedEnvironmentId() === 'base') {
         this.baseEnvironmentJsonChange.next({ value: content });
       } else {
         this.subEnvironmentJsonChange.next({
-          id: this.selectedEnvironmentId,
+          id: this.selectedEnvironmentId(),
           value: content,
         });
       }
@@ -97,34 +124,18 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
       // Do nothing.
     }
   }
+  onSelectEnvironment(id?: string) {
+    if (!id) {
+      return;
+    }
+    this.selectedEnvironmentId.set(id);
+  }
 
   onTitleChange(content: string) {
     this.subEnvironmentTitleChange.next({
-      id: this.selectedEnvironmentId,
+      id: this.selectedEnvironmentId(),
       value: content,
     });
-  }
-
-  selectEnvironment(id?: string) {
-    if (!this.environments) {
-      throw new Error('should never happen');
-    }
-    this.selectedEnvironmentId = id || 'base';
-
-    if (this.selectedEnvironmentId === 'base') {
-      this.selectedEnvironment = this.environments.base;
-    } else {
-      this.selectedEnvironment = this.environments.subEnvironments.find(
-        (env) => env.id === this.selectedEnvironmentId
-      );
-    }
-
-    if (this.selectedEnvironment) {
-      this.editorContent = this.selectedEnvironment.variablesJson;
-      if ('title' in this.selectedEnvironment) {
-        this.editorTitle = this.selectedEnvironment.title;
-      }
-    }
   }
 
   getExportedEnvironment(
@@ -147,8 +158,9 @@ export class EnvironmentManagerComponent implements OnInit, OnChanges {
 
   onDeleteSubEnvironment() {
     if (confirm('Are you sure you want to delete this environment?')) {
-      this.deleteSubEnvironmentChange.next({ id: this.selectedEnvironmentId });
-      this.selectEnvironment();
+      this.deleteSubEnvironmentChange.next({ id: this.selectedEnvironmentId() });
+      // After deletion, set the active environment to base
+      this.selectedEnvironmentId.set('base');
     }
   }
 

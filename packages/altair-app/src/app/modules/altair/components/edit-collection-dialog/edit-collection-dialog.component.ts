@@ -1,11 +1,10 @@
 import {
   Component,
-  Input,
   Output,
   EventEmitter,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectionStrategy,
+  input,
+  linkedSignal,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
@@ -22,83 +21,93 @@ import { linter } from '@codemirror/lint';
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class EditCollectionDialogComponent implements OnChanges {
-  @Input() showEditCollectionDialog = true;
-  @Input() collection?: IQueryCollection;
+export class EditCollectionDialogComponent {
+  readonly showEditCollectionDialog = input(true);
+  readonly collection = input<IQueryCollection>();
   @Output() toggleDialogChange = new EventEmitter();
   @Output() importCurlChange = new EventEmitter<string>();
   @Output() updateCollectionChange = new EventEmitter<{
     collection: IQueryCollection;
   }>();
-
-  title = '';
-  preRequest: PrerequestState = { script: '', enabled: false };
-  postRequest: PostrequestState = { script: '', enabled: false };
-  headers: HeaderState = [];
-  environmentVariablesStr = '{}';
+  readonly title = linkedSignal(() => this.collection()?.title || '');
+  readonly preRequest = linkedSignal<PrerequestState>(
+    () => this.collection()?.preRequest || { script: '', enabled: false }
+  );
+  readonly postRequest = linkedSignal<PostrequestState>(
+    () => this.collection()?.postRequest || { script: '', enabled: false }
+  );
+  readonly headers = linkedSignal<HeaderState>(
+    () => this.collection()?.headers || []
+  );
+  readonly environmentVariablesStr = linkedSignal(() => {
+    const env = this.collection()?.environmentVariables;
+    return env ? JSON.stringify(env, null, 2) : '{}';
+  });
 
   editorExtensions: Extension[] = [json(), linter(jsonParseLinter())];
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.collection?.currentValue) {
-      const collection = changes.collection?.currentValue as IQueryCollection;
-      // setup form data fields
-      this.title = collection.title;
-      this.preRequest = collection.preRequest || { script: '', enabled: false };
-      this.postRequest = collection.postRequest || {
-        script: '',
-        enabled: false,
-      };
-      this.headers = collection.headers || [];
-      this.environmentVariablesStr = collection.environmentVariables
-        ? JSON.stringify(collection.environmentVariables, null, 2)
-        : '{}';
-    }
-  }
-
   updateCollection() {
-    if (!this.collection) {
-      throw new Error('this should never happen');
+    const collectionValue = this.collection();
+    if (!collectionValue) {
+      throw new Error('Collection is required to update');
     }
     const collection = {
-      ...this.collection,
-      title: this.title,
-      preRequest: this.preRequest,
-      postRequest: this.postRequest,
-      headers: this.headers,
-      environmentVariables: JSON.parse(this.environmentVariablesStr),
+      ...collectionValue,
+      title: this.title(),
+      preRequest: this.preRequest(),
+      postRequest: this.postRequest(),
+      headers: this.headers(),
+      environmentVariables: JSON.parse(this.environmentVariablesStr()),
     };
     this.toggleDialogChange.next(false);
     this.updateCollectionChange.next({ collection: collection });
   }
 
   addHeader() {
-    this.headers = [...this.headers, { key: '', value: '', enabled: true }];
+    this.headers.update((headers) => [
+      ...headers,
+      { key: '', value: '', enabled: true },
+    ]);
   }
 
   removeHeader(index: number) {
-    this.headers = this.headers.filter((_, i) => i !== index);
+    this.headers.update((headers) => headers.filter((_, i) => i !== index));
   }
 
   updateHeaderKey(key: string, index: number) {
-    this.headers = this.headers.map((header, i) =>
-      i === index ? { ...header, key } : header
+    this.headers.update((headers) =>
+      headers.map((header, i) => (i === index ? { ...header, key } : header))
     );
   }
 
   updateHeaderValue(value: string, index: number) {
-    this.headers = this.headers.map((header, i) =>
-      i === index ? { ...header, value } : header
+    this.headers.update((headers) =>
+      headers.map((header, i) => (i === index ? { ...header, value } : header))
     );
   }
 
   updateHeaderEnabled(enabled: boolean, index: number) {
-    this.headers = this.headers.map((header, i) =>
-      i === index ? { ...header, enabled } : header
+    this.headers.update((headers) =>
+      headers.map((header, i) => (i === index ? { ...header, enabled } : header))
     );
   }
 
   onEnvironmentVariablesChange(value: string) {
-    this.environmentVariablesStr = value;
+    this.environmentVariablesStr.set(value);
+  }
+
+  updatePreRequestScript(script: string) {
+    this.preRequest.update((pre) => ({ ...pre, script }));
+  }
+
+  updatePreRequestEnabled(enabled: boolean) {
+    this.preRequest.update((pre) => ({ ...pre, enabled }));
+  }
+  updatePostRequestScript(script: string) {
+    this.postRequest.update((post) => ({ ...post, script }));
+  }
+
+  updatePostRequestEnabled(enabled: boolean) {
+    this.postRequest.update((post) => ({ ...post, enabled }));
   }
 }

@@ -1,42 +1,42 @@
-@if (item) {
+@if (item(); as item) {
   <nz-form-item class="ui-form__item">
     @switch (item.type) {
       @case ('number') {
         <nz-form-label>{{ item.description }}</nz-form-label>
         <nz-form-control>
           <nz-input-number
-            [(ngModel)]="data"
+            [ngModel]="data()"
             [name]="item.key"
-            (ngModelChange)="onInput($event, item)"
-          ></nz-input-number>
+            (ngModelChange)="dataChange.emit($event)"
+          />
         </nz-form-control>
       }
       @case ('boolean') {
         <nz-form-label>{{ item.description }}</nz-form-label>
         <nz-form-control>
           <nz-switch
-            [(ngModel)]="data"
+            [ngModel]="data()"
             [name]="item.key"
-            (ngModelChange)="onInput($event, item)"
-          ></nz-switch>
+            (ngModelChange)="dataChange.emit($event)"
+          />
         </nz-form-control>
       }
       @case ('string') {
-        @if (isStringOrUndefined(data)) {
+        @if (isStringOrUndefined(data())) {
           <app-schema-form-item-input
             [item]="item"
-            [(data)]="data"
-            (dataChange)="onInput($event, item)"
-          ></app-schema-form-item-input>
+            [data]="asStringOrUndefined(data())"
+            (dataChange)="dataChange.emit($event)"
+          />
         }
       }
       @case ('array') {
-        @if (isArrayOrUndefined(data)) {
+        @if (isArrayOrUndefined(data())) {
           <app-schema-form-item-list
             [item]="item"
-            [(data)]="data"
-            (dataChange)="onInput($event, item)"
-          ></app-schema-form-item-list>
+            [data]="asArrayOrUndefined(data())"
+            (dataChange)="dataChange.emit($event)"
+          />
         }
       }
       @default {
@@ -46,16 +46,13 @@
               <nz-form-label>{{ item.description }}</nz-form-label>
               <nz-form-control>
                 <nz-select
-                  [(ngModel)]="data"
+                  [ngModel]="data()"
+                  (ngModelChange)="dataChange.emit($event)"
                   name="item.key"
                   nzPlaceHolder="Choose"
-                  (ngModelChange)="onInput($event, item)"
                 >
                   @for (option of getSelectOptions(item); track option) {
-                    <nz-option
-                      [nzValue]="option.value"
-                      [nzLabel]="option.label"
-                    ></nz-option>
+                    <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
                   }
                 </nz-select>
               </nz-form-control>

@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
+  input
 } from '@angular/core';
 import { HeaderState } from 'altair-graphql-core/build/types/state/header.interfaces';
 import { isElectronApp } from '../../utils';
@@ -16,7 +16,7 @@ import { isElectronApp } from '../../utils';
   standalone: false,
 })
 export class HeadersEditorComponent {
-  @Input() headers: HeaderState = [];
+  readonly headers = input<HeaderState>([]);
 
   @Output() headerEnabledChange = new EventEmitter<{
     index: number;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { v4 as uuid } from 'uuid';
 import { get } from 'object-path';
@@ -32,12 +32,12 @@ interface HydrateEnvironmentOptions {
   providedIn: 'root',
 })
 export class EnvironmentService {
+  private notifyService = inject(NotifyService);
+  private store = inject<Store<RootState>>(Store);
+
   environmentsState?: EnvironmentsState;
 
-  constructor(
-    private notifyService: NotifyService,
-    private store: Store<RootState>
-  ) {
+  constructor() {
     this.store.subscribe({
       next: (data) => {
         this.environmentsState = data.environments;

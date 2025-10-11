@@ -1,7 +1,7 @@
 <nz-modal
-  [nzVisible]="showImportCurlDialog"
+  [nzVisible]="showImportCurlDialog()"
   (nzVisibleChange)="toggleDialogChange.next($event)"
-  [nzCloseIcon]="'close-circle'"
+  nzCloseIcon="close-circle"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
@@ -33,6 +33,7 @@
   <ng-template #modalFooter>
     <div class="app-dialog-footer">
       <button
+        type="button"
         class="btn btn--primary right"
         track-id="close_import_from_curl_dialog"
         (click)="importInput()"

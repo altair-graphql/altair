@@ -10,7 +10,7 @@
     [streamState]="streamState$ | async"
     [currentCollection]="currentCollection$ | async"
     [hasUnsavedChanges]="hasUnsavedChanges$ | async"
-    [windowId]="windowId"
+    [windowId]="windowId()"
     (urlChange)="setApiUrl($event)"
     (httpVerbChange)="setApiMethod($event)"
     (sendRequest)="sendRequest()"
@@ -20,7 +20,7 @@
     (selectedOperationChange)="selectOperation($event)"
     (exportWindowChange)="exportWindowData()"
     (updateQueryInCollectionChange)="updateQueryInCollection()"
-  ></app-url-box>
+  />
   <div class="main-content-area">
     <div class="main-content-row" data-resize-container>
       <as-split [gutterSize]="5" [useTransition]="true">
@@ -44,7 +44,7 @@
             (postRequestEnabledChange)="updatePostRequestEnabled($event)"
             (authTypeChange)="updateAuthType($event)"
             (authDataChange)="updateAuthData($event)"
-            [windowId]="windowId"
+            [windowId]="windowId()"
             [activeWindowId]="activeWindowId$ | async"
             [query]="query"
             [gqlSchema]="gqlSchema"
@@ -75,7 +75,7 @@
             [subscriptionUrl]="subscriptionUrl"
             [tabSize]="tabSize$ | async"
             [autoscrollResponseList]="autoscrollResponseList$ | async"
-            [windowId]="windowId"
+            [windowId]="windowId()"
             [activeWindowId]="activeWindowId$ | async"
             [uiActions]="resultPaneUiActions$ | async"
             [hideExtensions]="(settings$ | async)?.['response.hideExtensions']"
@@ -113,7 +113,7 @@
     <nz-modal
       [nzVisible]="showHeaderDialog"
       (nzVisibleChange)="toggleHeader($event)"
-      [nzCloseIcon]="'close-circle'"
+      nzCloseIcon="close-circle"
       [nzTitle]="modalTitle"
       [nzContent]="modalContent"
       [nzFooter]="modalFooter"
@@ -140,7 +140,11 @@
 
       <ng-template #modalFooter>
         <div class="app-dialog-footer">
-          <button class="btn btn--primary right" (click)="toggleHeader()">
+          <button
+            type="button"
+            class="btn btn--primary right"
+            (click)="toggleHeader()"
+          >
             {{ 'DONE_BUTTON' | translate }}
           </button>
         </div>
@@ -161,14 +165,14 @@
       [showDialog]="showRequestHandlerDialog"
       (toggleDialogChange)="toggleRequestHandlerDialog($event)"
       (requestHandlerInfoChange)="upateRequestHandlerInfo($event)"
-    ></app-request-handler-dialog>
+    />
     <app-history-dialog
       [historyList]="historyList"
       [showDialog]="showHistoryDialog"
       (toggleDialogChange)="toggleHistoryDialog($event)"
       (restoreHistoryChange)="restoreHistory($event)"
       (clearHistoryChange)="clearHistory()"
-    ></app-history-dialog>
+    />
     <app-dialog
       [showDialog]="showPreRequestDialog"
       [heading]="'PRE_REQUEST_EDITOR_HEADER' | translate"
@@ -179,7 +183,7 @@
         [preRequest]="preRequest$ | async"
         (preRequestScriptChange)="updatePreRequestScript($event)"
         (preRequestEnabledChange)="updatePreRequestEnabled($event)"
-      ></app-pre-request-editor>
+      />
     </app-dialog>
     <app-request-extensions-dialog
       [showDialog]="showRequestExtensionsDialog$ | async"

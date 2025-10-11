@@ -12,6 +12,7 @@ import { ClearResultAction } from '../../store/query/query.action';
 import { getInitWindowState } from '../../store/windows/windows.reducer';
 import { getPerWindowReducer } from '../../store';
 import * as windowsMetaReducer from '../../store/windows-meta/windows-meta.reducer';
+import { MockService } from 'ng-mocks';
 
 describe('WindowComponent', () => {
   let component: WindowComponent;
@@ -57,11 +58,11 @@ describe('WindowComponent', () => {
       },
       {
         provide: services.GqlService,
-        useFactory: () => mock(),
+        useFactory: () => MockService(services.GqlService),
       },
       {
         provide: services.NotifyService,
-        useFactory: () => mock(),
+        useFactory: () => MockService(services.NotifyService),
       },
       {
         provide: services.WindowService,
@@ -72,7 +73,7 @@ describe('WindowComponent', () => {
       },
       {
         provide: services.PluginRegistryService,
-        useFactory: () => mock(),
+        useFactory: () => MockService(services.PluginRegistryService),
       },
       {
         provide: services.RequestHandlerRegistryService,
@@ -95,6 +96,8 @@ describe('WindowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WindowComponent);
     component = fixture.componentInstance;
+    fixture.componentRef.setInput('windowId', 'abc-123');
+    // eslint-disable-next-line @angular-eslint/require-lifecycle-on-prototype
     component.ngOnInit = () => {};
     fixture.detectChanges();
   });
@@ -107,7 +110,7 @@ describe('WindowComponent', () => {
     it('should dispatch ClearResultAction', () => {
       component.clearResult();
 
-      const expectedAction = new ClearResultAction(component.windowId);
+      const expectedAction = new ClearResultAction(component.windowId());
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(expectedAction);
     });

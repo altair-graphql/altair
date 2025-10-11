@@ -22,7 +22,7 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
       <input
         class="variables-file-item-name-input"
         data-tid="file_name"
-        placeholder=""
+        placeholder="undefined"
         type="text"
       />
       
@@ -43,6 +43,7 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
       
       <button
         class="app-button variables-file-item-button"
+        type="button"
       >
         <app-icon
           name="paperclip"

@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Input,
   Output,
+  input,
 } from '@angular/core';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import {
@@ -24,16 +24,16 @@ import { IQueryCollection } from 'altair-graphql-core/build/types/state/collecti
   standalone: false,
 })
 export class HeaderComponent {
-  @Input() windows: WindowState = {};
-  @Input() windowIds: string[] = [];
-  @Input() closedWindows: PerWindowState[] = [];
-  @Input() activeWindowId = '';
-  @Input() isElectron = false;
-  @Input() headerPanels: AltairPanel[] = [];
-  @Input() collections: IQueryCollection[] = [];
-  @Input() activeEnvironment?: EnvironmentState;
-  @Input() environments?: EnvironmentsState;
-  @Input() settings?: SettingsState;
+  readonly windows = input<WindowState>({});
+  readonly windowIds = input<string[]>([]);
+  readonly closedWindows = input<PerWindowState[]>([]);
+  readonly activeWindowId = input('');
+  readonly isElectron = input(false);
+  readonly headerPanels = input<AltairPanel[]>([]);
+  readonly collections = input<IQueryCollection[]>([]);
+  readonly activeEnvironment = input<EnvironmentState>();
+  readonly environments = input<EnvironmentsState>();
+  readonly settings = input<SettingsState>();
   @Output() activeWindowChange = new EventEmitter<string>();
   @Output() newWindowChange = new EventEmitter();
   @Output() removeWindowChange = new EventEmitter<string>();

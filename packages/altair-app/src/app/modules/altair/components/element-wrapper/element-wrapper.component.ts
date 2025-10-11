@@ -1,13 +1,11 @@
 import {
   Component,
-  OnInit,
   AfterViewInit,
-  Input,
   ViewChild,
   ElementRef,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectionStrategy,
+  input,
+  effect,
 } from '@angular/core';
 
 @Component({
@@ -17,28 +15,30 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false,
 })
-export class ElementWrapperComponent implements AfterViewInit, OnChanges {
-  @Input() element?: HTMLElement;
-  @Input() windowId = '';
-  @Input() activeWindowId = '';
+export class ElementWrapperComponent implements AfterViewInit {
+  readonly element = input<HTMLElement>();
+  readonly windowId = input('');
+  readonly activeWindowId = input('');
 
   @ViewChild('elRef', { static: true }) elRef?: ElementRef<HTMLDivElement>;
 
+  constructor() {
+    effect(() => {
+      this.handleRender(this.element(), this.windowId());
+    });
+  }
+
   ngAfterViewInit(): void {
-    this.handleRender();
+    this.handleRender(this.element(), this.windowId());
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.handleRender();
-  }
-
-  handleRender() {
-    if (this.element && this.elRef) {
-      if (this.windowId && this.windowId !== this.activeWindowId) {
+  handleRender(element?: HTMLElement, windowId?: string) {
+    if (element && this.elRef) {
+      if (windowId && windowId !== this.activeWindowId()) {
         return;
       }
 
-      this.elRef.nativeElement.appendChild(this.element);
+      this.elRef.nativeElement.appendChild(element);
     }
   }
 }

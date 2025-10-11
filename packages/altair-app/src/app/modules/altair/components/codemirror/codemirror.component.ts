@@ -4,15 +4,15 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  forwardRef,
   HostBinding,
-  Input,
   NgZone,
-  OnChanges,
   OnDestroy,
   Output,
-  SimpleChanges,
   ViewChild,
+  input,
+  signal,
+  effect,
+  inject,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension, Prec, StateEffect } from '@codemirror/state';
@@ -54,7 +54,7 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CodemirrorComponent),
+      useExisting: CodemirrorComponent,
       multi: true,
     },
   ],
@@ -62,36 +62,72 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
   standalone: false,
 })
 export class CodemirrorComponent
-  implements AfterViewInit, OnChanges, ControlValueAccessor, OnDestroy
+  implements AfterViewInit, ControlValueAccessor, OnDestroy
 {
-  @Input() extensions: Extension[] = [];
-  @Input() @HostBinding('class.cm6-full-height') fullHeight = false;
-  @Input() showLineNumber = true;
-  @Input() foldGutter = true;
-  @Input() wrapLines = true;
-  @Input() redrawLayout = false;
+  private zone = inject(NgZone);
+  private altairConfig = inject(AltairConfig);
+
+  readonly extensions = input<Extension[]>([]);
+  readonly fullHeight = input(false);
+  readonly showLineNumber = input(true);
+  readonly foldGutter = input(true);
+  readonly wrapLines = input(true);
+  readonly redrawLayout = input(false);
 
   // Specifies the editor should not have any default extensions
-  @Input() bare = false;
+  readonly bare = input(false);
 
   @Output() focusChange = new EventEmitter<boolean>();
 
   @ViewChild('ref') ref!: ElementRef<HTMLTextAreaElement>;
 
   view?: EditorView;
-  private innerValue = '';
   private onTouched = () => {};
   private onChange = (s: string) => {};
 
-  constructor(
-    private zone: NgZone,
-    private altairConfig: AltairConfig
-  ) {}
+  @HostBinding('class.cm6-full-height')
+  get fullHeightClass() {
+    return this.fullHeight();
+  }
+  readonly value = signal('');
+
+  constructor() {
+    effect(() => {
+      this.onChange(this.value());
+    });
+
+    effect(() => {
+      if (this.view && this.extensions()) {
+        this.view.dispatch({
+          effects: StateEffect.reconfigure.of(
+            Prec.high(this.getExtensions(this.extensions()))
+          ),
+        });
+      }
+    });
+
+    effect(() => {
+      if (this.redrawLayout()) {
+        // wait for animations to finish
+        setTimeout(() => {
+          if (this.view) {
+            this.view.dispatch({
+              changes: {
+                from: 0,
+                to: this.view.state.doc.length,
+                insert: this.view.state.doc.sliceString(0),
+              },
+            });
+          }
+        }, 250);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.zone.runOutsideAngular(() => {
       const startState = EditorState.create({
-        doc: this.value,
+        doc: this.value(),
         extensions: this.getExtensions(),
       });
 
@@ -102,48 +138,12 @@ export class CodemirrorComponent
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.view && changes.extensions?.currentValue) {
-      this.view.dispatch({
-        effects: StateEffect.reconfigure.of(
-          Prec.high(this.getExtensions(changes.extensions.currentValue))
-        ),
-      });
-    }
-
-    if (changes.redrawLayout?.currentValue) {
-      // wait for animations to finish
-      setTimeout(() => {
-        if (this.view) {
-          this.view.dispatch({
-            changes: {
-              from: 0,
-              to: this.view.state.doc.length,
-              insert: this.view.state.doc.sliceString(0),
-            },
-          });
-        }
-      }, 250);
-    }
-  }
-
   ngOnDestroy() {
     this.view?.destroy();
   }
 
-  // get accessor
-  get value() {
-    return this.innerValue;
-  }
-
-  @Input()
-  // set accessor including call the onchange callback
-  set value(v: string) {
-    this.writeValue(v);
-  }
-
   writeValue(value: string) {
-    if (value === this.innerValue) {
+    if (!this.view) {
       return;
     }
     if (value === null || value === undefined) {
@@ -151,14 +151,10 @@ export class CodemirrorComponent
     }
     value = `${value}`;
 
-    if (!this.view) {
-      return;
-    }
-
     const editorValue = this.view.state.doc.toString();
 
     if (editorValue !== value) {
-      this.innerValue = value;
+      this.value.set(value);
       this.view.dispatch({
         changes: { from: 0, to: this.view.state.doc.length, insert: value },
       });
@@ -174,9 +170,8 @@ export class CodemirrorComponent
   }
 
   codemirrorValueChanged(value: string) {
-    if (this.innerValue !== value) {
-      this.innerValue = value;
-      this.onChange(value);
+    if (this.value() !== value) {
+      this.value.set(value);
     }
   }
 
@@ -185,7 +180,7 @@ export class CodemirrorComponent
     this.focusChange.emit(focused);
   }
 
-  getExtensions(extraExtensions = this.extensions) {
+  getExtensions(extraExtensions = this.extensions()) {
     const updateListener = EditorView.updateListener.of((vu: ViewUpdate) => {
       if (vu.docChanged) {
         const doc = vu.state.doc;
@@ -403,9 +398,9 @@ export class CodemirrorComponent
           indentWithTab,
         ])
       ),
-      this.showLineNumber ? lineNumbers() : [], // TODO: Create own compartment
-      this.foldGutter ? foldGutter() : [], // TODO: Create own compartment
-      this.wrapLines ? EditorView.lineWrapping : [], // TODO: Create own compartment
+      this.showLineNumber() ? lineNumbers() : [], // TODO: Create own compartment
+      this.foldGutter() ? foldGutter() : [], // TODO: Create own compartment
+      this.wrapLines() ? EditorView.lineWrapping : [], // TODO: Create own compartment
       drawSelection(),
       EditorState.allowMultipleSelections.of(true),
       EditorView.cspNonce.of(this.altairConfig.cspNonce),
@@ -441,7 +436,7 @@ export class CodemirrorComponent
           },
         ])
       ),
-      !this.bare ? [...baseExtensions] : [],
+      !this.bare() ? [...baseExtensions] : [],
 
       baseTheme,
     ];

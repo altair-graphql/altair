@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, input, inject } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import {
   AUTHORIZATION_TYPES,
@@ -25,13 +18,15 @@ import { AUTHORIZATION_MAPPING } from '../authorizations';
   standalone: false,
 })
 export class AuthorizationEditorComponent implements OnInit {
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+
   typeForm = this.formBuilder.group<{
     type: AuthorizationTypes;
   }>({
     type: DEFAULT_AUTHORIZATION_TYPE,
   });
 
-  @Input() authorizationState?: AuthorizationState;
+  readonly authorizationState = input<AuthorizationState>();
   @Output() authTypeChange = this.typeForm.valueChanges.pipe(
     map(({ type }) => type ?? DEFAULT_AUTHORIZATION_TYPE),
     distinctUntilChanged()
@@ -40,12 +35,11 @@ export class AuthorizationEditorComponent implements OnInit {
   AUTH_MAPPING = AUTHORIZATION_MAPPING;
   AUTH_TYPES = AUTHORIZATION_TYPE_LIST;
 
-  constructor(private readonly formBuilder: NonNullableFormBuilder) {}
-
   ngOnInit(): void {
-    if (this.authorizationState) {
+    const authorizationState = this.authorizationState();
+    if (authorizationState) {
       this.typeForm.patchValue({
-        type: this.authorizationState.type,
+        type: authorizationState.type,
       });
     }
   }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-doc-viewer-deprecated',
@@ -8,6 +8,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   standalone: false,
 })
 export class DocViewerDeprecatedComponent {
-  @Input() isDeprecated = false;
-  @Input() deprecatedReason = '';
+  readonly isDeprecated = input(false);
+  readonly deprecatedReason = input('');
 }

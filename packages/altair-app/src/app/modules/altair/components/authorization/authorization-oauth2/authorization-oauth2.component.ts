@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, Output, input, inject } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import {
@@ -34,6 +28,10 @@ import { environment } from 'environments/environment';
   standalone: false,
 })
 export class AuthorizationOauth2Component implements OnInit {
+  private readonly formBuilder = inject(NonNullableFormBuilder);
+  private notifyService = inject(NotifyService);
+  private readonly environmentService = inject(EnvironmentService);
+
   urlConfig = getAltairConfig().getUrlConfig(
     environment.production ? 'production' : 'development'
   );
@@ -55,20 +53,15 @@ export class AuthorizationOauth2Component implements OnInit {
   authFormat = AuthFormat;
   requestFormat = RequestFormat;
 
-  @Input() authData?: unknown;
+  readonly authData = input<unknown>();
   @Output() authDataChange = this.form.valueChanges;
 
   optionsShape = this.getOptionsShape();
 
-  constructor(
-    private readonly formBuilder: NonNullableFormBuilder,
-    private notifyService: NotifyService,
-    private readonly environmentService: EnvironmentService
-  ) {}
-
   ngOnInit(): void {
-    if (this.authData) {
-      this.form.patchValue(this.authData);
+    const authData = this.authData();
+    if (authData) {
+      this.form.patchValue(authData);
     }
   }
 

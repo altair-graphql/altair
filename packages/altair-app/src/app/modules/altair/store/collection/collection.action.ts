@@ -3,7 +3,6 @@ import { TeamId } from 'altair-graphql-core/build/types/state/account.interfaces
 import {
   IQuery,
   IQueryCollection,
-  SortByOptions,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { WorkspaceId } from 'altair-graphql-core/build/types/state/workspace.interface';
 
@@ -35,7 +34,7 @@ export class CreateCollectionAndSaveQueryToCollectionAction implements NGRXActio
       collectionTitle: string;
       windowId: string;
       windowTitle?: string;
-      parentCollectionId?: number;
+      parentCollectionId?: string;
       workspaceId: WorkspaceId;
       teamId?: TeamId;
     }
@@ -48,7 +47,7 @@ export class SaveQueryToCollectionAction implements NGRXAction {
   constructor(
     public payload: {
       windowId: string;
-      collectionId: number;
+      collectionId: string;
       windowTitle?: string;
     }
   ) {}
@@ -92,8 +91,6 @@ export class UpdateCollectionAction implements NGRXAction {
 
 export class LoadCollectionsAction implements NGRXAction {
   readonly type = LOAD_COLLECTIONS;
-
-  constructor() {}
 }
 
 export class ExportCollectionAction implements NGRXAction {
@@ -108,8 +105,6 @@ export class ImportCollectionsAction implements NGRXAction {
 
 export class SyncRemoteCollectionsToLocalAction implements NGRXAction {
   readonly type = SYNC_REMOTE_COLLECTIONS_TO_LOCAL;
-
-  constructor() {}
 }
 
 export class SyncLocalCollectionToRemoteAction implements NGRXAction {
