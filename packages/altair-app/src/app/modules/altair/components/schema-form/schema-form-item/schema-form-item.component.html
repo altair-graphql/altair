@@ -4,13 +4,21 @@
       @case ('number') {
         <nz-form-label>{{ item.description }}</nz-form-label>
         <nz-form-control>
-          <nz-input-number [(ngModel)]="data" [name]="item.key" />
+          <nz-input-number
+            [ngModel]="data()"
+            [name]="item.key"
+            (ngModelChange)="dataChange.emit($event)"
+          />
         </nz-form-control>
       }
       @case ('boolean') {
         <nz-form-label>{{ item.description }}</nz-form-label>
         <nz-form-control>
-          <nz-switch [(ngModel)]="data" [name]="item.key" />
+          <nz-switch
+            [ngModel]="data()"
+            [name]="item.key"
+            (ngModelChange)="dataChange.emit($event)"
+          />
         </nz-form-control>
       }
       @case ('string') {
@@ -18,7 +26,7 @@
           <app-schema-form-item-input
             [item]="item"
             [data]="asStringOrUndefined(data())"
-            (dataChange)="data.set($event)"
+            (dataChange)="dataChange.emit($event)"
           />
         }
       }
@@ -27,7 +35,7 @@
           <app-schema-form-item-list
             [item]="item"
             [data]="asArrayOrUndefined(data())"
-            (dataChange)="data.set($event)"
+            (dataChange)="dataChange.emit($event)"
           />
         }
       }
@@ -37,7 +45,12 @@
             @case ('enum.string') {
               <nz-form-label>{{ item.description }}</nz-form-label>
               <nz-form-control>
-                <nz-select [(ngModel)]="data" name="item.key" nzPlaceHolder="Choose">
+                <nz-select
+                  [ngModel]="data()"
+                  (ngModelChange)="dataChange.emit($event)"
+                  name="item.key"
+                  nzPlaceHolder="Choose"
+                >
                   @for (option of getSelectOptions(item); track option) {
                     <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
                   }

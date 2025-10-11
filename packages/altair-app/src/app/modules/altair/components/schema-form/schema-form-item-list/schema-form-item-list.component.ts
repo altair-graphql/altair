@@ -27,9 +27,9 @@ export class SchemaFormItemListComponent {
   @Output() dataChange = new EventEmitter();
 
   constructor() {
-    effect(() => {
-      this.dataChange.emit(this.data());
-    });
+    // effect(() => {
+    //   this.dataChange.emit(this.data());
+    // });
   }
 
   addField() {

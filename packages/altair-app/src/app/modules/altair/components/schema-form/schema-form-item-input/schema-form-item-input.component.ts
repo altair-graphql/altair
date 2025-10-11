@@ -1,4 +1,12 @@
-import { Component, Output, EventEmitter, input, model, effect, inject } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  input,
+  model,
+  effect,
+  inject,
+} from '@angular/core';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 import { ThemeRegistryService } from '../../../services';
 
@@ -17,9 +25,9 @@ export class SchemaFormItemInputComponent {
   @Output() dataChange = new EventEmitter();
 
   constructor() {
-    effect(() => {
-      this.dataChange.emit(this.data());
-    });
+    // effect(() => {
+    //   this.dataChange.emit(this.data());
+    // });
   }
 
   getAutocompleteOptions(item: SchemaFormProperty) {

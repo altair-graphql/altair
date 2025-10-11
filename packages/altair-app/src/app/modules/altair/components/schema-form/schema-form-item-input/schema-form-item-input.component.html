@@ -6,7 +6,8 @@
     <input
       nz-input
       [placeholder]="item.key || ''"
-      [(ngModel)]="data"
+      [ngModel]="data()"
+      (ngModelChange)="dataChange.emit($event)"
       [name]="item.key"
       [nzAutocomplete]="auto"
     />

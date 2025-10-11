@@ -48,7 +48,7 @@ export class TeamsDialogComponent {
       return undefined;
     }
     if (!selectedTeamId) {
-      return teams[0];
+      return;
     }
     return teams.find((t) => t.id === selectedTeamId);
   });
@@ -126,6 +126,7 @@ export class TeamsDialogComponent {
         await this.accountService.createTeam(teamDto);
       }
 
+      this.showTeamForm.set(false);
       this.resetTeamForm();
       this.reloadTeamChange.emit();
     } catch (err) {
