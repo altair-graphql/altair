@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  output
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { GraphQLArgument } from 'graphql';
 import { DocumentIndexEntry } from '../models';
@@ -48,9 +43,16 @@ import { DocumentIndexEntry } from '../models';
 export class DocViewerSearchResultsComponent {
   readonly results = input<DocumentIndexEntry[]>([]);
 
-  readonly goToFieldChange = output();
-  readonly goToTypeChange = output();
-  readonly goToDirectiveChange = output();
+  readonly goToFieldChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly goToTypeChange = output<{
+    name: string;
+  }>();
+  readonly goToDirectiveChange = output<{
+    name: string;
+  }>();
 
   /**
    * Go to an item based on the category

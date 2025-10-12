@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   input,
   linkedSignal,
-  output
+  output,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
@@ -23,11 +23,11 @@ import { linter } from '@codemirror/lint';
 export class EditCollectionDialogComponent {
   readonly showEditCollectionDialog = input(true);
   readonly collection = input<IQueryCollection>();
-  readonly toggleDialogChange = output();
+  readonly toggleDialogChange = output<boolean>();
   readonly importCurlChange = output<string>();
   readonly updateCollectionChange = output<{
     collection: IQueryCollection;
-}>();
+  }>();
   readonly title = linkedSignal(() => this.collection()?.title || '');
   readonly preRequest = linkedSignal<PrerequestState>(
     () => this.collection()?.preRequest || { script: '', enabled: false }

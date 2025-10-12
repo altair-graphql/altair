@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  output
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-import-curl-dialog',
@@ -14,7 +9,7 @@ import {
 })
 export class ImportCurlDialogComponent {
   readonly showImportCurlDialog = input(false);
-  readonly toggleDialogChange = output();
+  readonly toggleDialogChange = output<boolean>();
   readonly importCurlChange = output<string>();
 
   textAreaInput = '';

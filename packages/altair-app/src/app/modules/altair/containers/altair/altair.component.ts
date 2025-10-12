@@ -776,7 +776,7 @@ export class AltairComponent {
     );
   }
 
-  exportCollection({ collectionId }: { collectionId: number }) {
+  exportCollection({ collectionId }: { collectionId: string }) {
     this.store.dispatch(
       new collectionActions.ExportCollectionAction({ collectionId })
     );

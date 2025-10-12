@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   input,
   computed,
-  output
+  output,
 } from '@angular/core';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { GraphQLSchema, GraphQLArgument, GraphQLField } from 'graphql';
@@ -22,10 +22,18 @@ export class DocViewerFieldComponent {
   readonly sortByOption = input<SortByOptions>('none');
   readonly hideDeprecatedDocItems = input<boolean>(false);
 
-  readonly goToFieldChange = output();
-  readonly goToTypeChange = output();
-  readonly addToEditorChange = output();
-  readonly sortFieldsByChange = output();
+  readonly goToFieldChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly goToTypeChange = output<{
+    name: string;
+  }>();
+  readonly addToEditorChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly sortFieldsByChange = output<SortByOptions>();
 
   readonly fieldType = computed(() => {
     const data = this.data();

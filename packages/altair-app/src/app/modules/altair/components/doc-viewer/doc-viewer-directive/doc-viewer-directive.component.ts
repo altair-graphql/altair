@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  output
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { GraphQLSchema, GraphQLDirective, GraphQLArgument } from 'graphql';
 
 @Component({
@@ -18,7 +13,9 @@ export class DocViewerDirectiveComponent {
 
   readonly gqlSchema = input<GraphQLSchema>();
 
-  readonly goToTypeChange = output();
+  readonly goToTypeChange = output<{
+    name: string;
+  }>();
 
   goToType(name: string) {
     this.goToTypeChange.emit({ name });

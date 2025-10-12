@@ -7,7 +7,7 @@ import {
   Signal,
   effect,
   inject,
-  output
+  output,
 } from '@angular/core';
 import {
   IQueryCollection,
@@ -49,18 +49,27 @@ export class QueryCollectionsComponent implements OnInit {
   readonly loggedIn = input(false);
 
   readonly loadCollectionsChange = output();
-  readonly selectQueryChange = output();
-  readonly deleteQueryChange = output();
+  readonly selectQueryChange = output<{
+    query: IQuery;
+    collectionId: string;
+    windowIdInCollection: string;
+  }>();
+  readonly deleteQueryChange = output<{
+    collectionId: string;
+    query: IQuery;
+  }>();
   readonly deleteCollectionChange = output<{
     collectionId: string;
-}>();
+  }>();
   readonly editCollectionChange = output<{
     collection: IQueryCollection;
-}>();
+  }>();
   readonly syncCollectionChange = output<{
     collection: IQueryCollection;
-}>();
-  readonly exportCollectionChange = output();
+  }>();
+  readonly exportCollectionChange = output<{
+    collectionId: string;
+  }>();
   readonly importCollectionsChange = output();
   readonly syncCollectionsChange = output();
   readonly sortCollectionsChange = output<SortByOptions>();

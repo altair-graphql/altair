@@ -7,7 +7,7 @@ import {
   effect,
   signal,
   inject,
-  output
+  output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
@@ -355,7 +355,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   focusChanged(focused: boolean) {
     if (!focused) {
-      this.blurChange.emit(this.value());
+      this.blurChange.emit();
     }
   }
 

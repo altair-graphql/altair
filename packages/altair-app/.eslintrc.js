@@ -40,7 +40,7 @@ module.exports = {
         ],
         '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
         // '@angular-eslint/prefer-standalone-component': 'warn',
-        '@angular-eslint/prefer-standalone': 'warn',
+        '@angular-eslint/prefer-standalone': 'off',
         '@angular-eslint/consistent-component-styles': 'off',
         '@angular-eslint/sort-keys-in-type-decorator': 'off',
         '@angular-eslint/use-injectable-provided-in': 'warn',

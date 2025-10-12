@@ -102,11 +102,7 @@
                   <button
                     type="button"
                     class="btn btn--small"
-                    (click)="
-                      exportEnvironmentChange.emit(
-                        getExportedEnvironment(selectedEnvironment())
-                      )
-                    "
+                    (click)="onExportEnvironment()"
                   >
                     <app-icon name="file-down" />
                     {{ 'EXPORT_TEXT' | translate }}

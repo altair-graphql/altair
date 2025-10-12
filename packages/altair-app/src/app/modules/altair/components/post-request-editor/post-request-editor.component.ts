@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  input,
-  output
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 
 import { PostrequestState } from 'altair-graphql-core/build/types/state/postrequest.interfaces';
 import { getRequestScriptExtensions } from '../../utils/editor/extensions';
@@ -20,9 +15,9 @@ export class PostRequestEditorComponent {
   readonly postRequest = input<PostrequestState>({
     enabled: false,
     script: '',
-});
-  readonly postRequestScriptChange = output();
-  readonly postRequestEnabledChange = output();
+  });
+  readonly postRequestScriptChange = output<string>();
+  readonly postRequestEnabledChange = output<boolean>();
 
   editorExtensions = getRequestScriptExtensions(
     getGlobalContext(

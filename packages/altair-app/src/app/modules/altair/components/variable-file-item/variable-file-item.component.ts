@@ -7,7 +7,7 @@ import {
   input,
   inject,
   effect,
-  output
+  output,
 } from '@angular/core';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
@@ -25,12 +25,12 @@ export class VariableFileItemComponent implements OnInit {
 
   readonly fileVariable = input<FileVariable>();
 
-  readonly fileVariableNameChange = output();
+  readonly fileVariableNameChange = output<string>();
   readonly fileVariableDataChange = output<{
     files: File[];
     fromCache?: boolean;
-}>();
-  readonly fileVariableIsMultipleChange = output();
+  }>();
+  readonly fileVariableIsMultipleChange = output<boolean>();
   readonly deleteFileVariableChange = output();
 
   // eslint-disable-next-line @angular-eslint/prefer-signals

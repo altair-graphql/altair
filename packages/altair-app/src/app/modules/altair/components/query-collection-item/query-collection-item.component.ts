@@ -4,7 +4,7 @@ import {
   input,
   inject,
   linkedSignal,
-  output
+  output,
 } from '@angular/core';
 import {
   IQuery,
@@ -29,21 +29,27 @@ export class QueryCollectionItemComponent {
   readonly queriesSortBy = input<SortByOptions>('newest');
   readonly expanded = input(true);
 
-  readonly selectQueryChange = output();
+  readonly selectQueryChange = output<{
+    query: IQuery;
+    collectionId: string;
+    windowIdInCollection: string;
+  }>();
   readonly deleteQueryChange = output<{
     collectionId: string;
     query: IQuery;
-}>();
+  }>();
   readonly deleteCollectionChange = output<{
     collectionId: string;
-}>();
+  }>();
   readonly editCollectionChange = output<{
     collection: IQueryCollectionTree;
-}>();
+  }>();
   readonly syncCollectionChange = output<{
     collection: IQueryCollectionTree;
-}>();
-  readonly exportCollectionChange = output();
+  }>();
+  readonly exportCollectionChange = output<{
+    collectionId: string;
+  }>();
   readonly sortCollectionQueriesChange = output<SortByOptions>();
   readonly showQueryRevisionsChange = output<string>();
   readonly copyQueryShareLinkChange = output<string>();
@@ -76,6 +82,9 @@ export class QueryCollectionItemComponent {
   }
 
   showQueryRevisionsDialog(query: IQuery) {
+    if (!query.id) {
+      return;
+    }
     this.showQueryRevisionsChange.emit(query.id);
   }
 

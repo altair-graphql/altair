@@ -8,7 +8,7 @@ import {
   effect,
   signal,
   inject,
-  output
+  output,
 } from '@angular/core';
 
 import { debug } from '../../../utils/logger';
@@ -47,7 +47,12 @@ export class DocViewerComponent {
 
   readonly toggleDocsChange = output();
   readonly setDocViewChange = output<DocView>();
-  readonly addQueryToEditorChange = output();
+  readonly addQueryToEditorChange = output<{
+    query: string;
+    meta: {
+      hasArgs: boolean;
+    };
+  }>();
   readonly exportSDLChange = output();
   readonly loadSchemaChange = output();
 
@@ -123,6 +128,9 @@ export class DocViewerComponent {
   debouncedFilterAutocompleteOptions = debounce(this.filterAutocompleteOptions, 300);
 
   setDocView(docView?: DocView) {
+    if (!docView) {
+      docView = { view: 'root' };
+    }
     this.setDocViewChange.emit(docView);
     if (this.docViewerRef) {
       this.docViewerRef.nativeElement.scrollTop = 0;

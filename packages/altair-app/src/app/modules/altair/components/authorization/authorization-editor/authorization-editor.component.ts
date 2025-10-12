@@ -1,7 +1,13 @@
-import { ChangeDetectionStrategy, Component, OnInit, input, inject, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  input,
+  inject,
+  output,
+} from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import {
-  AUTHORIZATION_TYPES,
   AUTHORIZATION_TYPE_LIST,
   AuthorizationState,
   AuthorizationTypes,
@@ -9,6 +15,7 @@ import {
 } from 'altair-graphql-core/build/types/state/authorization.interface';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AUTHORIZATION_MAPPING } from '../authorizations';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-authorization-editor',
@@ -27,11 +34,13 @@ export class AuthorizationEditorComponent implements OnInit {
   });
 
   readonly authorizationState = input<AuthorizationState>();
-  @Output() authTypeChange = this.typeForm.valueChanges.pipe(
-    map(({ type }) => type ?? DEFAULT_AUTHORIZATION_TYPE),
-    distinctUntilChanged()
+  readonly authTypeChange = outputFromObservable(
+    this.typeForm.valueChanges.pipe(
+      map(({ type }) => type ?? DEFAULT_AUTHORIZATION_TYPE),
+      distinctUntilChanged()
+    )
   );
-  readonly authDataChange = output();
+  readonly authDataChange = output<unknown>();
   AUTH_MAPPING = AUTHORIZATION_MAPPING;
   AUTH_TYPES = AUTHORIZATION_TYPE_LIST;
 

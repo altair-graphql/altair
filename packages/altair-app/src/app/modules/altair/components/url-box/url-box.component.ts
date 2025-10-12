@@ -3,10 +3,13 @@ import {
   Component,
   input,
   model,
-  output
+  output,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
+import {
+  HTTP_VERBS,
+  HttpVerb,
+} from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
 import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
 
@@ -33,9 +36,9 @@ export class UrlBoxComponent {
   readonly reloadDocsChange = output();
   readonly addToCollectionChange = output();
   readonly sendRequest = output();
-  readonly urlChange = output();
-  readonly httpVerbChange = output();
-  readonly selectedOperationChange = output();
+  readonly urlChange = output<string>();
+  readonly httpVerbChange = output<HttpVerb>();
+  readonly selectedOperationChange = output<string | undefined>();
   readonly exportWindowChange = output();
   readonly updateQueryInCollectionChange = output();
 
@@ -48,7 +51,7 @@ export class UrlBoxComponent {
     this.urlChange.emit(sanitizedUrl);
   }
 
-  setVerb(verb: string) {
+  setVerb(verb: HttpVerb) {
     this.httpVerbChange.emit(verb);
   }
 

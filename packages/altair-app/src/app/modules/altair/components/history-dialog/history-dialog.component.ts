@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  output
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { History } from 'altair-graphql-core/build/types/state/history.interfaces';
 
 @Component({
@@ -15,13 +10,13 @@ import { History } from 'altair-graphql-core/build/types/state/history.interface
 export class HistoryDialogComponent {
   readonly historyList = input<History[]>([]);
   readonly showDialog = input(false);
-  readonly toggleDialogChange = output();
-  readonly restoreHistoryChange = output();
-  readonly clearHistoryChange = output();
+  readonly toggleDialogChange = output<boolean>();
+  readonly restoreHistoryChange = output<number>();
+  readonly clearHistoryChange = output<void>();
 
   restoreHistory(index: number) {
     this.restoreHistoryChange.emit(index);
-    this.toggleDialogChange.emit();
+    this.toggleDialogChange.emit(false);
   }
 
   clearHistory() {

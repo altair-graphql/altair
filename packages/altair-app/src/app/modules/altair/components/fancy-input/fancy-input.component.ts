@@ -6,7 +6,7 @@ import {
   forwardRef,
   input,
   inject,
-  output
+  output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -65,8 +65,8 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   // @Input() value = '';
   readonly placeholder = input('');
-  readonly blurChange = output();
-  readonly submitChange = output();
+  readonly blurChange = output<string>();
+  readonly submitChange = output<string>();
 
   @ViewChild('fancyInputEl', { static: true }) fancyInputEl?: ElementRef;
   @ViewChild('fancyInputHighlightsEl', { static: true })

@@ -1,9 +1,4 @@
-import {
-  Component,
-  ChangeDetectionStrategy,
-  input,
-  output
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import {
   GraphQLInterfaceType,
@@ -32,10 +27,18 @@ export class DocViewerTypeComponent {
   readonly sortByOption = input<SortByOptions>('none');
   readonly hideDeprecatedDocItems = input<boolean>(false);
 
-  readonly goToFieldChange = output();
-  readonly goToTypeChange = output();
-  readonly addToEditorChange = output();
-  readonly sortFieldsByChange = output();
+  readonly goToFieldChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly goToTypeChange = output<{
+    name: string;
+  }>();
+  readonly addToEditorChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly sortFieldsByChange = output<SortByOptions>();
 
   /**
    * Check if the current type is a root type

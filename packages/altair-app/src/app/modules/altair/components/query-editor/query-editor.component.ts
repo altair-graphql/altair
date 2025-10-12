@@ -9,7 +9,7 @@ import {
   computed,
   inject,
   effect,
-  output
+  output,
 } from '@angular/core';
 
 import { updateSchema, showInDocsCommand, fillAllFieldsCommands } from 'cm6-graphql';
@@ -45,6 +45,7 @@ import {
   AuthorizationTypes,
 } from 'altair-graphql-core/build/types/state/authorization.interface';
 import { isAuthorizationEnabled } from '../../store';
+import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
 
 @Component({
   selector: 'app-query-editor',
@@ -78,30 +79,47 @@ export class QueryEditorComponent implements OnInit, AfterViewInit {
 
   readonly authorizationState = input<AuthorizationState>();
 
-  readonly preRequestScriptChange = output();
-  readonly preRequestEnabledChange = output();
+  readonly preRequestScriptChange = output<string>();
+  readonly preRequestEnabledChange = output<boolean>();
 
-  readonly postRequestScriptChange = output();
-  readonly postRequestEnabledChange = output();
+  readonly postRequestScriptChange = output<string>();
+  readonly postRequestEnabledChange = output<boolean>();
 
-  readonly sendRequest = output();
+  readonly sendRequest = output<{
+    operationName?: string;
+  }>();
   readonly queryChange = output<string>();
-  readonly variablesChange = output();
-  readonly toggleVariableDialog = output();
-  readonly addFileVariableChange = output<{
+  readonly variablesChange = output<string>();
+  readonly toggleVariableDialog = output<boolean>();
+  readonly addFileVariableChange = output<
+    | {
+        name: string;
+        data: File[];
+        isMultiple: boolean;
+      }
+    | undefined
+  >();
+  readonly fileVariableNameChange = output<{
+    index: number;
     name: string;
-    data: File[];
+  }>();
+  readonly fileVariableIsMultipleChange = output<{
+    index: number;
     isMultiple: boolean;
-}>();
-  readonly fileVariableNameChange = output();
-  readonly fileVariableIsMultipleChange = output();
-  readonly fileVariableDataChange = output();
-  readonly deleteFileVariableChange = output();
+  }>();
+  readonly fileVariableDataChange = output<{
+    index: number;
+    fileData: File[];
+    fromCache?: boolean;
+  }>();
+  readonly deleteFileVariableChange = output<{
+    index: number;
+  }>();
   readonly queryEditorStateChange = output<QueryEditorState>();
-  readonly showTokenInDocsChange = output();
+  readonly showTokenInDocsChange = output<DocView>();
 
   readonly authTypeChange = output<AuthorizationTypes>();
-  readonly authDataChange = output();
+  readonly authDataChange = output<unknown>();
 
   // TODO: Add static: true
   // eslint-disable-next-line @angular-eslint/prefer-signals

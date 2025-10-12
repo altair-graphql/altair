@@ -1,10 +1,4 @@
-import {
-  Component,
-  input,
-  inject,
-  effect,
-  output
-} from '@angular/core';
+import { Component, input, inject, effect, output } from '@angular/core';
 
 import { debug } from '../../utils/logger';
 
@@ -34,8 +28,8 @@ export class SettingsDialogComponent {
   readonly settings = input<SettingsState>();
   readonly appVersion = input('');
   readonly showSettingsDialog = input(false);
-  readonly toggleDialogChange = output();
-  readonly settingsJsonChange = output();
+  readonly toggleDialogChange = output<boolean>();
+  readonly settingsJsonChange = output<string>();
 
   themes = this.altairConfig.themes;
   languages = Object.entries(this.altairConfig.languages);

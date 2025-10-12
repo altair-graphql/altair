@@ -3,7 +3,7 @@ import {
   Component,
   input,
   Input,
-  output
+  output,
 } from '@angular/core';
 import { Banner } from '../../services/banner/banner.service';
 
@@ -19,6 +19,9 @@ export class BannerComponent {
   readonly dismiss = output<string>();
 
   onDismiss() {
-    this.dismiss.emit(this.banner()?.id);
+    const bannerId = this.banner()?.id;
+    if (bannerId) {
+      this.dismiss.emit(bannerId);
+    }
   }
 }

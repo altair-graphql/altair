@@ -9,7 +9,7 @@ import {
   inject,
   effect,
   signal,
-  output
+  output,
 } from '@angular/core';
 
 import {
@@ -38,30 +38,24 @@ export class EnvironmentManagerComponent {
   readonly toggleDialogChange = output<boolean>();
   readonly baseEnvironmentJsonChange = output<{
     value: string;
-}>();
+  }>();
   readonly subEnvironmentJsonChange = output<{
     id: string;
     value: string;
-}>();
+  }>();
   readonly subEnvironmentTitleChange = output<{
     id: string;
     value: string;
-}>();
-  readonly addSubEnvironmentChange = output<{
-    id: string;
-    value: string;
-}>();
+  }>();
+  readonly addSubEnvironmentChange = output<void>();
   readonly deleteSubEnvironmentChange = output<{
     id: string;
-}>();
+  }>();
   readonly repositionSubEnvironmentsChange = output<{
     currentPosition: number;
     newPosition: number;
-}>();
-  readonly importEnvironmentChange = output<{
-    id: string;
-    value: string;
-}>();
+  }>();
+  readonly importEnvironmentChange = output<void>();
   readonly exportEnvironmentChange = output<EnvironmentState>();
 
   @ViewChild('subEnvironmentTitle') subEnvironmentTitleEl?: ElementRef;
@@ -164,6 +158,13 @@ export class EnvironmentManagerComponent {
       this.deleteSubEnvironmentChange.emit({ id: this.selectedEnvironmentId() });
       // After deletion, set the active environment to base
       this.selectedEnvironmentId.set('base');
+    }
+  }
+
+  onExportEnvironment() {
+    const env = this.getExportedEnvironment(this.selectedEnvironment());
+    if (env) {
+      this.exportEnvironmentChange.emit(env);
     }
   }
 

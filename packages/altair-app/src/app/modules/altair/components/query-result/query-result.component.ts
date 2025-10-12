@@ -9,7 +9,7 @@ import {
   input,
   OnInit,
   computed,
-  output
+  output,
 } from '@angular/core';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -56,7 +56,7 @@ export class QueryResultComponent implements AfterViewInit {
   readonly clearResultChange = output();
   readonly cancelRequestChange = output();
   readonly autoscrollResponseListChange = output();
-  readonly uiActionExecuteChange = output();
+  readonly uiActionExecuteChange = output<AltairUiAction>();
   readonly bottomPanelActiveToggle = output<AltairPanel>();
 
   // eslint-disable-next-line @angular-eslint/prefer-signals

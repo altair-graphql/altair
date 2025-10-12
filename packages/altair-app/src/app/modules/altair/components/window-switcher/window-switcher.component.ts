@@ -28,11 +28,14 @@ export class WindowSwitcherComponent {
   readonly activeWindowId = input('');
   readonly isElectron = input(false);
   readonly enableScrollbar = input(false);
-  readonly activeWindowChange = output();
+  readonly activeWindowChange = output<string>();
   readonly newWindowChange = output();
-  readonly removeWindowChange = output();
-  readonly duplicateWindowChange = output();
-  readonly windowNameChange = output();
+  readonly removeWindowChange = output<string>();
+  readonly duplicateWindowChange = output<string>();
+  readonly windowNameChange = output<{
+    windowId: string;
+    windowName: string;
+  }>();
   readonly reopenClosedWindowChange = output();
   readonly reorderWindowsChange = output<string[]>();
 

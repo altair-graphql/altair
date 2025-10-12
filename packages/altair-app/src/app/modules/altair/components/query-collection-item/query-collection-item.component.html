@@ -145,7 +145,7 @@
                 selectQueryChange.emit({
                   query: query,
                   collectionId: collectionTree().id,
-                  windowIdInCollection: query.id,
+                  windowIdInCollection: query.id ?? '',
                 })
               "
             >
@@ -196,7 +196,7 @@
                   @if (loggedIn() && query.storageType === 'api') {
                     <li
                       nz-menu-item
-                      (click)="copyQueryShareLinkChange.emit(query.id)"
+                      (click)="copyQueryShareLinkChange.emit(query.id ?? '')"
                     >
                       {{ 'COLLECTIONS_QUERY_MENU_COPY_SHARE_URL' | translate }}
                     </li>

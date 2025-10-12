@@ -31,7 +31,7 @@
       <div
         class="variables-editor--title"
         track-id="toggle_variables"
-        (click)="toggleVariableDialog.emit($event)"
+        (click)="toggleVariableDialog.emit(!showVariableDialog())"
       >
         {{ 'VARIABLES_TEXT' | translate }}
       </div>
@@ -60,7 +60,7 @@
               type="button"
               class="variables-add-files-button"
               track-id="add_file_variable"
-              (click)="addFileVariableChange.emit()"
+              (click)="addFileVariableChange.emit(undefined)"
             >
               {{ 'ADD_FILES_TEXT' | translate }}
             </button>

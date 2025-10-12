@@ -96,7 +96,7 @@ export class LoadCollectionsAction implements NGRXAction {
 export class ExportCollectionAction implements NGRXAction {
   readonly type = EXPORT_COLLECTION;
 
-  constructor(public payload: { collectionId: number }) {}
+  constructor(public payload: { collectionId: string }) {}
 }
 
 export class ImportCollectionsAction implements NGRXAction {
