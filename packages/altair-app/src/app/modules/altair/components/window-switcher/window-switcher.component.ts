@@ -1,5 +1,5 @@
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Component, Output, EventEmitter, HostBinding, input, inject } from '@angular/core';
+import { Component, HostBinding, input, inject, output } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
@@ -28,13 +28,13 @@ export class WindowSwitcherComponent {
   readonly activeWindowId = input('');
   readonly isElectron = input(false);
   readonly enableScrollbar = input(false);
-  @Output() activeWindowChange = new EventEmitter();
-  @Output() newWindowChange = new EventEmitter();
-  @Output() removeWindowChange = new EventEmitter();
-  @Output() duplicateWindowChange = new EventEmitter();
-  @Output() windowNameChange = new EventEmitter();
-  @Output() reopenClosedWindowChange = new EventEmitter();
-  @Output() reorderWindowsChange = new EventEmitter<string[]>();
+  readonly activeWindowChange = output();
+  readonly newWindowChange = output();
+  readonly removeWindowChange = output();
+  readonly duplicateWindowChange = output();
+  readonly windowNameChange = output();
+  readonly reopenClosedWindowChange = output();
+  readonly reorderWindowsChange = output<string[]>();
 
   @HostBinding('class.window-switcher__no-scrollbar') get noScrollbar() {
     return !this.enableScrollbar();
@@ -48,7 +48,7 @@ export class WindowSwitcherComponent {
   }
 
   onClickWindow(windowId: string) {
-    this.activeWindowChange.next(windowId);
+    this.activeWindowChange.emit(windowId);
   }
 
   editWindowNameInput(windowId: string) {
@@ -57,7 +57,7 @@ export class WindowSwitcherComponent {
 
   saveWindowName(windowId: string, windowName: string) {
     if (this.windowIdEditing) {
-      this.windowNameChange.next({ windowId, windowName });
+      this.windowNameChange.emit({ windowId, windowName });
       this.windowIdEditing = '';
     }
   }
@@ -65,11 +65,11 @@ export class WindowSwitcherComponent {
   moveWindow(currentPosition: number, newPosition: number) {
     const windowIds = [...this.windowIds()];
     moveItemInArray(windowIds, currentPosition, newPosition);
-    this.reorderWindowsChange.next(windowIds);
+    this.reorderWindowsChange.emit(windowIds);
   }
 
   closeWindow(windowId: string) {
-    return this.removeWindowChange.next(windowId);
+    return this.removeWindowChange.emit(windowId);
   }
 
   closeWindowsToTheRight(curIndex: number) {
@@ -89,7 +89,7 @@ export class WindowSwitcherComponent {
   }
 
   duplicateWindow(windowId: string) {
-    this.duplicateWindowChange.next(windowId);
+    this.duplicateWindowChange.emit(windowId);
   }
 
   reopenClosedTab() {

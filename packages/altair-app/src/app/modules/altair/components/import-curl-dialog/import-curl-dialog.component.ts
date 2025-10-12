@@ -1,9 +1,8 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
-  input
+  input,
+  output
 } from '@angular/core';
 
 @Component({
@@ -15,13 +14,13 @@ import {
 })
 export class ImportCurlDialogComponent {
   readonly showImportCurlDialog = input(false);
-  @Output() toggleDialogChange = new EventEmitter();
-  @Output() importCurlChange = new EventEmitter<string>();
+  readonly toggleDialogChange = output();
+  readonly importCurlChange = output<string>();
 
   textAreaInput = '';
 
   importInput() {
-    this.toggleDialogChange.next(false);
-    this.importCurlChange.next(this.textAreaInput);
+    this.toggleDialogChange.emit(false);
+    this.importCurlChange.emit(this.textAreaInput);
   }
 }

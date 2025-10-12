@@ -1,9 +1,8 @@
 import {
   Directive,
-  Output,
-  EventEmitter,
   HostBinding,
   HostListener,
+  output
 } from '@angular/core';
 
 @Directive({
@@ -11,7 +10,7 @@ import {
   standalone: false,
 })
 export class FileDropDirective {
-  @Output() fileDroppedChange = new EventEmitter<any>();
+  readonly fileDroppedChange = output<any>();
 
   // Dragover listener
   @HostListener('dragover', ['$event']) onDragOver(evt: DragEvent) {

@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, ChangeDetectionStrategy, input, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, inject, output } from '@angular/core';
 import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
@@ -18,8 +18,8 @@ export class PluginManagerComponent {
   readonly showPluginManager = input(false);
   readonly settings = input<SettingsState>();
 
-  @Output() toggleDialogChange = new EventEmitter();
-  @Output() settingsJsonChange = new EventEmitter();
+  readonly toggleDialogChange = output();
+  readonly settingsJsonChange = output();
 
   remotePlugins$: Observable<APSPluginDefinition[]>;
   selectedPluginItem?: APSPluginDefinition;

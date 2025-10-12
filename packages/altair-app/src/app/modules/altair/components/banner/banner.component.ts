@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   input,
   Input,
-  Output,
+  output
 } from '@angular/core';
 import { Banner } from '../../services/banner/banner.service';
 
@@ -17,7 +16,7 @@ import { Banner } from '../../services/banner/banner.service';
 })
 export class BannerComponent {
   readonly banner = input<Banner>();
-  @Output() dismiss = new EventEmitter<string>();
+  readonly dismiss = output<string>();
 
   onDismiss() {
     this.dismiss.emit(this.banner()?.id);

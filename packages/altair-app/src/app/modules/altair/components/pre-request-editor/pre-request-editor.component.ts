@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
-  input
+  input,
+  output
 } from '@angular/core';
 
 import { PrerequestState } from 'altair-graphql-core/build/types/state/prerequest.interfaces';
@@ -22,8 +21,8 @@ export class PreRequestEditorComponent {
     enabled: false,
     script: '',
 });
-  @Output() preRequestScriptChange = new EventEmitter();
-  @Output() preRequestEnabledChange = new EventEmitter();
+  readonly preRequestScriptChange = output();
+  readonly preRequestEnabledChange = output();
 
   editorExtensions = getRequestScriptExtensions(
     getGlobalContext(

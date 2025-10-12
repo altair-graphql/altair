@@ -1,13 +1,12 @@
 import { ICreateTeamDto, ReturnedTeamMembership } from '@altairgraphql/api-utils';
 import {
   Component,
-  EventEmitter,
-  Output,
   computed,
   effect,
   input,
   signal,
   inject,
+  output
 } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
@@ -32,8 +31,8 @@ export class TeamsDialogComponent {
 
   readonly teams = input<Team[]>();
   readonly showDialog = input(true);
-  @Output() toggleDialogChange = new EventEmitter<boolean>();
-  @Output() reloadTeamChange = new EventEmitter<string>();
+  readonly toggleDialogChange = output<boolean>();
+  readonly reloadTeamChange = output<string>();
 
   readonly teamName = computed(() => this.selectedTeam()?.name ?? '');
   readonly teamDescription = computed(() => this.selectedTeam()?.description ?? '');
@@ -96,6 +95,7 @@ export class TeamsDialogComponent {
   async onDeleteTeam(id: string) {
     if (confirm('Are you sure you want to delete this team?')) {
       await this.accountService.deleteTeam(id);
+      // TODO: The 'emit' function requires a mandatory string argument
       this.reloadTeamChange.emit();
     }
   }
@@ -128,6 +128,7 @@ export class TeamsDialogComponent {
 
       this.showTeamForm.set(false);
       this.resetTeamForm();
+      // TODO: The 'emit' function requires a mandatory string argument
       this.reloadTeamChange.emit();
     } catch (err) {
       const rawError = await getErrorResponse(err);
@@ -192,6 +193,7 @@ export class TeamsDialogComponent {
       }
 
       this.resetMemberForm();
+      // TODO: The 'emit' function requires a mandatory string argument
       this.reloadTeamChange.emit();
     } catch (err) {
       const rawError = await getErrorResponse(err);

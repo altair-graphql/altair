@@ -2,8 +2,6 @@ import {
   Component,
   OnInit,
   AfterViewInit,
-  Output,
-  EventEmitter,
   ViewChild,
   HostBinding,
   NgZone,
@@ -11,6 +9,7 @@ import {
   computed,
   inject,
   effect,
+  output
 } from '@angular/core';
 
 import { updateSchema, showInDocsCommand, fillAllFieldsCommands } from 'cm6-graphql';
@@ -79,30 +78,30 @@ export class QueryEditorComponent implements OnInit, AfterViewInit {
 
   readonly authorizationState = input<AuthorizationState>();
 
-  @Output() preRequestScriptChange = new EventEmitter();
-  @Output() preRequestEnabledChange = new EventEmitter();
+  readonly preRequestScriptChange = output();
+  readonly preRequestEnabledChange = output();
 
-  @Output() postRequestScriptChange = new EventEmitter();
-  @Output() postRequestEnabledChange = new EventEmitter();
+  readonly postRequestScriptChange = output();
+  readonly postRequestEnabledChange = output();
 
-  @Output() sendRequest = new EventEmitter();
-  @Output() queryChange = new EventEmitter<string>();
-  @Output() variablesChange = new EventEmitter();
-  @Output() toggleVariableDialog = new EventEmitter();
-  @Output() addFileVariableChange = new EventEmitter<{
+  readonly sendRequest = output();
+  readonly queryChange = output<string>();
+  readonly variablesChange = output();
+  readonly toggleVariableDialog = output();
+  readonly addFileVariableChange = output<{
     name: string;
     data: File[];
     isMultiple: boolean;
-  }>();
-  @Output() fileVariableNameChange = new EventEmitter();
-  @Output() fileVariableIsMultipleChange = new EventEmitter();
-  @Output() fileVariableDataChange = new EventEmitter();
-  @Output() deleteFileVariableChange = new EventEmitter();
-  @Output() queryEditorStateChange = new EventEmitter<QueryEditorState>();
-  @Output() showTokenInDocsChange = new EventEmitter();
+}>();
+  readonly fileVariableNameChange = output();
+  readonly fileVariableIsMultipleChange = output();
+  readonly fileVariableDataChange = output();
+  readonly deleteFileVariableChange = output();
+  readonly queryEditorStateChange = output<QueryEditorState>();
+  readonly showTokenInDocsChange = output();
 
-  @Output() authTypeChange = new EventEmitter<AuthorizationTypes>();
-  @Output() authDataChange = new EventEmitter();
+  readonly authTypeChange = output<AuthorizationTypes>();
+  readonly authDataChange = output();
 
   // TODO: Add static: true
   // eslint-disable-next-line @angular-eslint/prefer-signals
@@ -248,7 +247,7 @@ export class QueryEditorComponent implements OnInit, AfterViewInit {
       const currentCursorIdx = vu.state.selection.main.head;
       if (vu.focusChanged || currentCursorIdx !== previousCursorIdx) {
         this.zone.run(() => {
-          this.queryEditorStateChange.next({
+          this.queryEditorStateChange.emit({
             isFocused: vu.view.hasFocus,
             cursorIndex: currentCursorIdx,
           });
@@ -261,13 +260,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit {
 
   onShowInDocsByReference(reference: TODO) {
     if (reference.field && reference.type) {
-      this.showTokenInDocsChange.next({
+      this.showTokenInDocsChange.emit({
         view: 'field',
         parentType: reference.type.inspect(),
         name: reference.field.name,
       });
     } else if (reference.type) {
-      this.showTokenInDocsChange.next({
+      this.showTokenInDocsChange.emit({
         view: 'type',
         name: reference.type.inspect(),
       });
@@ -282,13 +281,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit {
         onShowInDocs: (field, type, parentType) => {
           this.zone.run(() => {
             if (field && parentType) {
-              this.showTokenInDocsChange.next({
+              this.showTokenInDocsChange.emit({
                 view: 'field',
                 parentType: parentType,
                 name: field,
               });
             } else if (type) {
-              this.showTokenInDocsChange.next({
+              this.showTokenInDocsChange.emit({
                 view: 'type',
                 name: type,
               });
@@ -310,14 +309,14 @@ export class QueryEditorComponent implements OnInit, AfterViewInit {
               }
             );
 
-            this.queryChange.next(updatedQuery.result);
+            this.queryChange.emit(updatedQuery.result);
             view.dispatch({
               selection: { anchor: posToOffset(view.state.doc, cursor) },
             });
           });
         },
         onRunActionClick: (operationType, operationName) => {
-          this.zone.run(() => this.sendRequest.next({ operationName }));
+          this.zone.run(() => this.sendRequest.emit({ operationName }));
         },
         onSelectFiles: (variableName, files, isMultiple) => {
           this.zone.run(() =>

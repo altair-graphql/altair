@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
   input,
+  output
 } from '@angular/core';
 import { AltairPanel } from 'altair-graphql-core/build/plugin/panel';
 import {
@@ -34,24 +33,24 @@ export class HeaderComponent {
   readonly activeEnvironment = input<EnvironmentState>();
   readonly environments = input<EnvironmentsState>();
   readonly settings = input<SettingsState>();
-  @Output() activeWindowChange = new EventEmitter<string>();
-  @Output() newWindowChange = new EventEmitter();
-  @Output() removeWindowChange = new EventEmitter<string>();
-  @Output() duplicateWindowChange = new EventEmitter<string>();
-  @Output() windowNameChange = new EventEmitter<{
+  readonly activeWindowChange = output<string>();
+  readonly newWindowChange = output();
+  readonly removeWindowChange = output<string>();
+  readonly duplicateWindowChange = output<string>();
+  readonly windowNameChange = output<{
     windowId: string;
     windowName: string;
-  }>();
-  @Output() reorderWindowsChange = new EventEmitter<string[]>();
-  @Output() reopenClosedWindowChange = new EventEmitter();
-  @Output() togglePanelActiveChange = new EventEmitter<AltairPanel>();
-  @Output() selectActiveEnvironmentChange = new EventEmitter<string | undefined>();
-  @Output() toggleEnvironmentManagerChange = new EventEmitter<boolean>();
-  @Output() showSettingsDialogChange = new EventEmitter();
-  @Output() importWindowChange = new EventEmitter();
-  @Output() showImportCurlDialogChange = new EventEmitter<boolean>();
-  @Output() exportBackupDataChange = new EventEmitter();
-  @Output() importBackupDataChange = new EventEmitter();
+}>();
+  readonly reorderWindowsChange = output<string[]>();
+  readonly reopenClosedWindowChange = output();
+  readonly togglePanelActiveChange = output<AltairPanel>();
+  readonly selectActiveEnvironmentChange = output<string | undefined>();
+  readonly toggleEnvironmentManagerChange = output<boolean>();
+  readonly showSettingsDialogChange = output();
+  readonly importWindowChange = output();
+  readonly showImportCurlDialogChange = output<boolean>();
+  readonly exportBackupDataChange = output();
+  readonly importBackupDataChange = output();
 
   openLink(e: Event, url: string) {
     externalLink(url, e);

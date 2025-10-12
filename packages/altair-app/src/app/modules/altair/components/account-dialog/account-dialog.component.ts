@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
   input,
+  output
 } from '@angular/core';
 import { AccountState } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { apiClient } from '../../services/api/api.service';
@@ -20,9 +19,9 @@ import { IdentityProvider } from '@altairgraphql/db';
 export class AccountDialogComponent {
   readonly showDialog = input(true);
   readonly account = input<AccountState>();
-  @Output() toggleDialogChange = new EventEmitter<boolean>();
-  @Output() handleLoginChange = new EventEmitter<IdentityProvider>();
-  @Output() logoutChange = new EventEmitter();
+  readonly toggleDialogChange = output<boolean>();
+  readonly handleLoginChange = output<IdentityProvider>();
+  readonly logoutChange = output();
 
   submitLogin(provider: IdentityProvider = IdentityProvider.GOOGLE) {
     this.handleLoginChange.emit(provider);

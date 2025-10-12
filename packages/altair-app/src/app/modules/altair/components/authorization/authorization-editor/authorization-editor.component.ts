@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, input, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, input, inject, output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import {
   AUTHORIZATION_TYPES,
@@ -31,7 +31,7 @@ export class AuthorizationEditorComponent implements OnInit {
     map(({ type }) => type ?? DEFAULT_AUTHORIZATION_TYPE),
     distinctUntilChanged()
   );
-  @Output() authDataChange = new EventEmitter();
+  readonly authDataChange = output();
   AUTH_MAPPING = AUTHORIZATION_MAPPING;
   AUTH_TYPES = AUTHORIZATION_TYPE_LIST;
 

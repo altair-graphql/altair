@@ -1,9 +1,8 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
-  input
+  input,
+  output
 } from '@angular/core';
 
 @Component({
@@ -16,12 +15,12 @@ import {
 export class ActionBarComponent {
   readonly showDocs = input(false);
   readonly isSubscribed = input(false);
-  @Output() toggleHeaderDialog = new EventEmitter();
-  @Output() toggleVariableDialog = new EventEmitter();
-  @Output() toggleDocsChange = new EventEmitter();
-  @Output() reloadDocsChange = new EventEmitter();
-  @Output() prettifyCodeChange = new EventEmitter();
-  @Output() sendRequest = new EventEmitter();
-  @Output() clearEditorChange = new EventEmitter();
-  @Output() toggleSubscriptionUrlDialog = new EventEmitter();
+  readonly toggleHeaderDialog = output();
+  readonly toggleVariableDialog = output();
+  readonly toggleDocsChange = output();
+  readonly reloadDocsChange = output();
+  readonly prettifyCodeChange = output();
+  readonly sendRequest = output();
+  readonly clearEditorChange = output();
+  readonly toggleSubscriptionUrlDialog = output();
 }

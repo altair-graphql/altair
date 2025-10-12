@@ -1,9 +1,8 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
   input,
+  output
 } from '@angular/core';
 
 @Component({
@@ -16,8 +15,8 @@ import {
 export class SetVariableDialogComponent {
   readonly showVariableDialog = input(false);
   readonly variables = input('');
-  @Output() toggleVariableDialog = new EventEmitter();
-  @Output() variablesChange = new EventEmitter();
+  readonly toggleVariableDialog = output();
+  readonly variablesChange = output();
 
   trackByFn<T>(index: number, item: T) {
     return index;

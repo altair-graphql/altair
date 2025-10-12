@@ -1,11 +1,10 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
   input,
   inject,
   linkedSignal,
+  output
 } from '@angular/core';
 import {
   IQuery,
@@ -30,24 +29,24 @@ export class QueryCollectionItemComponent {
   readonly queriesSortBy = input<SortByOptions>('newest');
   readonly expanded = input(true);
 
-  @Output() selectQueryChange = new EventEmitter();
-  @Output() deleteQueryChange: EventEmitter<{
+  readonly selectQueryChange = output();
+  readonly deleteQueryChange = output<{
     collectionId: string;
     query: IQuery;
-  }> = new EventEmitter();
-  @Output() deleteCollectionChange: EventEmitter<{
+}>();
+  readonly deleteCollectionChange = output<{
     collectionId: string;
-  }> = new EventEmitter();
-  @Output() editCollectionChange: EventEmitter<{
+}>();
+  readonly editCollectionChange = output<{
     collection: IQueryCollectionTree;
-  }> = new EventEmitter();
-  @Output() syncCollectionChange: EventEmitter<{
+}>();
+  readonly syncCollectionChange = output<{
     collection: IQueryCollectionTree;
-  }> = new EventEmitter();
-  @Output() exportCollectionChange = new EventEmitter();
-  @Output() sortCollectionQueriesChange = new EventEmitter<SortByOptions>();
-  @Output() showQueryRevisionsChange = new EventEmitter<string>();
-  @Output() copyQueryShareLinkChange = new EventEmitter<string>();
+}>();
+  readonly exportCollectionChange = output();
+  readonly sortCollectionQueriesChange = output<SortByOptions>();
+  readonly showQueryRevisionsChange = output<string>();
+  readonly copyQueryShareLinkChange = output<string>();
 
   readonly showContent = linkedSignal(() => this.expanded());
 

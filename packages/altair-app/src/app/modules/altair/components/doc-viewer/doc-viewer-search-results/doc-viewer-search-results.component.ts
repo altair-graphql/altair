@@ -1,9 +1,8 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
   input,
+  output
 } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { GraphQLArgument } from 'graphql';
@@ -49,9 +48,9 @@ import { DocumentIndexEntry } from '../models';
 export class DocViewerSearchResultsComponent {
   readonly results = input<DocumentIndexEntry[]>([]);
 
-  @Output() goToFieldChange = new EventEmitter();
-  @Output() goToTypeChange = new EventEmitter();
-  @Output() goToDirectiveChange = new EventEmitter();
+  readonly goToFieldChange = output();
+  readonly goToTypeChange = output();
+  readonly goToDirectiveChange = output();
 
   /**
    * Go to an item based on the category
@@ -74,15 +73,15 @@ export class DocViewerSearchResultsComponent {
   }
 
   goToField(name: string, parentType: string) {
-    this.goToFieldChange.next({ name, parentType });
+    this.goToFieldChange.emit({ name, parentType });
   }
 
   goToType(name: string) {
-    this.goToTypeChange.next({ name });
+    this.goToTypeChange.emit({ name });
   }
 
   goToDirective(name: string) {
-    this.goToDirectiveChange.next({ name });
+    this.goToDirectiveChange.emit({ name });
   }
 
   /**

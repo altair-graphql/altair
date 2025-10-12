@@ -1,10 +1,9 @@
 import {
   Component,
-  EventEmitter,
-  Output,
   ChangeDetectionStrategy,
   input,
   effect,
+  output
 } from '@angular/core';
 import {
   getSchemaFormProperty,
@@ -24,7 +23,7 @@ export class SchemaFormComponent {
   readonly schema = input<JSONSchema6>({});
   readonly data = input<unknown>(null);
 
-  @Output() dataChange = new EventEmitter<IDictionary>();
+  readonly dataChange = output<IDictionary>();
 
   schemaProperties: SchemaFormProperty[] = [];
   formData: IDictionary = {};
@@ -50,6 +49,6 @@ export class SchemaFormComponent {
 
   onInput() {
     // console.log(event, item);
-    this.dataChange.next(this.formData);
+    this.dataChange.emit(this.formData);
   }
 }

@@ -3,7 +3,7 @@
     <label
       nz-checkbox
       [ngModel]="preRequest().enabled"
-      (ngModelChange)="preRequestEnabledChange.next($event)"
+      (ngModelChange)="preRequestEnabledChange.emit($event)"
       >{{ 'PRE_REQUEST_ENABLE_TEXT' | translate }}</label
     >
   </div>

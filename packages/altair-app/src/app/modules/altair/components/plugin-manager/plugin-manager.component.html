@@ -1,12 +1,12 @@
 <nz-modal
   [nzVisible]="showPluginManager()"
-  (nzVisibleChange)="toggleDialogChange.next($event)"
+  (nzVisibleChange)="toggleDialogChange.emit($event)"
   nzCloseIcon="close-circle"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
   [nzWidth]="870"
-  (nzOnCancel)="toggleDialogChange.next($event)"
+  (nzOnCancel)="toggleDialogChange.emit($event)"
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
@@ -117,7 +117,7 @@
       <button
         type="button"
         class="btn btn--orimary right"
-        (click)="toggleDialogChange.next(false)"
+        (click)="toggleDialogChange.emit(false)"
       >
         {{ 'SAVE_BUTTON' | translate }}
       </button>

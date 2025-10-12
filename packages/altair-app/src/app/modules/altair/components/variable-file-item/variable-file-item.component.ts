@@ -1,14 +1,13 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   ViewChild,
   ElementRef,
   ChangeDetectionStrategy,
   input,
   inject,
   effect,
+  output
 } from '@angular/core';
 import { FileVariable } from 'altair-graphql-core/build/types/state/variable.interfaces';
 import { StorageService } from '../../services';
@@ -26,13 +25,13 @@ export class VariableFileItemComponent implements OnInit {
 
   readonly fileVariable = input<FileVariable>();
 
-  @Output() fileVariableNameChange = new EventEmitter();
-  @Output() fileVariableDataChange = new EventEmitter<{
+  readonly fileVariableNameChange = output();
+  readonly fileVariableDataChange = output<{
     files: File[];
     fromCache?: boolean;
-  }>();
-  @Output() fileVariableIsMultipleChange = new EventEmitter();
-  @Output() deleteFileVariableChange = new EventEmitter();
+}>();
+  readonly fileVariableIsMultipleChange = output();
+  readonly deleteFileVariableChange = output();
 
   // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('fileEl', { static: true }) fileEl?: ElementRef<HTMLInputElement>;

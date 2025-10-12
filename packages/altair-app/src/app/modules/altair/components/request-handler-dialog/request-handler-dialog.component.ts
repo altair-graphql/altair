@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
-  input
+  input,
+  output
 } from '@angular/core';
 import { json } from '@codemirror/lang-json';
 import { Extension } from '@codemirror/state';
@@ -30,8 +29,8 @@ export class RequestHandlerDialogComponent {
   readonly selectedSubscriptionRequestHandlerId = input<RequestHandlerIds>();
   readonly requestHandlers = input<RequestHandlerData[]>([]);
   readonly showDialog = input(false);
-  @Output() toggleDialogChange = new EventEmitter();
-  @Output() requestHandlerInfoChange = new EventEmitter<RequestHandlerInfo>();
+  readonly toggleDialogChange = output();
+  readonly requestHandlerInfoChange = output<RequestHandlerInfo>();
 
   connectionParamsExtensions: Extension[] = [json()];
 
