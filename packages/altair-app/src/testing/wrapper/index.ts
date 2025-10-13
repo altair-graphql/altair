@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { DebugElement, EventEmitter, Type } from '@angular/core';
+import { DebugElement, EventEmitter, OutputEmitterRef, Type } from '@angular/core';
 import {
   setProps,
   setValue,
@@ -90,8 +90,10 @@ export class NgxTestWrapper<C> {
   }
 
   emitted(): IDictionary<any[]> | undefined;
-  emitted(event?: FilteredKeys<C, typeof EventEmitter>): any[] | undefined;
-  emitted(event?: FilteredKeys<C, typeof EventEmitter>) {
+  emitted(
+    event?: FilteredKeys<C, typeof EventEmitter | OutputEmitterRef<any>>
+  ): any[] | undefined;
+  emitted(event?: FilteredKeys<C, typeof EventEmitter | OutputEmitterRef<any>>) {
     if (this._isWrapper) {
       const emitted = this._testHostFixture.componentInstance.outputList
         .map((prop) => {
