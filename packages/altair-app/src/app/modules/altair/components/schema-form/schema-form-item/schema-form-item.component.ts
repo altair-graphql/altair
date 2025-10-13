@@ -5,7 +5,7 @@ import {
   model,
   effect,
   inject,
-  output
+  output,
 } from '@angular/core';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
@@ -23,7 +23,7 @@ export class SchemaFormItemComponent {
   readonly item = input<SchemaFormProperty>();
   readonly data = model<unknown>();
 
-  readonly dataChange = output();
+  readonly dataChange = output<unknown>();
 
   constructor() {
     // effect(() => {

@@ -5,7 +5,7 @@ import {
   ViewChild,
   computed,
   input,
-  output
+  output,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
@@ -35,7 +35,7 @@ export class WindowSwitcherItemComponent {
   readonly clickWindowChange = output<string>();
   readonly editWindowNameInput = output<string>();
   readonly saveWindowNameChange = output<string>();
-  readonly closeWindowChange = output<unknown>();
+  readonly closeWindowChange = output();
 
   @ViewChild('wTitle') private wTitle!: ElementRef<HTMLElement>;
 
