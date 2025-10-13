@@ -1,14 +1,13 @@
 import {
   Component,
   OnInit,
-  Output,
-  EventEmitter,
   input,
   signal,
   computed,
   Signal,
   effect,
   inject,
+  output,
 } from '@angular/core';
 import {
   IQueryCollection,
@@ -49,25 +48,34 @@ export class QueryCollectionsComponent implements OnInit {
   readonly queriesSortBy = input<SortByOptions>('newest');
   readonly loggedIn = input(false);
 
-  @Output() loadCollectionsChange = new EventEmitter();
-  @Output() selectQueryChange = new EventEmitter();
-  @Output() deleteQueryChange = new EventEmitter();
-  @Output() deleteCollectionChange: EventEmitter<{
+  readonly loadCollectionsChange = output();
+  readonly selectQueryChange = output<{
+    query: IQuery;
     collectionId: string;
-  }> = new EventEmitter();
-  @Output() editCollectionChange: EventEmitter<{
+    windowIdInCollection: string;
+  }>();
+  readonly deleteQueryChange = output<{
+    collectionId: string;
+    query: IQuery;
+  }>();
+  readonly deleteCollectionChange = output<{
+    collectionId: string;
+  }>();
+  readonly editCollectionChange = output<{
     collection: IQueryCollection;
-  }> = new EventEmitter();
-  @Output() syncCollectionChange: EventEmitter<{
+  }>();
+  readonly syncCollectionChange = output<{
     collection: IQueryCollection;
-  }> = new EventEmitter();
-  @Output() exportCollectionChange = new EventEmitter();
-  @Output() importCollectionsChange = new EventEmitter();
-  @Output() syncCollectionsChange = new EventEmitter();
-  @Output() sortCollectionsChange = new EventEmitter<SortByOptions>();
-  @Output() sortCollectionQueriesChange = new EventEmitter<SortByOptions>();
-  @Output() showQueryRevisionsChange = new EventEmitter<string>();
-  @Output() copyQueryShareLinkChange = new EventEmitter<string>();
+  }>();
+  readonly exportCollectionChange = output<{
+    collectionId: string;
+  }>();
+  readonly importCollectionsChange = output();
+  readonly syncCollectionsChange = output();
+  readonly sortCollectionsChange = output<SortByOptions>();
+  readonly sortCollectionQueriesChange = output<SortByOptions>();
+  readonly showQueryRevisionsChange = output<string>();
+  readonly copyQueryShareLinkChange = output<string>();
 
   readonly workspaceId = signal('');
   readonly searchInput = signal('');

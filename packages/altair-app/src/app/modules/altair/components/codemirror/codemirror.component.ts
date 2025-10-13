@@ -3,16 +3,15 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
   HostBinding,
   NgZone,
   OnDestroy,
-  Output,
   ViewChild,
   input,
   signal,
   effect,
   inject,
+  output
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EditorState, Extension, Prec, StateEffect } from '@codemirror/state';
@@ -77,7 +76,7 @@ export class CodemirrorComponent
   // Specifies the editor should not have any default extensions
   readonly bare = input(false);
 
-  @Output() focusChange = new EventEmitter<boolean>();
+  readonly focusChange = output<boolean>();
 
   @ViewChild('ref') ref!: ElementRef<HTMLTextAreaElement>;
 

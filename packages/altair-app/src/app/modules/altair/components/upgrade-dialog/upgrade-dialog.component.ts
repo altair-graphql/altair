@@ -2,10 +2,9 @@ import { IPlan, IPlanInfo } from '@altairgraphql/api-utils';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
   computed,
   input,
+  output
 } from '@angular/core';
 import { apiClient } from '../../services/api/api.service';
 import { externalLink } from '../../utils';
@@ -21,7 +20,7 @@ export class UpgradeDialogComponent {
   readonly showDialog = input(true);
   readonly userPlan = input<IPlan>();
   readonly planInfos = input<IPlanInfo[]>([]);
-  @Output() toggleDialogChange = new EventEmitter<boolean>();
+  readonly toggleDialogChange = output<boolean>();
 
   readonly proPlanInfo = computed<IPlanInfo | undefined>(() => {
     return this.planInfos()?.find((planInfo: IPlanInfo) => planInfo.role === 'pro');

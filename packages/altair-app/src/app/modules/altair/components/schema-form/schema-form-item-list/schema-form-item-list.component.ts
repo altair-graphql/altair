@@ -1,11 +1,10 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
   input,
   model,
   effect,
+  output
 } from '@angular/core';
 import {
   getSchemaFormProperty,
@@ -24,7 +23,7 @@ export class SchemaFormItemListComponent {
   readonly item = input<SchemaFormProperty>();
   readonly data = model<unknown[]>();
 
-  @Output() dataChange = new EventEmitter();
+  readonly dataChange = output();
 
   constructor() {
     // effect(() => {

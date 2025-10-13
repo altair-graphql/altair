@@ -1,10 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  input,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-set-variable-dialog',
@@ -16,8 +10,8 @@ import {
 export class SetVariableDialogComponent {
   readonly showVariableDialog = input(false);
   readonly variables = input('');
-  @Output() toggleVariableDialog = new EventEmitter();
-  @Output() variablesChange = new EventEmitter();
+  readonly toggleVariableDialog = output<boolean>();
+  readonly variablesChange = output<string>();
 
   trackByFn<T>(index: number, item: T) {
     return index;

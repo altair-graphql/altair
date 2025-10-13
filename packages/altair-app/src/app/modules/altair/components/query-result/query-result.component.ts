@@ -1,8 +1,6 @@
 import {
   Component,
-  Output,
   ViewChild,
-  EventEmitter,
   ElementRef,
   ViewChildren,
   QueryList,
@@ -11,6 +9,7 @@ import {
   input,
   OnInit,
   computed,
+  output,
 } from '@angular/core';
 
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
@@ -53,12 +52,12 @@ export class QueryResultComponent implements AfterViewInit {
   readonly bottomPanels = input<AltairPanel[]>([]);
   readonly hideExtensions = input(false);
 
-  @Output() downloadResultChange = new EventEmitter<string>();
-  @Output() clearResultChange = new EventEmitter();
-  @Output() cancelRequestChange = new EventEmitter();
-  @Output() autoscrollResponseListChange = new EventEmitter();
-  @Output() uiActionExecuteChange = new EventEmitter();
-  @Output() bottomPanelActiveToggle = new EventEmitter<AltairPanel>();
+  readonly downloadResultChange = output<string>();
+  readonly clearResultChange = output();
+  readonly cancelRequestChange = output();
+  readonly autoscrollResponseListChange = output();
+  readonly uiActionExecuteChange = output<AltairUiAction>();
+  readonly bottomPanelActiveToggle = output<AltairPanel>();
 
   // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('queryResultList', { static: false })

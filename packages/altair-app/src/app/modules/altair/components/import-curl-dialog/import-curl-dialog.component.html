@@ -1,11 +1,11 @@
 <nz-modal
   [nzVisible]="showImportCurlDialog()"
-  (nzVisibleChange)="toggleDialogChange.next($event)"
+  (nzVisibleChange)="toggleDialogChange.emit($event)"
   nzCloseIcon="close-circle"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
-  (nzOnCancel)="toggleDialogChange.next($event)"
+  (nzOnCancel)="toggleDialogChange.emit($event)"
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">

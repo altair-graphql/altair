@@ -1,10 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  input,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { GraphQLSchema, GraphQLDirective, GraphQLArgument } from 'graphql';
 
 @Component({
@@ -19,10 +13,12 @@ export class DocViewerDirectiveComponent {
 
   readonly gqlSchema = input<GraphQLSchema>();
 
-  @Output() goToTypeChange = new EventEmitter();
+  readonly goToTypeChange = output<{
+    name: string;
+  }>();
 
   goToType(name: string) {
-    this.goToTypeChange.next({ name });
+    this.goToTypeChange.emit({ name });
   }
 
   argTrackBy(index: number, arg: GraphQLArgument) {

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit, Output, input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  input,
+  inject,
+} from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ApiKeyAuthorizationProviderInput } from 'altair-graphql-core/build/authorization/providers/api-key';
 
@@ -17,7 +24,7 @@ export class AuthorizationApikeyComponent implements OnInit {
     headerValue: '',
   });
   readonly authData = input<unknown>();
-  @Output() authDataChange = this.apiKeyForm.valueChanges;
+  readonly authDataChange = outputFromObservable(this.apiKeyForm.valueChanges);
 
   ngOnInit(): void {
     const authData = this.authData();

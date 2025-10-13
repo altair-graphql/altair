@@ -1,13 +1,15 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
-  Output,
   input,
   model,
+  output,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import { HTTP_VERBS } from 'altair-graphql-core/build/types/state/query.interfaces';
+import {
+  HTTP_VERBS,
+  HttpVerb,
+} from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
 import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
 
@@ -30,15 +32,15 @@ export class UrlBoxComponent {
   readonly hasUnsavedChanges = input(false);
   readonly windowId = input('');
 
-  @Output() toggleDocsChange = new EventEmitter();
-  @Output() reloadDocsChange = new EventEmitter();
-  @Output() addToCollectionChange = new EventEmitter();
-  @Output() sendRequest = new EventEmitter();
-  @Output() urlChange = new EventEmitter();
-  @Output() httpVerbChange = new EventEmitter();
-  @Output() selectedOperationChange = new EventEmitter();
-  @Output() exportWindowChange = new EventEmitter();
-  @Output() updateQueryInCollectionChange = new EventEmitter();
+  readonly toggleDocsChange = output();
+  readonly reloadDocsChange = output();
+  readonly addToCollectionChange = output();
+  readonly sendRequest = output();
+  readonly urlChange = output<string>();
+  readonly httpVerbChange = output<HttpVerb>();
+  readonly selectedOperationChange = output<string | undefined>();
+  readonly exportWindowChange = output();
+  readonly updateQueryInCollectionChange = output();
 
   methods = HTTP_VERBS;
 
@@ -49,7 +51,7 @@ export class UrlBoxComponent {
     this.urlChange.emit(sanitizedUrl);
   }
 
-  setVerb(verb: string) {
+  setVerb(verb: HttpVerb) {
     this.httpVerbChange.emit(verb);
   }
 

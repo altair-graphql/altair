@@ -1,11 +1,10 @@
 import {
   Component,
-  EventEmitter,
-  Output,
   input,
   inject,
   effect,
   signal,
+  output
 } from '@angular/core';
 import { ApiService } from '../../services';
 import { QueryItemRevision } from '@altairgraphql/db';
@@ -22,8 +21,8 @@ export class QueryRevisionDialogComponent {
 
   readonly showDialog = input(true);
   readonly queryId = input('');
-  @Output() restoreRevision = new EventEmitter<QueryItemRevision>();
-  @Output() toggleDialogChange = new EventEmitter<boolean>();
+  readonly restoreRevision = output<QueryItemRevision>();
+  readonly toggleDialogChange = output<boolean>();
 
   readonly revisions = signal<QueryItemRevisionWithUsername[]>([]);
 

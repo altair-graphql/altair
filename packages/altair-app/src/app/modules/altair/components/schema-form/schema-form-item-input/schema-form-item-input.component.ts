@@ -1,11 +1,10 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   input,
   model,
   effect,
   inject,
+  output
 } from '@angular/core';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 import { ThemeRegistryService } from '../../../services';
@@ -22,7 +21,7 @@ export class SchemaFormItemInputComponent {
   readonly item = input<SchemaFormProperty>();
   readonly data = model<string>();
 
-  @Output() dataChange = new EventEmitter();
+  readonly dataChange = output();
 
   constructor() {
     // effect(() => {

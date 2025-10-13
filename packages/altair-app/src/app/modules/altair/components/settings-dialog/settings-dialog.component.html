@@ -1,12 +1,12 @@
 <nz-modal
   [nzVisible]="showSettingsDialog()"
-  (nzVisibleChange)="toggleDialogChange.next($event)"
+  (nzVisibleChange)="toggleDialogChange.emit($event)"
   nzCloseIcon="close-circle"
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
   [nzWidth]="800"
-  (nzOnCancel)="toggleDialogChange.next($event)"
+  (nzOnCancel)="toggleDialogChange.emit($event)"
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">

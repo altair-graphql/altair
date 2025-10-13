@@ -2,11 +2,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
-  Output,
   ViewChild,
   computed,
   input,
+  output,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
@@ -33,10 +32,10 @@ export class WindowSwitcherItemComponent {
   readonly isEditing = input(false);
   readonly isClosable = input(true);
   readonly collections = input<IQueryCollection[]>([]);
-  @Output() clickWindowChange = new EventEmitter<string>();
-  @Output() editWindowNameInput = new EventEmitter<string>();
-  @Output() saveWindowNameChange = new EventEmitter<string>();
-  @Output() closeWindowChange = new EventEmitter<unknown>();
+  readonly clickWindowChange = output<string>();
+  readonly editWindowNameInput = output<string>();
+  readonly saveWindowNameChange = output<string>();
+  readonly closeWindowChange = output();
 
   @ViewChild('wTitle') private wTitle!: ElementRef<HTMLElement>;
 

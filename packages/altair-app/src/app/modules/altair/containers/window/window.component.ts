@@ -391,7 +391,7 @@ export class WindowComponent implements OnInit {
     this.store.dispatch(new queryActions.CancelQueryRequestAction(this.windowId()));
   }
 
-  selectOperation(selectedOperation: string) {
+  selectOperation(selectedOperation = '') {
     this.store.dispatch(
       new queryActions.SetSelectedOperationAction(this.windowId(), {
         selectedOperation,
@@ -424,7 +424,7 @@ export class WindowComponent implements OnInit {
     }
   }
 
-  toggleVariableDialog(isOpen = undefined) {
+  toggleVariableDialog(isOpen: boolean | undefined = undefined) {
     if (this.showVariableDialog !== isOpen) {
       this.store.dispatch(
         new dialogsActions.ToggleVariableDialogAction(this.windowId())

@@ -1,7 +1,5 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   HostBinding,
   ElementRef,
   ViewChild,
@@ -10,6 +8,7 @@ import {
   effect,
   signal,
   inject,
+  output,
 } from '@angular/core';
 
 import { debug } from '../../../utils/logger';
@@ -46,11 +45,16 @@ export class DocViewerComponent {
   readonly docView = input<DocView>({ view: 'root' });
   readonly lastUpdatedAt = input<number>();
 
-  @Output() toggleDocsChange = new EventEmitter();
-  @Output() setDocViewChange = new EventEmitter<DocView>();
-  @Output() addQueryToEditorChange = new EventEmitter();
-  @Output() exportSDLChange = new EventEmitter();
-  @Output() loadSchemaChange = new EventEmitter();
+  readonly toggleDocsChange = output();
+  readonly setDocViewChange = output<DocView>();
+  readonly addQueryToEditorChange = output<{
+    query: string;
+    meta: {
+      hasArgs: boolean;
+    };
+  }>();
+  readonly exportSDLChange = output();
+  readonly loadSchemaChange = output();
 
   @HostBinding('style.flex-grow') public resizeFactor?: number;
   @ViewChild('docViewer') docViewerRef?: ElementRef;
@@ -124,6 +128,9 @@ export class DocViewerComponent {
   debouncedFilterAutocompleteOptions = debounce(this.filterAutocompleteOptions, 300);
 
   setDocView(docView?: DocView) {
+    if (!docView) {
+      docView = { view: 'root' };
+    }
     this.setDocViewChange.emit(docView);
     if (this.docViewerRef) {
       this.docViewerRef.nativeElement.scrollTop = 0;
@@ -229,7 +236,7 @@ export class DocViewerComponent {
       addQueryDepthLimit: this.addQueryDepthLimit(),
     });
     if (generatedQuery) {
-      this.addQueryToEditorChange.next(generatedQuery);
+      this.addQueryToEditorChange.emit(generatedQuery);
     }
   }
 

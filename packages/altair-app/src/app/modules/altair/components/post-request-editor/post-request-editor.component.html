@@ -3,7 +3,7 @@
     <label
       nz-checkbox
       [ngModel]="postRequest().enabled"
-      (ngModelChange)="postRequestEnabledChange.next($event)"
+      (ngModelChange)="postRequestEnabledChange.emit($event)"
       >{{ 'REQUEST_SCRIPT_ENABLE_TEXT' | translate }}</label
     >
   </div>

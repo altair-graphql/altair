@@ -1,8 +1,18 @@
+import { inject, TestBed } from '@angular/core/testing';
 import { FileDropDirective } from './file-drop.directive';
 
 describe('FileDropDirective', () => {
-  it('should create an instance', () => {
-    const directive = new FileDropDirective();
-    expect(directive).toBeTruthy();
-  });
+  beforeEach(() =>
+    TestBed.configureTestingModule({
+      imports: [],
+      providers: [FileDropDirective],
+    })
+  );
+
+  it('should create an instance', inject(
+    [FileDropDirective],
+    (directive: FileDropDirective) => {
+      expect(directive).toBeTruthy();
+    }
+  ));
 });

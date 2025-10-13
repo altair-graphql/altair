@@ -2,13 +2,12 @@ import {
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   NgZone,
-  Output,
   input,
   effect,
   signal,
   inject,
+  output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
@@ -64,8 +63,8 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
   readonly placeholder = input('');
   readonly readonly = input(false);
   readonly windowId = input('');
-  @Output() blurChange = new EventEmitter();
-  @Output() submitChange = new EventEmitter();
+  readonly blurChange = output();
+  readonly submitChange = output();
 
   extensions: Extension[] = [];
 
@@ -356,7 +355,7 @@ export class XInputComponent implements AfterViewInit, ControlValueAccessor {
 
   focusChanged(focused: boolean) {
     if (!focused) {
-      this.blurChange.emit(this.value());
+      this.blurChange.emit();
     }
   }
 

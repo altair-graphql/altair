@@ -1,11 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  input,
-  inject,
-  effect,
-} from '@angular/core';
+import { Component, input, inject, effect, output } from '@angular/core';
 
 import { debug } from '../../utils/logger';
 
@@ -35,8 +28,8 @@ export class SettingsDialogComponent {
   readonly settings = input<SettingsState>();
   readonly appVersion = input('');
   readonly showSettingsDialog = input(false);
-  @Output() toggleDialogChange = new EventEmitter();
-  @Output() settingsJsonChange = new EventEmitter();
+  readonly toggleDialogChange = output<boolean>();
+  readonly settingsJsonChange = output<string>();
 
   themes = this.altairConfig.themes;
   languages = Object.entries(this.altairConfig.languages);
@@ -66,8 +59,8 @@ export class SettingsDialogComponent {
 
   saveSettings() {
     if (validateSettings(this.jsonSettings)) {
-      this.settingsJsonChange.next(this.jsonSettings);
-      this.toggleDialogChange.next(false);
+      this.settingsJsonChange.emit(this.jsonSettings);
+      this.toggleDialogChange.emit(false);
     } else {
       this.notifyService.error('Check that the settings are correct.');
     }

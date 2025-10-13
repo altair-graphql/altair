@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, OnInit, Output, input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  Output,
+  input,
+  inject,
+} from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder } from '@angular/forms';
 
 @Component({
@@ -15,7 +23,7 @@ export class AuthorizationBearerComponent implements OnInit {
     token: '',
   });
   readonly authData = input<unknown>();
-  @Output() authDataChange = this.bearerForm.valueChanges;
+  readonly authDataChange = outputFromObservable(this.bearerForm.valueChanges);
 
   ngOnInit(): void {
     const authData = this.authData();

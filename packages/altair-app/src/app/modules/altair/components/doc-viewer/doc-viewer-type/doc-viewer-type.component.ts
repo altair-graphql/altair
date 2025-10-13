@@ -1,10 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  input,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import {
   GraphQLInterfaceType,
@@ -33,10 +27,18 @@ export class DocViewerTypeComponent {
   readonly sortByOption = input<SortByOptions>('none');
   readonly hideDeprecatedDocItems = input<boolean>(false);
 
-  @Output() goToFieldChange = new EventEmitter();
-  @Output() goToTypeChange = new EventEmitter();
-  @Output() addToEditorChange = new EventEmitter();
-  @Output() sortFieldsByChange = new EventEmitter();
+  readonly goToFieldChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly goToTypeChange = output<{
+    name: string;
+  }>();
+  readonly addToEditorChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly sortFieldsByChange = output<SortByOptions>();
 
   /**
    * Check if the current type is a root type
@@ -59,15 +61,15 @@ export class DocViewerTypeComponent {
   }
 
   goToField(name: string, parentType: string) {
-    this.goToFieldChange.next({ name, parentType });
+    this.goToFieldChange.emit({ name, parentType });
   }
 
   goToType(name: string) {
-    this.goToTypeChange.next({ name });
+    this.goToTypeChange.emit({ name });
   }
 
   addToEditor(name: string, parentType: string) {
-    this.addToEditorChange.next({ name, parentType });
+    this.addToEditorChange.emit({ name, parentType });
   }
 
   // TODO: Move to service

@@ -1,10 +1,9 @@
 import {
   Component,
-  Output,
-  EventEmitter,
   ChangeDetectionStrategy,
   input,
   computed,
+  output,
 } from '@angular/core';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { GraphQLSchema, GraphQLArgument, GraphQLField } from 'graphql';
@@ -23,10 +22,18 @@ export class DocViewerFieldComponent {
   readonly sortByOption = input<SortByOptions>('none');
   readonly hideDeprecatedDocItems = input<boolean>(false);
 
-  @Output() goToFieldChange = new EventEmitter();
-  @Output() goToTypeChange = new EventEmitter();
-  @Output() addToEditorChange = new EventEmitter();
-  @Output() sortFieldsByChange = new EventEmitter();
+  readonly goToFieldChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly goToTypeChange = output<{
+    name: string;
+  }>();
+  readonly addToEditorChange = output<{
+    name: string;
+    parentType: string;
+  }>();
+  readonly sortFieldsByChange = output<SortByOptions>();
 
   readonly fieldType = computed(() => {
     const data = this.data();
@@ -63,15 +70,15 @@ export class DocViewerFieldComponent {
   }
 
   goToField(name: string, parentType: string) {
-    this.goToFieldChange.next({ name, parentType });
+    this.goToFieldChange.emit({ name, parentType });
   }
 
   goToType(name: string) {
-    this.goToTypeChange.next({ name });
+    this.goToTypeChange.emit({ name });
   }
 
   addToEditor(data: { name: string; parentType: string }) {
-    this.addToEditorChange.next(data);
+    this.addToEditorChange.emit(data);
   }
 
   argTrackBy(index: number, arg: GraphQLArgument) {

@@ -6,7 +6,7 @@
   [nzContent]="modalContent"
   [nzFooter]="showFooter() ? modalFooter : null"
   [nzWidth]="width()"
-  (nzOnCancel)="toggleDialog.emit()"
+  (nzOnCancel)="toggleDialog.emit(false)"
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">

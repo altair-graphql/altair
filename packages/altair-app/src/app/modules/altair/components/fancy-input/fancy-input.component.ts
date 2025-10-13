@@ -3,11 +3,10 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  Output,
-  EventEmitter,
   forwardRef,
   input,
   inject,
+  output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -66,8 +65,8 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
   // @Input() value = '';
   readonly placeholder = input('');
-  @Output() blurChange = new EventEmitter();
-  @Output() submitChange = new EventEmitter();
+  readonly blurChange = output<string>();
+  readonly submitChange = output<string>();
 
   @ViewChild('fancyInputEl', { static: true }) fancyInputEl?: ElementRef;
   @ViewChild('fancyInputHighlightsEl', { static: true })
@@ -142,10 +141,10 @@ export class FancyInputComponent implements ControlValueAccessor, OnInit {
 
     // Set touched on blur
     this.onTouchedCallback();
-    this.blurChange.next(this.innerValue);
+    this.blurChange.emit(this.innerValue);
   }
   handleSubmit() {
-    this.submitChange.next(this.innerValue);
+    this.submitChange.emit(this.innerValue);
   }
   detectBrowser() {
     const ua = window.navigator.userAgent.toLowerCase();

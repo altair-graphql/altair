@@ -4,7 +4,7 @@
   [nzTitle]="modalTitle"
   [nzContent]="modalContent"
   [nzFooter]="modalFooter"
-  (nzOnCancel)="toggleVariableDialog.emit()"
+  (nzOnCancel)="toggleVariableDialog.emit(false)"
 >
   <ng-template #modalTitle>
     <div class="app-dialog-header">
@@ -28,7 +28,7 @@
         type="button"
         class="btn btn--primary right"
         track-id="close_set_variables_dialog"
-        (click)="toggleVariableDialog.emit($event)"
+        (click)="toggleVariableDialog.emit(false)"
       >
         {{ 'SAVE_BUTTON' | translate }}
       </button>

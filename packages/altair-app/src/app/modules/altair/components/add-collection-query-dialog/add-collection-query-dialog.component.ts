@@ -1,4 +1,13 @@
-import { Component, Output, EventEmitter, input, effect, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
+import {
+  Component,
+  input,
+  effect,
+  ChangeDetectionStrategy,
+  signal,
+  computed,
+  inject,
+  output,
+} from '@angular/core';
 import { WORKSPACES } from 'altair-graphql-core/build/types/state/workspace.interface';
 import {
   IQueryCollection,
@@ -24,18 +33,18 @@ export class AddCollectionQueryDialogComponent {
   readonly loggedIn = input(false);
   readonly workspaces = input<WorkspaceOption[]>([]);
 
-  @Output() toggleDialogChange = new EventEmitter();
-  @Output() createCollectionAndSaveQueryToCollectionChange = new EventEmitter<{
+  readonly toggleDialogChange = output<boolean>();
+  readonly createCollectionAndSaveQueryToCollectionChange = output<{
     queryName: string;
     collectionName: string;
     parentCollectionId: string;
     workspaceId: string;
   }>();
-  @Output() saveQueryToCollectionChange = new EventEmitter<{
+  readonly saveQueryToCollectionChange = output<{
     queryName: string;
     collectionId: string;
   }>();
-  @Output() newCollectionParentCollectionIdChange = new EventEmitter();
+  readonly newCollectionParentCollectionIdChange = output();
 
   get parentCollectionRootId() {
     return '0'; // 0 for root

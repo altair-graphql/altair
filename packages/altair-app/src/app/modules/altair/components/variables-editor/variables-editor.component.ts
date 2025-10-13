@@ -1,12 +1,11 @@
 import {
   Component,
-  Output,
   ViewChild,
-  EventEmitter,
   AfterViewInit,
   ChangeDetectionStrategy,
   input,
   effect,
+  output
 } from '@angular/core';
 
 import { IDictionary } from '../../interfaces/shared';
@@ -31,7 +30,7 @@ export class VariablesEditorComponent implements AfterViewInit {
   readonly showVariableDialog = input(false);
   readonly enableExperimental = input(false);
 
-  @Output() variablesChange = new EventEmitter<string>();
+  readonly variablesChange = output<string>();
 
   // eslint-disable-next-line @angular-eslint/prefer-signals
   @ViewChild('editor') editor: CodemirrorComponent | undefined;

@@ -1,10 +1,4 @@
-import {
-  Component,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  input,
-} from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-dialog',
@@ -20,16 +14,16 @@ export class DialogComponent {
   readonly showHeader = input(true);
   readonly showFooter = input(true);
   readonly width = input(520);
-  @Output() toggleDialog = new EventEmitter();
-  @Output() saveChange = new EventEmitter();
+  readonly toggleDialog = output<boolean>();
+  readonly saveChange = output();
 
   onClickSave(e: Event) {
     this.toggleDialog.emit(!this.showDialog());
-    this.saveChange.emit(e);
+    this.saveChange.emit();
   }
 
   onSubmit(e: Event) {
     this.toggleDialog.emit(!this.showDialog());
-    this.saveChange.emit(e);
+    this.saveChange.emit();
   }
 }

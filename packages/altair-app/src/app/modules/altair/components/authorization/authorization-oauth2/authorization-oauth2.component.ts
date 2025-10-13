@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, OnInit, Output, input, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnInit,
+  input,
+  inject,
+} from '@angular/core';
+import { outputFromObservable } from '@angular/core/rxjs-interop';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import {
@@ -54,7 +61,7 @@ export class AuthorizationOauth2Component implements OnInit {
   requestFormat = RequestFormat;
 
   readonly authData = input<unknown>();
-  @Output() authDataChange = this.form.valueChanges;
+  readonly authDataChange = outputFromObservable(this.form.valueChanges);
 
   optionsShape = this.getOptionsShape();
 

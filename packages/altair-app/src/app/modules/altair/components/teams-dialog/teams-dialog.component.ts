@@ -1,13 +1,12 @@
 import { ICreateTeamDto, ReturnedTeamMembership } from '@altairgraphql/api-utils';
 import {
   Component,
-  EventEmitter,
-  Output,
   computed,
   effect,
   input,
   signal,
   inject,
+  output,
 } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
@@ -32,8 +31,8 @@ export class TeamsDialogComponent {
 
   readonly teams = input<Team[]>();
   readonly showDialog = input(true);
-  @Output() toggleDialogChange = new EventEmitter<boolean>();
-  @Output() reloadTeamChange = new EventEmitter<string>();
+  readonly toggleDialogChange = output<boolean>();
+  readonly reloadTeamChange = output();
 
   readonly teamName = computed(() => this.selectedTeam()?.name ?? '');
   readonly teamDescription = computed(() => this.selectedTeam()?.description ?? '');
