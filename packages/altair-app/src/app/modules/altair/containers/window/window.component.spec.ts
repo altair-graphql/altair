@@ -39,6 +39,7 @@ describe('WindowComponent', () => {
         installedPlugins: {},
         panels: [],
         uiActions: [],
+        temporaryWindowStates: {},
       },
       collection: {
         activeCollection: undefined,

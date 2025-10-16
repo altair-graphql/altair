@@ -16,7 +16,20 @@ export const REMOVE_PANEL = 'REMOVE_PANEL';
 export const SET_PANEL_ACTIVE = 'SET_PANEL_ACTIVE';
 export const ADD_UI_ACTION = 'ADD_UI_ACTION';
 export const REMOVE_UI_ACTION = 'REMOVE_UI_ACTION';
+export const SET_WINDOW_LOADING_REQUEST_STATE = 'SET_WINDOW_LOADING_REQUEST_STATE';
+export const PREPEND_WINDOW_LOADING_REQUEST_STATE =
+  'PREPEND_WINDOW_LOADING_REQUEST_STATE';
+export const APPEND_WINDOW_LOADING_REQUEST_STATE =
+  'APPEND_WINDOW_LOADING_REQUEST_STATE';
+export const UPDATE_WINDOW_LOADING_REQUEST_ENTRY_STATE =
+  'UPDATE_WINDOW_LOADING_REQUEST_ENTRY_STATE';
 
+export interface WindowRequestStateActionEntry {
+  source: 'collection' | 'window';
+  sourceId: string;
+  type: 'pre-request' | 'post-request' | 'query' | 'auth';
+  state?: 'done' | 'error' | 'active' | 'pending';
+}
 export class PushClosedWindowToLocalAction implements NGRXAction {
   readonly type = PUSH_CLOSED_WINDOW_TO_LOCAL;
 
@@ -69,6 +82,50 @@ export class RemoveUiActionAction implements NGRXAction {
   constructor(public payload: { actionId: string }) {}
 }
 
+export class SetWindowLoadingRequestStateAction implements NGRXAction {
+  readonly type = SET_WINDOW_LOADING_REQUEST_STATE;
+
+  constructor(
+    public payload: {
+      windowId: string;
+      loadingRequestState: WindowRequestStateActionEntry[];
+    }
+  ) {}
+}
+
+export class PrependWindowLoadingRequestStateAction implements NGRXAction {
+  readonly type = PREPEND_WINDOW_LOADING_REQUEST_STATE;
+
+  constructor(
+    public payload: {
+      windowId: string;
+      entries: WindowRequestStateActionEntry[];
+    }
+  ) {}
+}
+
+export class AppendWindowLoadingRequestStateAction implements NGRXAction {
+  readonly type = APPEND_WINDOW_LOADING_REQUEST_STATE;
+
+  constructor(
+    public payload: {
+      windowId: string;
+      entries: WindowRequestStateActionEntry[];
+    }
+  ) {}
+}
+
+export class UpdateWindowLoadingRequestEntryStateAction implements NGRXAction {
+  readonly type = UPDATE_WINDOW_LOADING_REQUEST_ENTRY_STATE;
+
+  constructor(
+    public payload: {
+      windowId: string;
+      entry: WindowRequestStateActionEntry;
+    }
+  ) {}
+}
+
 export type Action =
   | PushClosedWindowToLocalAction
   | PopFromClosedWindowsAction
@@ -78,4 +135,8 @@ export type Action =
   | RemovePanelAction
   | SetPanelActiveAction
   | AddUiActionAction
-  | RemoveUiActionAction;
+  | RemoveUiActionAction
+  | SetWindowLoadingRequestStateAction
+  | PrependWindowLoadingRequestStateAction
+  | AppendWindowLoadingRequestStateAction
+  | UpdateWindowLoadingRequestEntryStateAction;

@@ -29,6 +29,7 @@ import {
 import * as queryActions from '../store/query/query.action';
 import * as variablesActions from '../store/variables/variables.action';
 import * as layoutActions from '../store/layout/layout.action';
+import * as localActions from '../store/local/local.action';
 import * as gqlSchemaActions from '../store/gql-schema/gql-schema.action';
 import * as docsAction from '../store/docs/docs.action';
 import * as windowsMetaActions from '../store/windows-meta/windows-meta.action';
@@ -125,6 +126,18 @@ export class QueryEffects {
         mergeMap((response) => {
           this.store.dispatch(
             new layoutActions.StartLoadingAction(response.windowId)
+          );
+          this.store.dispatch(
+            new localActions.SetWindowLoadingRequestStateAction({
+              windowId: response.windowId,
+              loadingRequestState: [
+                {
+                  source: 'window',
+                  sourceId: response.windowId,
+                  type: 'query',
+                },
+              ],
+            })
           );
           return forkJoin({
             response: of(response),
@@ -261,6 +274,17 @@ export class QueryEffects {
               let requestStatusText = '';
               const responses: QueryResponse[] = [];
 
+              this.store.dispatch(
+                new localActions.UpdateWindowLoadingRequestEntryStateAction({
+                  windowId: response.windowId,
+                  entry: {
+                    source: 'window',
+                    sourceId: response.windowId,
+                    type: 'query',
+                    state: 'active',
+                  },
+                })
+              );
               debug.log('Sending..');
               return this.gqlService
                 .sendRequestV2({
@@ -285,12 +309,28 @@ export class QueryEffects {
                 })
                 .pipe(
                   switchMap((res) => {
+                    if (!isSubscriptionQuery) {
+                      // Subscription requests are long lived, so we don't set them to done here
+                      this.store.dispatch(
+                        new localActions.UpdateWindowLoadingRequestEntryStateAction({
+                          windowId: response.windowId,
+                          entry: {
+                            state: 'done',
+                            source: 'window',
+                            sourceId: response.windowId,
+                            type: 'query',
+                          },
+                        })
+                      );
+                    }
                     return combineLatest([
                       of(res),
                       from(
                         this.queryService.getPostRequestTransformedData(
                           response.windowId,
-                          RequestType.QUERY,
+                          isSubscriptionQuery
+                            ? RequestType.SUBSCRIPTION
+                            : RequestType.QUERY,
                           res
                         )
                       ),

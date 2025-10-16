@@ -21,3 +21,13 @@ export const getUiActions = createSelector(
 export const getResultPaneUiActions = createSelector(getUiActions, (uiActions) =>
   uiActions.filter((_) => _.location === AltairUiActionLocation.RESULT_PANE)
 );
+
+export const selectTemporaryWindowState = (windowId: string) =>
+  createSelector(getLocalState, (local) => {
+    return local.temporaryWindowStates[windowId];
+  });
+
+export const selectLoadingRequestState = (windowId: string) =>
+  createSelector(selectTemporaryWindowState(windowId), (tempState) => {
+    return tempState?.loadingRequestState || [];
+  });

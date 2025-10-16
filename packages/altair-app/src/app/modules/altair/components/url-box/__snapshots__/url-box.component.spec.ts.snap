@@ -66,6 +66,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
         track-id="set_url"
       />
       
+      <app-request-loader />
     </div>
     <div
       class="url-box__input-actions"
@@ -217,6 +218,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         track-id="set_url"
       />
       
+      <app-request-loader />
     </div>
     <div
       class="url-box__input-actions"

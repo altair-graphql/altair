@@ -1,0 +1,38 @@
+@if (isLoading()) {
+  <div class="request-loader">
+    <ul class="request-loader__items">
+      @for (item of requestState(); track item.id) {
+        <li
+          class="request-loader__item"
+          [ngClass]="{
+            'request-loader__item--active': item.state === 'active',
+            'request-loader__item--done': item.state === 'done',
+            'request-loader__item--pending': item.state === 'pending',
+          }"
+        >
+          <div
+            class="request-loader__item-icon"
+            nz-tooltip
+            [nzTooltipTitle]="item.name"
+          >
+            @switch (item.state) {
+              @case ('done') {
+                <app-icon name="check" />
+              }
+              @case ('error') {
+                <app-icon name="x-circle" />
+              }
+              @case ('active') {
+                <app-icon name="loader" class="anim anim-rotate" />
+              }
+              @default {
+                <app-icon name="circle-dashed" />
+              }
+            }
+          </div>
+          <div class="request-loader__item-text">{{ item.name }}</div>
+        </li>
+      }
+    </ul>
+  </div>
+}
