@@ -1,4 +1,4 @@
-@if (isLoading()) {
+@if (isLoading() && requestState().length > 1) {
   <div class="request-loader">
     <ul class="request-loader__items">
       @for (item of requestState(); track item.id) {
