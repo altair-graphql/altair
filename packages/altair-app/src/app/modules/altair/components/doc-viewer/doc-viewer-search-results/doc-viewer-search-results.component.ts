@@ -1,44 +1,12 @@
-import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
-import { trigger, state, style, animate, transition } from '@angular/animations';
-import { GraphQLArgument } from 'graphql';
+import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { DocumentIndexEntry } from '../models';
 
 @Component({
   selector: 'app-doc-viewer-search-results',
   templateUrl: './doc-viewer-search-results.component.html',
   styleUrls: ['./doc-viewer-search-results.component.scss'],
-  // eslint-disable-next-line @angular-eslint/component-max-inline-declarations
-  animations: [
-    trigger('showResultItem', [
-      transition(':enter', [
-        style({
-          opacity: 0,
-          transform: 'translateY(50%)',
-        }),
-        animate(
-          200,
-          style({
-            opacity: 1,
-            transform: 'translateY(0)',
-          })
-        ),
-      ]),
-      transition(':leave', [
-        style({ height: '*' }), // Get the runtime height for use in the next transition
-        animate(
-          200,
-          style({
-            transform: 'translateY(150%)',
-            opacity: 0,
-            height: 0, // This works since we retrieved the runtime height previously
-          })
-        ),
-      ]),
-    ]),
-  ],
   standalone: false,
-  // components with animations don't work well with OnPush change detection
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DocViewerSearchResultsComponent {
   readonly results = input<DocumentIndexEntry[]>([]);
