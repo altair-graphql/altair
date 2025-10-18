@@ -20,7 +20,7 @@
     <div class="doc-viewer-header">
       <div class="doc-viewer-navigation">
         <div class="doc-viewer-navigation--left">
-          @if (docView.view !== 'root' && docHistory.length) {
+          @if (docView.view !== 'root' && docHistory().length) {
             <div
               class="doc-viewer-navigation__option"
               (click)="goBack()"

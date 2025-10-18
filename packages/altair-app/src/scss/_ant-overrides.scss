@@ -34,7 +34,7 @@
   backdrop-filter: blur(10px);
   color: var(--theme-font-color);
   border-radius: 4px;
-  -electron-corner-smoothing: system-ui;
+  -electron-corner-smoothing: system;
 }
 
 .ant-modal-confirm-body .ant-modal-confirm-title,
