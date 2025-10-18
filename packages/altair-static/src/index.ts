@@ -108,7 +108,7 @@ export const renderAltair = (options: RenderOptions = {}) => {
         .replace(
           '</body>',
           () =>
-            `<script nonce="${options.cspNonce ?? ''}" src="${scriptName.replace(/["'<>=]/g, '')}"></script></body>`
+            `<script type="module" nonce="${options.cspNonce ?? ''}" src="${scriptName.replace(/["'<>=]/g, '')}"></script></body>`
         );
     }
   }
