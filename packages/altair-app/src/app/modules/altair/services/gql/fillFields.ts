@@ -120,24 +120,69 @@ export const fillAllFields = (
   }
 
   let tokenState = token.state as any;
+  let isSelectionSetMode = false;
+  let isObjectValueMode = false;
+  
   if (tokenState.kind === Kind.SELECTION_SET) {
     tokenState.wasSelectionSet = true;
     tokenState = { ...tokenState, ...tokenState.prevState };
+    isSelectionSetMode = true;
   }
   // Check if we're in an object value (argument)
   // The token state kind for object values is typically 'ObjectValue' or the token itself is '{'
   if (tokenState.kind === 'ObjectValue' || tokenState.kind === '{') {
     tokenState.wasObjectValue = true;
     tokenState = { ...tokenState, ...tokenState.prevState };
+    isObjectValueMode = true;
   }
+  
   const typeInfoResult = getTypeInfo(schema, token.state);
   const fieldType = typeInfoResult.type;
   const inputType = typeInfoResult.inputType;
-  // Strip out empty selection sets and empty objects since those throw errors while parsing query
+  
+  // For object value mode (arguments), handle specially without stripping
+  if (isObjectValueMode && inputType && isInputObjectType(inputType)) {
+    // Don't strip, parse as-is since `{ }` is valid for arguments
+    const ast = parseQuery(query);
+    if (!ast) {
+      return { insertions, result: query };
+    }
+    
+    const typeInfo = new TypeInfo(schema);
+    visit(ast, {
+      enter(node) {
+        typeInfo.enter(node);
+        // Find the OBJECT node at the cursor position
+        if (node.kind === Kind.OBJECT && node.loc &&
+            node.loc.startToken.line - 1 === cursor.line) {
+          const currentInputType = typeInfo.getInputType();
+          if (currentInputType && isInputObjectType(currentInputType)) {
+            const fieldsString = buildInputObjectFields(currentInputType, { maxDepth });
+            const indent = getIndentation(query, node.loc.start);
+            if (fieldsString && node.fields.length === 0) {
+              // Only fill if the object is empty
+              insertions.push({
+                index: node.loc.start + 1,
+                string: '\n' + indent + '  ' + fieldsString.replace(/\n/g, '\n' + indent + '  ') + '\n' + indent,
+              });
+            }
+          }
+        }
+      },
+    });
+    
+    return {
+      insertions,
+      result: withInsertions(query, insertions),
+    };
+  }
+  
+  // Original logic for selection sets
+  // Strip out empty selection sets since those throw errors while parsing query
   query = query.replace(/{\s*}/g, '');
   const ast = parseQuery(query);
 
-  if ((!fieldType && !inputType) || !ast) {
+  if (!fieldType || !ast) {
     return { insertions, result: query };
   }
 
@@ -178,32 +223,7 @@ export const fillAllFields = (
         }
       }
       
-      // Handle arguments with input object types
-      if (node.kind === Kind.ARGUMENT && node.loc) {
-        const currentInputType = typeInfo.getInputType();
-        debug.log('ARGUMENT node:', node, 'inputType:', currentInputType, 'cursor:', cursor, 'tokenState:', tokenState);
-        
-        // Check if this argument's value is at the cursor position and has an input object type
-        // When tokenState.wasObjectValue is true, we're inside an empty object value
-        if (
-          currentInputType &&
-          isInputObjectType(currentInputType) &&
-          tokenState.wasObjectValue &&
-          node.value.kind === Kind.OBJECT &&
-          node.value.loc
-        ) {
-          debug.log('Found input object at cursor:', currentInputType, maxDepth);
-          const fieldsString = buildInputObjectFields(currentInputType, { maxDepth });
-          const indent = getIndentation(query, node.value.loc.start);
-          
-          if (fieldsString) {
-            insertions.push({
-              index: node.value.loc.start + 1, // Insert after the opening brace
-              string: '\n' + indent + '  ' + fieldsString.replace(/\n/g, '\n' + indent + '  ') + '\n' + indent,
-            });
-          }
-        }
-      }
+
     },
   });
 
