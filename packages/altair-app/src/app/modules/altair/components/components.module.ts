@@ -54,6 +54,7 @@ import { BannerComponent } from './banner/banner.component';
 import { BannerContainerComponent } from './banner-container/banner-container.component';
 import { HeadersEditorComponent } from './headers-editor/headers-editor.component';
 import { WindowSwitcherItemComponent } from './window-switcher-item/window-switcher-item.component';
+import { RequestLoaderComponent } from './request-loader/request-loader.component';
 
 // const STANDALONE_COMPONENTS = [];
 const COMPONENTS = [
@@ -103,6 +104,7 @@ const COMPONENTS = [
   AuthorizationOauth2Component,
   BannerComponent,
   BannerContainerComponent,
+  RequestLoaderComponent,
 ];
 
 @NgModule({

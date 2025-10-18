@@ -7,6 +7,7 @@ import {
   signal,
   inject,
   output,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Team } from 'altair-graphql-core/build/types/state/account.interfaces';
@@ -22,6 +23,7 @@ import * as windowsMetaActions from '../../store/windows-meta/windows-meta.actio
   templateUrl: './teams-dialog.component.html',
   styles: [],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TeamsDialogComponent {
   private readonly accountService = inject(AccountService);
@@ -76,9 +78,16 @@ export class TeamsDialogComponent {
         this.membersOfSelectedTeam.set([]);
         return;
       }
-      this.membersOfSelectedTeam.set(
-        (await this.accountService.getTeamMembers(selectedTeamId)) || []
-      );
+      try {
+        this.membersOfSelectedTeam.set(
+          (await this.accountService.getTeamMembers(selectedTeamId)) || []
+        );
+      } catch (err) {
+        this.notifyService.errorWithError(
+          await getErrorResponse(err),
+          'Could not load team members'
+        );
+      }
     });
 
     effect(() => {
@@ -94,8 +103,15 @@ export class TeamsDialogComponent {
 
   async onDeleteTeam(id: string) {
     if (confirm('Are you sure you want to delete this team?')) {
-      await this.accountService.deleteTeam(id);
-      this.reloadTeamChange.emit();
+      try {
+        await this.accountService.deleteTeam(id);
+        this.reloadTeamChange.emit();
+      } catch (err) {
+        this.notifyService.errorWithError(
+          await getErrorResponse(err),
+          'Could not delete team'
+        );
+      }
     }
   }
 

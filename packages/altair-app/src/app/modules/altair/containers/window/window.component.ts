@@ -72,6 +72,7 @@ import {
   WEBSOCKET_HANDLER_ID,
 } from 'altair-graphql-core/build/request/types';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { LoadingRequestStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -135,6 +136,8 @@ export class WindowComponent implements OnInit {
   showRequestExtensionsDialog$: Observable<boolean>;
 
   windowState$: Observable<PerWindowState>;
+
+  loadingRequestState$: Observable<LoadingRequestStateEntry[]>;
 
   readonly windowId = input.required<string>();
   // We need the windowId$ observable to update the getWindowState observable
@@ -290,6 +293,12 @@ export class WindowComponent implements OnInit {
 
     this.showRequestExtensionsDialog$ = this.windowState$.pipe(
       select(fromRoot.getShowRequestExtensionsDialog)
+    );
+
+    this.loadingRequestState$ = this.windowId$.pipe(
+      switchMap((windowId) => {
+        return this.store.select(fromRoot.selectLoadingRequestState(windowId));
+      })
     );
   }
 

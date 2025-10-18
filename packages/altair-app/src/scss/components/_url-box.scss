@@ -183,6 +183,7 @@ app-url-box {
 // https://www.youtube.com/watch?v=rdtTCVzTwSQ
 .url-box__loader {
   position: relative;
+  z-index: 1;
 }
 .url-box__loader-inner {
   position: absolute;

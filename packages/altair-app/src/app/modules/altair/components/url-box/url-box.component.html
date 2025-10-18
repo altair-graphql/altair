@@ -57,6 +57,7 @@
       (blurChange)="setApiUrl()"
       (submitChange)="setApiUrl()"
     />
+    <app-request-loader [requestState]="requestState()" [isLoading]="isLoading()" />
   </div>
   <div class="url-box__input-actions">
     @if (currentCollection()) {

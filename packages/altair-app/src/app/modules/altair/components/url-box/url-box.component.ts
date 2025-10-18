@@ -12,6 +12,7 @@ import {
 } from 'altair-graphql-core/build/types/state/query.interfaces';
 import { OperationDefinitionNode } from 'graphql';
 import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
+import { LoadingRequestStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
 
 @Component({
   selector: 'app-url-box',
@@ -31,6 +32,7 @@ export class UrlBoxComponent {
   readonly currentCollection = input<IQueryCollection>();
   readonly hasUnsavedChanges = input(false);
   readonly windowId = input('');
+  readonly requestState = input<LoadingRequestStateEntry[]>([]);
 
   readonly toggleDocsChange = output();
   readonly reloadDocsChange = output();

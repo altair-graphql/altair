@@ -26,9 +26,27 @@ export interface V3PluginStateEntry {
   isActive?: boolean;
 }
 
+export interface LoadingRequestStateEntry {
+  name: string;
+  id: string;
+  state: 'done' | 'error' | 'active' | 'pending';
+  source: 'collection' | 'window';
+  sourceId: string;
+  type: 'pre-request' | 'post-request' | 'query' | 'auth';
+}
+export interface TemporaryWindowStateEntry {
+  windowId: string;
+  loadingRequestState: LoadingRequestStateEntry[];
+}
+
+/**
+ * State for local (session) data.
+ * This would contain arbitrary global data that should be stored in memory and not persisted
+ */
 export interface LocalState {
   closedWindows: PerWindowState[];
   installedPlugins: IDictionary<V1PluginStateEntry | V3PluginStateEntry>;
   panels: AltairPanel[];
   uiActions: AltairUiAction[];
+  temporaryWindowStates: IDictionary<TemporaryWindowStateEntry>;
 }

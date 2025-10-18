@@ -12,7 +12,23 @@ export const getInitialState = (): LocalState => {
     installedPlugins: {},
     panels: [],
     uiActions: [],
+    temporaryWindowStates: {},
   };
+};
+
+const mapRequestStateActionEntryToRequestState = (
+  entry: local.WindowRequestStateActionEntry
+) => {
+  // Construct ID from each entry's source and sourceId
+  const id = `${entry.source}-${entry.type}-${entry.sourceId}`;
+  const name = `${entry.source} (${entry.type})`;
+  return { ...entry, id, name, state: entry.state || 'pending' };
+};
+
+const mapRequestStateActionEntriesToRequestState = (
+  entries: local.WindowRequestStateActionEntry[]
+) => {
+  return entries.map((entry) => mapRequestStateActionEntryToRequestState(entry));
 };
 
 export function localReducer(
@@ -105,6 +121,107 @@ export function localReducer(
         uiActions: state.uiActions.filter(
           (uiAction) => uiAction.id !== action.payload.actionId
         ),
+      };
+    }
+    case local.SET_WINDOW_LOADING_REQUEST_STATE: {
+      const temporaryWindowState = state.temporaryWindowStates[
+        action.payload.windowId
+      ] || { windowId: action.payload.windowId, loadingRequestState: [] };
+      return {
+        ...state,
+        temporaryWindowStates: {
+          ...state.temporaryWindowStates,
+          [action.payload.windowId]: {
+            ...temporaryWindowState,
+            loadingRequestState: mapRequestStateActionEntriesToRequestState(
+              action.payload.loadingRequestState
+            ),
+          },
+        },
+      };
+    }
+    case local.APPEND_WINDOW_LOADING_REQUEST_STATE: {
+      const temporaryWindowState = state.temporaryWindowStates[
+        action.payload.windowId
+      ] || { windowId: action.payload.windowId, loadingRequestState: [] };
+      const remappedEntries = mapRequestStateActionEntriesToRequestState(
+        action.payload.entries
+      );
+      const existingIds = new Set(
+        temporaryWindowState.loadingRequestState.map((entry) => entry.id)
+      );
+      const newEntries = remappedEntries.filter(
+        (entry) => !existingIds.has(entry.id)
+      );
+
+      return {
+        ...state,
+        temporaryWindowStates: {
+          ...state.temporaryWindowStates,
+          [action.payload.windowId]: {
+            ...temporaryWindowState,
+            loadingRequestState: [
+              ...temporaryWindowState.loadingRequestState,
+              ...newEntries,
+            ],
+          },
+        },
+      };
+    }
+    case local.PREPEND_WINDOW_LOADING_REQUEST_STATE: {
+      const temporaryWindowState = state.temporaryWindowStates[
+        action.payload.windowId
+      ] || { windowId: action.payload.windowId, loadingRequestState: [] };
+      const remappedEntries = mapRequestStateActionEntriesToRequestState(
+        action.payload.entries
+      );
+      const existingIds = new Set(
+        temporaryWindowState.loadingRequestState.map((entry) => entry.id)
+      );
+      const newEntries = remappedEntries.filter(
+        (entry) => !existingIds.has(entry.id)
+      );
+
+      return {
+        ...state,
+        temporaryWindowStates: {
+          ...state.temporaryWindowStates,
+          [action.payload.windowId]: {
+            ...temporaryWindowState,
+            loadingRequestState: [
+              ...newEntries,
+              ...temporaryWindowState.loadingRequestState,
+            ],
+          },
+        },
+      };
+    }
+    case local.UPDATE_WINDOW_LOADING_REQUEST_ENTRY_STATE: {
+      const temporaryWindowState = state.temporaryWindowStates[
+        action.payload.windowId
+      ] || { windowId: action.payload.windowId, loadingRequestState: [] };
+      const updatedEntry = mapRequestStateActionEntryToRequestState(
+        action.payload.entry
+      );
+      return {
+        ...state,
+        temporaryWindowStates: {
+          ...state.temporaryWindowStates,
+          [action.payload.windowId]: {
+            ...temporaryWindowState,
+            loadingRequestState: temporaryWindowState.loadingRequestState.map(
+              (entry) => {
+                if (entry.id === updatedEntry.id) {
+                  return {
+                    ...entry,
+                    ...updatedEntry,
+                  };
+                }
+                return entry;
+              }
+            ),
+          },
+        },
       };
     }
     default:
