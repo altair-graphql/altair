@@ -76,23 +76,26 @@ const buildInputObjectFields = (
 
   const fields = inputType.getFields();
   const fieldEntries = Object.entries(fields).map(([fieldName, field]) => {
-    const fieldType = field.type;
-    const namedType = fieldType.toString().replace(/[!\[\]]/g, '');
+    // Unwrap the type to get to the base type (remove NonNull and List wrappers)
+    let unwrappedType = field.type;
+    while (
+      unwrappedType &&
+      ('ofType' in unwrappedType) &&
+      unwrappedType.ofType
+    ) {
+      unwrappedType = unwrappedType.ofType as any;
+    }
     
     // For nested input objects, recursively build fields
-    if (isInputObjectType(field.type) || 
-        (field.type.toString().includes(namedType) && 
-         isInputObjectType((field.type as any).ofType || field.type))) {
-      const nestedType = isInputObjectType(field.type) 
-        ? field.type 
-        : (field.type as any).ofType;
-      if (nestedType && isInputObjectType(nestedType)) {
-        const nestedFields = buildInputObjectFields(nestedType, {
+    if (isInputObjectType(unwrappedType)) {
+      if (currentDepth + 1 < maxDepth) {
+        const nestedFields = buildInputObjectFields(unwrappedType, {
           maxDepth,
           currentDepth: currentDepth + 1,
         });
         return `${fieldName}: {${nestedFields ? `\n  ${nestedFields}\n` : ''}}`;
       }
+      return `${fieldName}: `;
     }
     
     // For scalar types, just add the field name
@@ -117,16 +120,15 @@ export const fillAllFields = (
   }
 
   let tokenState = token.state as any;
-  let isObjectValue = false;
   if (tokenState.kind === Kind.SELECTION_SET) {
     tokenState.wasSelectionSet = true;
     tokenState = { ...tokenState, ...tokenState.prevState };
   }
   // Check if we're in an object value (argument)
+  // The token state kind for object values is typically 'ObjectValue' or the token itself is '{'
   if (tokenState.kind === 'ObjectValue' || tokenState.kind === '{') {
-    isObjectValue = true;
     tokenState.wasObjectValue = true;
-    // Get the type from token state
+    tokenState = { ...tokenState, ...tokenState.prevState };
   }
   const typeInfoResult = getTypeInfo(schema, token.state);
   const fieldType = typeInfoResult.type;
@@ -177,24 +179,26 @@ export const fillAllFields = (
       }
       
       // Handle arguments with input object types
-      if (node.kind === Kind.OBJECT && node.loc) {
+      if (node.kind === Kind.ARGUMENT && node.loc) {
         const currentInputType = typeInfo.getInputType();
-        debug.log('OBJECT node:', node, 'inputType:', currentInputType, 'cursor:', cursor, 'tokenState:', tokenState);
+        debug.log('ARGUMENT node:', node, 'inputType:', currentInputType, 'cursor:', cursor, 'tokenState:', tokenState);
         
-        // Check if this is the object node at the cursor position
-        // and if it has an input object type
+        // Check if this argument's value is at the cursor position and has an input object type
+        // When tokenState.wasObjectValue is true, we're inside an empty object value
         if (
           currentInputType &&
           isInputObjectType(currentInputType) &&
-          (tokenState.wasObjectValue || node.loc.startToken.line - 1 === cursor.line)
+          tokenState.wasObjectValue &&
+          node.value.kind === Kind.OBJECT &&
+          node.value.loc
         ) {
           debug.log('Found input object at cursor:', currentInputType, maxDepth);
           const fieldsString = buildInputObjectFields(currentInputType, { maxDepth });
-          const indent = getIndentation(query, node.loc.start);
+          const indent = getIndentation(query, node.value.loc.start);
           
           if (fieldsString) {
             insertions.push({
-              index: node.loc.start + 1, // Insert after the opening brace
+              index: node.value.loc.start + 1, // Insert after the opening brace
               string: '\n' + indent + '  ' + fieldsString.replace(/\n/g, '\n' + indent + '  ') + '\n' + indent,
             });
           }
