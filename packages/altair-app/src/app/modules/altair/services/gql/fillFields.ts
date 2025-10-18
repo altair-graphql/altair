@@ -1,4 +1,13 @@
-import { visit, print, TypeInfo, parse, GraphQLSchema, Kind } from 'graphql';
+import {
+  visit,
+  print,
+  TypeInfo,
+  parse,
+  GraphQLSchema,
+  Kind,
+  isInputObjectType,
+  GraphQLInputObjectType,
+} from 'graphql';
 import { debug } from '../../utils/logger';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 import { ContextToken } from 'graphql-language-service';
@@ -57,6 +66,42 @@ export interface FillAllFieldsOptions {
   maxDepth?: number;
 }
 
+const buildInputObjectFields = (
+  inputType: GraphQLInputObjectType,
+  { maxDepth = 1, currentDepth = 0 } = {}
+): string => {
+  if (currentDepth >= maxDepth) {
+    return '';
+  }
+
+  const fields = inputType.getFields();
+  const fieldEntries = Object.entries(fields).map(([fieldName, field]) => {
+    const fieldType = field.type;
+    const namedType = fieldType.toString().replace(/[!\[\]]/g, '');
+    
+    // For nested input objects, recursively build fields
+    if (isInputObjectType(field.type) || 
+        (field.type.toString().includes(namedType) && 
+         isInputObjectType((field.type as any).ofType || field.type))) {
+      const nestedType = isInputObjectType(field.type) 
+        ? field.type 
+        : (field.type as any).ofType;
+      if (nestedType && isInputObjectType(nestedType)) {
+        const nestedFields = buildInputObjectFields(nestedType, {
+          maxDepth,
+          currentDepth: currentDepth + 1,
+        });
+        return `${fieldName}: {${nestedFields ? `\n  ${nestedFields}\n` : ''}}`;
+      }
+    }
+    
+    // For scalar types, just add the field name
+    return `${fieldName}: `;
+  });
+
+  return fieldEntries.join('\n');
+};
+
 // Improved version based on:
 // https://github.com/graphql/graphiql/blob/272e2371fc7715217739efd7817ce6343cb4fbec/src/utility/fillLeafs.js
 export const fillAllFields = (
@@ -72,16 +117,25 @@ export const fillAllFields = (
   }
 
   let tokenState = token.state as any;
+  let isObjectValue = false;
   if (tokenState.kind === Kind.SELECTION_SET) {
     tokenState.wasSelectionSet = true;
     tokenState = { ...tokenState, ...tokenState.prevState };
   }
-  const fieldType = getTypeInfo(schema, token.state).type;
-  // Strip out empty selection sets since those throw errors while parsing query
+  // Check if we're in an object value (argument)
+  if (tokenState.kind === 'ObjectValue' || tokenState.kind === '{') {
+    isObjectValue = true;
+    tokenState.wasObjectValue = true;
+    // Get the type from token state
+  }
+  const typeInfoResult = getTypeInfo(schema, token.state);
+  const fieldType = typeInfoResult.type;
+  const inputType = typeInfoResult.inputType;
+  // Strip out empty selection sets and empty objects since those throw errors while parsing query
   query = query.replace(/{\s*}/g, '');
   const ast = parseQuery(query);
 
-  if (!fieldType || !ast) {
+  if ((!fieldType && !inputType) || !ast) {
     return { insertions, result: query };
   }
 
@@ -119,6 +173,31 @@ export const fillAllFields = (
             ...node,
             selectionSet,
           };
+        }
+      }
+      
+      // Handle arguments with input object types
+      if (node.kind === Kind.OBJECT && node.loc) {
+        const currentInputType = typeInfo.getInputType();
+        debug.log('OBJECT node:', node, 'inputType:', currentInputType, 'cursor:', cursor, 'tokenState:', tokenState);
+        
+        // Check if this is the object node at the cursor position
+        // and if it has an input object type
+        if (
+          currentInputType &&
+          isInputObjectType(currentInputType) &&
+          (tokenState.wasObjectValue || node.loc.startToken.line - 1 === cursor.line)
+        ) {
+          debug.log('Found input object at cursor:', currentInputType, maxDepth);
+          const fieldsString = buildInputObjectFields(currentInputType, { maxDepth });
+          const indent = getIndentation(query, node.loc.start);
+          
+          if (fieldsString) {
+            insertions.push({
+              index: node.loc.start + 1, // Insert after the opening brace
+              string: '\n' + indent + '  ' + fieldsString.replace(/\n/g, '\n' + indent + '  ') + '\n' + indent,
+            });
+          }
         }
       }
     },
