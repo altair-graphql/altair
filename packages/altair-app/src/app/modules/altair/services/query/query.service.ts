@@ -183,66 +183,81 @@ export class QueryService {
     transforms: Transform[]
   ) {
     for (const entry of transforms) {
-      // start loading
-      this.store.dispatch(
-        new localActions.UpdateWindowLoadingRequestEntryStateAction({
-          windowId: state.windowId,
-          entry: {
-            source: entry.source,
-            sourceId: entry.sourceId,
-            type: entry.type,
-            state: 'active',
-          },
-        })
-      );
-      switch (entry.type) {
-        case 'pre-request': {
-          preTransformedData = await this.getPrerequestScriptResultForScript(
-            state.windowId,
-            entry.script,
-            preTransformedData
-          );
-          break;
-        }
-        case 'auth': {
-          const AuthProviderClass =
-            await AUTHORIZATION_MAPPING[
-              state.authorization.type
-            ].getProviderClass?.();
-          if (AuthProviderClass) {
-            const authProvider = new AuthProviderClass((data) =>
-              this.environmentService.hydrate(data, {
-                activeEnvironment: preTransformedData?.environment,
-              })
+      try {
+        // start loading
+        this.store.dispatch(
+          new localActions.UpdateWindowLoadingRequestEntryStateAction({
+            windowId: state.windowId,
+            entry: {
+              source: entry.source,
+              sourceId: entry.sourceId,
+              type: entry.type,
+              state: 'active',
+            },
+          })
+        );
+        switch (entry.type) {
+          case 'pre-request': {
+            preTransformedData = await this.getPrerequestScriptResultForScript(
+              state.windowId,
+              entry.script,
+              preTransformedData
             );
-            const authData = state.authorization.data;
-            const authResult = await authProvider.execute({
-              data: authData,
-            });
-            const authHeaders = Object.entries(authResult.headers).map(
-              ([key, value]) => ({ key, value, enabled: true })
-            );
-
-            preTransformedData.combinedHeaders = [
-              ...(preTransformedData?.combinedHeaders ?? []),
-              ...authHeaders,
-            ];
+            break;
           }
-          break;
+          case 'auth': {
+            const AuthProviderClass =
+              await AUTHORIZATION_MAPPING[
+                state.authorization.type
+              ].getProviderClass?.();
+            if (AuthProviderClass) {
+              const authProvider = new AuthProviderClass((data) =>
+                this.environmentService.hydrate(data, {
+                  activeEnvironment: preTransformedData?.environment,
+                })
+              );
+              const authData = state.authorization.data;
+              const authResult = await authProvider.execute({
+                data: authData,
+              });
+              const authHeaders = Object.entries(authResult.headers).map(
+                ([key, value]) => ({ key, value, enabled: true })
+              );
+
+              preTransformedData.combinedHeaders = [
+                ...(preTransformedData?.combinedHeaders ?? []),
+                ...authHeaders,
+              ];
+            }
+            break;
+          }
         }
+        // end loading
+        this.store.dispatch(
+          new localActions.UpdateWindowLoadingRequestEntryStateAction({
+            windowId: state.windowId,
+            entry: {
+              source: entry.source,
+              sourceId: entry.sourceId,
+              type: entry.type,
+              state: 'done',
+            },
+          })
+        );
+      } catch (err) {
+        this.store.dispatch(
+          new localActions.UpdateWindowLoadingRequestEntryStateAction({
+            windowId: state.windowId,
+            entry: {
+              source: entry.source,
+              sourceId: entry.sourceId,
+              type: entry.type,
+              state: 'error',
+            },
+          })
+        );
+        throw err;
       }
-      // end loading
-      this.store.dispatch(
-        new localActions.UpdateWindowLoadingRequestEntryStateAction({
-          windowId: state.windowId,
-          entry: {
-            source: entry.source,
-            sourceId: entry.sourceId,
-            type: entry.type,
-            state: 'done',
-          },
-        })
-      );
     }
 
     return preTransformedData;
@@ -334,40 +349,76 @@ export class QueryService {
       })
     );
 
-    for (const transform of transforms) {
-      // start loading
-      this.store.dispatch(
-        new localActions.UpdateWindowLoadingRequestEntryStateAction({
-          windowId: state.windowId,
-          entry: {
-            source: transform.source,
-            sourceId: transform.sourceId,
-            type: transform.type,
-            state: 'active',
-          },
-        })
-      );
-      preTransformedData = await this.getPostRequestTransformedDataForScript(
-        windowId,
-        transform.script,
-        requestType,
-        data,
-        preTransformedData
-      );
-      // end loading
-      if (requestType !== RequestType.SUBSCRIPTION) {
-        // Subscriptions remain active
+    return this.applyPostRequestTransforms(
+      preTransformedData,
+      state,
+      requestType,
+      data,
+      transforms
+    );
+  }
+
+  private async applyPostRequestTransforms(
+    preTransformedData = this.getDefaultTransformResult(),
+    state: PerWindowState,
+    requestType: RequestType,
+    data: SendRequestResponse,
+    transforms: Transform[]
+  ) {
+    for (const entry of transforms) {
+      try {
+        // start loading
         this.store.dispatch(
           new localActions.UpdateWindowLoadingRequestEntryStateAction({
             windowId: state.windowId,
             entry: {
-              source: transform.source,
-              sourceId: transform.sourceId,
-              type: transform.type,
-              state: 'done',
+              source: entry.source,
+              sourceId: entry.sourceId,
+              type: entry.type,
+              state: 'active',
             },
           })
         );
+        switch (entry.type) {
+          case 'post-request': {
+            preTransformedData = await this.getPostRequestTransformedDataForScript(
+              state.windowId,
+              entry.script,
+              requestType,
+              data,
+              preTransformedData
+            );
+            break;
+          }
+        }
+        // end loading
+        if (requestType !== RequestType.SUBSCRIPTION) {
+          // Subscriptions remain active
+          this.store.dispatch(
+            new localActions.UpdateWindowLoadingRequestEntryStateAction({
+              windowId: state.windowId,
+              entry: {
+                source: entry.source,
+                sourceId: entry.sourceId,
+                type: entry.type,
+                state: 'done',
+              },
+            })
+          );
+        }
+      } catch (err) {
+        this.store.dispatch(
+          new localActions.UpdateWindowLoadingRequestEntryStateAction({
+            windowId: state.windowId,
+            entry: {
+              source: entry.source,
+              sourceId: entry.sourceId,
+              type: entry.type,
+              state: 'error',
+            },
+          })
+        );
+        throw err;
       }
     }
 

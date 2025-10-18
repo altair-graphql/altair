@@ -4,9 +4,6 @@
   height: 100%;
   left: 0;
   width: 100%;
-  // border-radius: 4px;
-  min-width: 500px;
-  // background: rgba(var(--rgb-primary), 0.1); // TODO: For debugging
   display: flex;
   align-items: center;
   justify-content: end;
@@ -34,10 +31,8 @@
   flex: 1; // if not collapsed
   color: var(--theme-font-color);
   border-radius: 4px;
-  // background-color: var(--primary-color) !important; // TODO: debugging
   padding-inline: var(--padding-inline);
   padding-block: var(--padding-block);
-  // width: 50px; // else fixed width? -> to width of icon
 
   &--pending {
     background: rgba(var(--rgb-theme-bg), 0.5);
@@ -56,11 +51,10 @@
     color: var(--primary-color);
     gap: 0;
     width: calc(var(--padding-inline) * 2 + 16px); // icon size + padding
-    // &:hover {
-    //   opacity: 1;
-    //   gap: 4px;
-    //   width: auto; // TODO: animate to fit content
-    // }
+  }
+
+  &--error {
+    color: var(--red-color);
   }
 }
 
@@ -71,7 +65,6 @@
   border-radius: 4px;
   flex-shrink: 0;
   transition: all 0.3s ease;
-  // background-color: var(--primary-color);
   color: var(--font-color);
 }
 

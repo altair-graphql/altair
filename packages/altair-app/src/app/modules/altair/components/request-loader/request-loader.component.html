@@ -8,6 +8,7 @@
             'request-loader__item--active': item.state === 'active',
             'request-loader__item--done': item.state === 'done',
             'request-loader__item--pending': item.state === 'pending',
+            'request-loader__item--error': item.state === 'error',
           }"
         >
           <div
@@ -20,7 +21,7 @@
                 <app-icon name="check" />
               }
               @case ('error') {
-                <app-icon name="x-circle" />
+                <app-icon name="x" />
               }
               @case ('active') {
                 <app-icon name="loader" class="anim anim-rotate" />
