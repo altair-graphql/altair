@@ -42,19 +42,19 @@ describe('generateCurl', () => {
     });
 
     // Should not include Content-Type header (curl will set it with boundary)
-    expect(res).not.toContain("Content-Type");
-    
+    expect(res).not.toContain('Content-Type');
+
     // Should include operations field with null for file variable
     expect(res).toContain("-F 'operations=");
     expect(res).toContain('"variables":{"file":null}');
-    
+
     // Should include map field
     expect(res).toContain("-F 'map=");
     expect(res).toContain('"0":["variables.file"]');
-    
+
     // Should include file field
     expect(res).toContain("-F '0=@test.txt'");
-    
+
     // Should still include other headers
     expect(res).toContain("'X-api-token: xyz'");
   });

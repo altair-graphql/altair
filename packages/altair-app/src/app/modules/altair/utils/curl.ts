@@ -80,12 +80,17 @@ export const generateCurl = (opts: GenerateCurlOpts) => {
       
       // Create file map for multipart request
       const fileMap: Record<string, string[]> = {};
-      const dataWithNulls = { ...opts.data };
+      const dataWithNulls = JSON.parse(JSON.stringify(opts.data)); // Deep copy
+      
+      // Ensure variables object exists
+      if (!dataWithNulls.variables) {
+        dataWithNulls.variables = {};
+      }
       
       opts.files.forEach((file, i) => {
-        // Set file variables to null in the data
+        // Set file variables to null in the variables object
         const variablePath = file.name;
-        setVariableToNull(dataWithNulls, variablePath);
+        setVariableToNull(dataWithNulls.variables, variablePath);
         fileMap[i] = [`variables.${variablePath}`];
       });
       
