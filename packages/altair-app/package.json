@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/app",
   "description": "Contains the altair app",
-  "version": "8.3.0",
+  "version": "8.4.0",
   "author": "Samuel Imolorhe <hello@altairgraphql.dev> (https://altairgraphql.dev/)",
   "dependencies": {
     "@altairgraphql/api-utils": "workspace:*",
