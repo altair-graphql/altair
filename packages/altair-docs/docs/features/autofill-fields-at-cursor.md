@@ -14,6 +14,31 @@ Note: You can change the autocompletion depth limit using a [`addQueryDepthLimit
 
 ![Autofill fields](/assets/img/docs/autofill-fields.gif)
 
-::: warning
-Note: This only works for the query fields, and not for the arguments. You can still [generate whole queriea and fragments](/docs/features/add-queries-and-fragments) directly from the docs along with their arguments filled in.
+## Works with arguments too!
+
+This feature now also works with query arguments that accept input object types. When you place your cursor inside an empty argument object (e.g., `character: { }`), you can use the same keyboard shortcut (`Ctrl+Shift+Enter`) or select "Fill all fields" from the autocomplete menu to automatically fill in all the fields for that input type.
+
+For example, given this query:
+```graphql
+{
+  withGOTCharacter(character: { })
+}
+```
+
+Placing the cursor inside the empty braces and pressing `Ctrl+Shift+Enter` will automatically fill in the required fields:
+```graphql
+{
+  withGOTCharacter(character: {
+    id: 
+    book: {
+      id: 
+      url: 
+      name: 
+    }
+  })
+}
+```
+
+::: tip
+You can still [generate whole queries and fragments](/docs/features/add-queries-and-fragments) directly from the docs along with their arguments filled in.
 :::
