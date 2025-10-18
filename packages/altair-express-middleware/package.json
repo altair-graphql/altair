@@ -41,5 +41,9 @@
     "prepare-dist": "node scripts/prepare_dist.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
-  "types": "./build/index.d.ts"
+  "types": "./build/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }

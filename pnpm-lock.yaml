@@ -7,8 +7,8 @@ settings:
 catalogs:
   default:
     electron:
-      specifier: ^33.2.1
-      version: 33.2.1
+      specifier: ^38.3.0
+      version: 38.3.0
     typescript:
       specifier: ^5.8.0
       version: 5.9.3
@@ -815,7 +815,7 @@ importers:
         version: 7.1.1(chai@4.2.0)
       electron:
         specifier: 'catalog:'
-        version: 33.2.1
+        version: 38.3.0
       eslint:
         specifier: ^8.57.0
         version: 8.57.0
@@ -1363,7 +1363,7 @@ importers:
         version: 8.6.0
       electron:
         specifier: 'catalog:'
-        version: 33.2.1
+        version: 38.3.0
       electron-builder:
         specifier: ^23.6.0
         version: 23.6.0
@@ -1396,7 +1396,7 @@ importers:
         version: 1.24.2
       spectron:
         specifier: ^15.0.0
-        version: 15.0.0(bufferutil@4.0.6)(electron@33.2.1)(encoding@0.1.13)(utf-8-validate@5.0.9)
+        version: 15.0.0(bufferutil@4.0.6)(electron@38.3.0)(encoding@0.1.13)(utf-8-validate@5.0.9)
       ts-jest:
         specifier: 29.0.5
         version: 29.0.5(@babel/core@7.28.3)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.28.3))(esbuild@0.14.51)(jest@29.4.1(@types/node@22.10.2)(babel-plugin-macros@3.1.0)(node-notifier@10.0.1)(ts-node@10.9.2(@swc/core@1.6.13(@swc/helpers@0.5.5))(@types/node@22.10.2)(typescript@5.9.3)))(typescript@5.9.3)
@@ -1418,7 +1418,7 @@ importers:
         version: 22.10.1
       electron:
         specifier: 'catalog:'
-        version: 33.2.1
+        version: 38.3.0
       typescript:
         specifier: 'catalog:'
         version: 5.9.3
@@ -1467,7 +1467,7 @@ importers:
         version: 10.4.17(postcss@8.4.39)
       electron:
         specifier: 'catalog:'
-        version: 33.2.1
+        version: 38.3.0
       eslint:
         specifier: ^8.56.0
         version: 8.57.0
@@ -10975,8 +10975,8 @@ packages:
     resolution: {integrity: sha512-1mNTwCfkolXl3kMf50yW3vE2lZj0y92P/HYWFBrb+v2S/pCka5mdwN3cagKm458A7NjndSwijynXgcLWRodsVg==}
     engines: {node: '>=8.0.0'}
 
-  electron@33.2.1:
-    resolution: {integrity: sha512-SG/nmSsK9Qg1p6wAW+ZfqU+AV8cmXMTIklUL18NnOKfZLlum4ZsDoVdmmmlL39ZmeCaq27dr7CgslRPahfoVJg==}
+  electron@38.3.0:
+    resolution: {integrity: sha512-Wij4AzX4SAV0X/ktq+NrWrp5piTCSS8F6YWh1KAcG+QRtNzyns9XLKERP68nFHIwfprhxF2YCN2uj7nx9DaeJw==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -22122,7 +22122,7 @@ snapshots:
 
   '@electron/get@2.0.3':
     dependencies:
-      debug: 4.4.0
+      debug: 4.4.3
       env-paths: 2.2.1
       fs-extra: 8.1.0
       got: 11.8.6
@@ -22142,9 +22142,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@electron/remote@1.2.2(electron@33.2.1)':
+  '@electron/remote@1.2.2(electron@38.3.0)':
     dependencies:
-      electron: 33.2.1
+      electron: 38.3.0
 
   '@electron/universal@1.2.1':
     dependencies:
@@ -26140,7 +26140,7 @@ snapshots:
 
   '@types/electron@1.6.10':
     dependencies:
-      electron: 33.2.1
+      electron: 38.3.0
     transitivePeerDependencies:
       - supports-color
 
@@ -31267,10 +31267,10 @@ snapshots:
       jsonfile: 4.0.0
       mkdirp: 0.5.6
 
-  electron@33.2.1:
+  electron@38.3.0:
     dependencies:
       '@electron/get': 2.0.3
-      '@types/node': 20.14.10
+      '@types/node': 22.10.2
       extract-zip: 2.0.1
     transitivePeerDependencies:
       - supports-color
@@ -41174,9 +41174,9 @@ snapshots:
 
   spdx-license-ids@3.0.5: {}
 
-  spectron@15.0.0(bufferutil@4.0.6)(electron@33.2.1)(encoding@0.1.13)(utf-8-validate@5.0.9):
+  spectron@15.0.0(bufferutil@4.0.6)(electron@38.3.0)(encoding@0.1.13)(utf-8-validate@5.0.9):
     dependencies:
-      '@electron/remote': 1.2.2(electron@33.2.1)
+      '@electron/remote': 1.2.2(electron@38.3.0)
       dev-null: 0.1.1
       electron-chromedriver: 13.0.0
       got: 11.8.6

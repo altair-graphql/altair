@@ -7,5 +7,5 @@ packages:
   # - '!**/test/**'
 
 catalog:
-  electron: ^33.2.1
+  electron: ^38.3.0
   typescript: ^5.8.0
