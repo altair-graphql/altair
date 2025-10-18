@@ -38,5 +38,9 @@
     "bootstrap": "tsc",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
-  "types": "dist/index.d.ts"
+  "types": "dist/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }

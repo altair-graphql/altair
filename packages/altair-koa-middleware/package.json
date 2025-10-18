@@ -48,5 +48,9 @@
     "bootstrap": "pnpm declarations",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
-  "types": "./build/src/index.d.ts"
+  "types": "./build/src/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }

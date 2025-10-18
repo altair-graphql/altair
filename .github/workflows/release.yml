@@ -12,6 +12,9 @@ env:
   NODE_VERSION: 22
   # NODE_OPTIONS: --openssl-legacy-provider
 
+permissions:
+  id-token: write
+
 # TODO: Handle browser extension release
 jobs:
   vars:

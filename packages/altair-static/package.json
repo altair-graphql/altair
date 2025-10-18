@@ -40,5 +40,9 @@
     "test": "jest",
     "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static --verbose"
   },
-  "types": "./build/index.d.ts"
+  "types": "./build/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
 }
