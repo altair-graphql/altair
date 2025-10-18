@@ -222,8 +222,6 @@ export const fillAllFields = (
           };
         }
       }
-      
-
     },
   });
 
