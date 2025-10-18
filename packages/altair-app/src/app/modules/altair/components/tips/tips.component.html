@@ -1,5 +1,9 @@
 @if (currentTip) {
-  <div class="tips" [@fadeInOutAnimation]>
+  <div
+    class="tips"
+    animate.enter="animate animate-fade-in"
+    animate.leave="animate animate-fade-out"
+  >
     <div class="tips-inner">
       <span class="tips-title">Tip:</span>
       {{ currentTip.text }}

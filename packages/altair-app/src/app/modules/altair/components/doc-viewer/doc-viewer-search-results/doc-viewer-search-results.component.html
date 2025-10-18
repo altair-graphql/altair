@@ -7,7 +7,8 @@
     <div
       class="doc-viewer-search-result-item"
       (click)="goToItem(result)"
-      [@showResultItem]
+      animate.enter="animate animate-slide-in"
+      animate.leave="animate animate-fade-out"
     >
       @switch (result.cat) {
         @case ('type') {

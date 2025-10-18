@@ -1,7 +1,11 @@
 @if (allowIntrospection() && docView(); as docView) {
   <div #docViewer class="app-doc-viewer">
     @if (isLoading()) {
-      <div class="app-doc-loader" [@fadeInOutAnimation]>
+      <div
+        class="app-doc-loader"
+        animate.enter="animate animate-fade-in"
+        animate.leave="animate animate-fade-out"
+      >
         <div class="app-doc-loader-content">
           <img
             src="assets/img/logo.svg"

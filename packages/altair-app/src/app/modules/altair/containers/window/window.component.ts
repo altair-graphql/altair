@@ -37,7 +37,6 @@ import {
 } from '../../services';
 import { Observable, EMPTY, combineLatest, of } from 'rxjs';
 import { UntilDestroy, untilDestroyed } from '@ngneat/until-destroy';
-import { fadeInOutAnimationTrigger } from '../../animations';
 import { IDictionary, TrackByIdItem } from '../../interfaces/shared';
 import collectVariables from 'codemirror-graphql/utils/collectVariables';
 import {
@@ -78,7 +77,6 @@ import { LoadingRequestStateEntry } from 'altair-graphql-core/build/types/state/
 @Component({
   selector: 'app-window',
   templateUrl: './window.component.html',
-  animations: [fadeInOutAnimationTrigger],
   standalone: false,
 })
 export class WindowComponent implements OnInit {

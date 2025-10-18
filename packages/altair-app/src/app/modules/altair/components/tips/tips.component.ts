@@ -3,9 +3,9 @@ import {
   OnDestroy,
   effect,
   input,
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import { rand } from '../../utils';
-import { fadeInOutAnimationTrigger } from '../../animations';
 
 interface Tip {
   text: string;
@@ -22,8 +22,8 @@ const DEFAULT_TIP_INTERVAL = 60000;
   selector: 'app-tips',
   templateUrl: './tips.component.html',
   styles: ``,
-  animations: [fadeInOutAnimationTrigger],
   standalone: false,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TipsComponent implements OnDestroy {
   readonly activeWindowId = input('');

@@ -16,7 +16,6 @@ import { debug } from '../../../utils/logger';
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { GraphQLSchema, GraphQLObjectType, GraphQLDirective } from 'graphql';
 import { DocumentIndexEntry } from '../models';
-import { fadeInOutAnimationTrigger } from '../../../animations';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
@@ -29,7 +28,6 @@ import { debounce } from 'lodash-es';
 @Component({
   selector: 'app-doc-viewer',
   templateUrl: './doc-viewer.component.html',
-  animations: [fadeInOutAnimationTrigger],
   standalone: false,
 })
 export class DocViewerComponent {
