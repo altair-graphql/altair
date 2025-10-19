@@ -102,7 +102,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 3,
       tabSize: 2,
-      maxWindows: 50,
+      maxWindows: 15,
     });
   });
 
@@ -118,6 +118,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      maxWindows: 15,
     });
   });
 
@@ -139,6 +140,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      maxWindows: 15,
     });
   });
 
