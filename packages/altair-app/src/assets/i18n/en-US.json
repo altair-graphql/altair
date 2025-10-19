@@ -96,6 +96,7 @@
   "SETTINGS_LANGUAGE_TEXT": "Language",
   "SETTINGS_ADD_QUERY_DEPTH_LIMIT_TEXT": "Add Query Depth Limit",
   "SETTINGS_TAB_SIZE_TEXT": "Tab Size",
+  "SETTINGS_MAX_WINDOWS_TEXT": "Maximum Windows",
   "SETTINGS_HELP_WITH_TRANSLATIONS_TEXT": "Would you like to help with translations?",
   "SETTINGS_SHOW_EDITOR_HINT": "Press ctrl-space to show hint",
   "SETTINGS_KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
