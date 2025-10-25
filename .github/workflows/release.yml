@@ -59,6 +59,8 @@ jobs:
   tauri:
     needs: vars
     uses: ./.github/workflows/_publish-tauri.yml
+    permissions:
+      contents: write
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
     secrets: inherit
@@ -67,6 +69,9 @@ jobs:
     needs: [electron, vars]
     # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_publish-npm.yml
+    permissions:
+      contents: write
+      id-token: write
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
     secrets: inherit
