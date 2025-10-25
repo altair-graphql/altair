@@ -18,6 +18,10 @@ on:
         default: "22"
         type: string
 
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   npm-publish:
     permissions:

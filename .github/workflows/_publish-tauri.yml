@@ -49,6 +49,9 @@ on:
         default: true
         type: boolean
 
+permissions:
+  contents: write
+  id-token: write
 jobs:
   tauri:
     permissions:
