@@ -62,6 +62,7 @@ jobs:
     uses: ./.github/workflows/_publish-tauri.yml
     permissions:
       contents: write
+      id-token: write
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
     secrets: inherit
