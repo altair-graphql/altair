@@ -79,7 +79,10 @@
   ],
   "license": "MIT",
   "main": "./build/index.js",
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  },
   "scripts": {
     "build": "node ./scripts/build.js",
     "bootstrap": "pnpm build",

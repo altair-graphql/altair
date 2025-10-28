@@ -35,5 +35,9 @@
     "tailwindcss": "^3.4.1",
     "typescript": "catalog:",
     "vite": "^5.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

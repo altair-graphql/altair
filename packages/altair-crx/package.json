@@ -43,5 +43,9 @@
     "vite": "^2.9.15",
     "vitest": "^3.0.5",
     "web-ext": "^8.3.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

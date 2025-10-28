@@ -27,7 +27,10 @@
   ],
   "license": "MIT",
   "main": "gatsby-node.js",
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  },
   "scripts": {
     "compile": "tsc --declaration",
     "bootstrap": "pnpm compile",

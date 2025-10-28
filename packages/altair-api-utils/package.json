@@ -17,5 +17,9 @@
   "scripts": {
     "build": "node ./scripts/build.cjs",
     "bootstrap": "pnpm build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

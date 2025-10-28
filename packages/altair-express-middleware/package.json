@@ -33,7 +33,10 @@
   ],
   "license": "MIT",
   "main": "./build/index.js",
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  },
   "scripts": {
     "declarations": "tsc --declaration",
     "example": "nodemon example/index.ts",

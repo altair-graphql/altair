@@ -19,5 +19,9 @@
     "dev": "email dev",
     "bootstrap": "pnpm build"
   },
-  "private": true
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  }
 }

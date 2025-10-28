@@ -192,5 +192,9 @@
     "test-build": "ng lint && pnpm build && pnpm test-single-run",
     "test-single-run": "ng test --watch=false --code-coverage",
     "test:watch": "jest --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

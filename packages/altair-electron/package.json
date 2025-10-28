@@ -70,7 +70,10 @@
   "main": "dist/index.js",
   "private": true,
   "productName": "Altair GraphQL Client",
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  },
   "scripts": {
     "build": "pnpm compile && electron-builder",
     "compile": "tsc && pnpm sentry:sourcemaps:inject",

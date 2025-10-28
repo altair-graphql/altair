@@ -39,5 +39,9 @@
     "medium-zoom": "^1.1.0",
     "minisearch": "^7.1.1",
     "yaml": "^2.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

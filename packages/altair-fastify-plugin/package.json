@@ -32,7 +32,10 @@
   "peerDependencies": {
     "fastify": "^5.0.0"
   },
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  },
   "scripts": {
     "example": "ts-node example/mercurius.ts",
     "bootstrap": "tsc",

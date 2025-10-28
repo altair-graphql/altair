@@ -15,5 +15,9 @@
   "scripts": {
     "build": "tsc --build",
     "bootstrap": "pnpm build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

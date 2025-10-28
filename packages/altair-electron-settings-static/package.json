@@ -18,5 +18,9 @@
     "prepare-dist": "node scripts/prepare_dist.js",
     "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static"
   },
-  "types": "./build/index.d.ts"
+  "types": "./build/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  }
 }

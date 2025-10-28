@@ -27,5 +27,9 @@
     "prisma:studio": "prisma studio",
     "prod:prestart": "prisma migrate deploy && prisma db seed",
     "postinstall": "pnpm prisma:generate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }
