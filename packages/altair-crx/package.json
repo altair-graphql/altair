@@ -40,7 +40,7 @@
     "recursive-copy": "^2.0.14",
     "rimraf": "^5.0.5",
     "typescript": "catalog:",
-    "vite": "^2.9.15",
+    "vite": "^5.4.21",
     "vitest": "^3.0.5",
     "web-ext": "^8.3.0"
   },
