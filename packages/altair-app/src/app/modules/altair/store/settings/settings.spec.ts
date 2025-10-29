@@ -8,6 +8,7 @@ let mockAltairConfig = {
   default_language: 'en-US',
   add_query_depth_limit: 1,
   tab_size: 1,
+  max_windows: 15,
 };
 jest.mock('altair-graphql-core/build/config', () => {
   return {
@@ -27,6 +28,7 @@ describe('settings', () => {
       default_language: 'en-US',
       add_query_depth_limit: 1,
       tab_size: 1,
+      max_windows: 15,
     };
   });
   it('should return previous state if action is not known', () => {
@@ -46,6 +48,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      maxWindows: 15,
     });
   });
 
@@ -61,6 +64,7 @@ describe('settings', () => {
       default_language: 'en-US',
       add_query_depth_limit: 1,
       tab_size: 1,
+      max_windows: 15,
     };
     const newState = settingsReducer(undefined, {
       type: 'UNKNOWN_ACTION',
@@ -71,6 +75,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      maxWindows: 15,
     });
   });
 
@@ -97,6 +102,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 3,
       tabSize: 2,
+      maxWindows: 15,
     });
   });
 
@@ -112,6 +118,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      maxWindows: 15,
     });
   });
 
@@ -133,6 +140,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      maxWindows: 15,
     });
   });
 

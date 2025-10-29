@@ -91,7 +91,7 @@
       </ul>
     </nz-dropdown-menu>
   }
-  @if (windowIds().length < maxWindowCount) {
+  @if (windowIds().length < maxWindowCount()) {
     <div class="window-switcher__item" (click)="newWindowChange.emit()">
       {{ 'ADD_NEW_WINDOW_TEXT' | translate }}
     </div>

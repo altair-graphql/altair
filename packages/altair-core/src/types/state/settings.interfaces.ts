@@ -192,6 +192,12 @@ export interface SettingsState {
    * Whether target GraphQL server supports deprecation of input values
    */
   'introspection.options.inputValueDeprecation'?: boolean;
+
+  /**
+   * Maximum number of windows/tabs allowed
+   * @default 50 (Electron), 15 (Web)
+   */
+  maxWindows?: number;
 }
 
 // Partial settings state for generating partial validator
