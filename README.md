@@ -94,6 +94,10 @@ Read more [here](.github/development.md).
 
 The docker image can be built from the [Dockerfile](./Dockerfile) at the root of the repo.
 
+#### Hostinger
+
+[![Deploy on Hostinger](https://assets.hostinger.com/vps/deploy.svg)](https://www.hostinger.com/vps/docker-hosting?compose_url=docker-compose-url)
+
 #### Digitalocean
 
 [![Deploy to DO](https://www.deploytodo.com/do-btn-blue.svg)](https://cloud.digitalocean.com/apps/new?repo=https://github.com/altair-graphql/altair/tree/master&refcode=345176f96acb)
