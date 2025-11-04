@@ -1122,12 +1122,6 @@ export class QueryEffects {
           const { resolvedFiles } = this.gqlService.normalizeFiles(
             response.data.variables.files
           );
-          if (resolvedFiles.length) {
-            this.notifyService.error(
-              'This is not currently available with file variables'
-            );
-            return EMPTY;
-          }
 
           try {
             const curlCommand = generateCurl({
@@ -1143,6 +1137,7 @@ export class QueryEffects {
                 query,
                 variables: parseJson(variables),
               },
+              files: resolvedFiles,
             });
             debug.log(curlCommand);
             copyToClipboard(curlCommand);
