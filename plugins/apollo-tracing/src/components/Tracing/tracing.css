@@ -48,11 +48,18 @@
   display: inline-flex;
   align-items: center;
   text-align: right;
+  /* Ensure readable contrast on both light and dark themes */
+  background: var(--theme-bg-color, transparent);
+  padding-right: 8px;
+  padding-left: 4px;
+  border-radius: 2px;
 }
 
 .tracing-row__name {
   margin-left: 10px;
   white-space: nowrap;
+  /* Use primary text color for better visibility */
+  color: var(--theme-font-color, white);
 }
 
 .tracing-row__bar {
@@ -62,9 +69,12 @@
   height: 1.5px;
   bottom: 4px;
   background: var(--primary-color, white);
+  /* Add slight opacity for better visibility on all backgrounds */
+  opacity: 0.9;
 }
 
 .tracing-row__duration {
   font-size: 10px;
+  /* Use off-font color for duration which is appropriately muted for both themes */
   color: var(--theme-off-font-color, gray);
 }
