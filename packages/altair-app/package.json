@@ -68,7 +68,7 @@
     "deepmerge": "4.2.2",
     "dexie": "3.2.3",
     "dompurify": "^3.1.6",
-    "express": "^4.19.2",
+    "express": "^4.22.0",
     "file-dialog": "0.0.8",
     "file-saver": "2.0.2",
     "fuse.js": "6.4.6",
