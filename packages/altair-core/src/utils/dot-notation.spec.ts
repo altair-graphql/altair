@@ -47,5 +47,17 @@ describe('setByDotNotation', () => {
     setByDotNotation(polluted, '__proto__.polluted', 'polluted');
     expect((polluted as any).polluted).toBeUndefined();
     expect(({} as any).polluted).toBeUndefined();
+
+    setByDotNotation(polluted, 'constructor.prototype.polluted', 'polluted');
+    expect((polluted as any).polluted).toBeUndefined();
+    expect(({} as any).polluted).toBeUndefined();
+
+    // ensure valid paths with substrings are not blocked
+    const validObj: any = {};
+    setByDotNotation(validObj, 'myconstructor', 'is-ok');
+    expect(validObj.myconstructor).toBe('is-ok');
+
+    setByDotNotation(validObj, 'some_prototype_value', 'is-ok');
+    expect(validObj.some_prototype_value).toBe('is-ok');
   });
 });
