@@ -28,6 +28,9 @@ export function setByDotNotation<TResult = unknown>(
   if (!path || path.length === 0) {
     return undefined;
   }
+  if (path.includes('__proto__') || path.includes('constructor') || path.includes('prototype')) {
+    return undefined;
+  }
   if (typeof path === 'string') {
     return setByDotNotation(
       obj,

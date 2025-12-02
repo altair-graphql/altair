@@ -41,5 +41,11 @@ describe('setByDotNotation', () => {
     // set object inside existing object with merge
     setByDotNotation(existingObj, 'b.e', { h: 11 }, true);
     expect(existingObj).toEqual({ a: 1, b: { c: 2, e: { g: 10, h: 11 } } });
+
+    // prevent prototype pollution
+    const polluted: any = {};
+    setByDotNotation(polluted, '__proto__.polluted', 'polluted');
+    expect((polluted as any).polluted).toBeUndefined();
+    expect(({} as any).polluted).toBeUndefined();
   });
 });
