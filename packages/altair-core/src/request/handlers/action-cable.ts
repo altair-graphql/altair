@@ -38,7 +38,7 @@ export class ActionCableRequestHandler implements GraphQLRequestHandler {
                 url: request.url,
                 requestStartTimestamp,
                 requestEndTimestamp,
-                resopnseTimeMs: requestEndTimestamp - requestStartTimestamp,
+                responseTimeMs: requestEndTimestamp - requestStartTimestamp,
               });
             }
 

@@ -147,7 +147,7 @@ export class HttpRequestHandler implements GraphQLRequestHandler {
         requestStartTimestamp: requestStartTime,
         requestEndTimestamp: requestEndTime,
         // this is redundant data
-        resopnseTimeMs: requestEndTime - requestStartTime,
+        responseTimeMs: requestEndTime - requestStartTime,
       };
 
       // Send the data to the observer
