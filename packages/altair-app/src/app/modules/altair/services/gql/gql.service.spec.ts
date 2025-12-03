@@ -152,7 +152,7 @@ describe('GqlService', () => {
                 url: 'http://test.com',
                 requestStartTimestamp: 1,
                 requestEndTimestamp: 2,
-                responseTimeMs: 1.5,
+                responseTimeMs: 1,
               });
             }
             default:
@@ -167,7 +167,7 @@ describe('GqlService', () => {
                 url: 'http://test.com',
                 requestStartTimestamp: 1,
                 requestEndTimestamp: 2,
-                responseTimeMs: 1.5,
+                responseTimeMs: 1,
               });
           }
         };
@@ -216,7 +216,7 @@ describe('GqlService', () => {
                 url: 'http://test.com',
                 requestStartTimestamp: 1,
                 requestEndTimestamp: 2,
-                responseTimeMs: 1.5,
+                responseTimeMs: 1,
               });
             }
             default:
@@ -231,7 +231,7 @@ describe('GqlService', () => {
                 url: 'http://test.com',
                 requestStartTimestamp: 1,
                 requestEndTimestamp: 2,
-                responseTimeMs: 1.5,
+                responseTimeMs: 1,
               });
           }
         });
@@ -283,7 +283,7 @@ describe('GqlService', () => {
                 url: 'http://test.com',
                 requestStartTimestamp: 1,
                 requestEndTimestamp: 2,
-                responseTimeMs: 1.5,
+                responseTimeMs: 1,
               });
           }
         };
