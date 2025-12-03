@@ -29,12 +29,20 @@ export function setByDotNotation<TResult = unknown>(
     return undefined;
   }
   if (typeof path === 'string') {
+    const segments = path.split('.').map(parseDotNotationKey);
+    if (segments.some(segment => segment === '__proto__' || segment === 'constructor' || segment === 'prototype')) {
+      return undefined;
+    }
     return setByDotNotation(
       obj,
-      path.split('.').map(parseDotNotationKey),
+      segments,
       value,
       merge
     );
+  }
+
+  if (Array.isArray(path) && path.some(segment => segment === '__proto__' || segment === 'constructor' || segment === 'prototype')) {
+    return undefined;
   }
 
   const currentPath = path[0];
