@@ -164,6 +164,14 @@ export interface SettingsState {
   'script.allowedCookies'?: string[];
 
   /**
+   * List of local storage keys to be accessible in the pre-request script.
+   * These will be made available read-only via the `storage` API in the script context.
+   * @example ['key1', 'key2']
+   * @default []
+   */
+  'script.allowedLocalStorageKeys'?: string[];
+
+  /**
    * Enable the scrollbar in the tab list
    */
   enableTablistScrollbar?: boolean;

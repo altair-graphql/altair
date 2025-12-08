@@ -81,7 +81,7 @@ const res = await altair.helpers.request(
 
 ### altair.storage
 
-**`altair.storage.get(key: string): Promise<any>`** - Retrieves a value persisted in storage.
+**`altair.storage.get(key: string): Promise<any>`** - Retrieves a value persisted in storage. Also retrieves values from localStorage if the key is included in the `script.allowedLocalStorageKeys` setting.
 
 **`altair.storage.set(key: string, value: any): Promise<void>`** - Stores (persists) a value in storage for retrieval later.
 
