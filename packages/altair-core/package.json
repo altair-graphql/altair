@@ -33,7 +33,7 @@
     "uuid": "9.0.1"
   },
   "devDependencies": {
-    "@angular/common": "17.0.8",
+    "@angular/common": "19.2.16",
     "@jedmao/location": "^3.0.0",
     "@jest/globals": "^29.7.0",
     "@types/actioncable": "^5.2.5",
