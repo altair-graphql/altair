@@ -28,6 +28,7 @@ import {
 } from '@altairgraphql/electron-interop/build/renderer';
 import { environment } from 'environments/environment';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { IdentityProvider } from '@altairgraphql/db';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
@@ -225,8 +226,8 @@ export class ElectronAppService {
       });
   }
 
-  getAuthToken() {
-    return this.api?.actions.getAuthToken();
+  getAuthToken(provider: IdentityProvider) {
+    return this.api?.actions.getAuthToken(provider);
   }
 
   getAutobackupData() {

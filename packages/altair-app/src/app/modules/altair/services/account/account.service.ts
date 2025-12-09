@@ -13,10 +13,9 @@ import { IdentityProvider } from '@altairgraphql/db';
 export class AccountService {
   private electronApp = inject(ElectronAppService);
 
-
   private async signin(provider: IdentityProvider = IdentityProvider.GOOGLE) {
     if (isElectronApp()) {
-      const authToken = await this.electronApp.getAuthToken();
+      const authToken = await this.electronApp.getAuthToken(provider);
       return apiClient.signInWithCustomToken(authToken);
     }
 
