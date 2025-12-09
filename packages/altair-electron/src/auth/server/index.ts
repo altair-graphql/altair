@@ -4,17 +4,20 @@ import bodyParser from 'body-parser';
 import { EventEmitter } from 'events';
 import path from 'path';
 import { randomBytes } from 'crypto';
-import { getStaticDirectory } from '../../utils';
 import { session, shell } from 'electron';
 import { getCSP, INLINE, SELF } from 'csp-header';
 import getPort from 'get-port';
+import {
+  IdentityProvider,
+  getPopupUrl,
+} from 'altair-graphql-core/build/identity/providers';
 
 export const IPC_SET_CUSTOM_TOKEN_EVENT = 'auth:set-custom-token';
 
 const newNonce = () => {
   const validChars =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  const array = randomBytes(40).map(x =>
+  const array = randomBytes(40).map((x) =>
     validChars.charCodeAt(x % validChars.length)
   );
   return String.fromCharCode(...array);
@@ -36,16 +39,12 @@ export class AuthServer {
     app.use(bodyParser.json());
 
     app.use('/login', (req, res) => {
-      return res.sendFile(
-        path.resolve(authClientStaticDirectory(), 'index.html')
-      );
+      return res.sendFile(path.resolve(authClientStaticDirectory(), 'index.html'));
     });
     app.use('/callback', (req, res) => {
       // TODO: Verify ttl
       if (req.body.nonce !== this.nonce) {
-        return res
-          .status(400)
-          .send({ status: 'error', message: 'invalid request' });
+        return res.status(400).send({ status: 'error', message: 'invalid request' });
       }
 
       this.emitter.emit('token', req.body.token);
@@ -65,13 +64,13 @@ export class AuthServer {
     }
   }
 
-  async getCustomToken() {
+  async getCustomToken(provider: IdentityProvider) {
     if (!this.server) {
       await this.start();
     }
     // TODO: Use a hosted domain instead
     await shell.openExternal(
-      `http://localhost:${this.port}/login?nonce=${this.nonce}`
+      getPopupUrl(`http://localhost:${this.port}/login`, this.nonce, '', provider)
     );
 
     const token = await this.listenForToken();

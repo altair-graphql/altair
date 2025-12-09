@@ -1261,6 +1261,9 @@ importers:
 
   packages/altair-electron:
     dependencies:
+      '@altairgraphql/api-utils':
+        specifier: workspace:*
+        version: link:../altair-api-utils
       '@altairgraphql/electron-interop':
         specifier: workspace:*
         version: link:../altair-electron-interop

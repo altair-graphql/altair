@@ -1,6 +1,5 @@
 /* eslint-disable no-sync */
-import { readdir } from 'fs';
-import fs from 'fs';
+import fs, { readdir } from 'fs';
 import { join } from 'path';
 import { App, ipcMain } from 'electron';
 import { ALTAIR_CUSTOM_PROTOCOL } from '@altairgraphql/electron-interop';
@@ -45,7 +44,7 @@ const encodeError = (e: Error) => {
 
 export const handleWithCustomErrors = (
   channel: string,
-  handler: (event: Electron.IpcMainInvokeEvent, ...args: unknown[]) => unknown
+  handler: (event: Electron.IpcMainInvokeEvent, ...args: any[]) => unknown
 ) => {
   ipcMain.handle(channel, async (...args) => {
     try {

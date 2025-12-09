@@ -30,6 +30,7 @@ import { ConfigEnvironment } from 'altair-graphql-core/build/config/environment'
 import { UrlConfig } from 'altair-graphql-core/build/config/urls';
 import { IRateMessageDto, ISendMessageDto } from './ai';
 import { IAvailableCredits } from 'altair-graphql-core/build/types/state/account.interfaces';
+import { getPopupUrl } from 'altair-graphql-core/build/identity/providers';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
@@ -130,12 +131,7 @@ export class APIClient {
     nonce: string,
     provider: IdentityProvider = IdentityProvider.GOOGLE
   ) {
-    const url = new URL(this.urlConfig.loginClient);
-    url.searchParams.append('nonce', nonce);
-    url.searchParams.append('sc', location.origin);
-    url.searchParams.append('provider', provider);
-
-    return url.href;
+    return getPopupUrl(this.urlConfig.loginClient, nonce, location.origin, provider);
   }
 
   observeUser() {

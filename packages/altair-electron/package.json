@@ -10,6 +10,7 @@
     "logo": "https://opencollective.com/altair/logo.txt"
   },
   "dependencies": {
+    "@altairgraphql/api-utils": "workspace:*",
     "@altairgraphql/electron-interop": "workspace:*",
     "@altairgraphql/electron-settings-static": "workspace:*",
     "@altairgraphql/login-redirect": "workspace:*",
