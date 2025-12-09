@@ -690,7 +690,7 @@ export class GqlService {
                 url: response.url,
                 requestStartTime: response.requestStartTimestamp,
                 requestEndTime: response.requestEndTimestamp,
-                responseTime: response.resopnseTimeMs,
+                responseTime: response.responseTimeMs,
               };
             })
           );

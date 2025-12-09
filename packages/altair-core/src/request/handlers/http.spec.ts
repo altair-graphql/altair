@@ -81,7 +81,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/graphql',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });
@@ -129,7 +129,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });
@@ -193,7 +193,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/graphql',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });
@@ -255,7 +255,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/graphql',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });
@@ -290,7 +290,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/graphql',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });
@@ -340,7 +340,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });
@@ -459,7 +459,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/simple-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
       expect.objectContaining({
         ok: true,
@@ -469,7 +469,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/simple-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
       expect.objectContaining({
         ok: true,
@@ -479,7 +479,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/simple-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });
@@ -607,7 +607,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
       expect.objectContaining({
         ok: true,
@@ -617,7 +617,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
       expect.objectContaining({
         ok: true,
@@ -627,7 +627,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
       expect.objectContaining({
         ok: true,
@@ -637,7 +637,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
       expect.objectContaining({
         ok: true,
@@ -647,7 +647,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });
@@ -720,7 +720,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/multipart-stream-2',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
       expect.objectContaining({
         ok: true,
@@ -730,7 +730,7 @@ describe('HTTP handler', () => {
         url: 'http://localhost:3000/multipart-stream-2',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
-        resopnseTimeMs: expect.any(Number),
+        responseTimeMs: expect.any(Number),
       }),
     ]);
   });

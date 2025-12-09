@@ -19,7 +19,7 @@ export const simpleResponseObserver = (
         url: url,
         requestStartTimestamp,
         requestEndTimestamp,
-        resopnseTimeMs: requestEndTimestamp - requestStartTimestamp,
+        responseTimeMs: requestEndTimestamp - requestStartTimestamp,
       });
     },
     error: (...args) => subscriber.error(...args),
