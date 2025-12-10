@@ -61,10 +61,9 @@ jobs:
           command: pnpm build:ci
       - id: publish
         run: |
-          BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
-          SAFE_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9-]/-/g')
           if [ "${{ inputs.production == true }}" = "true" ]; then
             pnpm publish -r --no-git-checks --provenance --access public
           else
-            pnpm publish -r --no-git-checks --provenance --access public --tag "prerelease-$SAFE_BRANCH_NAME"
+            echo "Not a production publish. Only verifying authentication..."
+            pnpm whoami
           fi
