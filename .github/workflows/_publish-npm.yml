@@ -28,6 +28,10 @@ on:
         default: true
         type: boolean
 
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   npm-publish:
     permissions:
@@ -44,10 +48,10 @@ jobs:
         with:
           node-version: ${{ inputs.node_version }}
           cache: "pnpm"
-      - name: Authenticate with Registry
-        run: echo -e "\n//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # - name: Authenticate with Registry
+      #   run: echo -e "\n//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+      #   env:
+      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: pnpm i --frozen-lockfile
       - uses: nick-invision/retry@v2
         with:
