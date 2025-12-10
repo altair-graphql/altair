@@ -1,12 +1,14 @@
+# Deprecated: Superceded by .github/workflows/main.yml
 name: pr-and-master-workflow
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-  merge_group:
-  workflow_dispatch:
+on: {}
+# on:
+#   push:
+#     branches:
+#       - master
+#   pull_request:
+#   merge_group:
+#   workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

@@ -1,0 +1,154 @@
+name: main
+
+# Main workflow for CI/CD. Manages all jobs
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "**"
+  pull_request:
+  merge_group:
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: 22
+  # NODE_OPTIONS: --openssl-legacy-provider
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# TODO: Handle browser extension release
+# TODO: Pass explicit secrets to reusable workflows https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows#passing-secrets-to-nested-workflows
+# TODO: Set a restricted set of default permissions https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+jobs:
+  # Expose common variables
+  vars:
+    runs-on: ubuntu-latest
+    outputs:
+      node_version: ${{ env.NODE_VERSION }}
+      is_release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+      is_master: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+      - run: echo "Exposing env vars"
+
+  # Prepare release draft (if applicable)
+  prepare-release:
+    name: Prepare release
+    needs: vars
+    if: ${{ needs.vars.outputs.is_release }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - id: release-draft
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.github_token }}
+          prerelease: false
+          draft: true
+          generate_release_notes: true
+    outputs:
+      release-tag: ${{ steps.release-draft.outputs.id }}
+
+  # Run tests
+  tests:
+    needs: vars
+    uses: ./.github/workflows/_tests.yml
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+    secrets: inherit
+
+  # Build and push Docker images
+  docker:
+    needs: [vars, prepare-release]
+    # We do not need to check out the repository to use the reusable workflow
+    uses: ./.github/workflows/_push-docker.yml
+    with:
+      # Push if on master or if it's a release
+      push: ${{ needs.vars.outputs.is_master || needs.vars.outputs.is_release }}
+      # Only push latest tag for releases
+      release: ${{ needs.vars.outputs.is_release }}
+      version: ${{ needs.prepare-release.outputs.release-tag || github.sha }}
+    secrets: inherit
+
+  # Build and publish Electron app
+  electron:
+    needs: [vars, prepare-release]
+    uses: ./.github/workflows/_publish-electron.yml
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+      publish: ${{ needs.vars.outputs.is_release }}
+    secrets: inherit
+
+  # Build and publish NPM packages
+  npm:
+    needs: [vars, prepare-release]
+    # We do not need to check out the repository to use the reusable workflow
+    uses: ./.github/workflows/_publish-npm.yml
+    permissions:
+      contents: write
+      id-token: write
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+      production: ${{ needs.vars.outputs.is_release }}
+    secrets: inherit
+
+  # Build and publish Tauri app
+  tauri:
+    needs: [vars, prepare-release]
+    uses: ./.github/workflows/_publish-tauri.yml
+    permissions:
+      contents: write
+      id-token: write
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+      publish: ${{ needs.vars.outputs.is_release }}
+    secrets: inherit
+
+  publish-release:
+    name: Publish release
+    needs: [vars, prepare-release, electron]
+    if: ${{ needs.vars.outputs.is_release }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with:
+          release_id: ${{ needs.prepare-release.outputs.release-tag }}
+
+  # Deploy sites and docs
+  sites:
+    needs: [vars, publish-release]
+    uses: ./.github/workflows/_deploy-sites.yml
+    with:
+      node_version: ${{ needs.vars.outputs.node_version }}
+      # Delay docs deployment by 60 seconds on release to allow for release data propagation
+      delay_seconds: ${{ needs.vars.outputs.is_release && 60 || 0 }}
+    secrets: inherit
+
+  # Deploy translation site
+  translate:
+    needs: vars
+    if: ${{ needs.vars.outputs.is_master }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm build:ci
+      - name: Deploy to translate surge.sh
+        uses: dswistowski/surge-sh-action@v1
+        with:
+          domain: altair-gql-translate.surge.sh
+          project: ./packages/altair-app/dist
+          login: ${{ secrets.surge_login }}
+          token: ${{ secrets.surge_token }}

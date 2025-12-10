@@ -1,8 +1,10 @@
+# deprecated: Superceded by .github/workflows/main.yml
 name: post-release-workflow
 
-on:
-  release:
-    types: [released]
+on: {}
+# on:
+#   release:
+#     types: [released]
 
 env:
   NODE_VERSION: 22

@@ -1,12 +1,14 @@
+# Deprecated: Superceded by .github/workflows/main.yml
 name: release-workflow
 
 # https://victoronsoftware.com/posts/github-reusable-workflows-and-steps/
 
-on:
-  push:
-    tags:
-      - "**"
-  workflow_dispatch:
+on: {}
+# on:
+#   push:
+#     tags:
+#       - "**"
+#   workflow_dispatch:
 
 env:
   NODE_VERSION: 22

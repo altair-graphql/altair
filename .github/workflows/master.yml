@@ -1,9 +1,11 @@
+# deprecated: Superceded by .github/workflows/main.yml
 name: master-workflow
 
-on:
-  push:
-    branches:
-      - master
+on: {}
+# on:
+#   push:
+#     branches:
+#       - master
 
 env:
   NODE_VERSION: 22
@@ -19,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - run: pnpm i --frozen-lockfile
       - run: pnpm build:ci
       - name: Deploy to translate surge.sh
