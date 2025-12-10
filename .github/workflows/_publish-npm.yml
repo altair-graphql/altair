@@ -7,6 +7,11 @@ on:
         description: "Node.js version to use"
         default: "22"
         type: string
+      production:
+        description: "Whether to publish as production"
+        required: false
+        default: true
+        type: boolean
     outputs:
       reusable_output:
         description: "Successful publish from the workflow"
@@ -17,6 +22,11 @@ on:
         description: "Node.js version to use"
         default: "22"
         type: string
+      production:
+        description: "Whether to publish as production"
+        required: false
+        default: true
+        type: boolean
 
 permissions:
   contents: write
@@ -48,4 +58,11 @@ jobs:
           max_attempts: 3
           command: pnpm build:ci
       - id: publish
-        run: pnpm publish -r --no-git-checks --provenance
+        run: |
+          BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
+          SAFE_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9-]/-/g')
+          if [ "${{ inputs.production == true }}" = "true" ]; then
+            pnpm publish -r --no-git-checks --provenance
+          else
+            pnpm publish -r --no-git-checks --provenance --tag "prerelease-$SAFE_BRANCH_NAME"
+          fi
