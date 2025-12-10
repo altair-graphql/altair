@@ -28,14 +28,11 @@ on:
         default: true
         type: boolean
 
-permissions:
-  contents: write
-  id-token: write
-
 jobs:
   npm-publish:
     permissions:
       id-token: write
+      contents: write
     runs-on: ubuntu-latest
     outputs:
       success: ${{ steps.publish.outcome != 'failure' }}

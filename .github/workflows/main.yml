@@ -20,6 +20,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  id-token: write # Required for OIDC
+  contents: write
+
 # TODO: Handle browser extension release
 # TODO: Pass explicit secrets to reusable workflows https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows#passing-secrets-to-nested-workflows
 # TODO: Set a restricted set of default permissions https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
