@@ -66,4 +66,5 @@ jobs:
           else
             echo "Not a production publish. Only verifying authentication..."
             pnpm whoami
+            pnpm publish -r --no-git-checks --provenance --access public --dry-run
           fi
