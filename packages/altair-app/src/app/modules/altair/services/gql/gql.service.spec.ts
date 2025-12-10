@@ -899,4 +899,31 @@ describe('GqlService', () => {
       }
     ));
   });
+
+  describe('.sendRequestV2()', () => {
+    it('should throw error without notification when request fails', inject(
+      [GqlService],
+      async (service: GqlService) => {
+        mockRequestHandler.handle = () => {
+          return throwError(() => new Error('Network error'));
+        };
+
+        try {
+          await service
+            .sendRequestV2({
+              url: 'http://test.com',
+              method: 'GET',
+              query: '{}',
+              windowId: 'window-id',
+              handler: mockRequestHandler,
+            })
+            .pipe(take(1))
+            .toPromise();
+        } catch (err) {
+          expect(err).toBeTruthy();
+          expect(mockNotifyService.error).not.toHaveBeenCalled();
+        }
+      }
+    ));
+  });
 });

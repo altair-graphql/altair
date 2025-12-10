@@ -696,13 +696,6 @@ export class GqlService {
           );
       }),
 
-      catchError((err) => {
-        if (err instanceof Error) {
-          this.notifyService.error(err.message);
-        }
-        debug.error(err);
-        throw err;
-      })
     );
   }
 }
