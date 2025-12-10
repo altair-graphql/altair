@@ -150,6 +150,11 @@ base64 -i cent.p12 -o base64.txt
 base64 cent.p12 | pbcopy
 ```
 
+### Reusable github workflows
+
+https://victoronsoftware.com/posts/github-reusable-workflows-and-steps/
+https://www.paigeniedringhaus.com/blog/run-multiple-npm-publishing-scripts-with-trusted-publishing-oidc-via-git-hub-reusable-workflows
+
 ### Updating angular
 
 - Temporarily replace all local packages with their `file:` protocol versions (so that yarn doesn't fail while searching registry for them)
