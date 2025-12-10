@@ -63,6 +63,7 @@ jobs:
   # Build and push Docker images
   docker:
     needs: [vars, prepare-release]
+    if: ${{ always() }}
     # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_push-docker.yml
     with:
@@ -76,6 +77,7 @@ jobs:
   # Build and publish Electron app
   electron:
     needs: [vars, prepare-release]
+    if: ${{ always() }}
     uses: ./.github/workflows/_publish-electron.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
@@ -85,6 +87,7 @@ jobs:
   # Build and publish NPM packages
   npm:
     needs: [vars, prepare-release]
+    if: ${{ always() }}
     # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_publish-npm.yml
     permissions:
@@ -98,6 +101,7 @@ jobs:
   # Build and publish Tauri app
   tauri:
     needs: [vars, prepare-release]
+    if: ${{ always() }}
     uses: ./.github/workflows/_publish-tauri.yml
     permissions:
       contents: write
@@ -122,6 +126,7 @@ jobs:
   # Deploy sites and docs
   sites:
     needs: [vars, publish-release]
+    if: ${{ always() }}
     uses: ./.github/workflows/_deploy-sites.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
