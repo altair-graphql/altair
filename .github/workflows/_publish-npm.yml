@@ -49,6 +49,10 @@ jobs:
           node-version: ${{ inputs.node_version }}
           registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
+      - name: Update npm
+        run: sudo npm install -g npm@latest
+      - name: Verify npm version
+        run: npm --version
       - run: pnpm i --frozen-lockfile
       - uses: nick-invision/retry@v2
         with:
@@ -60,7 +64,7 @@ jobs:
           BRANCH_NAME="${{ github.head_ref || github.ref_name }}"
           SAFE_BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/[^a-zA-Z0-9-]/-/g')
           if [ "${{ inputs.production == true }}" = "true" ]; then
-            pnpm publish -r --no-git-checks --provenance
+            pnpm publish -r --no-git-checks --provenance --access public
           else
-            pnpm publish -r --no-git-checks --provenance --tag "prerelease-$SAFE_BRANCH_NAME"
+            pnpm publish -r --no-git-checks --provenance --access public --tag "prerelease-$SAFE_BRANCH_NAME"
           fi
