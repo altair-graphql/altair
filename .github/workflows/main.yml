@@ -40,6 +40,8 @@ jobs:
     needs: vars
     if: ${{ needs.vars.outputs.type == 'release' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
@@ -65,7 +67,7 @@ jobs:
   # Build and push Docker images
   docker:
     needs: [vars, prepare-release]
-    if: ${{ always() }}
+    if: ${{ !cancelled() && !failure() }}
     # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_push-docker.yml
     with:
@@ -81,7 +83,7 @@ jobs:
   # Build and publish Electron app
   electron:
     needs: [vars, prepare-release]
-    if: ${{ always() }}
+    if: ${{ !cancelled() && !failure() }}
     uses: ./.github/workflows/_publish-electron.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
@@ -103,7 +105,7 @@ jobs:
   # Build and publish NPM packages
   npm:
     needs: [vars, prepare-release]
-    if: ${{ always() }}
+    if: ${{ !cancelled() && !failure() }}
     # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_publish-npm.yml
     permissions:
@@ -116,7 +118,7 @@ jobs:
   # Build and publish Tauri app
   tauri:
     needs: [vars, prepare-release]
-    if: ${{ always() }}
+    if: ${{ !cancelled() && !failure() }}
     uses: ./.github/workflows/_publish-tauri.yml
     permissions:
       contents: write
@@ -130,6 +132,8 @@ jobs:
     needs: [vars, prepare-release, electron]
     if: ${{ needs.vars.outputs.type == 'release' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: eregon/publish-release@01df127f5e9a3c26935118e22e738d95b59d10ce # v1.0.6
         env:
@@ -140,7 +144,7 @@ jobs:
   # Deploy sites and docs
   sites:
     needs: [vars, publish-release]
-    if: ${{ always() }}
+    if: ${{ !cancelled() && !failure() }}
     uses: ./.github/workflows/_deploy-sites.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
