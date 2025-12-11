@@ -23,7 +23,7 @@ concurrency:
 permissions: {}
 
 # TODO: Handle browser extension release
-# TODO: Set a restricted set of default permissions https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#permissions
+
 jobs:
   # Expose common variables
   vars:

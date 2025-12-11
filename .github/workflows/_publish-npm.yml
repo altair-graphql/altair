@@ -59,7 +59,8 @@ jobs:
           timeout_minutes: 15
           max_attempts: 3
           command: pnpm build:ci
-      - id: publish
+      - name: Publishes npm packages
+        id: publish
         run: |
           if [ "${{ inputs.production == true }}" = "true" ]; then
             pnpm publish -r --no-git-checks --provenance --access public
