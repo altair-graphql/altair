@@ -9,3 +9,9 @@ packages:
 catalog:
   electron: ^38.3.0
   typescript: ^5.8.0
+
+minimumReleaseAge: 1440
+trustPolicy: no-downgrade
+strictDepBuilds: true
+onlyBuiltDependencies: []
+ignoredBuiltDependencies: []

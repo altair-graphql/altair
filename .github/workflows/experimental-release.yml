@@ -11,27 +11,28 @@ env:
   NODE_VERSION: 22
   # NODE_OPTIONS: --openssl-legacy-provider
 
-permissions:
-  contents: write
+permissions: {}
 
 jobs:
   deploy-docs:
     name: Deploy docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - run: pnpm install
         env:
           GITHUB_TOKEN: ${{ github.token }}
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
       - name: Publish to cloudflare pages ✨
-        uses: cloudflare/pages-action@1
+        uses: cloudflare/pages-action@f0a1cd58cd66095dee69bfa18fa5efd1dde93bca # v1.5.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -60,24 +61,26 @@ jobs:
     name: Publish firefox addon
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - run: pnpm install
       - run: pnpm build-ext
-      - uses: trmcnvn/firefox-addon@v1
+      - uses: trmcnvn/firefox-addon@0d05671269b82c69c3f22ed86d8e772e89d47cf4 # v1
         continue-on-error: true
         with:
-          uuid: '{c336a627-bbea-4dbb-aa77-83899b52149a}'
+          uuid: "{c336a627-bbea-4dbb-aa77-83899b52149a}"
           xpi: packages/altair-crx/altair.zip
           manifest: packages/altair-crx/dist/manifest.json
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
-      - uses: wdzeng/edge-addon@v1
+      - uses: wdzeng/edge-addon@e307af4adb6d4e1c12387dc7d6bd545dcd075909 # v1.2.5
         continue-on-error: true
         with:
           product-id: f725e625-c035-444d-b373-fba0e41855c1
@@ -85,7 +88,7 @@ jobs:
           client-id: ${{ secrets.EDGE_CLIENT_ID }}
           client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
           access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
-      - uses: wdzeng/chrome-extension@v1
+      - uses: wdzeng/chrome-extension@b167f5b883d2ade3c4209eccb62fa8307ae44434 # v1.3.0
         continue-on-error: true
         with:
           extension-id: flnheeellpciglgpaodhkhmapeljopja
@@ -93,7 +96,7 @@ jobs:
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-      - uses: trmcnvn/chrome-addon@v2
+      - uses: trmcnvn/chrome-addon@7fc5a5ad3ff597dc64d6a13de7dcaa8515328be7 # v2
         continue-on-error: true
         with:
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
@@ -107,19 +110,21 @@ jobs:
     continue-on-error: true
     # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - name: Build extensions
         run: |
           pnpm install
           pnpm build:ci
           pnpm build-ext
       - name: Upload & release
-        uses: mnao305/chrome-extension-upload@1.1.1
+        uses: mnao305/chrome-extension-upload@cf3c0991d2106541415f20bec91619ff72d03293 # 1.1.1
         with:
           file-path: packages/altair-crx/altair.zip
           extension-id: flnheeellpciglgpaodhkhmapeljopja

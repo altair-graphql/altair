@@ -7,6 +7,11 @@ on:
         description: "Node.js version to use"
         default: "22"
         type: string
+      production:
+        description: "Whether to publish as production"
+        required: false
+        default: true
+        type: boolean
     outputs:
       reusable_output:
         description: "Successful publish from the workflow"
@@ -17,35 +22,50 @@ on:
         description: "Node.js version to use"
         default: "22"
         type: string
+      production:
+        description: "Whether to publish as production"
+        required: false
+        default: true
+        type: boolean
 
-permissions:
-  contents: write
-  id-token: write
+permissions: {}
 
 jobs:
   npm-publish:
     permissions:
       id-token: write
+      contents: write
     runs-on: ubuntu-latest
     outputs:
       success: ${{ steps.publish.outcome != 'failure' }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - name: Use Node.js ${{ inputs.node_version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ inputs.node_version }}
+          registry-url: "https://registry.npmjs.org"
           cache: "pnpm"
-      - name: Authenticate with Registry
-        run: echo -e "\n//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Update npm
+        run: sudo npm install -g npm@latest
+      - name: Verify npm version
+        run: npm --version
       - run: pnpm i --frozen-lockfile
-      - uses: nick-invision/retry@v2
+      - uses: nick-invision/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2.9.0
         with:
           timeout_minutes: 15
           max_attempts: 3
           command: pnpm build:ci
-      - id: publish
-        run: pnpm publish -r --no-git-checks --provenance
+      - name: Publishes npm packages
+        id: publish
+        run: |
+          if [ "${{ inputs.production == true }}" = "true" ]; then
+            pnpm publish -r --no-git-checks --provenance --access public
+          else
+            echo "Not a production publish. Only verifying authentication..."
+            pnpm -r exec -- pnpm version --no-git-tag-version prerelease --preid="alpha.$(git rev-parse --short HEAD)"
+            pnpm publish -r --no-git-checks --provenance --access public --tag alpha
+          fi
