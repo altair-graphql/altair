@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/tauri",
   "private": true,
-  "version": "8.4.2",
+  "version": "8.4.3",
   "main": "dist/index.js",
   "scripts": {
     "web:dev": "tsc --watch",

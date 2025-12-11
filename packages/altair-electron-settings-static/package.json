@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/electron-settings-static",
-  "version": "8.4.2",
+  "version": "8.4.3",
   "private": true,
   "main": "./build/index.js",
   "devDependencies": {
