@@ -80,7 +80,7 @@ jobs:
           manifest: packages/altair-crx/dist/manifest.json
           api-key: ${{ secrets.FIREFOX_API_KEY }}
           api-secret: ${{ secrets.FIREFOX_API_SECRET }}
-      - uses: wdzeng/edge-addon@v1
+      - uses: wdzeng/edge-addon@e307af4adb6d4e1c12387dc7d6bd545dcd075909 # v1.2.5
         continue-on-error: true
         with:
           product-id: f725e625-c035-444d-b373-fba0e41855c1
@@ -88,7 +88,7 @@ jobs:
           client-id: ${{ secrets.EDGE_CLIENT_ID }}
           client-secret: ${{ secrets.EDGE_CLIENT_SECRET }}
           access-token-url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
-      - uses: wdzeng/chrome-extension@v1
+      - uses: wdzeng/chrome-extension@b167f5b883d2ade3c4209eccb62fa8307ae44434 # v1.3.0
         continue-on-error: true
         with:
           extension-id: flnheeellpciglgpaodhkhmapeljopja
@@ -96,7 +96,7 @@ jobs:
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
-      - uses: trmcnvn/chrome-addon@v2
+      - uses: trmcnvn/chrome-addon@7fc5a5ad3ff597dc64d6a13de7dcaa8515328be7 # v2
         continue-on-error: true
         with:
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
@@ -124,7 +124,7 @@ jobs:
           pnpm build:ci
           pnpm build-ext
       - name: Upload & release
-        uses: mnao305/chrome-extension-upload@1.1.1
+        uses: mnao305/chrome-extension-upload@cf3c0991d2106541415f20bec91619ff72d03293 # 1.1.1
         with:
           file-path: packages/altair-crx/altair.zip
           extension-id: flnheeellpciglgpaodhkhmapeljopja
