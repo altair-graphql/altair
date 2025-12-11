@@ -15,7 +15,7 @@
     "@altairgraphql/login-redirect": "workspace:*",
     "@sentry/electron": "^6.6.0",
     "altair-static": "workspace:*",
-    "body-parser": "^1.20.0",
+    "body-parser": "^1.20.3",
     "csp-header": "^5.1.0",
     "electron-debug": "^3.0.1",
     "electron-is-dev": "^1.2.0",
