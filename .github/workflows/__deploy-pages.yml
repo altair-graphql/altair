@@ -28,9 +28,6 @@ on:
       cloudflare_account_id:
         description: "Cloudflare Account ID"
         required: true
-      github_token:
-        description: "GitHub token"
-        required: true
   workflow_dispatch:
     inputs:
       project_name:

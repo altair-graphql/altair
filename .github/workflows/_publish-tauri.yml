@@ -22,10 +22,6 @@ on:
         required: false
         default: true
         type: boolean
-    secrets:
-      github_token:
-        description: "GitHub token"
-        required: true
     outputs:
       # Map the workflow output(s) to job output(s)
       version:

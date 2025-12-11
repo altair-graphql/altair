@@ -41,9 +41,6 @@ on:
       chocolatey_api_key:
         description: "Chocolatey API key for publishing"
         required: true
-      github_token:
-        description: "GitHub token for publishing"
-        required: true
       mac_certs:
         description: "macOS code signing certificates (base64 encoded)"
         required: true

@@ -39,9 +39,6 @@ on:
       cloudflare_account_id:
         description: "Cloudflare Account ID"
         required: true
-      github_token:
-        description: "GitHub token"
-        required: true
   workflow_dispatch:
     inputs:
       node_version:
@@ -102,7 +99,6 @@ jobs:
     secrets:
       cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
       cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
-      github_token: ${{ secrets.github_token }}
 
   deploy-docs:
     name: Deploy Docs
@@ -117,7 +113,6 @@ jobs:
     secrets:
       cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
       cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
-      github_token: ${{ secrets.github_token }}
 
   deploy-redirect:
     name: Deploy Login Redirect
@@ -132,7 +127,6 @@ jobs:
     secrets:
       cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
       cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
-      github_token: ${{ secrets.github_token }}
 
   deploy-sandbox:
     name: Deploy Sandbox
@@ -147,4 +141,3 @@ jobs:
     secrets:
       cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
       cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
-      github_token: ${{ secrets.github_token }}

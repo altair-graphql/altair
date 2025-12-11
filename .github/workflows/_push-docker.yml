@@ -24,9 +24,6 @@ on:
       dockerhub_token:
         description: "Docker Hub token"
         required: true
-      github_token:
-        description: "GitHub token"
-        required: true
   workflow_dispatch:
     inputs:
       push:

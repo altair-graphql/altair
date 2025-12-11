@@ -78,7 +78,6 @@ jobs:
     secrets:
       dockerhub_username: ${{ secrets.dockerhub_username }}
       dockerhub_token: ${{ secrets.dockerhub_token }}
-      github_token: ${{ secrets.github_token }}
 
   # Build and publish Electron app
   electron:
@@ -95,7 +94,6 @@ jobs:
       apple_id_password: ${{ secrets.apple_id_password }}
       apple_team_id: ${{ secrets.apple_team_id }}
       chocolatey_api_key: ${{ secrets.chocolatey_api_key }}
-      github_token: ${{ secrets.github_token }}
       mac_certs: ${{ secrets.mac_certs }}
       mac_certs_password: ${{ secrets.mac_certs_password }}
       sentry_auth_token: ${{ secrets.sentry_auth_token }}
@@ -127,8 +125,6 @@ jobs:
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
       publish: ${{ needs.vars.outputs.type == 'release' }}
-    secrets:
-      github_token: ${{ secrets.github_token }}
 
   publish-release:
     name: Publish release
@@ -154,7 +150,6 @@ jobs:
     secrets:
       cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
       cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
-      github_token: ${{ secrets.github_token }}
 
   # Deploy translation site
   translate:
