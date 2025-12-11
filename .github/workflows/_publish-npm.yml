@@ -65,6 +65,6 @@ jobs:
             pnpm publish -r --no-git-checks --provenance --access public
           else
             echo "Not a production publish. Only verifying authentication..."
-            pnpm -r exec -- pnpm version --no-git-tag-version prerelease --preid alpha
+            pnpm -r exec -- pnpm version --no-git-tag-version prerelease --preid="alpha.$(git rev-parse --short HEAD)"
             pnpm publish -r --no-git-checks --provenance --access public --tag alpha
           fi
