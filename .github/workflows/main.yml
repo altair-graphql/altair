@@ -20,9 +20,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  id-token: write # Required for OIDC
-  contents: write
+permissions: {}
 
 # TODO: Handle browser extension release
 # TODO: Pass explicit secrets to reusable workflows https://docs.github.com/en/actions/how-tos/reuse-automations/reuse-workflows#passing-secrets-to-nested-workflows
@@ -44,8 +42,10 @@ jobs:
     if: ${{ needs.vars.outputs.type == 'release' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - id: release-draft
         uses: softprops/action-gh-release@v1
         with:
@@ -62,7 +62,6 @@ jobs:
     uses: ./.github/workflows/_tests.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
-    secrets: inherit
 
   # Build and push Docker images
   docker:
@@ -76,7 +75,10 @@ jobs:
       # Only push latest tag for releases
       release: ${{ needs.vars.outputs.type == 'release' }}
       version: ${{ needs.prepare-release.outputs.release-tag || github.sha }}
-    secrets: inherit
+    secrets:
+      dockerhub_username: ${{ secrets.dockerhub_username }}
+      dockerhub_token: ${{ secrets.dockerhub_token }}
+      github_token: ${{ secrets.github_token }}
 
   # Build and publish Electron app
   electron:
@@ -86,7 +88,20 @@ jobs:
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
       publish: ${{ needs.vars.outputs.type == 'release' }}
-    secrets: inherit
+    secrets:
+      apple_api_key: ${{ secrets.apple_api_key }}
+      apple_api_key_id: ${{ secrets.apple_api_key_id }}
+      apple_id: ${{ secrets.apple_id }}
+      apple_id_password: ${{ secrets.apple_id_password }}
+      apple_team_id: ${{ secrets.apple_team_id }}
+      chocolatey_api_key: ${{ secrets.chocolatey_api_key }}
+      github_token: ${{ secrets.github_token }}
+      mac_certs: ${{ secrets.mac_certs }}
+      mac_certs_password: ${{ secrets.mac_certs_password }}
+      sentry_auth_token: ${{ secrets.sentry_auth_token }}
+      sentry_org: ${{ secrets.sentry_org }}
+      sentry_project: ${{ secrets.sentry_project }}
+      snapcraft_store_credentials: ${{ secrets.snapcraft_store_credentials }}
 
   # Build and publish NPM packages
   npm:
@@ -95,12 +110,11 @@ jobs:
     # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_publish-npm.yml
     permissions:
-      contents: write
+      contents: read
       id-token: write
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
       production: ${{ needs.vars.outputs.type == 'release' }}
-    secrets: inherit
 
   # Build and publish Tauri app
   tauri:
@@ -113,7 +127,8 @@ jobs:
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
       publish: ${{ needs.vars.outputs.type == 'release' }}
-    secrets: inherit
+    secrets:
+      github_token: ${{ secrets.github_token }}
 
   publish-release:
     name: Publish release
@@ -136,7 +151,10 @@ jobs:
       node_version: ${{ needs.vars.outputs.node_version }}
       # Delay docs deployment by 60 seconds on release to allow for release data propagation
       delay_seconds: ${{ needs.vars.outputs.type == 'release' && 60 || 0 }}
-    secrets: inherit
+    secrets:
+      cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
+      cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
+      github_token: ${{ secrets.github_token }}
 
   # Deploy translation site
   translate:
@@ -144,10 +162,12 @@ jobs:
     if: ${{ needs.vars.outputs.type == 'master' }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "pnpm"

@@ -21,6 +21,16 @@ on:
         required: false
         type: string
         default: "22"
+    secrets:
+      cloudflare_api_token:
+        description: "Cloudflare API token"
+        required: true
+      cloudflare_account_id:
+        description: "Cloudflare Account ID"
+        required: true
+      github_token:
+        description: "GitHub token"
+        required: true
   workflow_dispatch:
     inputs:
       project_name:
@@ -42,17 +52,21 @@ on:
         type: string
         default: "22"
 
+permissions: {}
+
 jobs:
   deploy:
     name: ${{ inputs.deployment_name }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ inputs.node_version }}
           cache: "pnpm"
@@ -60,23 +74,23 @@ jobs:
       - name: Install dependencies
         run: pnpm i --frozen-lockfile
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.github_token }}
           NODE_OPTIONS: "--max_old_space_size=4096"
 
       - name: Bootstrap monorepo
         run: pnpm bootstrap
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.github_token }}
           NODE_OPTIONS: "--max_old_space_size=4096"
 
       - name: Deploy to Cloudflare Pages
         id: deploy
-        uses: cloudflare/wrangler-action@v3
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          apiToken: ${{ secrets.cloudflare_api_token }}
+          accountId: ${{ secrets.cloudflare_account_id }}
           command: pages publish "${{ inputs.dist_path }}" --project-name="${{ inputs.project_name }}"
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          gitHubToken: ${{ secrets.github_token }}
 
       - name: Output deployment URL
         run: |

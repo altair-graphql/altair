@@ -4,50 +4,92 @@ on:
   workflow_call:
     inputs:
       node_version:
-        description: 'Node.js version to use'
-        default: '22'
+        description: "Node.js version to use"
+        default: "22"
         type: string
       build:
-        description: 'Whether to build'
+        description: "Whether to build"
         required: false
         default: true
         type: boolean
       publish:
-        description: 'Whether to publish'
+        description: "Whether to publish"
         required: false
         default: true
         type: boolean
       publish_chocolatey:
-        description: 'Whether to publish to Chocolatey'
+        description: "Whether to publish to Chocolatey"
         required: false
         default: true
         type: boolean
+    secrets:
+      apple_api_key:
+        description: "Apple API key for macOS notarization"
+        required: true
+      apple_api_key_id:
+        description: "Apple API key ID for macOS notarization"
+        required: true
+      apple_id:
+        description: "Apple ID for macOS notarization"
+        required: true
+      apple_id_password:
+        description: "Apple ID password for macOS notarization"
+        required: true
+      apple_team_id:
+        description: "Apple Team ID for macOS notarization"
+        required: true
+      chocolatey_api_key:
+        description: "Chocolatey API key for publishing"
+        required: true
+      github_token:
+        description: "GitHub token for publishing"
+        required: true
+      mac_certs:
+        description: "macOS code signing certificates (base64 encoded)"
+        required: true
+      mac_certs_password:
+        description: "Password for macOS code signing certificates"
+        required: true
+      sentry_auth_token:
+        description: "Sentry auth token for uploading source maps"
+        required: true
+      sentry_org:
+        description: "Sentry organization"
+        required: true
+      sentry_project:
+        description: "Sentry project"
+        required: true
+      snapcraft_store_credentials:
+        description: "Snapcraft store credentials for Snap Store publishing"
+        required: true
     outputs:
       # Map the workflow output(s) to job output(s)
       version:
-        description: 'Built/published version from the workflow'
+        description: "Built/published version from the workflow"
         value: ${{ jobs.electron.outputs.version }}
   workflow_dispatch:
     inputs:
       node_version:
-        description: 'Node.js version to use'
-        default: '22'
+        description: "Node.js version to use"
+        default: "22"
         type: string
       build:
-        description: 'Whether to build'
+        description: "Whether to build"
         required: false
         default: true
         type: boolean
       publish:
-        description: 'Whether to publish'
+        description: "Whether to publish"
         required: false
         default: true
         type: boolean
       publish_chocolatey:
-        description: 'Whether to publish to Chocolatey'
+        description: "Whether to publish to Chocolatey"
         required: false
         default: true
         type: boolean
+
+permissions: {}
 
 jobs:
   electron:
@@ -59,26 +101,28 @@ jobs:
     outputs:
       version: ${{ steps.getversion.outputs.version }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - name: Use Node.js ${{ inputs.node_version }} on ${{ matrix.os }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ inputs.node_version }}
-          cache: 'pnpm'
-      - uses: maxim-lobanov/setup-xcode@v1
+          cache: "pnpm"
+      - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
         if: startsWith(matrix.os, 'macos')
         with:
           xcode-version: latest-stable
       - run: pnpm i --frozen-lockfile
-      - uses: nick-invision/retry@v2
+      - uses: nick-invision/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2.9.0
         with:
           timeout_minutes: 20
           max_attempts: 3
           command: pnpm build:ci
       # Update .npmrc file to support electron builder
       # https://www.electron.build/#note-for-pnpm
-      - uses: nodef/npm-config.action@v1.0.0
+      - uses: nodef/npm-config.action@d886ec78e341a72863181caf1c2d3c10b6a776d2 # v1.0.0
         with:
           path: .npmrc # Path to the .npmrc file
           reset: false
@@ -90,10 +134,10 @@ jobs:
       - run: pnpm deploy --filter=altair out/elx-files
 
       - name: Install Snapcraft
-        uses: samuelmeuli/action-snapcraft@v2
+        uses: samuelmeuli/action-snapcraft@d33c176a9b784876d966f80fb1b461808edc0641 # v2.1.1
         if: startsWith(matrix.os, 'ubuntu')
         env:
-          SNAPCRAFT_TOKEN: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+          SNAPCRAFT_TOKEN: ${{ secrets.snapcraft_store_credentials }}
 
       - name: Prepare for app notarization
         if: startsWith(matrix.os, 'macos')
@@ -122,7 +166,7 @@ jobs:
           # disable for macos not in master branch, because code signing is skipped in pull requests
         if: ${{ inputs.publish || !(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master') }}
         id: build-electron
-        uses: paneron/action-electron-builder@v1.8.1
+        uses: paneron/action-electron-builder@14b133702d1b2e9749912051c43ed62b4afe56c8 # v1.8.1
         with:
           github_token: ${{ secrets.github_token }}
           package_root: out/elx-files/
@@ -136,12 +180,12 @@ jobs:
         env:
           # macOS notarization API key
           # https://www.codiga.io/blog/notarize-sign-electron-app/
-          APPLE_ID: ${{ secrets.APPLE_ID }}
-          APPLE_ID_PASSWORD: ${{ secrets.APPLE_ID_PASSWORD }}
-          APPLEIDPASS: ${{ secrets.APPLE_ID_PASSWORD }}
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
-          DEBUG: '@malept/flatpak-bundler'
+          APPLE_ID: ${{ secrets.apple_id }}
+          APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
+          APPLEIDPASS: ${{ secrets.apple_id_password }}
+          APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_store_credentials }}
+          DEBUG: "@malept/flatpak-bundler"
 
       # chocolatey
       - name: Read VERSION file
@@ -154,11 +198,11 @@ jobs:
           echo "version=$(cat VERSION)" >> $GITHUB_OUTPUT
       - name: Add mask
         run: |
-          echo "::add-mask::${{ secrets.CHOCOLATEY_API_KEY }}"
+          echo "::add-mask::${{ secrets.chocolatey_api_key }}"
       - name: chocolatey pack
         if: startsWith(matrix.os, 'windows')
         continue-on-error: true
-        uses: crazy-max/ghaction-chocolatey@v3
+        uses: crazy-max/ghaction-chocolatey@2526f467ccbd337d307fe179959cabbeca0bc8c0 # v3.4.0
         with:
           args: pack chocolatey\altair-graphql.nuspec
       # - name: chocolatey install (test choco packaging)
@@ -172,39 +216,39 @@ jobs:
       - name: chocolatey push
         if: ${{ startsWith(matrix.os, 'windows') && inputs.publish_chocolatey && inputs.publish }}
         continue-on-error: true
-        uses: crazy-max/ghaction-chocolatey@v3
+        uses: crazy-max/ghaction-chocolatey@2526f467ccbd337d307fe179959cabbeca0bc8c0 # v3.4.0
         with:
-          args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.CHOCOLATEY_API_KEY }}'"
+          args: push altair-graphql.${{ steps.getversion.outputs.version }}.nupkg -s https://push.chocolatey.org/ -k="'${{ secrets.chocolatey_api_key }}'"
 
       - name: Upload source maps to Sentry (app)
         if: startsWith(matrix.os, 'ubuntu') && env.SENTRY_ORG
-        uses: getsentry/action-release@v1
+        uses: getsentry/action-release@a74facf8a080ecbdf1cb355f16743530d712abb7 # v1.11.0
         env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.sentry_auth_token }}
+          SENTRY_ORG: ${{ secrets.sentry_org }}
+          SENTRY_PROJECT: ${{ secrets.sentry_project }}
         with:
           environment: ${{ inputs.publish && 'production' || '' }}
           sourcemaps: packages/altair-app/dist/
           version: ${{ inputs.publish && steps.getversion.outputs.version || '' }}
-          url_prefix: 'altair://-'
+          url_prefix: "altair://-"
           finalize: false
       - name: Upload source maps to Sentry (electron)
         if: startsWith(matrix.os, 'ubuntu') && env.SENTRY_ORG
-        uses: getsentry/action-release@v1
+        uses: getsentry/action-release@a74facf8a080ecbdf1cb355f16743530d712abb7 # v1.11.0
         env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.sentry_auth_token }}
+          SENTRY_ORG: ${{ secrets.sentry_org }}
+          SENTRY_PROJECT: ${{ secrets.sentry_project }}
         with:
           environment: ${{ inputs.publish && 'production' || '' }}
           sourcemaps: out/elx-files/dist/
           version: ${{ inputs.publish && steps.getversion.outputs.version || '' }}
-          url_prefix: 'app:///dist'
+          url_prefix: "app:///dist"
 
       - name: Upload electron builds
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: electron-builds-${{ matrix.os }}
           path: out/elx-files/out/**

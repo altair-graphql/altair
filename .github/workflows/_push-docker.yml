@@ -4,35 +4,47 @@ on:
   workflow_call:
     inputs:
       push:
-        description: 'Whether to push the Docker image'
+        description: "Whether to push the Docker image"
         required: true
         type: boolean
       release:
-        description: 'Whether to push as latest release'
+        description: "Whether to push as latest release"
         required: false
         default: false
         type: boolean
       version:
-        description: 'Version to use'
+        description: "Version to use"
         required: false
-        default: ''
+        default: ""
         type: string
+    secrets:
+      dockerhub_username:
+        description: "Docker Hub username"
+        required: true
+      dockerhub_token:
+        description: "Docker Hub token"
+        required: true
+      github_token:
+        description: "GitHub token"
+        required: true
   workflow_dispatch:
     inputs:
       push:
-        description: 'Whether to push the Docker image'
+        description: "Whether to push the Docker image"
         required: true
         type: boolean
       release:
-        description: 'Whether to push as latest release'
+        description: "Whether to push as latest release"
         required: false
         default: false
         type: boolean
       version:
-        description: 'Version to use'
+        description: "Version to use"
         required: false
-        default: ''
+        default: ""
         type: string
+
+permissions: {}
 
 jobs:
   docker-vars:
@@ -47,14 +59,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3.7.0
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@e468171a9de216ec08956ac3ada2f0791b6bd435 # v3.11.1
       - name: Set up Docker
-        uses: docker/setup-docker-action@v4
+        uses: docker/setup-docker-action@e61617a16c407a86262fb923c35a616ddbe070b3 # v4.6.0
         with:
           daemon-config: |
             {
@@ -64,25 +78,25 @@ jobs:
               }
             }
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          username: ${{ secrets.dockerhub_username }}
+          password: ${{ secrets.dockerhub_token }}
       - name: Login to GHCR
-        uses: docker/login-action@v3
+        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.github_token }}
       - name: Build and push
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           load: true
           push: ${{ inputs.push }}
           tags: |
-            ${{ inputs.push && inputs.release && format('{0}/altairgraphqlapi:latest', secrets.DOCKERHUB_USERNAME) || '' }}
-            ${{ inputs.push && inputs.version && format('{0}/altairgraphqlapi:{1}', secrets.DOCKERHUB_USERNAME, inputs.version) || '' }}
+            ${{ inputs.push && inputs.release && format('{0}/altairgraphqlapi:latest', secrets.dockerhub_username) || '' }}
+            ${{ inputs.push && inputs.version && format('{0}/altairgraphqlapi:{1}', secrets.dockerhub_username, inputs.version) || '' }}
             ${{ inputs.push && inputs.release && format('ghcr.io/{0}/altairgraphqlapi:latest', github.repository_owner) || '' }}
             ${{ inputs.push && inputs.version && format('ghcr.io/{0}/altairgraphqlapi:{1}', github.repository_owner, inputs.version) || '' }}

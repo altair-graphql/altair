@@ -32,6 +32,16 @@ on:
         required: false
         default: true
         type: boolean
+    secrets:
+      cloudflare_api_token:
+        description: "Cloudflare API token"
+        required: true
+      cloudflare_account_id:
+        description: "Cloudflare Account ID"
+        required: true
+      github_token:
+        description: "GitHub token"
+        required: true
   workflow_dispatch:
     inputs:
       node_version:
@@ -64,6 +74,8 @@ on:
         default: true
         type: boolean
 
+permissions: {}
+
 jobs:
   delay:
     name: Delay before deployment
@@ -87,7 +99,10 @@ jobs:
       dist_path: "packages/altair-app/dist/browser"
       deployment_name: "Deploy Web App"
       node_version: ${{ inputs.node_version }}
-    secrets: inherit
+    secrets:
+      cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
+      cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
+      github_token: ${{ secrets.github_token }}
 
   deploy-docs:
     name: Deploy Docs
@@ -99,7 +114,10 @@ jobs:
       dist_path: "packages/altair-docs/.vitepress/dist"
       deployment_name: "Deploy Documentation"
       node_version: ${{ inputs.node_version }}
-    secrets: inherit
+    secrets:
+      cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
+      cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
+      github_token: ${{ secrets.github_token }}
 
   deploy-redirect:
     name: Deploy Login Redirect
@@ -111,7 +129,10 @@ jobs:
       dist_path: "packages/login-redirect/dist"
       deployment_name: "Deploy Login Redirect"
       node_version: ${{ inputs.node_version }}
-    secrets: inherit
+    secrets:
+      cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
+      cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
+      github_token: ${{ secrets.github_token }}
 
   deploy-sandbox:
     name: Deploy Sandbox
@@ -123,4 +144,7 @@ jobs:
       dist_path: "packages/altair-iframe-sandbox/dist"
       deployment_name: "Deploy Iframe Sandbox"
       node_version: ${{ inputs.node_version }}
-    secrets: inherit
+    secrets:
+      cloudflare_api_token: ${{ secrets.cloudflare_api_token }}
+      cloudflare_account_id: ${{ secrets.cloudflare_account_id }}
+      github_token: ${{ secrets.github_token }}
