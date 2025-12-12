@@ -94,6 +94,8 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
     # Map the job output(s) to step output(s)
     outputs:
       version: ${{ steps.getversion.outputs.version }}

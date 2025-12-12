@@ -68,8 +68,10 @@ jobs:
   docker:
     needs: [vars, prepare-release]
     if: ${{ !cancelled() && !failure() }}
-    # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_push-docker.yml
+    permissions:
+      contents: read
+      packages: write
     with:
       # Push if on master or if it's a release
       push: ${{ needs.vars.outputs.type == 'master' || needs.vars.outputs.type == 'release' }}
@@ -85,6 +87,8 @@ jobs:
     needs: [vars, prepare-release]
     if: ${{ !cancelled() && !failure() }}
     uses: ./.github/workflows/_publish-electron.yml
+    permissions:
+      contents: write
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
       publish: ${{ needs.vars.outputs.type == 'release' }}
@@ -106,7 +110,6 @@ jobs:
   npm:
     needs: [vars, prepare-release]
     if: ${{ !cancelled() && !failure() }}
-    # We do not need to check out the repository to use the reusable workflow
     uses: ./.github/workflows/_publish-npm.yml
     permissions:
       contents: write
@@ -122,7 +125,6 @@ jobs:
     uses: ./.github/workflows/_publish-tauri.yml
     permissions:
       contents: write
-      id-token: write
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
       publish: ${{ needs.vars.outputs.type == 'release' }}
