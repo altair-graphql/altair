@@ -11,7 +11,7 @@ import {
   renderAltair,
   renderInitSnippet,
 } from 'altair-static';
-import { IdentityProvider } from 'altair-graphql-core/build/identity/providers';
+import type { IdentityProvider } from 'altair-graphql-core/build/cjs/identity/providers';
 
 import { checkMultipleDataVersions } from '../utils/check-multi-data-versions';
 import { createSha256CspHash } from '../utils/csp-hash';
