@@ -1,7 +1,7 @@
 {
   "name": "altair",
   "description": "Electron wrapper for Altair",
-  "version": "8.4.0",
+  "version": "8.4.3",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "collective": {
@@ -70,7 +70,10 @@
   "main": "dist/index.js",
   "private": true,
   "productName": "Altair GraphQL Client",
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  },
   "scripts": {
     "build": "pnpm compile && electron-builder",
     "compile": "tsc && pnpm sentry:sourcemaps:inject",

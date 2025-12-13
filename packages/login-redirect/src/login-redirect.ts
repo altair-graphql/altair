@@ -1,15 +1,11 @@
 import { OAUTH_POPUP_CALLBACK_MESSAGE_TYPE } from '@altairgraphql/api-utils/build/constants';
 import { closeWindow, getValidSource, isValidOpener } from './helpers';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
+import {
+  IdentityProvider,
+  IDENTITY_PROVIDERS,
+} from 'altair-graphql-core/build/identity/providers';
 
-// TODO: For some reason, importing from altair-db causes issues. Strangely this only seems to affect login-redirect package.
-// Getting src/login-redirect.ts (4:2): "IDENTITY_PROVIDERS" is not exported by "../altair-db/build/client.js", imported by "src/login-redirect.ts".
-// Will investigate later.
-const IDENTITY_PROVIDERS = {
-  GOOGLE: 'GOOGLE',
-  GITHUB: 'GITHUB',
-} as const;
-type IdentityProvider = (typeof IDENTITY_PROVIDERS)[keyof typeof IDENTITY_PROVIDERS];
 const OAUTH_NONCE_KEY = 'altairgql:oauth:nonce:key';
 
 const getNonce = () => {

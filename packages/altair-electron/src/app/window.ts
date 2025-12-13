@@ -11,6 +11,7 @@ import {
   renderAltair,
   renderInitSnippet,
 } from 'altair-static';
+import type { IdentityProvider } from 'altair-graphql-core/build/cjs/identity/providers';
 
 import { checkMultipleDataVersions } from '../utils/check-multi-data-versions';
 import { createSha256CspHash } from '../utils/csp-hash';
@@ -185,14 +186,17 @@ export class WindowManager {
       }
     );
 
-    handleWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN, async (e) => {
-      if (!e.sender || e.sender !== this.instance?.webContents) {
-        throw new Error('untrusted source trying to get auth token');
-      }
+    handleWithCustomErrors(
+      IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN,
+      async (e, provider: IdentityProvider) => {
+        if (!e.sender || e.sender !== this.instance?.webContents) {
+          throw new Error('untrusted source trying to get auth token');
+        }
 
-      const authServer = new AuthServer();
-      return authServer.getCustomToken();
-    });
+        const authServer = new AuthServer();
+        return authServer.getCustomToken(provider);
+      }
+    );
 
     handleWithCustomErrors(
       IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA,

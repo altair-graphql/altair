@@ -33,7 +33,6 @@ export class PreRequestService {
   private notifyService = inject(NotifyService);
   private dbService = inject(DbService);
 
-
   async executeScript(
     script: string,
     data: ScriptContextData
@@ -169,7 +168,21 @@ export class PreRequestService {
       requestScriptLogs: clonedMutableData.requestScriptLogs ?? [],
     };
   }
-  private getStorageItem(key: string) {
+  private async getStorageItem(key: string) {
+    // Check allowedLocalStorageKeys from settings for read-only localStorage data
+    const allowedLocalStorageKeys = await firstValueFrom(
+      this.store
+        .select((state) => state.settings['script.allowedLocalStorageKeys'])
+        .pipe(take(1))
+    );
+    if (allowedLocalStorageKeys?.includes(key)) {
+      this.notifyService.warning(
+        `Accessing local storage key "${key}" (read-only) from request script.`,
+        'Request script'
+      );
+      return localStorage.getItem(key);
+    }
+
     return this.dbService
       .getItem(`${storageNamespace}:${key}`)
       .pipe(take(1))

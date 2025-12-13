@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/api-utils",
-  "version": "8.4.0",
+  "version": "8.4.3",
   "dependencies": {
     "@altairgraphql/db": "workspace:*",
     "altair-graphql-core": "workspace:*",
@@ -17,5 +17,9 @@
   "scripts": {
     "build": "node ./scripts/build.cjs",
     "bootstrap": "pnpm build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

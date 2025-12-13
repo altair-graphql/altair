@@ -4,15 +4,17 @@ on:
   workflow_call:
     inputs:
       node_version:
-        description: 'Node.js version to use'
-        default: '22'
+        description: "Node.js version to use"
+        default: "22"
         type: string
   workflow_dispatch:
     inputs:
       node_version:
-        description: 'Node.js version to use'
-        default: '22'
+        description: "Node.js version to use"
+        default: "22"
         type: string
+
+permissions: {}
 
 jobs:
   test:
@@ -21,34 +23,35 @@ jobs:
         os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
+          persist-credentials: false
           fetch-depth: 0
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - name: Use Node.js ${{ inputs.node_version }} on ${{ matrix.os }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ inputs.node_version }}
-          cache: 'pnpm'
-      - uses: nrwl/nx-set-shas@v2
+          cache: "pnpm"
+      - uses: nrwl/nx-set-shas@59075b03c42ae79986d96d761eeb15094df7a76e # v2.2.7
         with:
           main-branch-name: master
       - run: pnpm i --frozen-lockfile
       - uses: browser-actions/setup-chrome@latest
       - name: Build apps (with retries)
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2.9.0
         with:
           timeout_minutes: 15
           max_attempts: 3
           command: pnpm build:ci
       - name: Run headless test
-        uses: GabrielBB/xvfb-action@v1
+        uses: GabrielBB/xvfb-action@86d97bde4a65fe9b290c0b3fb92c2c4ed0e5302d # v1.6
         with:
           run: pnpm test:ci:retries
       # https://github.com/tanshuai/electron-playwright-e2e-test-quick-start/blob/1e2c653bc2d0af85d98de1c58e56a888f17fe671/.github/workflows/ci.yml#L39-L44
       - name: Upload Test Results 🗃
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: screenshots
           path: packages/altair-electron/e2e/*.png
@@ -58,24 +61,26 @@ jobs:
         os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
       - name: Use Node.js ${{ inputs.node_version }} on ${{ matrix.os }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ inputs.node_version }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - run: pnpm i --frozen-lockfile
       - uses: browser-actions/setup-chrome@latest
       - name: Build apps (with retries)
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2.9.0
         with:
           timeout_minutes: 15
           max_attempts: 3
           command: pnpm build:ci
       - run: npx playwright install
       - name: Run headless e2e test
-        uses: GabrielBB/xvfb-action@v1
+        uses: GabrielBB/xvfb-action@86d97bde4a65fe9b290c0b3fb92c2c4ed0e5302d # v1.6
         with:
           run: pnpm playwright test --retries 2
         env:
@@ -106,15 +111,17 @@ jobs:
     steps:
       # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
-        uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ inputs.node_version }}
-          cache: 'pnpm'
+          cache: "pnpm"
       - run: pnpm i --frozen-lockfile
       - name: Build apps (with retries)
-        uses: nick-invision/retry@v2
+        uses: nick-invision/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2.9.0
         with:
           timeout_minutes: 15
           max_attempts: 3

@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/login-redirect",
-  "version": "8.4.0",
+  "version": "8.4.3",
   "dependencies": {
     "@altairgraphql/api-utils": "workspace:*",
     "@altairgraphql/db": "workspace:*",
@@ -22,5 +22,9 @@
   "source": "src/index.html",
   "targets": {
     "main": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

@@ -124,6 +124,49 @@ If using Cloudflare DNS, you need to setup full SSL mode instead of flexible mod
 
 https://www.codiga.io/blog/notarize-sign-electron-app/
 
+First, you need to enroll in the [Apple Developer Program](https://developer.apple.com/programs). It's $100 per year and lets you publish your application on the application store.
+
+Then, you need to install XCode and generate certificates:
+
+- Open XCode
+- Go to Preferences → Accounts → Manage Certificates.
+- Add the following certificates: Mac Installer Distribution, Developer ID Application, Developer ID Installer.
+
+Once you have generated the certificates, you need to export them:
+
+- Go to the `Keychain Access` on your Mac
+- Select the certificates as shown below
+- Right-click `Export Certificates
+- You will be prompted with a password, DO NOT LOSE THIS PASSWORD
+
+You will get a `*.p12` file and a password. You will use this data to sign your code in your CI/CD pipeline.
+
+The .p12 file (encoded in base64) and the password will be used in your CI/CD pipeline (variables `MAC_CERTS` and `MAC_CERTS_PASSWORD`).
+
+```sh
+base64 -i cent.p12 -o base64.txt
+
+# to copy to clipboard instead of file
+base64 cent.p12 | pbcopy
+```
+
+### Reusable github workflows
+
+https://victoronsoftware.com/posts/github-reusable-workflows-and-steps/
+https://www.paigeniedringhaus.com/blog/run-multiple-npm-publishing-scripts-with-trusted-publishing-oidc-via-git-hub-reusable-workflows
+
+Other recommending CLI tools for managing workflows:
+
+```sh
+brew install zizmor
+# apply autofixes to github workflows
+zizmor . --fix
+
+brew install pinact
+# pin github actions to specific SHAs
+pinact run
+```
+
 ### Updating angular
 
 - Temporarily replace all local packages with their `file:` protocol versions (so that yarn doesn't fail while searching registry for them)

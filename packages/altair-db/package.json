@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/db",
-  "version": "8.4.0",
+  "version": "8.4.3",
   "dependencies": {
     "@prisma/client": "^5.16.2",
     "dotenv": "^16.4.5",
@@ -27,5 +27,9 @@
     "prisma:studio": "prisma studio",
     "prod:prestart": "prisma migrate deploy && prisma db seed",
     "postinstall": "pnpm prisma:generate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

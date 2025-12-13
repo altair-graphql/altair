@@ -1,7 +1,7 @@
 {
   "name": "altair-koa-middleware",
   "description": "Koa middleware for altair graphql client",
-  "version": "8.4.0",
+  "version": "8.4.3",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
@@ -41,7 +41,10 @@
   ],
   "license": "MIT",
   "main": "./build/src/index.js",
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  },
   "scripts": {
     "declarations": "tsc --declaration",
     "example": "nodemon example/index.ts",

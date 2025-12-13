@@ -1,7 +1,7 @@
 {
   "name": "altair-fastify-plugin",
   "description": "Fastify Plugin of Altair GraphQL Client",
-  "version": "8.4.0",
+  "version": "8.4.3",
   "author": "PabloSz <pablosaez1995@gmail.com>",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
@@ -32,7 +32,10 @@
   "peerDependencies": {
     "fastify": "^5.0.0"
   },
-  "repository": "altair-graphql/altair.git",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
+  },
   "scripts": {
     "example": "ts-node example/mercurius.ts",
     "bootstrap": "tsc",

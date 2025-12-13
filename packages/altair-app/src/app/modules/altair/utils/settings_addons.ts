@@ -1,6 +1,7 @@
 import { jsonc } from '../utils';
 import { JSONSchema6, JSONSchema6Definition } from 'json-schema';
 import settingsValidator from 'altair-graphql-core/build/typegen/validate-settings';
+import { debug } from './logger';
 
 export interface SchemaFormProperty extends JSONSchema6 {
   key: string;
@@ -12,6 +13,9 @@ export const settingsSchema = settingsValidator.schema;
 export const validateSettings = (settings: string) => {
   const data = jsonc(settings);
   const valid = settingsValidator(data);
+  if (!valid) {
+    debug.log('validator errors', settingsValidator.errors);
+  }
 
   return valid;
 };

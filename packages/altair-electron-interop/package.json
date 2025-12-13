@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/electron-interop",
-  "version": "8.4.0",
+  "version": "8.4.3",
   "dependencies": {
     "altair-graphql-core": "workspace:*"
   },
@@ -15,5 +15,9 @@
   "scripts": {
     "build": "tsc --build",
     "bootstrap": "pnpm build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/altair-graphql/altair.git"
   }
 }

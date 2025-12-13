@@ -40,7 +40,7 @@ export interface GraphQLResponseData {
   /**
    * The time taken to get the response in milliseconds
    */
-  resopnseTimeMs: number;
+  responseTimeMs: number;
 }
 
 export interface GraphQLRequestHandler {
