@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/login-redirect",
-  "version": "8.4.3",
+  "version": "8.4.4",
   "dependencies": {
     "@altairgraphql/api-utils": "workspace:*",
     "@altairgraphql/db": "workspace:*",

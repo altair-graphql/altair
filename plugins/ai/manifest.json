@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "altair-graphql-plugin-ai",
   "display_name": "Altair AI assistant",
-  "version": "8.4.3",
+  "version": "8.4.4",
   "description": "Altair AI assistant plugin",
   "entry": {
     "type": "js",

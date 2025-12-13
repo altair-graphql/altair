@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/docs",
-  "version": "8.4.3",
+  "version": "8.4.4",
   "license": "MIT",
   "scripts": {
     "dev": "vitepress dev --port 6025",

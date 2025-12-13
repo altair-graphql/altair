@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/api-utils",
-  "version": "8.4.3",
+  "version": "8.4.4",
   "dependencies": {
     "@altairgraphql/db": "workspace:*",
     "altair-graphql-core": "workspace:*",

@@ -1,7 +1,7 @@
 {
   "name": "altair-fastify-plugin",
   "description": "Fastify Plugin of Altair GraphQL Client",
-  "version": "8.4.3",
+  "version": "8.4.4",
   "author": "PabloSz <pablosaez1995@gmail.com>",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
