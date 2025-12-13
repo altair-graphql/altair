@@ -28,6 +28,7 @@ export class WindowSwitcherComponent {
   readonly activeWindowId = input('');
   readonly isElectron = input(false);
   readonly enableScrollbar = input(false);
+  readonly maxWindowCount = input(this.altairConfig.max_windows);
   readonly activeWindowChange = output<string>();
   readonly newWindowChange = output();
   readonly removeWindowChange = output<string>();
@@ -44,7 +45,6 @@ export class WindowSwitcherComponent {
   }
 
   windowIdEditing = '';
-  maxWindowCount = this.altairConfig.max_windows;
 
   onDropEnd(event: CdkDragDrop<any, any, any>) {
     this.moveWindow(event.previousIndex || 0, event.currentIndex || 0);

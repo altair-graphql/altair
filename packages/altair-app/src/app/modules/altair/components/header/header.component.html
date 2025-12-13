@@ -15,6 +15,7 @@
   [isElectron]="isElectron()"
   [collections]="collections()"
   [enableScrollbar]="settings()?.enableTablistScrollbar"
+  [maxWindowCount]="settings()?.maxWindows"
   (newWindowChange)="newWindowChange.emit($event)"
   (activeWindowChange)="activeWindowChange.emit($event)"
   (removeWindowChange)="removeWindowChange.emit($event)"
