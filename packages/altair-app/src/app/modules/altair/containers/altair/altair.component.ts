@@ -81,6 +81,7 @@ import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
 import { QueryItemRevision, IdentityProvider } from '@altairgraphql/db';
 import { consumeQueryParam } from '../../utils/url';
+import { languagesEnum } from 'altair-graphql-core/build/config/languages';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -151,7 +152,7 @@ export class AltairComponent {
     const altairConfig = this.altairConfig;
 
     this.isWebApp = altairConfig.isWebApp;
-    this.authEnabled = !altairConfig.initialData.disableAccount;
+    this.authEnabled = !altairConfig.options.disableAccount;
     this.cspNonce = altairConfig.cspNonce;
     this.settings$ = this.store
       .pipe(select('settings'))
@@ -390,8 +391,8 @@ export class AltairComponent {
     });
 
     if (!this.windowIds.length) {
-      if (altairConfig.initialData.windows.length) {
-        altairConfig.initialData.windows.forEach((windowOption) => {
+      if (altairConfig.options.initialWindows?.length) {
+        altairConfig.options.initialWindows.forEach((windowOption) => {
           windowService
             .importWindowData(
               {
@@ -456,7 +457,7 @@ export class AltairComponent {
    * Sets the available languages from config
    */
   setAvailableLanguages() {
-    const availableLanguages = Object.keys(this.altairConfig.languages);
+    const availableLanguages = Object.values(languagesEnum);
     this.translate.addLangs(availableLanguages);
   }
 

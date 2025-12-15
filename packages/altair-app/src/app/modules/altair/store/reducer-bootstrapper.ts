@@ -14,7 +14,7 @@ export class ReducerBootstrapper {
   initialState: Partial<RootState> | undefined;
 
   async bootstrap() {
-    if (this.altairConfig.initialData.preserveState) {
+    if (this.altairConfig.options.preserveState) {
       this.initialState = await getAppStateFromStorage({
         updateFromLocalStorage: true,
       });

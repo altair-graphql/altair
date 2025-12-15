@@ -7,6 +7,7 @@
   "dependencies": {
     "@angular/platform-browser": "17.0.8",
     "@apollo/client": "3.3.20",
+    "@traversable/zod": "^0.0.57",
     "abab": "2.0.6",
     "actioncable": "5.2.6",
     "ajv": "^8.11.2",
@@ -30,7 +31,8 @@
     "rxjs": "^7.8.1",
     "subscriptions-transport-ws": "0.9.19",
     "util": "0.12.4",
-    "uuid": "9.0.1"
+    "uuid": "9.0.1",
+    "zod": "catalog:"
   },
   "devDependencies": {
     "@angular/common": "17.0.8",

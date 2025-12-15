@@ -5,7 +5,11 @@
   "out": "packages/altair-docs/api/core",
   "docsRoot": "./packages/altair-docs",
   "entryFileName": "index.md",
-  "plugin": ["typedoc-plugin-markdown", "typedoc-vitepress-theme"],
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-vitepress-theme",
+    "typedoc-plugin-zod"
+  ],
   "tsconfig": "packages/altair-core/tsconfig.json",
   "exclude": [
     "**/node_modules/**",

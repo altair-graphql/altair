@@ -5,7 +5,7 @@ import {
   altairSettingsStoreFileName,
 } from '@altairgraphql/electron-interop';
 import validatePartialSettings from 'altair-graphql-core/build/typegen/validate-partial-settings';
-import { SettingsState } from 'altair-static';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 
 export const store = new ElectronStore<SettingStore>({
   name: settingsStoreFileName,

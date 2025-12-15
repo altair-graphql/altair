@@ -3,13 +3,18 @@ import {
   ChangeDetectionStrategy,
   input,
   model,
-  effect,
   inject,
   output,
 } from '@angular/core';
-import { AltairConfig } from 'altair-graphql-core/build/config';
+import { languagesSchema } from 'altair-graphql-core/build/config/languages';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 
+function getLanguageLabel(lang: string) {
+  return (
+    Object.entries(languagesSchema.enum).find(([, value]) => value === lang)?.[0] ??
+    lang
+  );
+}
 @Component({
   selector: 'app-schema-form-item',
   templateUrl: './schema-form-item.component.html',
@@ -18,8 +23,6 @@ import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
   standalone: false,
 })
 export class SchemaFormItemComponent {
-  private altairConfig = inject(AltairConfig);
-
   readonly item = input<SchemaFormProperty>();
   readonly data = model<unknown>();
 
@@ -34,7 +37,7 @@ export class SchemaFormItemComponent {
   getOptionLabel(item: SchemaFormProperty, option: string) {
     switch (item?.key) {
       case 'language':
-        return (this.altairConfig.languages as any)[option] || option;
+        return getLanguageLabel(option);
     }
   }
   getSelectOptions(item: SchemaFormProperty): { label: string; value: string }[] {
@@ -47,7 +50,7 @@ export class SchemaFormItemComponent {
             .filter((content): content is string => typeof content === 'string')
             .map((content) => {
               return {
-                label: (this.altairConfig.languages as any)[content] || content,
+                label: getLanguageLabel(content),
                 value: content,
               };
             });

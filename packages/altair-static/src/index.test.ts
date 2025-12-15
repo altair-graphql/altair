@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { renderAltair, renderInitSnippet } from './index';
@@ -119,10 +120,9 @@ describe('renderInitSnippet', () => {
 
 describe('renderAltair', () => {
   it('should return expected string', () => {
-    (getAltairHtml as any).default = jest.fn();
-    (getAltairHtml as any).default.mockReturnValue(
-      readFileSync(resolve(__dirname, 'index.html'), 'utf8')
-    );
+    const spy = vi
+      .spyOn(getAltairHtml, 'default')
+      .mockReturnValue(readFileSync(resolve(__dirname, 'index.html'), 'utf8'));
     expect(
       renderAltair({
         baseURL: '/',
@@ -135,10 +135,9 @@ describe('renderAltair', () => {
     ).toMatchSnapshot();
   });
   it('should return expected string with $$', () => {
-    (getAltairHtml as any).default = jest.fn();
-    (getAltairHtml as any).default.mockReturnValue(
-      readFileSync(resolve(__dirname, 'index.html'), 'utf8')
-    );
+    const spy = vi
+      .spyOn(getAltairHtml, 'default')
+      .mockReturnValue(readFileSync(resolve(__dirname, 'index.html'), 'utf8'));
     expect(
       renderAltair({
         baseURL: '/',

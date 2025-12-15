@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`renderAltair should return expected string 1`] = `
+exports[`renderAltair > should return expected string 1`] = `
 "<!doctype html>
 <html>
   <head>
@@ -39,19 +39,20 @@ exports[`renderAltair should return expected string 1`] = `
     <script type="module" src="[% POLYFILLS_SCRIPT %]"></script>
     <script type="module" src="[% MAIN_SCRIPT %]"></script>
   <script type="module" nonce="">
-        AltairGraphQL.init({
-initialQuery: \`query {
+    AltairGraphQL.init({
+          initialQuery: \`query {
         Hello
       }\`,
-endpointURL: \`https://example.com/graphql\`,
-initialVariables: \`{ variable: 1 }\`,
-});
-    </script></body>
+          endpointURL: \`https://example.com/graphql\`,
+          initialVariables: \`{ variable: 1 }\`
+        }
+    );
+</script></body>
 </html>
 "
 `;
 
-exports[`renderAltair should return expected string with $$ 1`] = `
+exports[`renderAltair > should return expected string with $$ 1`] = `
 "<!doctype html>
 <html>
   <head>
@@ -90,8 +91,8 @@ exports[`renderAltair should return expected string with $$ 1`] = `
     <script type="module" src="[% POLYFILLS_SCRIPT %]"></script>
     <script type="module" src="[% MAIN_SCRIPT %]"></script>
   <script type="module" nonce="">
-        AltairGraphQL.init({
-initialQuery: \`{
+    AltairGraphQL.init({
+          initialQuery: \`{
           MyDomains (
             page: {start: 1, limit: 1000}
             where: {AND: [{AND: [{myFilterA: {EQ: "$$"}} {myFilterB: {EQ: "2099-12-31T00:00:00Z"}}, {myFilterC: {EQ: "2024-04-23"}}]}]}
@@ -104,32 +105,40 @@ initialQuery: \`{
             }
           }
         }\`,
-endpointURL: \`https://example.com/graphql\`,
-initialVariables: \`{ variable: 1 }\`,
-});
-    </script></body>
+          endpointURL: \`https://example.com/graphql\`,
+          initialVariables: \`{ variable: 1 }\`
+        }
+    );
+</script></body>
 </html>
 "
 `;
 
-exports[`renderInitSnippet should return expected string 1`] = `
+exports[`renderInitSnippet > should return expected string 1`] = `
 "
-        AltairGraphQL.init({
-initialQuery: \`query {
+    AltairGraphQL.init({
+          initialQuery: \`query {
         Hello
       }\`,
-endpointURL: \`https://example.com/graphql\`,
-initialHeaders: {"X-GraphQL-Token":"asd7-237s-2bdk-nsdk4"},
-initialSettings: {"theme":"dark"},
-persistedSettings: {"theme":"light"},
-});
-    "
+          endpointURL: \`https://example.com/graphql\`,
+          initialHeaders: {
+            'X-GraphQL-Token': \`asd7-237s-2bdk-nsdk4\`
+          },
+          initialSettings: {
+            theme: \`dark\`
+          },
+          persistedSettings: {
+            theme: \`light\`
+          }
+        }
+    );
+"
 `;
 
-exports[`renderInitSnippet should return expected string with $$ 1`] = `
+exports[`renderInitSnippet > should return expected string with $$ 1`] = `
 "
-        AltairGraphQL.init({
-initialQuery: \`{
+    AltairGraphQL.init({
+          initialQuery: \`{
         MyDomains (
           page: {start: 1, limit: 1000}
           where: {AND: [{AND: [{myFilterA: {EQ: "$$"}} {myFilterB: {EQ: "2099-12-31T00:00:00Z"}}, {myFilterC: {EQ: "2024-04-23"}}]}]}
@@ -142,10 +151,17 @@ initialQuery: \`{
           }
         }
       }\`,
-endpointURL: \`https://example.com/graphql\`,
-initialHeaders: {"X-GraphQL-Token":"asd7-237s-2bdk-nsdk4"},
-initialSettings: {"theme":"dark"},
-persistedSettings: {"theme":"light"},
-});
-    "
+          endpointURL: \`https://example.com/graphql\`,
+          initialHeaders: {
+            'X-GraphQL-Token': \`asd7-237s-2bdk-nsdk4\`
+          },
+          initialSettings: {
+            theme: \`dark\`
+          },
+          persistedSettings: {
+            theme: \`light\`
+          }
+        }
+    );
+"
 `;

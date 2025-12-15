@@ -1,11 +1,11 @@
-import { ICustomTheme, createTheme, foundations } from '../theme';
+import { ICustomTheme, foundationColors } from '../theme';
 
 const theme: ICustomTheme = {
   colors: {
-    bg: foundations.colors.black,
+    bg: foundationColors.black,
     offBg: '#343233',
-    font: foundations.colors.white,
-    offFont: foundations.colors.lightGray,
+    font: foundationColors.white,
+    offFont: foundationColors.lightGray,
     border: '#565c64',
     offBorder: '#565656',
     headerBg: '#343233',
@@ -15,17 +15,17 @@ const theme: ICustomTheme = {
   },
   editor: {
     colors: {
-      comment: foundations.colors.darkGray,
-      string: foundations.colors.orange,
-      number: foundations.colors.orange,
-      variable: foundations.colors.white,
-      attribute: foundations.colors.green,
-      keyword: foundations.colors.blue,
-      atom: foundations.colors.white,
-      property: foundations.colors.blue,
-      definition: foundations.colors.orange,
-      punctuation: foundations.colors.blue,
-      cursor: foundations.colors.blue,
+      comment: foundationColors.darkGray,
+      string: foundationColors.orange,
+      number: foundationColors.orange,
+      variable: foundationColors.white,
+      attribute: foundationColors.green,
+      keyword: foundationColors.blue,
+      atom: foundationColors.white,
+      property: foundationColors.blue,
+      definition: foundationColors.orange,
+      punctuation: foundationColors.blue,
+      cursor: foundationColors.blue,
     },
   },
 };

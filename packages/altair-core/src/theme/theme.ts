@@ -1,5 +1,6 @@
 import deepmerge from 'deepmerge';
 import colors from 'color-name';
+import { boolean, input, number, object, output, string } from 'zod/v4';
 
 /*
 Some theming ideas:
@@ -16,23 +17,64 @@ If you choose #232931 (rich blue-gray) as the background, #3a4149 would be a sui
 For a #2d2f33 (slightly lighter dark gray) background, #404448 could work well for borders.
 */
 
-export const foundations = {
+export const foundationColors = {
+  black: '#201e1f',
+  darkGray: '#a6a6a6',
+  gray: '#eaeaea',
+  lightGray: '#fafafa',
+  white: '#ffffff',
+  green: '#64CB29',
+  blue: '#2d9ee0',
+  rose: '#f45b69',
+  cerise: '#f00faa',
+  red: '#ed6a5a',
+  orange: '#edae49',
+  yellow: '#e4ce44',
+  lightRed: '#cc998d',
+  darkPurple: '#303965',
+};
+
+const defaultValues = {
   easing: 'ease',
-  colors: {
-    black: '#201e1f',
-    darkGray: '#a6a6a6',
-    gray: '#eaeaea',
-    lightGray: '#fafafa',
-    white: '#ffffff',
-    green: '#64CB29',
-    blue: '#2d9ee0',
-    rose: '#f45b69',
-    cerise: '#f00faa',
-    red: '#ed6a5a',
-    orange: '#edae49',
-    yellow: '#e4ce44',
-    lightRed: '#cc998d',
-    darkPurple: '#303965',
+  isSystem: false,
+  colors: deepmerge(foundationColors, {
+    primary: foundationColors.green,
+    secondary: foundationColors.blue,
+    tertiary: foundationColors.rose,
+
+    bg: foundationColors.lightGray,
+    offBg: foundationColors.white,
+    font: foundationColors.black,
+    offFont: foundationColors.darkGray,
+    border: foundationColors.darkGray,
+    offBorder: foundationColors.gray,
+
+    headerBg: foundationColors.white,
+  }),
+
+  shadow: {
+    color: foundationColors.black,
+    opacity: 0.1,
+  },
+  editor: {
+    fontFamily: {
+      default: 'JetBrains Mono',
+    },
+    fontSize: 12,
+    colors: {
+      comment: foundationColors.darkGray,
+      string: foundationColors.orange,
+      number: foundationColors.orange,
+      variable: foundationColors.black,
+      keyword: foundationColors.blue,
+      atom: foundationColors.black,
+      attribute: foundationColors.green,
+      property: foundationColors.blue,
+      punctuation: foundationColors.blue,
+      definition: foundationColors.orange,
+      builtin: foundationColors.orange,
+      cursor: foundationColors.blue,
+    },
   },
   type: {
     fontSize: {
@@ -47,164 +89,401 @@ export const foundations = {
     },
   },
 };
+const colorsSchema = object({
+  /**
+   * Black color used for high contrast elements
+   */
+  black: string()
+    .meta({
+      description: 'Black color used for high contrast elements',
+    })
+    .default(defaultValues.colors.black),
+  /**
+   * Dark gray color for muted text and secondary elements
+   */
+  darkGray: string()
+    .meta({
+      description: 'Dark gray color for muted text and secondary elements',
+    })
+    .default(defaultValues.colors.darkGray),
+  /**
+   * Medium gray color for neutral backgrounds and borders
+   */
+  gray: string()
+    .meta({
+      description: 'Medium gray color for neutral backgrounds and borders',
+    })
+    .default(defaultValues.colors.gray),
+  /**
+   * Light gray color for subtle backgrounds and dividers
+   */
+  lightGray: string()
+    .meta({
+      description: 'Light gray color for subtle backgrounds and dividers',
+    })
+    .default(defaultValues.colors.lightGray),
+  /**
+   * White color for light backgrounds and text
+   */
+  white: string()
+    .meta({
+      description: 'White color for light backgrounds and text',
+    })
+    .default(defaultValues.colors.white),
+  /**
+   * Green color typically used for success states and positive actions
+   */
+  green: string()
+    .meta({
+      description:
+        'Green color typically used for success states and positive actions',
+    })
+    .default(defaultValues.colors.green),
+  /**
+   * Blue color for informational elements and links
+   */
+  blue: string()
+    .meta({
+      description: 'Blue color for informational elements and links',
+    })
+    .default(defaultValues.colors.blue),
+  /**
+   * Rose/pink color for accent elements and highlights
+   */
+  rose: string()
+    .meta({
+      description: 'Rose/pink color for accent elements and highlights',
+    })
+    .default(defaultValues.colors.rose),
+  /**
+   * Bright magenta/cerise color for special emphasis
+   */
+  cerise: string()
+    .meta({
+      description: 'Bright magenta/cerise color for special emphasis',
+    })
+    .default(defaultValues.colors.cerise),
+  /**
+   * Red color for error states and destructive actions
+   */
+  red: string()
+    .meta({
+      description: 'Red color for error states and destructive actions',
+    })
+    .default(defaultValues.colors.red),
+  /**
+   * Orange color for warning states and secondary actions
+   */
+  orange: string()
+    .meta({
+      description: 'Orange color for warning states and secondary actions',
+    })
+    .default(defaultValues.colors.orange),
+  /**
+   * Yellow color for caution states and highlights
+   */
+  yellow: string()
+    .meta({
+      description: 'Yellow color for caution states and highlights',
+    })
+    .default(defaultValues.colors.yellow),
+  /**
+   * Light red/salmon color for subtle error indicators
+   */
+  lightRed: string()
+    .meta({
+      description: 'Light red/salmon color for subtle error indicators',
+    })
+    .default(defaultValues.colors.lightRed),
+  /**
+   * Dark purple color for premium features or special elements
+   */
+  darkPurple: string()
+    .meta({
+      description: 'Dark purple color for premium features or special elements',
+    })
+    .default(defaultValues.colors.darkPurple),
 
-export interface ITheme {
-  /** CSS transition easing function for smooth animations */
-  easing: string;
-  colors: {
-    /** Black color used for high contrast elements */
-    black: string;
-    /** Dark gray color for muted text and secondary elements */
-    darkGray: string;
-    /** Medium gray color for neutral backgrounds and borders */
-    gray: string;
-    /** Light gray color for subtle backgrounds and dividers */
-    lightGray: string;
-    /** White color for light backgrounds and text */
-    white: string;
-    /** Green color typically used for success states and positive actions */
-    green: string;
-    /** Blue color for informational elements and links */
-    blue: string;
-    /** Rose/pink color for accent elements and highlights */
-    rose: string;
-    /** Bright magenta/cerise color for special emphasis */
-    cerise: string;
-    /** Red color for error states and destructive actions */
-    red: string;
-    /** Orange color for warning states and secondary actions */
-    orange: string;
-    /** Yellow color for caution states and highlights */
-    yellow: string;
-    /** Light red/salmon color for subtle error indicators */
-    lightRed: string;
-    /** Dark purple color for premium features or special elements */
-    darkPurple: string;
+  /**
+   * Primary brand color used for main interactive elements
+   */
+  primary: string()
+    .meta({
+      description: 'Primary brand color used for main interactive elements',
+    })
+    .default(defaultValues.colors.primary),
+  /**
+   * Secondary brand color used for supporting interactive elements
+   */
+  secondary: string()
+    .meta({
+      description: 'Secondary brand color used for supporting interactive elements',
+    })
+    .default(defaultValues.colors.secondary),
+  /**
+   * Tertiary brand color used for accent and decorative elements
+   */
+  tertiary: string()
+    .meta({
+      description: 'Tertiary brand color used for accent and decorative elements',
+    })
+    .default(defaultValues.colors.tertiary),
+  /**
+   * Main background color for the application
+   */
+  bg: string()
+    .meta({ description: 'Main background color for the application' })
+    .default(defaultValues.colors.bg),
+  /**
+   * Alternative background color for cards, panels, and sections
+   */
+  offBg: string()
+    .meta({
+      description: 'Alternative background color for cards, panels, and sections',
+    })
+    .default(defaultValues.colors.offBg),
+  /**
+   * Primary text color for readable content
+   */
+  font: string()
+    .meta({ description: 'Primary text color for readable content' })
+    .default(defaultValues.colors.font),
+  /**
+   * Secondary text color for less emphasized content
+   */
+  offFont: string()
+    .meta({
+      description: 'Secondary text color for less emphasized content',
+    })
+    .default(defaultValues.colors.offFont),
+  /**
+   * Primary border color for main UI elements
+   */
+  border: string()
+    .meta({
+      description: 'Primary border color for main UI elements',
+    })
+    .default(defaultValues.colors.border),
+  /**
+   * Secondary border color for subtle divisions
+   */
+  offBorder: string()
+    .meta({
+      description: 'Secondary border color for subtle divisions',
+    })
+    .default(defaultValues.colors.offBorder),
 
-    /** Primary brand color used for main interactive elements */
-    primary: string;
-    /** Secondary brand color used for supporting interactive elements */
-    secondary: string;
-    /** Tertiary brand color used for accent and decorative elements */
-    tertiary: string;
-
-    /** Main background color for the application */
-    bg: string;
-    /** Alternative background color for cards, panels, and sections */
-    offBg: string;
-    /** Primary text color for readable content */
-    font: string;
-    /** Secondary text color for less emphasized content */
-    offFont: string;
-    /** Primary border color for main UI elements */
-    border: string;
-    /** Secondary border color for subtle divisions */
-    offBorder: string;
-
-    /** Background color specifically for the header section */
-    headerBg: string;
-  };
-  type: {
-    fontSize: {
-      /** Base font size in pixels used for calculations */
-      base: number;
-      /** Root em base size in pixels for responsive typography */
-      remBase: number;
-      /** Standard body text font size */
-      body: number;
-      /** Smaller body text font size for secondary content */
-      bodySmaller: number;
-    };
-    fontFamily: {
-      /** Default system font stack for UI elements */
-      default: string;
-    };
-  };
-  /** Whether this theme follows system preferences (light/dark mode) */
-  isSystem: boolean;
-  shadow: {
-    /** Color used for drop shadows and elevation effects */
-    color: string;
-    /** Opacity level for shadow effects (0.0 to 1.0) */
-    opacity: number;
-  };
-  editor: {
-    fontFamily: {
-      /** Font family specifically for code editor and monospace content */
-      default: string;
-    };
-    /** Font size for code editor text */
-    fontSize: number;
-    colors: {
-      /** Color for code comments and documentation */
-      comment: string;
-      /** Color for string literals in code */
-      string: string;
-      /** Color for numeric literals in code */
-      number: string;
-      /** Color for variable names and identifiers */
-      variable: string;
-      /** Color for programming language keywords */
-      keyword: string;
-      /** Color for atomic values like boolean literals */
-      atom: string;
-      /** Color for HTML/XML/GraphQL attributes */
-      attribute: string;
-      /** Color for properties */
-      property: string;
-      /** Color for punctuation marks like brackets and commas */
-      punctuation: string;
-      /** Color for function, class, type definitions */
-      definition: string;
-      /** Color for built-in functions and types */
-      builtin: string;
-      /** Color for the text cursor in the editor */
-      cursor: string;
-    };
-  };
-}
-
-const theme: ITheme = deepmerge(foundations, {
-  isSystem: false,
-  colors: {
-    primary: foundations.colors.green,
-    secondary: foundations.colors.blue,
-    tertiary: foundations.colors.rose,
-
-    bg: foundations.colors.lightGray,
-    offBg: foundations.colors.white,
-    font: foundations.colors.black,
-    offFont: foundations.colors.darkGray,
-    border: foundations.colors.darkGray,
-    offBorder: foundations.colors.gray,
-
-    headerBg: foundations.colors.white,
-  },
-  shadow: {
-    color: foundations.colors.black,
-    opacity: 0.1,
-  },
-  editor: {
-    fontFamily: {
-      default: 'JetBrains Mono',
-    },
-    fontSize: foundations.type.fontSize.bodySmaller,
-    colors: {
-      comment: foundations.colors.darkGray,
-      string: foundations.colors.orange,
-      number: foundations.colors.orange,
-      variable: foundations.colors.black,
-      keyword: foundations.colors.blue,
-      atom: foundations.colors.black,
-      attribute: foundations.colors.green,
-      property: foundations.colors.blue,
-      punctuation: foundations.colors.blue,
-      definition: foundations.colors.orange,
-      builtin: foundations.colors.orange,
-      cursor: foundations.colors.blue,
-    },
-  },
+  /**
+   * Background color specifically for the header section
+   */
+  headerBg: string()
+    .meta({
+      description: 'Background color specifically for the header section',
+    })
+    .default(defaultValues.colors.headerBg),
 });
+const typeSchema = object({
+  fontSize: object({
+    /**
+     * Base font size in pixels used for calculations
+     */
+    base: number()
+      .meta({
+        description: 'Base font size in pixels used for calculations',
+      })
+      .default(defaultValues.type.fontSize.base),
+    /**
+     * Root em base size in pixels for responsive typography
+     */
+    remBase: number()
+      .meta({
+        description: 'Root em base size in pixels for responsive typography',
+      })
+      .default(defaultValues.type.fontSize.remBase),
+    /**
+     * Standard body text font size
+     */
+    body: number()
+      .meta({ description: 'Standard body text font size' })
+      .default(defaultValues.type.fontSize.body),
+    /**
+     * Smaller body text font size for secondary content
+     */
+    bodySmaller: number()
+      .meta({
+        description: 'Smaller body text font size for secondary content',
+      })
+      .default(defaultValues.type.fontSize.bodySmaller),
+  }),
+  fontFamily: object({
+    /**
+     * Default system font stack for UI elements
+     */
+    default: string()
+      .meta({
+        description: 'Default system font stack for UI elements',
+      })
+      .default(defaultValues.type.fontFamily.default),
+  }).default(defaultValues.type.fontFamily),
+});
+const editorThemeSchema = object({
+  fontFamily: object({
+    /**
+     * Font family specifically for code editor and monospace content
+     */
+    default: string()
+      .meta({
+        description:
+          'Font family specifically for code editor and monospace content',
+      })
+      .default(defaultValues.editor.fontFamily.default),
+  }).default(defaultValues.editor.fontFamily),
+  /**
+   * Font size for code editor text
+   */
+  fontSize: number()
+    .meta({
+      description: 'Font size for code editor text',
+    })
+    .default(defaultValues.type.fontSize.bodySmaller),
+  colors: object({
+    /**
+     * Color for code comments and documentation
+     */
+    comment: string()
+      .meta({
+        description: 'Color for code comments and documentation',
+      })
+      .default(defaultValues.colors.darkGray),
+    /**
+     * Color for string literals in code
+     */
+    string: string()
+      .meta({ description: 'Color for string literals in code' })
+      .default(defaultValues.colors.orange),
+    /**
+     * Color for numeric literals in code
+     */
+    number: string()
+      .meta({ description: 'Color for numeric literals in code' })
+      .default(defaultValues.colors.orange),
+    /**
+     * Color for variable names and identifiers
+     */
+    variable: string()
+      .meta({
+        description: 'Color for variable names and identifiers',
+      })
+      .default(defaultValues.colors.black),
+    /**
+     * Color for programming language keywords
+     */
+    keyword: string()
+      .meta({
+        description: 'Color for programming language keywords',
+      })
+      .default(defaultValues.colors.blue),
+    /**
+     * Color for atomic values like boolean literals
+     */
+    atom: string()
+      .meta({
+        description: 'Color for atomic values like boolean literals',
+      })
+      .default(defaultValues.colors.black),
+    /**
+     * Color for HTML/XML/GraphQL attributes
+     */
+    attribute: string()
+      .meta({
+        description: 'Color for HTML/XML/GraphQL attributes',
+      })
+      .default(defaultValues.colors.green),
+    /**
+     * Color for properties
+     */
+    property: string()
+      .meta({ description: 'Color for properties' })
+      .default(defaultValues.colors.blue),
+    /**
+     * Color for punctuation marks like brackets and commas
+     */
+    punctuation: string()
+      .meta({
+        description: 'Color for punctuation marks like brackets and commas',
+      })
+      .default(defaultValues.colors.blue),
+    /**
+     * Color for function, class, type definitions
+     */
+    definition: string()
+      .meta({
+        description: 'Color for function, class, type definitions',
+      })
+      .default(defaultValues.colors.orange),
+    /**
+     * Color for built-in functions and types
+     */
+    builtin: string()
+      .meta({
+        description: 'Color for built-in functions and types',
+      })
+      .default(defaultValues.colors.orange),
+    /**
+     * Color for the text cursor in the editor
+     */
+    cursor: string()
+      .meta({
+        description: 'Color for the text cursor in the editor',
+      })
+      .default(defaultValues.colors.blue),
+  }).default(defaultValues.editor.colors),
+});
+export const themeSchema = object({
+  /**
+   * CSS transition easing function for smooth animations
+   */
+  easing: string()
+    .meta({
+      description: 'CSS transition easing function for smooth animations',
+    })
+    .default(defaultValues.easing),
+  colors: colorsSchema.default(defaultValues.colors),
+  type: typeSchema.default(defaultValues.type),
+  /**
+   * Whether this theme follows system preferences (light/dark mode)
+   */
+  isSystem: boolean()
+    .meta({
+      description: 'Whether this theme follows system preferences (light/dark mode)',
+    })
+    .default(false),
+  shadow: object({
+    /**
+     * Color used for drop shadows and elevation effects
+     */
+    color: string()
+      .meta({
+        description: 'Color used for drop shadows and elevation effects',
+      })
+      .default(defaultValues.colors.black),
+    /**
+     * Opacity level for shadow effects (0.0 to 1.0)
+     */
+    opacity: number()
+      .meta({
+        description: 'Opacity level for shadow effects (0.0 to 1.0)',
+      })
+      .min(0)
+      .max(1)
+      .default(0.1),
+  }).default(defaultValues.shadow),
+  editor: editorThemeSchema.default(defaultValues.editor),
+});
+
+export type ITheme = output<typeof themeSchema>;
+
+const theme: ITheme = themeSchema.parse({});
 
 type RecursivePartial<T> = {
   [P in keyof T]?: T[P] extends (infer U)[]
@@ -214,7 +493,8 @@ type RecursivePartial<T> = {
       : T[P];
 };
 
-export type ICustomTheme = RecursivePartial<ITheme>;
+export const partialThemeSchema = themeSchema.partial();
+export type ICustomTheme = input<typeof themeSchema>;
 
 interface RGBA {
   r: number;
@@ -260,33 +540,13 @@ export const hexToRgbStr = (hex: string) => {
   return `${r}, ${g}, ${b}`;
 };
 
-// shade one of our rgb color objects to a distance of i*10%
-// ({ red: 80, green: 18, blue: 20 }, 1) => { red: 72, green: 16, blue: 18 }
-const rgbShade = (rgb: RGBA, i: number) => {
-  return {
-    r: rgb.r * (1 - 0.1 * i),
-    g: rgb.g * (1 - 0.1 * i),
-    b: rgb.b * (1 - 0.1 * i),
-  };
-};
-
-// tint one of our rgb color objects to a distance of i*10%
-// ({ red: 80, green: 18, blue: 20 }, 1) => { red: 98, green: 42, blue: 44 }
-const rgbTint = (rgb: RGBA, i: number) => {
-  return {
-    r: rgb.r + (255 - rgb.r) * i * 0.1,
-    g: rgb.g + (255 - rgb.g) * i * 0.1,
-    b: rgb.b + (255 - rgb.b) * i * 0.1,
-  };
-};
-
 export const mergeThemes = (...customThemes: ICustomTheme[]): ICustomTheme => {
-  return deepmerge.all(customThemes);
+  return deepmerge.all(customThemes) as ICustomTheme;
 };
 
 export const createTheme = (
   customTheme: ICustomTheme,
   ...extraThemes: ICustomTheme[]
 ): ITheme => {
-  return deepmerge.all([theme, customTheme, ...extraThemes]) as ITheme;
+  return deepmerge.all([defaultValues, customTheme, ...extraThemes]) as ITheme;
 };

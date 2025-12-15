@@ -103,6 +103,7 @@
     "sval": "0.4.8",
     "tslib": "2.0.0",
     "uuid": "9.0.1",
+    "zod": "catalog:",
     "zone.js": "0.15.1"
   },
   "devDependencies": {

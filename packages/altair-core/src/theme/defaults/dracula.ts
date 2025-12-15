@@ -1,4 +1,4 @@
-import { ICustomTheme, createTheme } from '../theme';
+import { ICustomTheme } from '../theme';
 
 const theme: ICustomTheme = {
   colors: {

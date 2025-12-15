@@ -17,7 +17,7 @@ A settings modal is available in the app to allow you customize all the various 
 
 In the desktop apps, the settings are stored in a `altair_settings.json` file in the app's data directory. The settings are loaded from this file when the app starts up. The settings can also be updated from the settings modal in the app.
 
-All the available options can be found [here](/api/core/types/state/settings.interfaces/interfaces/SettingsState).
+All the available options can be found [here](/api/core/types/state/settings.interfaces/type-aliases/SettingsState).
 
 ### `theme` - Specifies the theme
 

@@ -9,6 +9,7 @@ packages:
 catalog:
   electron: ^38.3.0
   typescript: ^5.8.0
+  zod: ^4.1.13
 
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade

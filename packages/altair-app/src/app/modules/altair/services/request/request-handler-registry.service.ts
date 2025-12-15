@@ -5,9 +5,9 @@ import {
   GRAPHQL_SSE_HANDLER_ID,
   GRAPHQL_WS_HANDLER_ID,
   HTTP_HANDLER_ID,
-  RequestHandlerData,
   WEBSOCKET_HANDLER_ID,
-} from 'altair-graphql-core/build/request/types';
+} from 'altair-graphql-core/build/request/ids';
+import { RequestHandlerData } from 'altair-graphql-core/build/request/types';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

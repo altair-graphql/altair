@@ -1,6 +1,6 @@
+import { altairConfigOptionsSchema } from 'altair-graphql-core/build/config/options.schema';
 import getAltairHtml from './get-altair-html';
 import type { AltairConfigOptions } from 'altair-graphql-core/build/config/options';
-
 export interface RenderOptions extends AltairConfigOptions {
   /**
    * URL to be used as a base for relative URLs
@@ -45,9 +45,7 @@ const optionsProperties: AltairConfigOptionsObject = {
   initialAuthorization: undefined,
   cspNonce: undefined,
 };
-const allowedProperties = Object.keys(
-  optionsProperties
-) as (keyof AltairConfigOptions)[];
+const allowedProperties = Object.keys(altairConfigOptionsSchema.shape);
 
 const getObjectPropertyForOption = (
   option: unknown,
@@ -64,6 +62,53 @@ const getObjectPropertyForOption = (
   }
   return '';
 };
+function objectToJSLiteral(obj: unknown, indent = 0): string {
+  const spaces = '  '.repeat(indent);
+  const innerSpaces = '  '.repeat(indent + 1);
+
+  if (obj === null) return 'null';
+  if (obj === undefined) return 'undefined';
+  if (typeof obj === 'boolean') return obj.toString();
+  if (typeof obj === 'number') return obj.toString();
+
+  // Handle strings - always use template literals
+  if (typeof obj === 'string') {
+    const escaped = obj
+      .replace(/\\/g, '\\\\')
+      .replace(/`/g, '\\`')
+      .replace(/\${/g, '\\${');
+    return '`' + escaped + '`';
+  }
+
+  // Handle arrays
+  if (Array.isArray(obj)) {
+    if (obj.length === 0) return '[]';
+    const items = obj.map(
+      (item) => innerSpaces + objectToJSLiteral(item, indent + 1)
+    );
+    return '[\n' + items.join(',\n') + '\n' + spaces + ']';
+  }
+
+  // Handle objects
+  if (typeof obj === 'object') {
+    const entries = Object.entries(obj);
+    if (entries.length === 0) return '{}';
+
+    const pairs = entries.map(([key, value]) => {
+      const valueStr = objectToJSLiteral(value, indent + 1);
+      // Check if key is a valid JS identifier
+      const isValidIdentifier = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/.test(key);
+      const keyStr = isValidIdentifier
+        ? key
+        : `'${key.replace(/\\/g, '\\\\').replace(/'/g, "\\'")}'`;
+      return `${innerSpaces}${keyStr}: ${valueStr}`;
+    });
+
+    return '{\n' + pairs.join(',\n') + '\n' + spaces + '}';
+  }
+
+  return String(obj);
+}
 
 /**
  * Render Altair Initial options as a string using the provided renderOptions
@@ -79,9 +124,8 @@ export const renderInitialOptions = (options: RenderOptions = {}) => {
  * @param renderOptions
  */
 export const renderInitSnippet = (options: RenderOptions = {}) => {
-  return `
-        AltairGraphQL.init(${getRenderedAltairOpts(options)});
-    `;
+  const indent = 4;
+  return `\n${' '.repeat(indent)}AltairGraphQL.init(${getRenderedAltairOpts(options, indent)}\n${' '.repeat(indent)});\n`;
 };
 
 /**
@@ -123,14 +167,22 @@ export const renderAltair = (options: RenderOptions = {}) => {
     );
 };
 
-const getRenderedAltairOpts = (renderOptions: RenderOptions) => {
-  const optProps = Object.keys(renderOptions)
-    .filter((key): key is keyof AltairConfigOptions =>
-      allowedProperties.includes(key as keyof AltairConfigOptions)
-    )
-    .map((key) => getObjectPropertyForOption(renderOptions[key], key));
-
-  return ['{', ...optProps, '}'].join('\n');
+const getRenderedAltairOpts = (renderOptions: RenderOptions, indent = 0) => {
+  const result = altairConfigOptionsSchema.safeParse(renderOptions);
+  if (!result.success) {
+    throw new Error(
+      `Invalid AltairGraphQL options: ${result.error.issues
+        .map((issue) => issue.message)
+        .join(', ')}`
+    );
+  }
+  const validKeys = Object.keys(result.data);
+  const opts = Object.entries(renderOptions)
+    .filter(([key]) => validKeys.includes(key))
+    .reduce((acc, [key, value]) => {
+      return { ...acc, [key]: value };
+    }, {} as AltairConfigOptions);
+  return objectToJSLiteral(opts, indent);
 };
 
 export const isSandboxFrame = (path: string) => {

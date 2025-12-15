@@ -1,18 +1,13 @@
 import { isExtension } from '../crx';
-import {
-  HTTP_HANDLER_ID,
-  RequestHandlerIds,
-  WEBSOCKET_HANDLER_ID,
-} from '../request/types';
-import { IDictionary, TODO } from '../types/shared';
-import { IInitialEnvironments } from '../types/state/environments.interfaces';
-import { HttpVerb } from '../types/state/query.interfaces';
+import { TODO } from '../types/shared';
 import isElectron from '../utils/is_electron';
 import { ConfigEnvironment } from './environment';
-import { AltairConfigOptions, AltairWindowOptions } from './options';
+import { AltairConfigOptions } from './options';
 import { UrlConfig, urlMap } from './urls';
-
-const isTranslateMode = (window as TODO).__ALTAIR_TRANSLATE__;
+import { altairConfigOptionsSchema } from './options.schema';
+import { input, output } from 'zod/v4';
+import { DEFAULT_OPTIONS } from './defaults';
+import { languagesSchema } from './languages';
 
 const parseUrl = (url: string) => {
   try {
@@ -21,6 +16,9 @@ const parseUrl = (url: string) => {
     return;
   }
 };
+
+export const isTranslateMode = (window as TODO).__ALTAIR_TRANSLATE__;
+
 export class AltairConfig {
   private localSandboxUrl: string | undefined;
   private useLocalSandboxUrl = false;
@@ -29,123 +27,49 @@ export class AltairConfig {
     action_count_threshold: 50,
   };
   ga = 'UA-41432833-6';
-  add_query_depth_limit = 3;
-  tab_size = 2;
+  add_query_depth_limit = DEFAULT_OPTIONS.ADD_QUERY_DEPTH_LIMIT;
+  tab_size = DEFAULT_OPTIONS.TAB_SIZE;
   max_windows = isElectron ? 50 : 15;
-  default_language = isTranslateMode ? 'ach-UG' : 'en-US';
-  languages = {
-    'en-US': 'English',
-    'fr-FR': 'French',
-    'es-ES': 'Español',
-    'cs-CZ': 'Czech',
-    'de-DE': 'German',
-    'pt-BR': 'Brazilian',
-    'ru-RU': 'Russian',
-    'uk-UA': 'Ukrainian',
-    'zh-CN': 'Chinese Simplified',
-    'ja-JP': 'Japanese',
-    'sr-SP': 'Serbian',
-    'it-IT': 'Italian',
-    'pl-PL': 'Polish',
-    'ko-KR': 'Korean',
-    'ro-RO': 'Romanian',
-    'vi-VN': 'Vietnamese',
-  };
+  default_language = isTranslateMode
+    ? languagesSchema.enum.TranslationLang
+    : DEFAULT_OPTIONS.DEFAULT_LANGUAGE;
   query_history_depth = isElectron ? 100 : 15;
   disableLineNumbers = false;
-  defaultTheme = 'system';
-  themes = ['light', 'dark', 'dracula', 'system'];
+  defaultTheme = DEFAULT_OPTIONS.DEFAULT_THEME;
+  themes = DEFAULT_OPTIONS.THEMES;
   isTranslateMode = isTranslateMode;
   isWebApp = (window as TODO).__ALTAIR_WEB_APP__;
   cspNonce = '';
-  initialData = {
-    url: '',
-    subscriptionsEndpoint: '',
-    subscriptionsProtocol: '',
-    query: '',
-    variables: '',
-    // Force type of header, since initial value inference is wrong
-    headers: null as unknown as IDictionary,
-    environments: {} as IInitialEnvironments,
-    preRequestScript: '',
-    postRequestScript: '',
-    instanceStorageNamespace: 'altair_',
-    settings: undefined as unknown as AltairConfigOptions['initialSettings'],
-    persistedSettings:
-      undefined as unknown as AltairConfigOptions['persistedSettings'],
-    initialSubscriptionRequestHandlerId:
-      undefined as AltairConfigOptions['initialSubscriptionRequestHandlerId'],
-    initialSubscriptionsPayload: {} as IDictionary,
-    initialRequestHandlerId: HTTP_HANDLER_ID as RequestHandlerIds,
-    initialRequestHandlerAdditionalParams: {} as Record<string, unknown>,
-    initialHttpMethod: 'POST' as HttpVerb,
-    preserveState: true,
-    windows: [] as AltairWindowOptions[],
-    disableAccount: false,
-    initialAuthorization:
-      undefined as unknown as AltairConfigOptions['initialAuthorization'],
-  };
-  constructor({
-    endpointURL,
-    subscriptionsEndpoint,
-    subscriptionsProtocol,
-    initialQuery,
-    initialHeaders,
-    initialEnvironments,
-    initialVariables,
-    initialPreRequestScript,
-    initialPostRequestScript = '',
-    instanceStorageNamespace,
-    initialSettings,
-    persistedSettings,
-    initialRequestHandlerId = HTTP_HANDLER_ID,
-    initialRequestHandlerAdditionalParams = {},
-    initialSubscriptionRequestHandlerId = WEBSOCKET_HANDLER_ID,
-    initialSubscriptionsPayload = {},
-    initialHttpMethod = 'POST',
-    preserveState = true,
-    initialWindows = [],
-    disableAccount = false,
-    initialAuthorization,
-    cspNonce = '',
-  }: AltairConfigOptions = {}) {
-    this.cspNonce = cspNonce;
-    this.initialData.url =
-      (window as TODO).__ALTAIR_ENDPOINT_URL__ ?? endpointURL ?? '';
-    this.initialData.subscriptionsEndpoint =
+  options: output<typeof altairConfigOptionsSchema>;
+
+  constructor(options: input<typeof altairConfigOptionsSchema> = {}) {
+    this.options = altairConfigOptionsSchema.parse(options);
+    this.options.endpointURL =
+      (window as TODO).__ALTAIR_ENDPOINT_URL__ ?? this.options.endpointURL ?? '';
+    this.options.subscriptionsEndpoint =
       (window as TODO).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ ??
-      subscriptionsEndpoint ??
+      this.options.subscriptionsEndpoint ??
       '';
-    this.initialData.subscriptionsProtocol = subscriptionsProtocol ?? '';
-    this.initialData.query =
-      (window as TODO).__ALTAIR_INITIAL_QUERY__ ?? initialQuery ?? '';
-    this.initialData.variables =
-      (window as TODO).__ALTAIR_INITIAL_VARIABLES__ ?? initialVariables ?? '';
-    this.initialData.headers =
-      (window as TODO).__ALTAIR_INITIAL_HEADERS__ ?? initialHeaders ?? '';
-    this.initialData.environments = initialEnvironments ?? {};
-    this.initialData.preRequestScript =
+    this.options.initialQuery =
+      (window as TODO).__ALTAIR_INITIAL_QUERY__ ?? this.options.initialQuery ?? '';
+    this.options.initialVariables =
+      (window as TODO).__ALTAIR_INITIAL_VARIABLES__ ??
+      this.options.initialVariables ??
+      '';
+    this.options.initialHeaders =
+      (window as TODO).__ALTAIR_INITIAL_HEADERS__ ??
+      this.options.initialHeaders ??
+      {};
+    this.options.initialPreRequestScript =
       (window as TODO).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ ??
-      initialPreRequestScript ??
+      this.options.initialPreRequestScript ??
       '';
-    this.initialData.postRequestScript = initialPostRequestScript;
-    this.initialData.instanceStorageNamespace =
+    this.options.instanceStorageNamespace =
       (window as TODO).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ ??
-      instanceStorageNamespace ??
+      this.options.instanceStorageNamespace ??
       'altair_';
-    this.initialData.settings = initialSettings;
-    this.initialData.persistedSettings = persistedSettings;
-    this.initialData.initialSubscriptionRequestHandlerId =
-      initialSubscriptionRequestHandlerId;
-    this.initialData.initialSubscriptionsPayload = initialSubscriptionsPayload;
-    this.initialData.initialRequestHandlerId = initialRequestHandlerId;
-    this.initialData.initialRequestHandlerAdditionalParams =
-      initialRequestHandlerAdditionalParams;
-    this.initialData.initialHttpMethod = initialHttpMethod;
-    this.initialData.preserveState = preserveState;
-    this.initialData.windows = initialWindows;
-    this.initialData.disableAccount = disableAccount;
-    this.initialData.initialAuthorization = initialAuthorization;
+
+    this.cspNonce = this.options.cspNonce ?? '';
   }
 
   private getPossibleLocalSandBoxRoot() {

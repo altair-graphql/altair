@@ -6,10 +6,8 @@ import {
   output,
 } from '@angular/core';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import {
-  HTTP_VERBS,
-  HttpVerb,
-} from 'altair-graphql-core/build/types/state/query.interfaces';
+import { HttpVerb } from 'altair-graphql-core/build/types/state/query.interfaces';
+import { httpVerbSchema } from 'altair-graphql-core/build/types/state/query.schema';
 import { OperationDefinitionNode } from 'graphql';
 import { BATCHED_REQUESTS_OPERATION } from '../../services/gql/gql.service';
 import { LoadingRequestStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
@@ -44,7 +42,7 @@ export class UrlBoxComponent {
   readonly exportWindowChange = output();
   readonly updateQueryInCollectionChange = output();
 
-  methods = HTTP_VERBS;
+  methods = Object.values(httpVerbSchema.enum);
 
   BATCHED_REQUESTS_OPERATION = BATCHED_REQUESTS_OPERATION;
 
