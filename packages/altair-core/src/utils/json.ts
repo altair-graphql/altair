@@ -9,7 +9,7 @@ export const parseJson = <R = Record<string, unknown>, T = unknown>(
   try {
     return JSONBigint.parse(str) as R;
   } catch {
-    console.error('Could not parse JSON. Using default instead.');
+    console.warn('Could not parse JSON. Using default instead.');
     return defaultValue as T;
   }
 };

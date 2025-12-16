@@ -15,10 +15,13 @@ export class ReducerBootstrapper {
 
   async bootstrap() {
     if (this.altairConfig.options.preserveState) {
-      this.initialState = await getAppStateFromStorage({
+      // TODO: validate data; show useful error message if corrupted
+      const raw = await getAppStateFromStorage({
         updateFromLocalStorage: true,
       });
+      this.initialState = raw;
 
+      // TODO: validate settings
       // Merge electron setting state with initial setting state if available
       const settingsFromFile = await this.electronAppService.getSettingsFromFile();
       if (settingsFromFile) {

@@ -1,6 +1,8 @@
 import { altairConfigOptionsSchema } from 'altair-graphql-core/build/config/options.schema';
 import getAltairHtml from './get-altair-html';
 import type { AltairConfigOptions } from 'altair-graphql-core/build/config/options';
+import { looseValidate } from 'altair-graphql-core/build/utils/schema';
+
 export interface RenderOptions extends AltairConfigOptions {
   /**
    * URL to be used as a base for relative URLs
@@ -15,53 +17,6 @@ export interface RenderOptions extends AltairConfigOptions {
   serveInitialOptionsInSeperateRequest?: boolean | string;
 }
 
-/**
- * this type assertion is used to ensure that all properties of AltairConfigOptions are included in the RenderOptions.
- * When new properties are added to AltairConfigOptions, this type assertion will throw an error and force the developer to update it accordingly.
- */
-type AltairConfigOptionsObject = Record<keyof AltairConfigOptions, undefined>;
-const optionsProperties: AltairConfigOptionsObject = {
-  endpointURL: undefined,
-  subscriptionsEndpoint: undefined,
-  subscriptionsProtocol: undefined,
-  initialQuery: undefined,
-  initialVariables: undefined,
-  initialPreRequestScript: undefined,
-  initialPostRequestScript: undefined,
-  initialHeaders: undefined,
-  initialEnvironments: undefined,
-  instanceStorageNamespace: undefined,
-  initialSettings: undefined,
-  initialSubscriptionRequestHandlerId: undefined,
-  initialSubscriptionsPayload: undefined,
-  initialRequestHandlerId: undefined,
-  initialRequestHandlerAdditionalParams: undefined,
-  preserveState: undefined,
-  initialHttpMethod: undefined,
-  initialWindows: undefined,
-  disableAccount: undefined,
-  persistedSettings: undefined,
-  initialName: undefined,
-  initialAuthorization: undefined,
-  cspNonce: undefined,
-};
-const allowedProperties = Object.keys(altairConfigOptionsSchema.shape);
-
-const getObjectPropertyForOption = (
-  option: unknown,
-  propertyName: keyof AltairConfigOptions
-) => {
-  if (typeof option !== 'undefined') {
-    switch (typeof option) {
-      case 'object':
-        return `${propertyName}: ${JSON.stringify(option)},`;
-      case 'boolean':
-        return `${propertyName}: ${option},`;
-    }
-    return `${propertyName}: \`${option}\`,`;
-  }
-  return '';
-};
 function objectToJSLiteral(obj: unknown, indent = 0): string {
   const spaces = '  '.repeat(indent);
   const innerSpaces = '  '.repeat(indent + 1);
@@ -168,20 +123,7 @@ export const renderAltair = (options: RenderOptions = {}) => {
 };
 
 const getRenderedAltairOpts = (renderOptions: RenderOptions, indent = 0) => {
-  const result = altairConfigOptionsSchema.safeParse(renderOptions);
-  if (!result.success) {
-    throw new Error(
-      `Invalid AltairGraphQL options: ${result.error.issues
-        .map((issue) => issue.message)
-        .join(', ')}`
-    );
-  }
-  const validKeys = Object.keys(result.data);
-  const opts = Object.entries(renderOptions)
-    .filter(([key]) => validKeys.includes(key))
-    .reduce((acc, [key, value]) => {
-      return { ...acc, [key]: value };
-    }, {} as AltairConfigOptions);
+  const opts = looseValidate(renderOptions, altairConfigOptionsSchema);
   return objectToJSLiteral(opts, indent);
 };
 

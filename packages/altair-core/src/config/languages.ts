@@ -1,6 +1,6 @@
 import { z } from 'zod/v4';
 
-export const languagesEnum = {
+const languages = {
   TranslationLang: 'ach-UG',
   English: 'en-US',
   French: 'fr-FR',
@@ -19,13 +19,4 @@ export const languagesEnum = {
   Romanian: 'ro-RO',
   Vietnamese: 'vi-VN',
 } as const;
-// Flip the key-value pairs.
-// TODO: We can consider updating all usage to use the above format instead.
-export const languages = Object.entries(languagesEnum).reduce(
-  (acc, [key, value]) => {
-    acc[value] = key;
-    return acc;
-  },
-  {} as Record<string, string>
-);
-export const languagesSchema = z.enum(languagesEnum);
+export const languagesSchema = z.enum(languages);

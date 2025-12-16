@@ -903,9 +903,6 @@ importers:
       '@apollo/client':
         specifier: 3.3.20
         version: 3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
-      '@traversable/zod':
-        specifier: ^0.0.57
-        version: 0.0.57(zod@4.1.13)
       abab:
         specifier: 2.0.6
         version: 2.0.6
@@ -7107,30 +7104,6 @@ packages:
 
   '@tootallnate/quickjs-emscripten@0.23.0':
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
-
-  '@traversable/json@0.0.52':
-    resolution: {integrity: sha512-QddhvjiJULZw6z/OhHE0YchZfKr1LRvRvs5dZqGpYb0UB3GpWSn/2fIJjYTOCT0pG95QhuxexPpKky6eihFBLA==}
-    peerDependencies:
-      '@traversable/registry': ^0.0.49
-      fast-check: 3 - 4
-    peerDependenciesMeta:
-      fast-check:
-        optional: true
-
-  '@traversable/registry@0.0.49':
-    resolution: {integrity: sha512-uof62gHhyf5MebDkjQMeJj1yIAQkCbCcJYl848b4A+jFnUXxo2NUuHi0NIZOeG3r+XgNSF4MapDED89tFM6iLA==}
-
-  '@traversable/zod-types@0.0.30':
-    resolution: {integrity: sha512-BbVyKLvxNpuVouwkLGf7NRNUuMauJBZFr3z4Qy1KZgiAFEryXTLZfJV1Sf98k+naDDj6zaHQD66NsTUTQ7upqw==}
-    peerDependencies:
-      '@traversable/json': ^0.0.52
-      '@traversable/registry': ^0.0.49
-      zod: '4'
-
-  '@traversable/zod@0.0.57':
-    resolution: {integrity: sha512-oOSaBQitiav6QrwPZFF8GY1J2VDKDeA/GQTgsi2E6D8dn6V+5jcji+Qp2zRz6XDGUzfJy+Xda+2LqzwDT2G8nA==}
-    peerDependencies:
-      zod: '4'
 
   '@ts-morph/common@0.5.2':
     resolution: {integrity: sha512-eLmfYV6u6gUgHrB9QV9lpuWg3cD60mhXdv0jvM5exWR/Cor8HG+GziFIj2hPEWHJknqzuU4meZd8DTqIzZfDRQ==}
@@ -26431,27 +26404,6 @@ snapshots:
   '@tootallnate/once@2.0.0': {}
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
-
-  '@traversable/json@0.0.52(@traversable/registry@0.0.49)':
-    dependencies:
-      '@traversable/registry': 0.0.49
-
-  '@traversable/registry@0.0.49': {}
-
-  '@traversable/zod-types@0.0.30(@traversable/json@0.0.52(@traversable/registry@0.0.49))(@traversable/registry@0.0.49)(zod@4.1.13)':
-    dependencies:
-      '@traversable/json': 0.0.52(@traversable/registry@0.0.49)
-      '@traversable/registry': 0.0.49
-      zod: 4.1.13
-
-  '@traversable/zod@0.0.57(zod@4.1.13)':
-    dependencies:
-      '@traversable/json': 0.0.52(@traversable/registry@0.0.49)
-      '@traversable/registry': 0.0.49
-      '@traversable/zod-types': 0.0.30(@traversable/json@0.0.52(@traversable/registry@0.0.49))(@traversable/registry@0.0.49)(zod@4.1.13)
-      zod: 4.1.13
-    transitivePeerDependencies:
-      - fast-check
 
   '@ts-morph/common@0.5.2':
     dependencies:

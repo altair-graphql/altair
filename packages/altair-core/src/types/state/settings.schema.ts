@@ -211,6 +211,7 @@ export const settingsSchema = object({
    */
   'themeConfig.dark': themeSchema
     .meta({ description: 'Theme config object for dark mode' })
+    .partial()
     .optional(),
 
   /**

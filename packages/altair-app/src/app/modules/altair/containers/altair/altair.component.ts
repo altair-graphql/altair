@@ -81,7 +81,7 @@ import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
 import { QueryItemRevision, IdentityProvider } from '@altairgraphql/db';
 import { consumeQueryParam } from '../../utils/url';
-import { languagesEnum } from 'altair-graphql-core/build/config/languages';
+import { languagesSchema } from 'altair-graphql-core/build/config/languages';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -457,7 +457,7 @@ export class AltairComponent {
    * Sets the available languages from config
    */
   setAvailableLanguages() {
-    const availableLanguages = Object.values(languagesEnum);
+    const availableLanguages = Object.values(languagesSchema.enum);
     this.translate.addLangs(availableLanguages);
   }
 

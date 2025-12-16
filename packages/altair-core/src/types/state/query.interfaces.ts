@@ -1,5 +1,4 @@
 import { OperationDefinitionNode } from 'graphql';
-import { SubscriptionProvider } from '../../subscriptions/subscription-provider';
 import { IDictionary } from '../shared';
 import { RequestHandlerIds } from '../../request/types';
 import { httpVerbSchema } from './query.schema';
@@ -70,5 +69,4 @@ export interface QueryState {
   queryEditorState: QueryEditorState;
 }
 
-// export const HTTP_VERBS = ['POST', 'GET', 'PUT', 'DELETE'] as const;
 export type HttpVerb = z.infer<typeof httpVerbSchema>;
