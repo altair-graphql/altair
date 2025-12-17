@@ -3,7 +3,6 @@
   "include": ["src"],
   "compilerOptions": {
     "outDir": "build/",
-    // "rootDir": "./src",
     "declaration": true,
     "declarationMap": true,
     "target": "es2020",

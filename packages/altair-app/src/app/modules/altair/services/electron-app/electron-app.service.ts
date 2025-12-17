@@ -375,7 +375,12 @@ export class ElectronAppService {
     if (!data) {
       return;
     }
-    return partialSettingsSchema.parse(data);
+    try {
+      return partialSettingsSchema.parse(data);
+    } catch (err) {
+      debug.error('Error parsing settings from file', err);
+      this.notifyService.error(`Error parsing settings from file; ${err}`);
+    }
   }
 
   updateSettingsOnFile(settings: SettingsState) {

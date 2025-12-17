@@ -56,14 +56,18 @@ function getSelectOptions(
   if (itemEnum.length > 0) {
     switch (item?.key) {
       case 'language':
-        return itemEnum
-          .filter((content): content is string => typeof content === 'string')
-          .map((content) => {
-            return {
-              label: getLanguageLabel(content),
-              value: content,
-            };
-          });
+        return (
+          itemEnum
+            .filter((content): content is string => typeof content === 'string')
+            // exclude 'TranslationLang' from options
+            .filter((content) => content != languagesSchema.enum.TranslationLang)
+            .map((content) => {
+              return {
+                label: getLanguageLabel(content),
+                value: content,
+              };
+            })
+        );
     }
     return itemEnum
       .filter((content): content is string => typeof content === 'string')

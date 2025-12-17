@@ -25,12 +25,16 @@ export class ReducerBootstrapper {
       // Merge electron setting state with initial setting state if available
       const settingsFromFile = await this.electronAppService.getSettingsFromFile();
       if (settingsFromFile) {
+        const parsedSettingsResult = settingsSchema.safeParse({
+          ...this.initialState?.settings,
+          ...settingsFromFile,
+        });
+
         this.initialState = {
           ...this.initialState,
-          settings: settingsSchema.parse({
-            ...this.initialState?.settings,
-            ...settingsFromFile,
-          }),
+          settings: parsedSettingsResult.success
+            ? parsedSettingsResult.data
+            : this.initialState?.settings,
         };
       }
 
