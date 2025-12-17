@@ -1,4 +1,4 @@
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it, vi } from 'vitest';
 import {
   SubscriptionProvider,
   SubscriptionProviderExecuteOptions,
@@ -16,7 +16,7 @@ class TestSubscriptionProvider extends SubscriptionProvider {
   ) {
     super(subscriptionUrl, connectionParams, extraOptions);
   }
-  execute = jest.fn(
+  execute = vi.fn(
     (options: SubscriptionProviderExecuteOptions): Observable<unknown> => {
       return from(this.connectionParams.testData).pipe(
         map((data) => {
@@ -28,7 +28,7 @@ class TestSubscriptionProvider extends SubscriptionProvider {
       );
     }
   );
-  close = jest.fn(() => {});
+  close = vi.fn(() => {});
 }
 describe('SubscriptionProviderRequestHandlerAdapter', () => {
   it('should properly transform a SubscriptionProvider to a GraphQLRequestHandler - single response', () => {
@@ -62,9 +62,9 @@ describe('SubscriptionProviderRequestHandlerAdapter', () => {
       url: 'http://localhost:3000/graphql',
     };
     const observer = {
-      next: jest.fn(),
-      error: jest.fn(),
-      complete: jest.fn(),
+      next: vi.fn(),
+      error: vi.fn(),
+      complete: vi.fn(),
     };
     adapter.handle(request).subscribe(observer);
     expect(observer.next).toHaveBeenCalledWith(response);
@@ -117,9 +117,9 @@ describe('SubscriptionProviderRequestHandlerAdapter', () => {
       url: 'http://localhost:3000/graphql',
     };
     const observer = {
-      next: jest.fn(),
-      error: jest.fn(),
-      complete: jest.fn(),
+      next: vi.fn(),
+      error: vi.fn(),
+      complete: vi.fn(),
     };
     adapter.handle(request).subscribe(observer);
     expect(observer.next).toHaveBeenNthCalledWith(1, response);
@@ -164,9 +164,9 @@ describe('SubscriptionProviderRequestHandlerAdapter', () => {
       url: 'http://localhost:3000/graphql',
     };
     const observer = {
-      next: jest.fn(),
-      error: jest.fn(),
-      complete: jest.fn(),
+      next: vi.fn(),
+      error: vi.fn(),
+      complete: vi.fn(),
     };
     adapter.handle(request).subscribe(observer);
     expect(observer.next).toHaveBeenCalledTimes(1); // Only the response before the error should be emitted
@@ -194,9 +194,9 @@ describe('SubscriptionProviderRequestHandlerAdapter', () => {
       selectedOperation: 'hello',
     };
     const observer = {
-      next: jest.fn(),
-      error: jest.fn(),
-      complete: jest.fn(),
+      next: vi.fn(),
+      error: vi.fn(),
+      complete: vi.fn(),
     };
     const subscription = adapter.handle(request).subscribe(observer);
     subscription.unsubscribe();
@@ -223,9 +223,9 @@ describe('SubscriptionProviderRequestHandlerAdapter', () => {
       selectedOperation: 'hello',
     };
     const observer = {
-      next: jest.fn(),
-      error: jest.fn(),
-      complete: jest.fn(),
+      next: vi.fn(),
+      error: vi.fn(),
+      complete: vi.fn(),
     };
     adapter.handle(request).subscribe(observer);
     expect(adapter.provider?.execute).toHaveBeenCalledWith({

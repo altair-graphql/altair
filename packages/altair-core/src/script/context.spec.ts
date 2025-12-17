@@ -1,3 +1,4 @@
+import { describe, expect, it, beforeEach, vi } from 'vitest';
 import { getGlobalContext } from './context';
 import {
   ScriptContextData,
@@ -11,10 +12,10 @@ describe('Script Context', () => {
 
   beforeEach(() => {
     mockHandlers = {
-      setCookie: jest.fn(),
-      request: jest.fn(),
-      getStorageItem: jest.fn(),
-      setStorageItem: jest.fn(),
+      setCookie: vi.fn(),
+      request: vi.fn(),
+      getStorageItem: vi.fn(),
+      setStorageItem: vi.fn(),
     };
 
     mockData = {

@@ -10,8 +10,8 @@ export interface SchemaFormProperty extends JSONSchema6 {
 }
 
 export const validateSettings = (settings: string) => {
-  const data = jsonc(settings);
   try {
+    const data = jsonc(settings);
     settingsSchema.parse(data);
     return true;
   } catch (error) {

@@ -8,22 +8,24 @@
  * you don't want to deal with this.
  */
 
-const { TextDecoder, TextEncoder } = require('node:util');
-const { ReadableStream, TransformStream } = require('node:stream/web');
-const crypto = require('node:crypto');
-const { clearImmediate } = require('node:timers');
-const { performance } = require('node:perf_hooks');
-const { LocationMock } = require('@jedmao/location');
+import { TextDecoder, TextEncoder } from 'node:util';
+import { ReadableStream, TransformStream } from 'node:stream/web';
+import { webcrypto, randomFillSync, randomUUID } from 'node:crypto';
+import { clearImmediate } from 'node:timers';
+import { performance } from 'node:perf_hooks';
+import { LocationMock } from '@jedmao/location';
+import { Blob } from 'node:buffer';
+import { fetch, Headers, FormData, Request, Response, File } from 'undici';
 
 Object.defineProperties(globalThis, {
   crypto: {
     value: {
-      subtle: crypto.webcrypto.subtle,
-      getRandomValues(dataBuffer) {
-        return crypto.randomFillSync(dataBuffer);
+      subtle: webcrypto.subtle,
+      getRandomValues(dataBuffer: DataView) {
+        return randomFillSync(dataBuffer);
       },
       randomUUID() {
-        return crypto.randomUUID();
+        return randomUUID();
       },
     },
   },
@@ -33,9 +35,6 @@ Object.defineProperties(globalThis, {
   clearImmediate: { value: clearImmediate },
   performance: { value: performance },
 });
-
-const { Blob } = require('node:buffer');
-const { fetch, Headers, FormData, Request, Response, File } = require('undici');
 
 Object.defineProperties(globalThis, {
   fetch: { value: fetch, writable: true },

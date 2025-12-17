@@ -41,7 +41,7 @@
     "rimraf": "^5.0.5",
     "typescript": "catalog:",
     "vite": "^2.9.15",
-    "vitest": "^3.0.5",
+    "vitest": "catalog:",
     "web-ext": "^8.3.0"
   },
   "repository": {

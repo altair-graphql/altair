@@ -15,14 +15,10 @@ export class MswMockRequestHandler extends RequestHandler {
     this.lastRequest = request.clone();
     return super.parse(...args);
   }
-  predicate(args: {
-    request: Request;
-    parsedResult: any;
-    resolutionContext?: unknown;
-  }): boolean {
+  predicate(): boolean {
     return true;
   }
-  log(args: { request: Request; response: Response; parsedResult: any }): void {
+  log(): void {
     // throw new Error('Method not implemented.');
   }
   receivedRequest() {

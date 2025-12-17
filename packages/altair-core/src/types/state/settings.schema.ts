@@ -1,5 +1,5 @@
 import { boolean, number, object, record, string } from 'zod/v4';
-import { themeSchema } from '../../theme';
+import { themeConfigSchema } from '../../theme';
 import { multiResponseStrategySchema } from '../../request/schemas';
 import { languagesSchema } from '../../config/languages';
 import { DEFAULT_OPTIONS } from '../../config/defaults';
@@ -199,20 +199,18 @@ export const settingsSchema = object({
   /**
    * Specify custom theme config to override the specified theme values
    */
-  themeConfig: themeSchema
+  themeConfig: themeConfigSchema
     .meta({
       description:
         'Specify custom theme config to override the specified theme values',
     })
-    .partial()
     .optional(),
 
   /**
    * Theme config object for dark mode
    */
-  'themeConfig.dark': themeSchema
+  'themeConfig.dark': themeConfigSchema
     .meta({ description: 'Theme config object for dark mode' })
-    .partial()
     .optional(),
 
   /**

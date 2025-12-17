@@ -31,7 +31,6 @@ export function looseValidate<T>(data: unknown, schema: z.ZodType<T>): T {
   return opts;
 }
 
-// TODO: Write tests for this function
 /**
  * This function strips default values from a Zod object schema, returning a new schema
  * that does not include any default values. This is useful when you want to
@@ -45,14 +44,10 @@ export function stripDefaults<T extends z.core.$ZodShape>(schema: z.ZodObject<T>
   const shape = schema.shape;
   const newShape: Record<string, z.core.$ZodType | undefined> = {};
 
-  Object.keys(shape).forEach((key) => {
-    const value = shape[key];
+  Object.entries(shape).forEach(([key, value]) => {
     // Remove default if present
-    if (value instanceof z.ZodDefault) {
-      newShape[key] = value.def.innerType;
-    } else {
-      newShape[key] = value;
-    }
+    const newValue = value instanceof z.ZodDefault ? value.def.innerType : value;
+    newShape[key] = newValue;
   });
 
   return z.object(

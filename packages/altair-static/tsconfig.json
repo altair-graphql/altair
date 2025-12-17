@@ -10,6 +10,6 @@
     "sourceMap": true,
     "esModuleInterop": true,
     "lib": ["dom", "esnext"],
-    "types": ["node", "jest"]
+    "types": ["node"]
   }
 }

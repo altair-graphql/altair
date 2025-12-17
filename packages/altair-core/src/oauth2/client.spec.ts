@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from '@jest/globals';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { OAuth2Client } from './client';
 import { AuthFormat, OAuth2Type, RequestFormat } from './types';
 import { setupServer } from 'msw/node';

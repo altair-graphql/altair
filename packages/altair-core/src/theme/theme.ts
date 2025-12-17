@@ -1,6 +1,6 @@
 import deepmerge from 'deepmerge';
 import colors from 'color-name';
-import { boolean, input, number, object, output, string } from 'zod/v4';
+import { boolean, number, object, output, string, union } from 'zod/v4';
 
 /*
 Some theming ideas:
@@ -34,61 +34,436 @@ export const foundationColors = {
   darkPurple: '#303965',
 };
 
-const defaultValues = {
+export const themeSchema = object({
+  /**
+   * CSS transition easing function for smooth animations
+   */
+  easing: string()
+    .meta({
+      description: 'CSS transition easing function for smooth animations',
+    })
+    .optional(),
+
+  /**
+   * Whether this theme follows system preferences (light/dark mode)
+   */
+  isSystem: boolean()
+    .meta({
+      description: 'Whether this theme follows system preferences (light/dark mode)',
+    })
+    .optional(),
+
+  /**
+   * Black color used for high contrast elements
+   */
+  'color.black': string()
+    .meta({
+      description: 'Black color used for high contrast elements',
+    })
+    .optional(),
+  /**
+   * Dark gray color for muted text and secondary elements
+   */
+  'color.darkGray': string()
+    .meta({
+      description: 'Dark gray color for muted text and secondary elements',
+    })
+    .optional(),
+  /**
+   * Medium gray color for neutral backgrounds and borders
+   */
+  'color.gray': string()
+    .meta({
+      description: 'Medium gray color for neutral backgrounds and borders',
+    })
+    .optional(),
+  /**
+   * Light gray color for subtle backgrounds and dividers
+   */
+  'color.lightGray': string()
+    .meta({
+      description: 'Light gray color for subtle backgrounds and dividers',
+    })
+    .optional(),
+  /**
+   * White color for light backgrounds and text
+   */
+  'color.white': string()
+    .meta({
+      description: 'White color for light backgrounds and text',
+    })
+    .optional(),
+  /**
+   * Green color typically used for success states and positive actions
+   */
+  'color.green': string()
+    .meta({
+      description:
+        'Green color typically used for success states and positive actions',
+    })
+    .optional(),
+  /**
+   * Blue color for informational elements and links
+   */
+  'color.blue': string()
+    .meta({
+      description: 'Blue color for informational elements and links',
+    })
+    .optional(),
+  /**
+   * Rose/pink color for accent elements and highlights
+   */
+  'color.rose': string()
+    .meta({
+      description: 'Rose/pink color for accent elements and highlights',
+    })
+    .optional(),
+  /**
+   * Bright magenta/cerise color for special emphasis
+   */
+  'color.cerise': string()
+    .meta({
+      description: 'Bright magenta/cerise color for special emphasis',
+    })
+    .optional(),
+  /**
+   * Red color for error states and destructive actions
+   */
+  'color.red': string()
+    .meta({
+      description: 'Red color for error states and destructive actions',
+    })
+    .optional(),
+  /**
+   * Orange color for warning states and secondary actions
+   */
+  'color.orange': string()
+    .meta({
+      description: 'Orange color for warning states and secondary actions',
+    })
+    .optional(),
+  /**
+   * Yellow color for caution states and highlights
+   */
+  'color.yellow': string()
+    .meta({
+      description: 'Yellow color for caution states and highlights',
+    })
+    .optional(),
+  /**
+   * Light red/salmon color for subtle error indicators
+   */
+  'color.lightRed': string()
+    .meta({
+      description: 'Light red/salmon color for subtle error indicators',
+    })
+    .optional(),
+  /**
+   * Dark purple color for premium features or special elements
+   */
+  'color.darkPurple': string()
+    .meta({
+      description: 'Dark purple color for premium features or special elements',
+    })
+    .optional(),
+
+  /**
+   * Primary brand color used for main interactive elements
+   */
+  'color.primary': string()
+    .meta({
+      description: 'Primary brand color used for main interactive elements',
+    })
+    .optional(),
+  /**
+   * Secondary brand color used for supporting interactive elements
+   */
+  'color.secondary': string()
+    .meta({
+      description: 'Secondary brand color used for supporting interactive elements',
+    })
+    .optional(),
+  /**
+   * Tertiary brand color used for accent and decorative elements
+   */
+  'color.tertiary': string()
+    .meta({
+      description: 'Tertiary brand color used for accent and decorative elements',
+    })
+    .optional(),
+  /**
+   * Main background color for the application
+   */
+  'color.bg': string()
+    .meta({ description: 'Main background color for the application' })
+    .optional(),
+  /**
+   * Alternative background color for cards, panels, and sections
+   */
+  'color.offBg': string()
+    .meta({
+      description: 'Alternative background color for cards, panels, and sections',
+    })
+    .optional(),
+  /**
+   * Primary text color for readable content
+   */
+  'color.font': string()
+    .meta({ description: 'Primary text color for readable content' })
+    .optional(),
+  /**
+   * Secondary text color for less emphasized content
+   */
+  'color.offFont': string()
+    .meta({
+      description: 'Secondary text color for less emphasized content',
+    })
+    .optional(),
+  /**
+   * Primary border color for main UI elements
+   */
+  'color.border': string()
+    .meta({
+      description: 'Primary border color for main UI elements',
+    })
+    .optional(),
+  /**
+   * Secondary border color for subtle divisions
+   */
+  'color.offBorder': string()
+    .meta({
+      description: 'Secondary border color for subtle divisions',
+    })
+    .optional(),
+
+  /**
+   * Background color specifically for the header section
+   */
+  'color.headerBg': string()
+    .meta({
+      description: 'Background color specifically for the header section',
+    })
+    .optional(),
+
+  /**
+   * Base font size in pixels used for calculations
+   */
+  'fontSize.base': number()
+    .meta({
+      description: 'Base font size in pixels used for calculations',
+    })
+    .optional(),
+  /**
+   * Root em base size in pixels for responsive typography
+   */
+  'fontSize.remBase': number()
+    .meta({
+      description: 'Root em base size in pixels for responsive typography',
+    })
+    .optional(),
+  /**
+   * Standard body text font size
+   */
+  'fontSize.body': number()
+    .meta({ description: 'Standard body text font size' })
+    .optional(),
+  /**
+   * Smaller body text font size for secondary content
+   */
+  'fontSize.bodySmaller': number()
+    .meta({
+      description: 'Smaller body text font size for secondary content',
+    })
+    .optional(),
+  /**
+   * Font size for code editor text
+   */
+  'fontSize.code': number()
+    .meta({
+      description: 'Font size for code editor text',
+    })
+    .optional(),
+  /**
+   * Default system font stack for UI elements
+   */
+  'fontFamily.default': string()
+    .meta({
+      description: 'Default system font stack for UI elements',
+    })
+    .optional(),
+
+  /**
+   * Font family specifically for code editor and monospace content
+   */
+  'fontFamily.code': string()
+    .meta({
+      description: 'Font family specifically for code editor and monospace content',
+    })
+    .optional(),
+  /**
+   * Color used for drop shadows and elevation effects
+   */
+  'shadow.color': string()
+    .meta({
+      description: 'Color used for drop shadows and elevation effects',
+    })
+    .optional(),
+  /**
+   * Opacity level for shadow effects (0.0 to 1.0)
+   */
+  'shadow.opacity': number()
+    .meta({
+      description: 'Opacity level for shadow effects (0.0 to 1.0)',
+    })
+    .min(0)
+    .max(1)
+    .optional(),
+
+  /**
+   * Color for code comments and documentation
+   */
+  'color.editor.comment': string()
+    .meta({
+      description: 'Color for code comments and documentation',
+    })
+    .optional(),
+  /**
+   * Color for string literals in code
+   */
+  'color.editor.string': string()
+    .meta({ description: 'Color for string literals in code' })
+    .optional(),
+  /**
+   * Color for numeric literals in code
+   */
+  'color.editor.number': string()
+    .meta({ description: 'Color for numeric literals in code' })
+    .optional(),
+  /**
+   * Color for variable names and identifiers
+   */
+  'color.editor.variable': string()
+    .meta({
+      description: 'Color for variable names and identifiers',
+    })
+    .optional(),
+  /**
+   * Color for programming language keywords
+   */
+  'color.editor.keyword': string()
+    .meta({
+      description: 'Color for programming language keywords',
+    })
+    .optional(),
+  /**
+   * Color for atomic values like boolean literals
+   */
+  'color.editor.atom': string()
+    .meta({
+      description: 'Color for atomic values like boolean literals',
+    })
+    .optional(),
+  /**
+   * Color for HTML/XML/GraphQL attributes
+   */
+  'color.editor.attribute': string()
+    .meta({
+      description: 'Color for HTML/XML/GraphQL attributes',
+    })
+    .optional(),
+  /**
+   * Color for properties
+   */
+  'color.editor.property': string()
+    .meta({ description: 'Color for properties' })
+    .optional(),
+  /**
+   * Color for punctuation marks like brackets and commas
+   */
+  'color.editor.punctuation': string()
+    .meta({
+      description: 'Color for punctuation marks like brackets and commas',
+    })
+    .optional(),
+  /**
+   * Color for function, class, type definitions
+   */
+  'color.editor.definition': string()
+    .meta({
+      description: 'Color for function, class, type definitions',
+    })
+    .optional(),
+  /**
+   * Color for built-in functions and types
+   */
+  'color.editor.builtin': string()
+    .meta({
+      description: 'Color for built-in functions and types',
+    })
+    .optional(),
+  /**
+   * Color for the text cursor in the editor
+   */
+  'color.editor.cursor': string()
+    .meta({
+      description: 'Color for the text cursor in the editor',
+    })
+    .optional(),
+});
+
+const requiredThemeSchema = themeSchema.required();
+export type ITheme = output<typeof requiredThemeSchema>;
+const themeDefaults: ITheme = {
   easing: 'ease',
   isSystem: false,
-  colors: deepmerge(foundationColors, {
-    primary: foundationColors.green,
-    secondary: foundationColors.blue,
-    tertiary: foundationColors.rose,
-
-    bg: foundationColors.lightGray,
-    offBg: foundationColors.white,
-    font: foundationColors.black,
-    offFont: foundationColors.darkGray,
-    border: foundationColors.darkGray,
-    offBorder: foundationColors.gray,
-
-    headerBg: foundationColors.white,
-  }),
-
-  shadow: {
-    color: foundationColors.black,
-    opacity: 0.1,
-  },
-  editor: {
-    fontFamily: {
-      default: 'JetBrains Mono',
-    },
-    fontSize: 12,
-    colors: {
-      comment: foundationColors.darkGray,
-      string: foundationColors.orange,
-      number: foundationColors.orange,
-      variable: foundationColors.black,
-      keyword: foundationColors.blue,
-      atom: foundationColors.black,
-      attribute: foundationColors.green,
-      property: foundationColors.blue,
-      punctuation: foundationColors.blue,
-      definition: foundationColors.orange,
-      builtin: foundationColors.orange,
-      cursor: foundationColors.blue,
-    },
-  },
-  type: {
-    fontSize: {
-      base: 24,
-      remBase: 24,
-      body: 13,
-      bodySmaller: 12,
-    },
-    fontFamily: {
-      default:
-        '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
-    },
-  },
+  'color.black': foundationColors.black,
+  'color.darkGray': foundationColors.darkGray,
+  'color.gray': foundationColors.gray,
+  'color.lightGray': foundationColors.lightGray,
+  'color.white': foundationColors.white,
+  'color.green': foundationColors.green,
+  'color.blue': foundationColors.blue,
+  'color.rose': foundationColors.rose,
+  'color.cerise': foundationColors.cerise,
+  'color.red': foundationColors.red,
+  'color.orange': foundationColors.orange,
+  'color.yellow': foundationColors.yellow,
+  'color.lightRed': foundationColors.lightRed,
+  'color.darkPurple': foundationColors.darkPurple,
+  'color.primary': foundationColors.green,
+  'color.secondary': foundationColors.blue,
+  'color.tertiary': foundationColors.rose,
+  'color.bg': foundationColors.lightGray,
+  'color.offBg': foundationColors.white,
+  'color.font': foundationColors.black,
+  'color.offFont': foundationColors.darkGray,
+  'color.border': foundationColors.darkGray,
+  'color.offBorder': foundationColors.gray,
+  'color.headerBg': foundationColors.white,
+  'fontSize.base': 24,
+  'fontSize.remBase': 24,
+  'fontSize.body': 13,
+  'fontSize.bodySmaller': 12,
+  'fontSize.code': 12,
+  'fontFamily.default':
+    '-apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"',
+  'fontFamily.code': 'JetBrains Mono, monospace',
+  'shadow.color': foundationColors.black,
+  'shadow.opacity': 0.1,
+  'color.editor.comment': foundationColors.darkGray,
+  'color.editor.string': foundationColors.orange,
+  'color.editor.number': foundationColors.orange,
+  'color.editor.variable': foundationColors.black,
+  'color.editor.keyword': foundationColors.blue,
+  'color.editor.atom': foundationColors.black,
+  'color.editor.attribute': foundationColors.green,
+  'color.editor.property': foundationColors.blue,
+  'color.editor.punctuation': foundationColors.blue,
+  'color.editor.definition': foundationColors.orange,
+  'color.editor.builtin': foundationColors.orange,
+  'color.editor.cursor': foundationColors.blue,
 };
+
 const colorsSchema = object({
   /**
    * Black color used for high contrast elements
@@ -97,7 +472,7 @@ const colorsSchema = object({
     .meta({
       description: 'Black color used for high contrast elements',
     })
-    .default(defaultValues.colors.black),
+    .optional(),
   /**
    * Dark gray color for muted text and secondary elements
    */
@@ -105,7 +480,7 @@ const colorsSchema = object({
     .meta({
       description: 'Dark gray color for muted text and secondary elements',
     })
-    .default(defaultValues.colors.darkGray),
+    .optional(),
   /**
    * Medium gray color for neutral backgrounds and borders
    */
@@ -113,7 +488,7 @@ const colorsSchema = object({
     .meta({
       description: 'Medium gray color for neutral backgrounds and borders',
     })
-    .default(defaultValues.colors.gray),
+    .optional(),
   /**
    * Light gray color for subtle backgrounds and dividers
    */
@@ -121,7 +496,7 @@ const colorsSchema = object({
     .meta({
       description: 'Light gray color for subtle backgrounds and dividers',
     })
-    .default(defaultValues.colors.lightGray),
+    .optional(),
   /**
    * White color for light backgrounds and text
    */
@@ -129,7 +504,7 @@ const colorsSchema = object({
     .meta({
       description: 'White color for light backgrounds and text',
     })
-    .default(defaultValues.colors.white),
+    .optional(),
   /**
    * Green color typically used for success states and positive actions
    */
@@ -138,7 +513,7 @@ const colorsSchema = object({
       description:
         'Green color typically used for success states and positive actions',
     })
-    .default(defaultValues.colors.green),
+    .optional(),
   /**
    * Blue color for informational elements and links
    */
@@ -146,7 +521,7 @@ const colorsSchema = object({
     .meta({
       description: 'Blue color for informational elements and links',
     })
-    .default(defaultValues.colors.blue),
+    .optional(),
   /**
    * Rose/pink color for accent elements and highlights
    */
@@ -154,7 +529,7 @@ const colorsSchema = object({
     .meta({
       description: 'Rose/pink color for accent elements and highlights',
     })
-    .default(defaultValues.colors.rose),
+    .optional(),
   /**
    * Bright magenta/cerise color for special emphasis
    */
@@ -162,7 +537,7 @@ const colorsSchema = object({
     .meta({
       description: 'Bright magenta/cerise color for special emphasis',
     })
-    .default(defaultValues.colors.cerise),
+    .optional(),
   /**
    * Red color for error states and destructive actions
    */
@@ -170,7 +545,7 @@ const colorsSchema = object({
     .meta({
       description: 'Red color for error states and destructive actions',
     })
-    .default(defaultValues.colors.red),
+    .optional(),
   /**
    * Orange color for warning states and secondary actions
    */
@@ -178,7 +553,7 @@ const colorsSchema = object({
     .meta({
       description: 'Orange color for warning states and secondary actions',
     })
-    .default(defaultValues.colors.orange),
+    .optional(),
   /**
    * Yellow color for caution states and highlights
    */
@@ -186,7 +561,7 @@ const colorsSchema = object({
     .meta({
       description: 'Yellow color for caution states and highlights',
     })
-    .default(defaultValues.colors.yellow),
+    .optional(),
   /**
    * Light red/salmon color for subtle error indicators
    */
@@ -194,7 +569,7 @@ const colorsSchema = object({
     .meta({
       description: 'Light red/salmon color for subtle error indicators',
     })
-    .default(defaultValues.colors.lightRed),
+    .optional(),
   /**
    * Dark purple color for premium features or special elements
    */
@@ -202,7 +577,7 @@ const colorsSchema = object({
     .meta({
       description: 'Dark purple color for premium features or special elements',
     })
-    .default(defaultValues.colors.darkPurple),
+    .optional(),
 
   /**
    * Primary brand color used for main interactive elements
@@ -211,7 +586,7 @@ const colorsSchema = object({
     .meta({
       description: 'Primary brand color used for main interactive elements',
     })
-    .default(defaultValues.colors.primary),
+    .optional(),
   /**
    * Secondary brand color used for supporting interactive elements
    */
@@ -219,7 +594,7 @@ const colorsSchema = object({
     .meta({
       description: 'Secondary brand color used for supporting interactive elements',
     })
-    .default(defaultValues.colors.secondary),
+    .optional(),
   /**
    * Tertiary brand color used for accent and decorative elements
    */
@@ -227,13 +602,13 @@ const colorsSchema = object({
     .meta({
       description: 'Tertiary brand color used for accent and decorative elements',
     })
-    .default(defaultValues.colors.tertiary),
+    .optional(),
   /**
    * Main background color for the application
    */
   bg: string()
     .meta({ description: 'Main background color for the application' })
-    .default(defaultValues.colors.bg),
+    .optional(),
   /**
    * Alternative background color for cards, panels, and sections
    */
@@ -241,13 +616,13 @@ const colorsSchema = object({
     .meta({
       description: 'Alternative background color for cards, panels, and sections',
     })
-    .default(defaultValues.colors.offBg),
+    .optional(),
   /**
    * Primary text color for readable content
    */
   font: string()
     .meta({ description: 'Primary text color for readable content' })
-    .default(defaultValues.colors.font),
+    .optional(),
   /**
    * Secondary text color for less emphasized content
    */
@@ -255,7 +630,7 @@ const colorsSchema = object({
     .meta({
       description: 'Secondary text color for less emphasized content',
     })
-    .default(defaultValues.colors.offFont),
+    .optional(),
   /**
    * Primary border color for main UI elements
    */
@@ -263,7 +638,7 @@ const colorsSchema = object({
     .meta({
       description: 'Primary border color for main UI elements',
     })
-    .default(defaultValues.colors.border),
+    .optional(),
   /**
    * Secondary border color for subtle divisions
    */
@@ -271,7 +646,7 @@ const colorsSchema = object({
     .meta({
       description: 'Secondary border color for subtle divisions',
     })
-    .default(defaultValues.colors.offBorder),
+    .optional(),
 
   /**
    * Background color specifically for the header section
@@ -280,7 +655,7 @@ const colorsSchema = object({
     .meta({
       description: 'Background color specifically for the header section',
     })
-    .default(defaultValues.colors.headerBg),
+    .optional(),
 });
 const typeSchema = object({
   fontSize: object({
@@ -291,7 +666,7 @@ const typeSchema = object({
       .meta({
         description: 'Base font size in pixels used for calculations',
       })
-      .default(defaultValues.type.fontSize.base),
+      .optional(),
     /**
      * Root em base size in pixels for responsive typography
      */
@@ -299,13 +674,11 @@ const typeSchema = object({
       .meta({
         description: 'Root em base size in pixels for responsive typography',
       })
-      .default(defaultValues.type.fontSize.remBase),
+      .optional(),
     /**
      * Standard body text font size
      */
-    body: number()
-      .meta({ description: 'Standard body text font size' })
-      .default(defaultValues.type.fontSize.body),
+    body: number().meta({ description: 'Standard body text font size' }).optional(),
     /**
      * Smaller body text font size for secondary content
      */
@@ -313,7 +686,7 @@ const typeSchema = object({
       .meta({
         description: 'Smaller body text font size for secondary content',
       })
-      .default(defaultValues.type.fontSize.bodySmaller),
+      .optional(),
   }),
   fontFamily: object({
     /**
@@ -323,8 +696,8 @@ const typeSchema = object({
       .meta({
         description: 'Default system font stack for UI elements',
       })
-      .default(defaultValues.type.fontFamily.default),
-  }).default(defaultValues.type.fontFamily),
+      .optional(),
+  }).optional(),
 });
 const editorThemeSchema = object({
   fontFamily: object({
@@ -336,8 +709,8 @@ const editorThemeSchema = object({
         description:
           'Font family specifically for code editor and monospace content',
       })
-      .default(defaultValues.editor.fontFamily.default),
-  }).default(defaultValues.editor.fontFamily),
+      .optional(),
+  }).optional(),
   /**
    * Font size for code editor text
    */
@@ -345,7 +718,7 @@ const editorThemeSchema = object({
     .meta({
       description: 'Font size for code editor text',
     })
-    .default(defaultValues.type.fontSize.bodySmaller),
+    .optional(),
   colors: object({
     /**
      * Color for code comments and documentation
@@ -354,19 +727,19 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for code comments and documentation',
       })
-      .default(defaultValues.colors.darkGray),
+      .optional(),
     /**
      * Color for string literals in code
      */
     string: string()
       .meta({ description: 'Color for string literals in code' })
-      .default(defaultValues.colors.orange),
+      .optional(),
     /**
      * Color for numeric literals in code
      */
     number: string()
       .meta({ description: 'Color for numeric literals in code' })
-      .default(defaultValues.colors.orange),
+      .optional(),
     /**
      * Color for variable names and identifiers
      */
@@ -374,7 +747,7 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for variable names and identifiers',
       })
-      .default(defaultValues.colors.black),
+      .optional(),
     /**
      * Color for programming language keywords
      */
@@ -382,7 +755,7 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for programming language keywords',
       })
-      .default(defaultValues.colors.blue),
+      .optional(),
     /**
      * Color for atomic values like boolean literals
      */
@@ -390,7 +763,7 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for atomic values like boolean literals',
       })
-      .default(defaultValues.colors.black),
+      .optional(),
     /**
      * Color for HTML/XML/GraphQL attributes
      */
@@ -398,13 +771,11 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for HTML/XML/GraphQL attributes',
       })
-      .default(defaultValues.colors.green),
+      .optional(),
     /**
      * Color for properties
      */
-    property: string()
-      .meta({ description: 'Color for properties' })
-      .default(defaultValues.colors.blue),
+    property: string().meta({ description: 'Color for properties' }).optional(),
     /**
      * Color for punctuation marks like brackets and commas
      */
@@ -412,7 +783,7 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for punctuation marks like brackets and commas',
       })
-      .default(defaultValues.colors.blue),
+      .optional(),
     /**
      * Color for function, class, type definitions
      */
@@ -420,7 +791,7 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for function, class, type definitions',
       })
-      .default(defaultValues.colors.orange),
+      .optional(),
     /**
      * Color for built-in functions and types
      */
@@ -428,7 +799,7 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for built-in functions and types',
       })
-      .default(defaultValues.colors.orange),
+      .optional(),
     /**
      * Color for the text cursor in the editor
      */
@@ -436,10 +807,10 @@ const editorThemeSchema = object({
       .meta({
         description: 'Color for the text cursor in the editor',
       })
-      .default(defaultValues.colors.blue),
-  }).default(defaultValues.editor.colors),
+      .optional(),
+  }).optional(),
 });
-export const themeSchema = object({
+export const oldThemeSchema = object({
   /**
    * CSS transition easing function for smooth animations
    */
@@ -447,9 +818,9 @@ export const themeSchema = object({
     .meta({
       description: 'CSS transition easing function for smooth animations',
     })
-    .default(defaultValues.easing),
-  colors: colorsSchema.default(defaultValues.colors),
-  type: typeSchema.default(defaultValues.type),
+    .optional(),
+  colors: colorsSchema.optional(),
+  type: typeSchema.optional(),
   /**
    * Whether this theme follows system preferences (light/dark mode)
    */
@@ -457,7 +828,7 @@ export const themeSchema = object({
     .meta({
       description: 'Whether this theme follows system preferences (light/dark mode)',
     })
-    .default(false),
+    .optional(),
   shadow: object({
     /**
      * Color used for drop shadows and elevation effects
@@ -466,7 +837,7 @@ export const themeSchema = object({
       .meta({
         description: 'Color used for drop shadows and elevation effects',
       })
-      .default(defaultValues.colors.black),
+      .optional(),
     /**
      * Opacity level for shadow effects (0.0 to 1.0)
      */
@@ -476,25 +847,78 @@ export const themeSchema = object({
       })
       .min(0)
       .max(1)
-      .default(0.1),
-  }).default(defaultValues.shadow),
-  editor: editorThemeSchema.default(defaultValues.editor),
-});
+      .optional(),
+  }).optional(),
+  editor: editorThemeSchema.optional(),
+}).meta({ deprecated: true });
 
-export type ITheme = output<typeof themeSchema>;
+export function transformOldThemeConfigToNewThemeConfig(
+  oldTheme: output<typeof oldThemeSchema>
+) {
+  // Transform nested theme structure into flat theme structure
+  const res: output<typeof themeSchema> = {
+    easing: oldTheme.easing,
+    isSystem: oldTheme.isSystem,
+    'color.bg': oldTheme.colors?.bg,
+    'color.offBg': oldTheme.colors?.offBg,
+    'color.font': oldTheme.colors?.font,
+    'color.offFont': oldTheme.colors?.offFont,
+    'color.border': oldTheme.colors?.border,
+    'color.offBorder': oldTheme.colors?.offBorder,
+    'color.headerBg': oldTheme.colors?.headerBg,
+    'color.black': oldTheme.colors?.black,
+    'color.darkGray': oldTheme.colors?.darkGray,
+    'color.gray': oldTheme.colors?.gray,
+    'color.lightGray': oldTheme.colors?.lightGray,
+    'color.white': oldTheme.colors?.white,
+    'color.green': oldTheme.colors?.green,
+    'color.blue': oldTheme.colors?.blue,
+    'color.rose': oldTheme.colors?.rose,
+    'color.cerise': oldTheme.colors?.cerise,
+    'color.red': oldTheme.colors?.red,
+    'color.orange': oldTheme.colors?.orange,
+    'color.yellow': oldTheme.colors?.yellow,
+    'color.lightRed': oldTheme.colors?.lightRed,
+    'color.darkPurple': oldTheme.colors?.darkPurple,
+    'color.primary': oldTheme.colors?.primary,
+    'color.secondary': oldTheme.colors?.secondary,
+    'color.tertiary': oldTheme.colors?.tertiary,
+    'fontSize.base': oldTheme.type?.fontSize.base,
+    'fontSize.remBase': oldTheme.type?.fontSize.remBase,
+    'fontSize.body': oldTheme.type?.fontSize.body,
+    'fontSize.bodySmaller': oldTheme.type?.fontSize.bodySmaller,
+    'fontSize.code': oldTheme.editor?.fontSize,
+    'fontFamily.default': oldTheme.type?.fontFamily?.default,
+    'fontFamily.code': oldTheme.editor?.fontFamily?.default,
+    'shadow.color': oldTheme.shadow?.color,
+    'shadow.opacity': oldTheme.shadow?.opacity,
+    'color.editor.comment': oldTheme.editor?.colors?.comment,
+    'color.editor.string': oldTheme.editor?.colors?.string,
+    'color.editor.number': oldTheme.editor?.colors?.number,
+    'color.editor.variable': oldTheme.editor?.colors?.variable,
+    'color.editor.keyword': oldTheme.editor?.colors?.keyword,
+    'color.editor.atom': oldTheme.editor?.colors?.atom,
+    'color.editor.attribute': oldTheme.editor?.colors?.attribute,
+    'color.editor.property': oldTheme.editor?.colors?.property,
+    'color.editor.punctuation': oldTheme.editor?.colors?.punctuation,
+    'color.editor.definition': oldTheme.editor?.colors?.definition,
+    'color.editor.builtin': oldTheme.editor?.colors?.builtin,
+    'color.editor.cursor': oldTheme.editor?.colors?.cursor,
+  };
 
-const theme: ITheme = themeSchema.parse({});
+  const final: output<typeof themeSchema> = {};
 
-type RecursivePartial<T> = {
-  [P in keyof T]?: T[P] extends (infer U)[]
-    ? RecursivePartial<U>[]
-    : T[P] extends object
-      ? RecursivePartial<T[P]>
-      : T[P];
-};
+  // Remove undefined values
+  Object.entries(res).forEach(([key, value]) => {
+    if (value) {
+      (final as Record<string, unknown>)[key] = value;
+    }
+  });
 
-export const partialThemeSchema = themeSchema.partial();
-export type ICustomTheme = input<typeof themeSchema>;
+  return final;
+}
+export const themeConfigSchema = union([themeSchema, oldThemeSchema]);
+export type ICustomTheme = output<typeof themeSchema>;
 
 interface RGBA {
   r: number;
@@ -548,5 +972,5 @@ export const createTheme = (
   customTheme: ICustomTheme,
   ...extraThemes: ICustomTheme[]
 ): ITheme => {
-  return deepmerge.all([defaultValues, customTheme, ...extraThemes]) as ITheme;
+  return deepmerge.all([themeDefaults, customTheme, ...extraThemes]) as ITheme;
 };
