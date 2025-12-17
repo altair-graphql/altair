@@ -40,11 +40,7 @@ describe('settings', () => {
       language: 'en-US',
       addQueryDepthLimit: 3,
       tabSize: 2,
-      disablePushNotification: false,
       'theme.fontsize': 24,
-      'plugin.list': [],
-      'script.allowedCookies': [],
-      'script.allowedLocalStorageKeys': [],
     });
   });
 
@@ -63,9 +59,6 @@ describe('settings', () => {
     } as any);
     expect(newState).toEqual({
       'theme.fontsize': 24,
-      'plugin.list': [],
-      'script.allowedCookies': [],
-      'script.allowedLocalStorageKeys': [],
       theme: 'dark',
       disablePushNotification: true,
       language: 'en-US',
@@ -93,9 +86,6 @@ describe('settings', () => {
     );
     expect(newState).toEqual({
       'theme.fontsize': 24,
-      'plugin.list': [],
-      'script.allowedCookies': [],
-      'script.allowedLocalStorageKeys': [],
       theme: 'light',
       disablePushNotification: true,
       language: 'en-US',
@@ -112,11 +102,7 @@ describe('settings', () => {
       })
     );
     expect(newState).toEqual({
-      disablePushNotification: false,
       'theme.fontsize': 24,
-      'plugin.list': [],
-      'script.allowedCookies': [],
-      'script.allowedLocalStorageKeys': [],
       theme: 'light',
       language: 'en-US',
       addQueryDepthLimit: 1,
@@ -140,11 +126,7 @@ describe('settings', () => {
     expect(newState).toEqual({
       addQueryDepthLimit: 1,
       tabSize: 1,
-      disablePushNotification: false,
       'theme.fontsize': 24,
-      'plugin.list': [],
-      'script.allowedCookies': [],
-      'script.allowedLocalStorageKeys': [],
       theme: 'light',
       language: 'en-US',
     });
