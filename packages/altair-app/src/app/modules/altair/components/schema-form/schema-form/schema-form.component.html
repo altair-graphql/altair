@@ -1,6 +1,6 @@
 <div class="ui-form-wrapper">
   <form nz-form nzLayout="vertical">
-    @for (item of schemaProperties; track item) {
+    @for (item of schemaProperties; track item.key) {
       <app-schema-form-item
         [item]="item"
         [(data)]="formData[item.key]"

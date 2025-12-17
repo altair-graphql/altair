@@ -29,6 +29,7 @@ import {
 import { environment } from 'environments/environment';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { IdentityProvider } from '@altairgraphql/db';
+import { partialSettingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
@@ -369,8 +370,17 @@ export class ElectronAppService {
     });
   }
 
-  getSettingsFromFile() {
-    return this.api?.actions.getAltairAppSettingsFromFile();
+  async getSettingsFromFile() {
+    const data = await this.api?.actions.getAltairAppSettingsFromFile();
+    if (!data) {
+      return;
+    }
+    try {
+      return partialSettingsSchema.parse(data);
+    } catch (err) {
+      debug.error('Error parsing settings from file', err);
+      this.notifyService.error(`Error parsing settings from file; ${err}`);
+    }
   }
 
   updateSettingsOnFile(settings: SettingsState) {

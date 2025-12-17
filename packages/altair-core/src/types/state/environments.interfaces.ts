@@ -1,21 +1,13 @@
+import { output } from 'zod/v4';
 import { IDictionary } from '../shared';
+import {
+  initialEnvironmentSchema,
+  initialEnvironmentsSchema,
+} from './environments.schema';
 
-export interface InitialBaseEnvironmentState {
-  id?: string;
-  title?: string;
-  variables?: IDictionary;
-}
-export interface InitialEnvironmentState {
-  id?: string;
-  title?: string;
-  variables?: IDictionary;
-}
+export type InitialEnvironmentState = output<typeof initialEnvironmentSchema>;
 
-export interface IInitialEnvironments {
-  activeSubEnvironment?: string;
-  base?: InitialBaseEnvironmentState;
-  subEnvironments?: InitialEnvironmentState[];
-}
+export type IInitialEnvironments = output<typeof initialEnvironmentsSchema>;
 
 export interface BaseEnvironmentState {
   // Adding undefined for backward compatibility

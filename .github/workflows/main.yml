@@ -109,7 +109,8 @@ jobs:
   # Build and publish NPM packages
   npm:
     needs: [vars, prepare-release]
-    if: ${{ !cancelled() && !failure() }}
+    # only publish for master and release builds
+    if: ${{ !cancelled() && !failure() && (needs.vars.outputs.type == 'master' || needs.vars.outputs.type == 'release') }}
     uses: ./.github/workflows/_publish-npm.yml
     permissions:
       contents: write

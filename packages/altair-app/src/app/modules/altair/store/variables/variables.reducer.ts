@@ -23,8 +23,8 @@ const initialFileVariableState = (
 export const getInitialState = (): VariableState => {
   const altairConfig = getAltairConfig();
   return {
-    variables: altairConfig.initialData.variables
-      ? '' + altairConfig.initialData.variables
+    variables: altairConfig.options.initialVariables
+      ? '' + altairConfig.options.initialVariables
       : '{}',
     files: [],
   };

@@ -304,7 +304,7 @@ export const getAppStateFromStorage = async ({
   storage = undefined as unknown as Storage,
 }) => {
   let stateList = await asyncStorage.appState.toArray();
-  const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
+  const storageNamespace = getAltairConfig().options.instanceStorageNamespace;
   const reducedState: Partial<RootState> = {};
 
   if (forceUpdateFromProvidedData || !stateList.length) {
@@ -405,7 +405,7 @@ export const importIndexedRecords = (records: { key: string; value: any }[]) => 
 };
 
 export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => {
-  const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
+  const storageNamespace = getAltairConfig().options.instanceStorageNamespace;
 
   return function (state: any, action: AllActions) {
     let nextState: any;

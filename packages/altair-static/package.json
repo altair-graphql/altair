@@ -6,15 +6,17 @@
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "devDependencies": {
     "@altairgraphql/app": "workspace:*",
-    "@types/jest": "^24.0.23",
     "@types/node": "^22.7.4",
     "altair-graphql-core": "workspace:*",
     "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.14.43",
-    "jest": "29.4.1",
     "ncp": "2.0.0",
-    "ts-jest": "29.0.5",
-    "typescript": "catalog:"
+    "tsdown": "^0.17.4",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "dependencies": {
+    "zod": "catalog:"
   },
   "engines": {
     "node": ">= 6.9.1"
@@ -23,7 +25,6 @@
     "type": "opencollective",
     "url": "https://opencollective.com/altair"
   },
-  "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
   "homepage": "https://github.com/altair-graphql/altair#readme",
   "keywords": [
     "altair",
@@ -40,7 +41,7 @@
     "compile": "node scripts/build.js",
     "bootstrap": "pnpm prepare-dist && pnpm compile && pnpm types",
     "prepare-dist": "node scripts/prepare_dist.js",
-    "test": "jest",
+    "test": "vitest",
     "types": "dts-bundle-generator src/index.ts -o build/index.d.ts --external-inlines altair-graphql-core --external-inlines altair-static --verbose"
   },
   "types": "./build/index.d.ts",

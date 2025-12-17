@@ -8,30 +8,28 @@ import { AllActions } from '../action';
 import {
   HTTP_HANDLER_ID,
   WEBSOCKET_HANDLER_ID,
-} from 'altair-graphql-core/build/request/types';
+} from 'altair-graphql-core/build/request/ids';
 
 export const getInitialState = (): QueryState => {
-  const { initialData } = getAltairConfig();
+  const { options } = getAltairConfig();
 
   return {
-    url: getFullUrl(initialData.url ? '' + initialData.url : ''),
+    url: getFullUrl(options.endpointURL ? '' + options.endpointURL : ''),
     subscriptionUrl: getFullUrl(
-      initialData.subscriptionsEndpoint
-        ? '' + initialData.subscriptionsEndpoint
-        : '',
-      initialData.subscriptionsProtocol
+      options.subscriptionsEndpoint ? '' + options.subscriptionsEndpoint : '',
+      options.subscriptionsProtocol
     ),
-    query: initialData.query ? '' + initialData.query : initialQuery,
+    query: options.initialQuery ? '' + options.initialQuery : initialQuery,
     selectedOperation: null,
     operations: [],
-    httpVerb: initialData.initialHttpMethod || 'POST',
+    httpVerb: options.initialHttpMethod || 'POST',
     responses: [],
     responseTime: 0,
     requestStartTime: 0,
     requestEndTime: 0,
-    requestHandlerId: initialData.initialRequestHandlerId ?? HTTP_HANDLER_ID,
+    requestHandlerId: options.initialRequestHandlerId ?? HTTP_HANDLER_ID,
     requestHandlerAdditionalParams: JSON.stringify(
-      initialData.initialRequestHandlerAdditionalParams ?? {},
+      options.initialRequestHandlerAdditionalParams ?? {},
       null,
       2
     ),
@@ -45,11 +43,11 @@ export const getInitialState = (): QueryState => {
     showEditorAlert: false,
     editorAlertMessage: 'Query is set',
     editorAlertSuccess: true,
-    subscriptionConnectionParams: initialData.initialSubscriptionsPayload
-      ? JSON.stringify(initialData.initialSubscriptionsPayload)
+    subscriptionConnectionParams: options.initialSubscriptionsPayload
+      ? JSON.stringify(options.initialSubscriptionsPayload)
       : '{}',
     subscriptionRequestHandlerId:
-      initialData.initialSubscriptionRequestHandlerId ?? WEBSOCKET_HANDLER_ID,
+      options.initialSubscriptionRequestHandlerId ?? WEBSOCKET_HANDLER_ID,
     isSubscribed: false,
     autoscrollResponseList: false,
     queryEditorState: {

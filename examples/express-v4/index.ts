@@ -34,7 +34,13 @@ app.use(
   altairExpress({
     endpointURL: '/graphql',
     subscriptionsEndpoint: `ws://localhost:4000/subscriptions`,
-    initialQuery: `{ getData { id name surname } }`,
+    initialQuery: `{
+      getData {
+        id
+        name
+        surname
+      }
+    }`,
     initialAuthorization: {
       type: 'api-key',
       data: {
@@ -54,5 +60,5 @@ app.get('/', (req, res) => {
 
 app.listen(port, () => {
   // eslint-disable-next-line no-console
-  console.log(`listening on port ${port}`);
+  console.log(`listening on: http://localhost:${port}`);
 });

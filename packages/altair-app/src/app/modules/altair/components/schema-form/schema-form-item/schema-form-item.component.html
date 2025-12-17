@@ -23,11 +23,19 @@
       }
       @case ('string') {
         @if (isStringOrUndefined(data())) {
-          <app-schema-form-item-input
-            [item]="item"
-            [data]="asStringOrUndefined(data())"
-            (dataChange)="dataChange.emit($event)"
-          />
+          @if (item.enum) {
+            <app-schema-form-item-select
+              [item]="item"
+              [data]="data()"
+              (dataChange)="dataChange.emit($event)"
+            />
+          } @else {
+            <app-schema-form-item-input
+              [item]="item"
+              [data]="asStringOrUndefined(data())"
+              (dataChange)="dataChange.emit($event)"
+            />
+          }
         }
       }
       @case ('array') {
@@ -43,19 +51,11 @@
         @if (item.ref) {
           @switch (item.refType) {
             @case ('enum.string') {
-              <nz-form-label>{{ item.description }}</nz-form-label>
-              <nz-form-control>
-                <nz-select
-                  [ngModel]="data()"
-                  (ngModelChange)="dataChange.emit($event)"
-                  name="item.key"
-                  nzPlaceHolder="Choose"
-                >
-                  @for (option of getSelectOptions(item); track option) {
-                    <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
-                  }
-                </nz-select>
-              </nz-form-control>
+              <app-schema-form-item-select
+                [item]="item"
+                [data]="data()"
+                (dataChange)="dataChange.emit($event)"
+              />
             }
           }
         }

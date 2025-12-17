@@ -46,10 +46,10 @@ export class ThemeDirective {
 
   applyTheme(theme: ICustomTheme, darkTheme?: ICustomTheme, accentColor?: string) {
     this.nzConfigService.set('theme', {
-      primaryColor: theme.colors?.primary,
-      errorColor: theme.colors?.red,
-      warningColor: theme.colors?.yellow,
-      successColor: theme.colors?.green,
+      primaryColor: theme['color.primary'],
+      errorColor: theme['color.red'],
+      warningColor: theme['color.yellow'],
+      successColor: theme['color.green'],
     });
     this.addHTMLClass(theme, darkTheme, accentColor);
   }

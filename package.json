@@ -37,6 +37,7 @@
     "turbo": "^2.0.6",
     "typedoc": "^0.25.13",
     "typedoc-plugin-markdown": "^4.0.3",
+    "typedoc-plugin-zod": "^1.4.3",
     "typedoc-vitepress-theme": "^1.0.0",
     "typescript": "catalog:",
     "web-ext": "^6.5.0",

@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
 import { json } from '@codemirror/lang-json';
 import { Extension } from '@codemirror/state';
+import { HTTP_HANDLER_ID } from 'altair-graphql-core/build/request/ids';
 import {
-  HTTP_HANDLER_ID,
   RequestHandlerData,
   RequestHandlerIds,
 } from 'altair-graphql-core/build/request/types';

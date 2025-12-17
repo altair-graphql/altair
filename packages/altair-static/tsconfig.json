@@ -8,8 +8,8 @@
     "target": "es2020",
     "module": "commonjs",
     "sourceMap": true,
-    // "skipLibCheck": true,
+    "esModuleInterop": true,
     "lib": ["dom", "esnext"],
-    "types": ["node", "jest"]
+    "types": ["node"]
   }
 }

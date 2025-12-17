@@ -19,9 +19,9 @@ import { DocumentIndexEntry } from '../models';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
-import { AltairConfig } from 'altair-graphql-core/build/config';
 import { getDocUtilsWorkerAsyncClass } from './worker-helper';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { DEFAULT_OPTIONS } from 'altair-graphql-core/build/config/defaults';
 import { debounce } from 'lodash-es';
 
 @UntilDestroy()
@@ -32,14 +32,13 @@ import { debounce } from 'lodash-es';
 })
 export class DocViewerComponent {
   private gqlService = inject(GqlService);
-  private altairConfig = inject(AltairConfig);
 
   readonly gqlSchema = input<GraphQLSchema>();
   readonly allowIntrospection = input(true);
   readonly hideDeprecatedDocItems = input(false);
   readonly isLoading = input(false);
-  readonly addQueryDepthLimit = input(this.altairConfig.add_query_depth_limit);
-  readonly tabSize = input(this.altairConfig.tab_size);
+  readonly addQueryDepthLimit = input<number>(DEFAULT_OPTIONS.ADD_QUERY_DEPTH_LIMIT);
+  readonly tabSize = input<number>(DEFAULT_OPTIONS.TAB_SIZE);
   readonly docView = input<DocView>({ view: 'root' });
   readonly lastUpdatedAt = input<number>();
 
