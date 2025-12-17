@@ -104,7 +104,7 @@ export const settingsSchema = object({
     .meta({
       description: 'Specifies if native push notifications should be disabled',
     })
-    .default(false),
+    .optional(),
 
   /**
    * Specifies a list of enabled plugins.
@@ -131,7 +131,7 @@ export const settingsSchema = object({
 
       @example ['altair-graphql-plugin-some-plugin', 'npm:altair-graphql-plugin-some-plugin', 'npm:altair-graphql-plugin-some-plugin@0.3.4', 'url:altair-graphql-plugin-some-plugin@0.3.4::[url]->[http://example.com/some-plugin]']`,
     })
-    .default([]),
+    .optional(),
 
   /**
    * Send requests with credentials (cookies)
@@ -258,7 +258,7 @@ export const settingsSchema = object({
     .meta({
       description: 'List of cookies to be accessible in the pre-request script',
     })
-    .default([]),
+    .optional(),
 
   /**
    * List of local storage keys to be accessible in the pre-request script.
@@ -272,7 +272,7 @@ export const settingsSchema = object({
       description:
         'List of local storage keys to be accessible in the pre-request script. These will be made available read-only via the `storage` API in the script context.',
     })
-    .default([]),
+    .optional(),
 
   /**
    * Enable the scrollbar in the tab list

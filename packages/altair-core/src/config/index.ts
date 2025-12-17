@@ -2,10 +2,10 @@ import { isExtension } from '../crx';
 import { TODO } from '../types/shared';
 import isElectron from '../utils/is_electron';
 import { ConfigEnvironment } from './environment';
-import { AltairConfigOptions } from './options';
+import { getOptions } from './options';
 import { UrlConfig, urlMap } from './urls';
 import { altairConfigOptionsSchema } from './options.schema';
-import { input, output } from 'zod/v4';
+import { input } from 'zod/v4';
 import { DEFAULT_OPTIONS } from './defaults';
 import { languagesSchema } from './languages';
 
@@ -40,10 +40,11 @@ export class AltairConfig {
   isTranslateMode = isTranslateMode;
   isWebApp = (window as TODO).__ALTAIR_WEB_APP__;
   cspNonce = '';
-  options: output<typeof altairConfigOptionsSchema>;
+  // assigning options here to get the return type
+  options = getOptions({});
 
   constructor(options: input<typeof altairConfigOptionsSchema> = {}) {
-    this.options = altairConfigOptionsSchema.parse(options);
+    this.options = getOptions(options);
     this.options.endpointURL =
       (window as TODO).__ALTAIR_ENDPOINT_URL__ ?? this.options.endpointURL ?? '';
     this.options.subscriptionsEndpoint =

@@ -40,10 +40,10 @@ exports[`renderAltair > should return expected string 1`] = `
     <script type="module" src="[% MAIN_SCRIPT %]"></script>
   <script type="module" nonce="">
     AltairGraphQL.init({
+          endpointURL: \`https://example.com/graphql\`,
           initialQuery: \`query {
         Hello
       }\`,
-          endpointURL: \`https://example.com/graphql\`,
           initialVariables: \`{ variable: 1 }\`
         }
     );
@@ -92,6 +92,7 @@ exports[`renderAltair > should return expected string with $$ 1`] = `
     <script type="module" src="[% MAIN_SCRIPT %]"></script>
   <script type="module" nonce="">
     AltairGraphQL.init({
+          endpointURL: \`https://example.com/graphql\`,
           initialQuery: \`{
           MyDomains (
             page: {start: 1, limit: 1000}
@@ -105,7 +106,6 @@ exports[`renderAltair > should return expected string with $$ 1`] = `
             }
           }
         }\`,
-          endpointURL: \`https://example.com/graphql\`,
           initialVariables: \`{ variable: 1 }\`
         }
     );
@@ -117,15 +117,19 @@ exports[`renderAltair > should return expected string with $$ 1`] = `
 exports[`renderInitSnippet > should return expected string 1`] = `
 "
     AltairGraphQL.init({
+          endpointURL: \`https://example.com/graphql\`,
           initialQuery: \`query {
         Hello
       }\`,
-          endpointURL: \`https://example.com/graphql\`,
           initialHeaders: {
             'X-GraphQL-Token': \`asd7-237s-2bdk-nsdk4\`
           },
           initialSettings: {
-            theme: \`dark\`
+            theme: \`dark\`,
+            language: \`en-US\`,
+            addQueryDepthLimit: 3,
+            tabSize: 2,
+            'theme.fontsize': 24
           },
           persistedSettings: {
             theme: \`light\`
@@ -138,6 +142,7 @@ exports[`renderInitSnippet > should return expected string 1`] = `
 exports[`renderInitSnippet > should return expected string with $$ 1`] = `
 "
     AltairGraphQL.init({
+          endpointURL: \`https://example.com/graphql\`,
           initialQuery: \`{
         MyDomains (
           page: {start: 1, limit: 1000}
@@ -151,12 +156,15 @@ exports[`renderInitSnippet > should return expected string with $$ 1`] = `
           }
         }
       }\`,
-          endpointURL: \`https://example.com/graphql\`,
           initialHeaders: {
             'X-GraphQL-Token': \`asd7-237s-2bdk-nsdk4\`
           },
           initialSettings: {
-            theme: \`dark\`
+            theme: \`dark\`,
+            language: \`en-US\`,
+            addQueryDepthLimit: 3,
+            tabSize: 2,
+            'theme.fontsize': 24
           },
           persistedSettings: {
             theme: \`light\`

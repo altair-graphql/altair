@@ -2,7 +2,6 @@ import { array, boolean, object, record, string, unknown } from 'zod/v4';
 import { requestHandlerIdsSchema } from '../request/schemas';
 import { httpVerbSchema } from '../types/state/query.schema';
 import { authorizationProviderInputSchemas } from '../authorization/input';
-import { HTTP_HANDLER_ID, WEBSOCKET_HANDLER_ID } from '../request/ids';
 import { initialEnvironmentsSchema } from '../types/state/environments.schema';
 import {
   partialSettingsSchema,
@@ -70,7 +69,7 @@ export const altairWindowOptionsSchema = object({
    */
   initialPostRequestScript: string()
     .meta({ description: 'Initial post-request script to be added' })
-    .default(''),
+    .optional(),
 
   /**
    * Initial headers object to be added
@@ -97,14 +96,14 @@ export const altairWindowOptionsSchema = object({
    */
   initialSubscriptionRequestHandlerId: requestHandlerIdsSchema
     .meta({ description: 'Initial subscriptions provider' })
-    .default(WEBSOCKET_HANDLER_ID),
+    .optional(),
 
   /**
    * Initial subscriptions connection params
    */
   initialSubscriptionsPayload: record(string(), unknown())
     .meta({ description: 'Initial subscriptions connection params' })
-    .default({}),
+    .optional(),
 
   /**
    * Initial request handler id
@@ -114,21 +113,21 @@ export const altairWindowOptionsSchema = object({
     .meta({
       description: 'Initial request handler id',
     })
-    .default(HTTP_HANDLER_ID),
+    .optional(),
 
   /**
    * Additional params to be passed to the request handler
    */
   initialRequestHandlerAdditionalParams: record(string(), unknown())
     .meta({ description: 'Additional params to be passed to the request handler' })
-    .default({}),
+    .optional(),
 
   /**
    * Initial HTTP method to use for making requests
    */
   initialHttpMethod: httpVerbSchema
     .meta({ description: 'HTTP method to use for making requests' })
-    .default('POST'),
+    .optional(),
 
   /**
    * Initial authorization type and data
@@ -175,7 +174,7 @@ export const altairConfigOptionsSchema = altairWindowOptionsSchema.extend({
       }
       `,
     })
-    .default({}),
+    .optional(),
 
   /**
    * Namespace for storing the data for the altair instance.
@@ -188,7 +187,7 @@ export const altairConfigOptionsSchema = altairWindowOptionsSchema.extend({
       description:
         'Namespace for storing the data for the altair instance. Use this when you have multiple altair instances running on the same domain.',
     })
-    .default('altair_'),
+    .optional(),
 
   /**
    * Initial app settings to use
@@ -208,14 +207,14 @@ export const altairConfigOptionsSchema = altairWindowOptionsSchema.extend({
       description:
         'Indicates if the state should be preserved for subsequent app loads',
     })
-    .default(true),
+    .optional(),
 
   /**
    * List of options for windows to be loaded
    */
   initialWindows: array(altairWindowOptionsSchema)
     .meta({ description: 'List of options for windows to be loaded' })
-    .default([]),
+    .optional(),
 
   /**
    * Persisted settings for the app. The settings will be merged with the app settings.
@@ -234,12 +233,12 @@ export const altairConfigOptionsSchema = altairWindowOptionsSchema.extend({
     .meta({
       description: 'Disable the account and remote syncing functionality',
     })
-    .default(false),
+    .optional(),
 
   /**
    * CSP nonce value to be used in Altair
    */
   cspNonce: string()
     .meta({ description: 'CSP nonce value to be used in Altair' })
-    .default(''),
+    .optional(),
 });

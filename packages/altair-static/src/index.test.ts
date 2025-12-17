@@ -42,7 +42,11 @@ describe('renderInitSnippet', () => {
         'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4',
       },
       initialSettings: {
+        addQueryDepthLimit: 3,
+        language: 'en-US',
+        tabSize: 2,
         theme: 'dark',
+        'theme.fontsize': 24,
       },
       persistedSettings: {
         theme: 'light',
@@ -98,7 +102,11 @@ describe('renderInitSnippet', () => {
         'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4',
       },
       initialSettings: {
+        addQueryDepthLimit: 3,
+        language: 'en-US',
+        tabSize: 2,
         theme: 'dark',
+        'theme.fontsize': 24,
       },
       persistedSettings: {
         theme: 'light',

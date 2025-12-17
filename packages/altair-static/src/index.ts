@@ -1,7 +1,6 @@
 import { altairConfigOptionsSchema } from 'altair-graphql-core/build/config/options.schema';
 import getAltairHtml from './get-altair-html';
 import type { AltairConfigOptions } from 'altair-graphql-core/build/config/options';
-import { looseValidate } from 'altair-graphql-core/build/utils/schema';
 
 export interface RenderOptions extends AltairConfigOptions {
   /**
@@ -123,8 +122,7 @@ export const renderAltair = (options: RenderOptions = {}) => {
 };
 
 const getRenderedAltairOpts = (renderOptions: RenderOptions, indent = 0) => {
-  // TODO: Remove looseValidate and instead replace defaults with partial
-  const opts = looseValidate(renderOptions, altairConfigOptionsSchema);
+  const opts = altairConfigOptionsSchema.parse(renderOptions);
   return objectToJSLiteral(opts, indent);
 };
 
