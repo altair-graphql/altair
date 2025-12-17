@@ -29,8 +29,7 @@ import {
 import { environment } from 'environments/environment';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { IdentityProvider } from '@altairgraphql/db';
-import { settingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
-import { looseValidate } from 'altair-graphql-core/build/utils/schema';
+import { partialSettingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
 
 interface ConnectOptions {
   importFileContent: (content: string) => void;
@@ -376,8 +375,7 @@ export class ElectronAppService {
     if (!data) {
       return;
     }
-    const validated = looseValidate(data, settingsSchema);
-    return validated;
+    return partialSettingsSchema.parse(data);
   }
 
   updateSettingsOnFile(settings: SettingsState) {

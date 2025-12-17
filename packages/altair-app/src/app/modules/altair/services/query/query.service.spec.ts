@@ -15,7 +15,7 @@ import { WebsocketRequestHandler } from 'altair-graphql-core/build/request/handl
 import {
   ACTION_CABLE_HANDLER_ID,
   GRAPHQL_SSE_HANDLER_ID,
-} from 'altair-graphql-core/build/request/types';
+} from 'altair-graphql-core/build/request/ids';
 import { SSERequestHandler } from 'altair-graphql-core/build/request/handlers/sse';
 import { ActionCableRequestHandler } from 'altair-graphql-core/build/request/handlers/action-cable';
 

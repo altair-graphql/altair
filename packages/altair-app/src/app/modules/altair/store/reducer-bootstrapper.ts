@@ -3,6 +3,7 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { ElectronAppService, NotifyService, StorageService } from '../services';
 import { getAppStateFromStorage } from './async-storage-sync';
+import { settingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
 
 @Injectable({ providedIn: 'root' })
 export class ReducerBootstrapper {
@@ -21,16 +22,15 @@ export class ReducerBootstrapper {
       });
       this.initialState = raw;
 
-      // TODO: validate settings
       // Merge electron setting state with initial setting state if available
       const settingsFromFile = await this.electronAppService.getSettingsFromFile();
       if (settingsFromFile) {
         this.initialState = {
           ...this.initialState,
-          settings: {
+          settings: settingsSchema.parse({
             ...this.initialState?.settings,
             ...settingsFromFile,
-          },
+          }),
         };
       }
 

@@ -4,7 +4,10 @@ import { httpVerbSchema } from '../types/state/query.schema';
 import { authorizationProviderInputSchemas } from '../authorization/input';
 import { HTTP_HANDLER_ID, WEBSOCKET_HANDLER_ID } from '../request/ids';
 import { initialEnvironmentsSchema } from '../types/state/environments.schema';
-import { settingsSchema } from '../types/state/settings.schema';
+import {
+  partialSettingsSchema,
+  settingsSchema,
+} from '../types/state/settings.schema';
 
 export const altairWindowOptionsSchema = object({
   /**
@@ -217,8 +220,7 @@ export const altairConfigOptionsSchema = altairWindowOptionsSchema.extend({
   /**
    * Persisted settings for the app. The settings will be merged with the app settings.
    */
-  persistedSettings: settingsSchema
-    .partial()
+  persistedSettings: partialSettingsSchema
     .meta({
       description:
         'Persisted settings for the app. The settings will be merged with the app settings.',

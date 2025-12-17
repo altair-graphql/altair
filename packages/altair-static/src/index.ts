@@ -123,6 +123,7 @@ export const renderAltair = (options: RenderOptions = {}) => {
 };
 
 const getRenderedAltairOpts = (renderOptions: RenderOptions, indent = 0) => {
+  // TODO: Remove looseValidate and instead replace defaults with partial
   const opts = looseValidate(renderOptions, altairConfigOptionsSchema);
   return objectToJSLiteral(opts, indent);
 };

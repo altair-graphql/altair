@@ -3,6 +3,7 @@ import { themeSchema } from '../../theme';
 import { multiResponseStrategySchema } from '../../request/schemas';
 import { languagesSchema } from '../../config/languages';
 import { DEFAULT_OPTIONS } from '../../config/defaults';
+import { stripDefaults } from '../../utils/schema';
 
 export const settingsSchema = object({
   /**
@@ -324,3 +325,5 @@ export const settingsSchema = object({
     })
     .optional(),
 });
+
+export const partialSettingsSchema = stripDefaults(settingsSchema).partial();

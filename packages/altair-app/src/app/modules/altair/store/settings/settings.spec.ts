@@ -3,11 +3,8 @@ import { SET_SETTINGS_JSON, SetSettingsJsonAction } from './settings.action';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 
 let mockAltairConfig = {
-  initialData: {},
+  options: {},
   defaultTheme: 'system',
-  default_language: 'en-US',
-  add_query_depth_limit: 1,
-  tab_size: 1,
 };
 jest.mock('altair-graphql-core/build/config', () => {
   return {
@@ -22,11 +19,8 @@ jest.mock('altair-graphql-core/build/config', () => {
 describe('settings', () => {
   beforeEach(() => {
     mockAltairConfig = {
-      initialData: {},
+      options: {},
       defaultTheme: 'system',
-      default_language: 'en-US',
-      add_query_depth_limit: 1,
-      tab_size: 1,
     };
   });
   it('should return previous state if action is not known', () => {
@@ -44,33 +38,39 @@ describe('settings', () => {
     expect(newState).toEqual({
       theme: 'system',
       language: 'en-US',
-      addQueryDepthLimit: 1,
-      tabSize: 1,
+      addQueryDepthLimit: 3,
+      tabSize: 2,
+      disablePushNotification: false,
+      'theme.fontsize': 24,
+      'plugin.list': [],
+      'script.allowedCookies': [],
+      'script.allowedLocalStorageKeys': [],
     });
   });
 
   it('should set an initial state based on the user-provided initial data if state is not provided', () => {
     mockAltairConfig = {
-      initialData: {
-        settings: {
+      options: {
+        initialSettings: {
           theme: 'dark',
           disablePushNotification: true,
         },
       },
       defaultTheme: 'system',
-      default_language: 'en-US',
-      add_query_depth_limit: 1,
-      tab_size: 1,
     };
     const newState = settingsReducer(undefined, {
       type: 'UNKNOWN_ACTION',
     } as any);
     expect(newState).toEqual({
+      'theme.fontsize': 24,
+      'plugin.list': [],
+      'script.allowedCookies': [],
+      'script.allowedLocalStorageKeys': [],
       theme: 'dark',
       disablePushNotification: true,
       language: 'en-US',
-      addQueryDepthLimit: 1,
-      tabSize: 1,
+      addQueryDepthLimit: 3,
+      tabSize: 2,
     });
   });
 
@@ -89,9 +89,13 @@ describe('settings', () => {
     } as any);
     const newState = settingsReducer(
       initialState,
-      new SetSettingsJsonAction({ value: JSON.stringify({ theme: 'changed' }) })
+      new SetSettingsJsonAction({ value: JSON.stringify({ theme: 'dracula' }) })
     );
     expect(newState).toEqual({
+      'theme.fontsize': 24,
+      'plugin.list': [],
+      'script.allowedCookies': [],
+      'script.allowedLocalStorageKeys': [],
       theme: 'light',
       disablePushNotification: true,
       language: 'en-US',
@@ -108,6 +112,11 @@ describe('settings', () => {
       })
     );
     expect(newState).toEqual({
+      disablePushNotification: false,
+      'theme.fontsize': 24,
+      'plugin.list': [],
+      'script.allowedCookies': [],
+      'script.allowedLocalStorageKeys': [],
       theme: 'light',
       language: 'en-US',
       addQueryDepthLimit: 1,
@@ -129,10 +138,15 @@ describe('settings', () => {
       })
     );
     expect(newState).toEqual({
-      theme: 'light',
-      language: 'en-US',
       addQueryDepthLimit: 1,
       tabSize: 1,
+      disablePushNotification: false,
+      'theme.fontsize': 24,
+      'plugin.list': [],
+      'script.allowedCookies': [],
+      'script.allowedLocalStorageKeys': [],
+      theme: 'light',
+      language: 'en-US',
     });
   });
 
