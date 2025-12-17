@@ -61,15 +61,6 @@ export class ThemeRegistryService {
       deperecatedThemeConfig,
       settingsThemeConfig
     );
-    // TODO: Why is the transformOldThemeToNewTheme not removing undefined values here?
-    console.log(
-      'finalTheme',
-      finalTheme,
-      selectedTheme,
-      deperecatedThemeConfig,
-      settingsThemeConfig,
-      (darkMode ? settings['themeConfig.dark'] : settings.themeConfig) || {}
-    );
     return finalTheme;
   }
 
@@ -85,15 +76,5 @@ export class ThemeRegistryService {
 
   getAllThemes() {
     return Array.from(this.registry.keys());
-  }
-
-  private removeUndefined(res: ICustomTheme) {
-    const final: ICustomTheme = {};
-    Object.entries(res).forEach(([key, value]) => {
-      if (value) {
-        (final as Record<string, unknown>)[key] = value;
-      }
-    });
-    return final;
   }
 }
