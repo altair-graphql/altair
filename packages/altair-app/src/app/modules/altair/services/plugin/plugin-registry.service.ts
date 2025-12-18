@@ -46,7 +46,7 @@ import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { compare } from 'compare-versions';
 import { altairPluginServerPluginListResponseSchema } from 'altair-graphql-core/build/plugin/server/schema';
 import { verifyResponse } from '../../utils/schema.validator';
-import { discriminatedUnion } from 'zod/v4';
+import { union } from 'zod/v4';
 import { firstValueFrom } from 'rxjs';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
@@ -319,12 +319,7 @@ export class PluginRegistryService {
         this.http
           .get(manifestUrl)
           .pipe(
-            verifyResponse(
-              discriminatedUnion('manifest_version', [
-                pluginManifestSchema,
-                pluginV3ManifestSchema,
-              ])
-            )
+            verifyResponse(union([pluginManifestSchema, pluginV3ManifestSchema]))
           )
       );
 

@@ -21,7 +21,7 @@ The team may also update these policies without prior notice.
 - Plugins must be published as public npm packages to the [npm](https://www.npmjs.com) registry with names that begin with `altair-graphql-plugin-`. For example, `altair-graphql-plugin-graphql-explorer` is the name of the [GraphQL explorer plugin](https://www.npmjs.com/package/altair-graphql-plugin-graphql-explorer).
 - Plugins must have a `manifest.json` file that defines the plugin structure. The `manifest.json` file should conform to the [PluginV3Manifest](/api/core/plugin/v3/manifest/type-aliases/PluginV3Manifest) interface.
 - Plugins must provide clear and accurate documentation on how to use the plugin and what functionality it provides.
-- Plusing should be intuitive and easy to use. The user interface should be consistent with the Altair design language and not introduce any jarring or unexpected changes.
+- Plugins should be intuitive and easy to use. The user interface should be consistent with the Altair design language and not introduce any jarring or unexpected changes.
 - Plugins must be thoroughly tested to ensure that they work as expected and do not introduce any bugs or security vulnerabilities.
 - Plugins must be compatible with the latest version of Altair and not break any existing functionality.
 

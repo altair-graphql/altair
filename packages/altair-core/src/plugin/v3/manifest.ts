@@ -1,7 +1,7 @@
 import { literal, object, output, string, union } from 'zod/v4';
 import { pluginCapabilitiesSchema } from './capabilities';
 
-const pluginHistoryEntrySchema = object({
+const pluginHtmlEntrySchema = object({
   type: literal('html'),
   path: string(),
 });
@@ -11,10 +11,7 @@ const pluginJsEntrySchema = object({
   styles: string().array(),
 });
 
-export const pluginEntrySchema = union([
-  pluginHistoryEntrySchema,
-  pluginJsEntrySchema,
-]);
+export const pluginEntrySchema = union([pluginHtmlEntrySchema, pluginJsEntrySchema]);
 
 // support html and js entry points
 // js entry points will mean we create a new iframe and load the js file in it
