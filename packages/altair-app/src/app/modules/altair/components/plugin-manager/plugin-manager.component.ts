@@ -9,7 +9,7 @@ import { PluginRegistryService } from '../../services';
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
-import { APSPluginDefinition } from 'altair-graphql-core/build/plugin/server/types';
+import { APSPluginDefinition } from 'altair-graphql-core/build/plugin/server/schema';
 
 @Component({
   selector: 'app-plugin-manager',

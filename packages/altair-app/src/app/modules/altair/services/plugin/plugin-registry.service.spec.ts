@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { mock } from '../../../../../testing';
 import { PluginContextService } from './context/plugin-context.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { PluginSource } from 'altair-graphql-core/build/plugin/plugin.interfaces';
+import { pluginSourceSchema } from 'altair-graphql-core/build/plugin/plugin.schema';
 import { DbService } from '../db.service';
 import { NotifyService } from '../notify/notify.service';
 
@@ -76,7 +76,7 @@ describe('PluginRegistryService', () => {
       ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: 'latest',
-        pluginSource: PluginSource.NPM,
+        pluginSource: pluginSourceSchema.enum.NPM,
       });
     });
 
@@ -87,7 +87,7 @@ describe('PluginRegistryService', () => {
       ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.0.1',
-        pluginSource: PluginSource.NPM,
+        pluginSource: pluginSourceSchema.enum.NPM,
       });
     });
 
@@ -99,7 +99,7 @@ describe('PluginRegistryService', () => {
         )
       ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
-        pluginSource: PluginSource.GITHUB,
+        pluginSource: pluginSourceSchema.enum.GITHUB,
         version: 'latest',
         repo: 'imolorhe/altair',
       });
@@ -114,7 +114,7 @@ describe('PluginRegistryService', () => {
       ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.0.1',
-        pluginSource: PluginSource.NPM,
+        pluginSource: pluginSourceSchema.enum.NPM,
         opt: '1',
       } as any);
       expect(
@@ -124,7 +124,7 @@ describe('PluginRegistryService', () => {
       ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.0.1',
-        pluginSource: PluginSource.URL,
+        pluginSource: pluginSourceSchema.enum.URL,
         url: 'http://localhost:8080',
       } as any);
     });
@@ -138,7 +138,7 @@ describe('PluginRegistryService', () => {
       ).toEqual({
         name: 'altair-graphql-plugin-plugin-name',
         version: '0.1.1',
-        pluginSource: PluginSource.URL,
+        pluginSource: pluginSourceSchema.enum.URL,
       });
     });
   });
