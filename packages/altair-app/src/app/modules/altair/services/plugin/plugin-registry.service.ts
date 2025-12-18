@@ -13,7 +13,14 @@ import {
   PluginManifest,
   PluginSource,
 } from 'altair-graphql-core/build/plugin/plugin.interfaces';
-import { PluginV3Manifest } from 'altair-graphql-core/build/plugin/v3/manifest';
+import {
+  pluginManifestSchema,
+  pluginSourceSchema,
+} from 'altair-graphql-core/build/plugin/plugin.schema';
+import {
+  PluginV3Manifest,
+  pluginV3ManifestSchema,
+} from 'altair-graphql-core/build/plugin/v3/manifest';
 import {
   PluginParentWorker,
   PluginParentWorkerOptions,
@@ -37,8 +44,10 @@ import {
 } from 'altair-graphql-core/build/utils/inject';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { compare } from 'compare-versions';
-import { APSPluginListResponse } from 'altair-graphql-core/build/plugin/server/types';
-import { fromPromise } from '../../utils';
+import { altairPluginServerPluginListResponseSchema } from 'altair-graphql-core/build/plugin/server/schema';
+import { verifyResponse } from '../../utils/schema.validator';
+import { discriminatedUnion } from 'zod/v4';
+import { firstValueFrom } from 'rxjs';
 
 const PLUGIN_NAME_PREFIX = 'altair-graphql-plugin-';
 
@@ -54,7 +63,9 @@ interface PluginInfo extends Record<string, string> {
   pluginSource: PluginSource;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class PluginRegistryService {
   private http = inject(HttpClient);
   private pluginContextService = inject(PluginContextService);
@@ -116,7 +127,9 @@ export class PluginRegistryService {
   getRemotePluginList() {
     // 'https://altair-plugin-server.sirmuel.workers.dev/list?v=2'
     const url = new URL('/data/v1/plugins.json', urlConfig.docs).href;
-    return this.http.get<APSPluginListResponse>(url);
+    return this.http
+      .get(url)
+      .pipe(verifyResponse(altairPluginServerPluginListResponseSchema));
   }
 
   fetchPlugin(name: string, opts: PluginInfo) {
@@ -145,7 +158,7 @@ export class PluginRegistryService {
       const [
         ,
         ,
-        pluginSource = PluginSource.NPM,
+        pluginSource = pluginSourceSchema.enum.NPM,
         pluginName,
         ,
         pluginVersion = 'latest',
@@ -285,7 +298,7 @@ export class PluginRegistryService {
   private async fetchPluginAssets(
     name: string,
     {
-      pluginSource = PluginSource.NPM,
+      pluginSource = pluginSourceSchema.enum.NPM,
       version = 'latest',
       ...remainingOpts
     }: PluginInfo
@@ -302,10 +315,22 @@ export class PluginRegistryService {
 
     try {
       // Get manifest file
-      const manifest = (await this.http.get(manifestUrl).toPromise()) as
-        | PluginManifest
-        | PluginV3Manifest;
+      const manifest = await firstValueFrom(
+        this.http
+          .get(manifestUrl)
+          .pipe(
+            verifyResponse(
+              discriminatedUnion('manifest_version', [
+                pluginManifestSchema,
+                pluginV3ManifestSchema,
+              ])
+            )
+          )
+      );
 
+      if (!manifest) {
+        throw new Error('Could not fetch manifest file');
+      }
       const opts: PluginInfo = {
         name,
         pluginSource,
@@ -332,23 +357,20 @@ export class PluginRegistryService {
 
       debug.log('PLUGIN', manifest);
 
-      // TODO: Validate v3 manifest
-      if (manifest) {
-        if (manifest.manifest_version === 1 || manifest.manifest_version === 2) {
-          return this.fetchPluginV1Assets(name, manifest, pluginBaseUrl);
+      if (manifest.manifest_version === 1 || manifest.manifest_version === 2) {
+        return this.fetchPluginV1Assets(name, manifest, pluginBaseUrl);
+      }
+      if (manifest.manifest_version >= 3 && 'entry' in manifest) {
+        if (
+          manifest.minimum_altair_version &&
+          compare(manifest.minimum_altair_version, environment.version, '>')
+        ) {
+          this.notifyService.warning(
+            `Plugin ${name} requires Altair version ${manifest.minimum_altair_version} or higher. Please update Altair to use this plugin.`
+          );
+          return;
         }
-        if (manifest.manifest_version >= 3 && 'entry' in manifest) {
-          if (
-            manifest.minimum_altair_version &&
-            compare(manifest.minimum_altair_version, environment.version, '>')
-          ) {
-            this.notifyService.warning(
-              `Plugin ${name} requires Altair version ${manifest.minimum_altair_version} or higher. Please update Altair to use this plugin.`
-            );
-            return;
-          }
-          return this.fetchPluginV3Assets(name, manifest, pluginBaseUrl);
-        }
+        return this.fetchPluginV3Assets(name, manifest, pluginBaseUrl);
       }
     } catch (error) {
       debug.error('Error fetching plugin assets', error);
@@ -436,13 +458,13 @@ export class PluginRegistryService {
 
   private getPluginBaseURL(pluginInfo: PluginInfo) {
     switch (pluginInfo.pluginSource) {
-      case PluginSource.NPM:
+      case pluginSourceSchema.enum.NPM:
         return this.getNPMPluginBaseURL(pluginInfo.name, {
           version: pluginInfo.version,
         });
-      case PluginSource.GITHUB:
+      case pluginSourceSchema.enum.GITHUB:
         return this.getGithubPluginBaseURL(pluginInfo.name, pluginInfo);
-      case PluginSource.URL:
+      case pluginSourceSchema.enum.URL:
         return this.getURLPluginBaseURL(pluginInfo.name, pluginInfo);
     }
   }

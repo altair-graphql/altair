@@ -10,7 +10,7 @@ A plugin allows extending the functionality of Altair to be able to do more. A t
 - Every plugin should be published as public npm packages
 - All plugin names must begin with `altair-graphql-plugin-`. For example, `altair-graphql-plugin-graphql-explorer` is the name of the [GraphQL explorer plugin](https://www.npmjs.com/package/altair-graphql-plugin-graphql-explorer)
 - All plugins must have a `manifest.json` file, which is what Altair would read, and what would define your plugin structure
-- The plugin manifest.json file should conform with either [PluginManifest](/api/core/plugin/plugin.interfaces/interfaces/PluginManifest) for v1 and v2 plugins or [PluginV3Manifest](/api/core/plugin/v3/manifest/interfaces/PluginV3Manifest) for v3 plugins
+- The plugin manifest.json file should conform with either [PluginManifest](/api/core/plugin/plugin.interfaces/type-aliases/PluginManifest) for v1 and v2 plugins or [PluginV3Manifest](/api/core/plugin/v3/manifest/type-aliases/PluginV3Manifest) for v3 plugins
 
 ## V3 Plugins
 
@@ -18,7 +18,7 @@ V3 plugins are the latest plugin format for Altair. The main benefit of v3 plugi
 
 ![v3 plugin architecture](/assets/img/docs/plugin-v3-architecture.png)
 
-The manifest.json file for a v3 plugin is defined by the [PluginV3Manifest](/api/core/plugin/v3/manifest/interfaces/PluginV3Manifest) interface.
+The manifest.json file for a v3 plugin is defined by the [PluginV3Manifest](/api/core/plugin/v3/manifest/type-aliases/PluginV3Manifest) interface.
 
 ::: tip
 To get started quickly with writing a plugin, you can use the [Altair AI plugin](https://github.com/altair-graphql/altair/tree/master/plugins/ai) as a template to scaffold your plugin.
@@ -73,7 +73,7 @@ V2 plugins are the older plugin format for Altair. They are not recommended for 
 
 ![v2 plugin architecture](/assets/img/docs/plugin-v2-architecture.png)
 
-The manifest.json file for a v2 plugin is defined by the [PluginManifest](/api/core/plugin/plugin.interfaces/interfaces/PluginManifest) interface.
+The manifest.json file for a v2 plugin is defined by the [PluginManifest](/api/core/plugin/plugin.interfaces/type-aliases/PluginManifest) interface.
 
 The typical v2 plugin is a JavaScript class that implements an `initialize(ctx)` and an optional `destroy()` [method](/api/core/plugin/base/classes/PluginBase#methods) and is added to the `window.AltairGraphQL.plugins` object.
 
@@ -88,7 +88,7 @@ class AltairPluginName {
 window.AltairGraphQL.plugins.AltairPluginName = AltairPluginName;
 ```
 
-You need the [`plugin_class`](/api/core/plugin/plugin.interfaces/interfaces/PluginManifest#plugin-class) in the manifest.json file. In this case, it would be `AltairPluginName`.
+You need the [`plugin_class`](/api/core/plugin/plugin.interfaces/type-aliases/PluginManifest#plugin-class) in the manifest.json file. In this case, it would be `AltairPluginName`.
 
 The `initialize(ctx)` method receives a [PluginContext](/api/core/plugin/context/context.interface/interfaces/PluginContext) parameter, which provides a way for the plugin to interact with Altair.
 
