@@ -35,7 +35,6 @@ import {
   InteropAppState,
   ALTAIR_WINDOW_ID_HEADER,
 } from '@altairgraphql/electron-interop';
-// import validateAppSettings from 'altair-graphql-core/build/typegen/validate-settings';
 import { settingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
 import { error, log } from '../utils/log';
 import { ElectronApp } from './index';

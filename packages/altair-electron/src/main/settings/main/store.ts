@@ -4,7 +4,6 @@ import {
   settingsStoreFileName,
   altairSettingsStoreFileName,
 } from '@altairgraphql/electron-interop';
-// import validatePartialSettings from 'altair-graphql-core/build/typegen/validate-partial-settings';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { settingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
 

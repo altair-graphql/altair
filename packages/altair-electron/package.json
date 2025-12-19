@@ -75,7 +75,7 @@
   },
   "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
   "license": "MIT",
-  "main": "./out/main/index.js",
+  "main": "out/main/index.js",
   "private": true,
   "productName": "Altair GraphQL Client",
   "repository": {
