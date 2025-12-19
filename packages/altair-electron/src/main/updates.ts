@@ -16,7 +16,7 @@ autoUpdater.autoDownload = false;
 autoUpdater.on('error', (error) => {
   dialog.showErrorBox(
     'Error: ',
-    !!error === null ? 'unknown' : (error.stack || error).toString()
+    !error ? 'unknown' : (error.stack || error).toString()
   );
 });
 

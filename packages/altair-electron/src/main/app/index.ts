@@ -17,6 +17,10 @@ export class ElectronApp {
   store: InMemoryStore;
   windowManager: WindowManager;
 
+  static start() {
+    return new ElectronApp();
+  }
+
   constructor() {
     this.store = new InMemoryStore();
     this.windowManager = new WindowManager(this);

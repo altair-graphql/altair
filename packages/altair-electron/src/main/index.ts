@@ -10,5 +10,5 @@ Sentry.init({
   release: app.getVersion(),
 });
 configureAppOnStartup(app);
-new ElectronApp();
+ElectronApp.start();
 unhandled({ showDialog: false });

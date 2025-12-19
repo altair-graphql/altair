@@ -35,7 +35,7 @@ import {
   InteropAppState,
   ALTAIR_WINDOW_ID_HEADER,
 } from '@altairgraphql/electron-interop';
-import validateAppSettings from 'altair-graphql-core/build/typegen/validate-settings';
+import { settingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
 import { error, log } from '../utils/log';
 import { ElectronApp } from './index';
 import {
@@ -228,7 +228,7 @@ export class WindowManager {
         }
 
         // Validate data is a SettingsState
-        if (validateAppSettings(data)) {
+        if (settingsSchema.safeParse(data).success) {
           return updateAltairSettingsOnFile(data);
         }
         error('Invalid settings data, not saving to file', data);
