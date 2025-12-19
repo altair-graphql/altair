@@ -75,7 +75,7 @@
   },
   "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
   "license": "MIT",
-  "main": "out/main/index.js",
+  "main": "dist/main/index.js",
   "private": true,
   "productName": "Altair GraphQL Client",
   "repository": {
@@ -85,10 +85,10 @@
   "scripts": {
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "pnpm typecheck && electron-vite build",
-    "compile": "tsc && pnpm sentry:sourcemaps:inject",
-    "dev:old": "pnpm compile && electron ./out/",
-    "bootstrap": "pnpm build",
+    "build": "pnpm compile && electron-builder",
+    "compile": "pnpm typecheck && electron-vite build --outDir dist && pnpm sentry:sourcemaps:inject",
+    "dev:old": "pnpm compile && electron ./dist/",
+    "bootstrap": "pnpm compile",
     "postinstall": "electron-builder install-app-deps",
     "test": "pnpm test:unit",
     "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
@@ -101,8 +101,8 @@
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "npm run build && electron-builder --mac",
     "build:linux": "npm run build && electron-builder --linux",
-    "sentry:sourcemaps:inject": "sentry-cli sourcemaps inject --org altair-graphql --project electron ./out",
-    "sentry:sourcemaps:upload": "sentry-cli sourcemaps upload --org altair-graphql --project electron ./out",
+    "sentry:sourcemaps:inject": "sentry-cli sourcemaps inject --org altair-graphql --project electron ./dist",
+    "sentry:sourcemaps:upload": "sentry-cli sourcemaps upload --org altair-graphql --project electron ./dist",
     "sentry:sourcemaps": "pnpm sentry:sourcemaps:inject && pnpm sentry:sourcemaps:upload"
   }
 }
