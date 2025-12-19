@@ -40,4 +40,6 @@ export const getPersisedSettingsFromFile = () => {
   if (settingsSchema.safeParse(data).success) {
     return data;
   }
+
+  return;
 };

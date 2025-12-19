@@ -1,3 +1,4 @@
+import { jest, describe, it, expect } from '@jest/globals';
 import { InMemoryStore } from './store';
 
 jest.mock('electron-store');

@@ -1,1 +1,1 @@
-console.log('Renderer process started');
+alert('Renderer process started');
