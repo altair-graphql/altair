@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "typescript": "catalog:",
-    "vite": "^5.2.0"
+    "vite": "catalog:"
   },
   "repository": {
     "type": "git",

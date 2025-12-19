@@ -9,7 +9,7 @@
   "devDependencies": {
     "rimraf": "^5.0.5",
     "typescript": "catalog:",
-    "vite": "^5.2.0"
+    "vite": "catalog:"
   },
   "license": "MIT",
   "main": "index.js",

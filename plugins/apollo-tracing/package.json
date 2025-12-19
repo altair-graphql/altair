@@ -33,7 +33,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "typescript": "catalog:",
-    "vite": "^5.3.4"
+    "vite": "catalog:"
   },
   "files": [
     "dist",

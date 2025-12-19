@@ -66,7 +66,7 @@
     "spectron": "^15.0.0",
     "ts-jest": "29.0.5",
     "typescript": "catalog:",
-    "vite": "^7.3.0",
+    "vite": "catalog:",
     "webdriverio": "^8.18.2"
   },
   "funding": {
