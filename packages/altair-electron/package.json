@@ -13,6 +13,8 @@
     "@altairgraphql/electron-interop": "workspace:*",
     "@altairgraphql/electron-settings-static": "workspace:*",
     "@altairgraphql/login-redirect": "workspace:*",
+    "@electron-toolkit/preload": "^3.0.2",
+    "@electron-toolkit/utils": "^4.0.0",
     "@sentry/electron": "^7.5.0",
     "altair-static": "workspace:*",
     "body-parser": "^1.20.0",
@@ -23,7 +25,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "electron-store": "^7.0.1",
     "electron-unhandled": "^3.0.2",
-    "electron-updater": "^4.6.1",
+    "electron-updater": "^6.3.9",
     "electron-util": "^0.12.1",
     "electron-window-state": "^5.0.3",
     "express": "^4.19.2",
@@ -33,6 +35,9 @@
     "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@electron-toolkit/eslint-config-prettier": "^3.0.0",
+    "@electron-toolkit/eslint-config-ts": "^3.1.0",
+    "@electron-toolkit/tsconfig": "^2.0.0",
     "@electron/notarize": "^2.1.0",
     "@jest/globals": "28.0.0",
     "@playwright/test": "1.31.2",
@@ -46,10 +51,11 @@
     "devtron": "^1.4.0",
     "dotenv": "^8.1.0",
     "electron": "catalog:",
-    "electron-builder": "^23.6.0",
+    "electron-builder": "^26.0.12",
     "electron-builder-notarize": "^1.2.0",
     "electron-chromedriver": "^14.0.0",
     "electron-reloader": "^1.2.1",
+    "electron-vite": "^5.0.0",
     "eslint": "^7.3.1",
     "eslint-config-altair": "workspace:*",
     "eslint-config-prettier": "8.5.0",
@@ -59,7 +65,8 @@
     "spectron": "^15.0.0",
     "ts-jest": "29.0.5",
     "typescript": "catalog:",
-    "webdriverio": "^8.18.2"
+    "webdriverio": "^8.18.2",
+    "vite": "^7.3.0"
   },
   "funding": {
     "type": "opencollective",
@@ -67,7 +74,7 @@
   },
   "gitHead": "e5ce60f5a14997f1471a961ac76efacbb044df46",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "./out/main/index.js",
   "private": true,
   "productName": "Altair GraphQL Client",
   "repository": {
@@ -75,9 +82,12 @@
     "url": "https://github.com/altair-graphql/altair.git"
   },
   "scripts": {
+    "start": "electron-vite preview",
+    "dev": "electron-vite dev",
+    "prebuild": "electron-vite build",
     "build": "pnpm compile && electron-builder",
     "compile": "tsc && pnpm sentry:sourcemaps:inject",
-    "dev": "pnpm compile && electron ./dist/",
+    "dev:old": "pnpm compile && electron ./dist/",
     "bootstrap": "pnpm compile",
     "postinstall": "electron-builder install-app-deps",
     "test": "pnpm test:unit",

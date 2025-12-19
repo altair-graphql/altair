@@ -7,8 +7,8 @@ import { randomBytes } from 'crypto';
 import { session, shell } from 'electron';
 import { getCSP, INLINE, SELF } from 'csp-header';
 import getPort from 'get-port';
-import { getPopupUrl } from 'altair-graphql-core/build/cjs/identity/providers';
-import type { IdentityProvider } from 'altair-graphql-core/build/cjs/identity/providers';
+import { getPopupUrl } from 'altair-graphql-core/build/identity/providers';
+import type { IdentityProvider } from 'altair-graphql-core/build/identity/providers';
 
 export const IPC_SET_CUSTOM_TOKEN_EVENT = 'auth:set-custom-token';
 
