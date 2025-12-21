@@ -94,9 +94,10 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           load: true
+          provenance: true
           push: ${{ inputs.push }}
           tags: |
             ${{ inputs.push && inputs.release && format('{0}/altairgraphqlapi:latest', secrets.dockerhub_username) || '' }}
-            ${{ inputs.push && inputs.version && format('{0}/altairgraphqlapi:{1}', secrets.dockerhub_username, inputs.version) || '' }}
+            ${{ inputs.push && inputs.version && format('{0}/altairgraphqlapi:{1}{2}', secrets.dockerhub_username, inputs.version, inputs.release && '-release' || '') || '' }}
             ${{ inputs.push && inputs.release && format('ghcr.io/{0}/altairgraphqlapi:latest', github.repository_owner) || '' }}
-            ${{ inputs.push && inputs.version && format('ghcr.io/{0}/altairgraphqlapi:{1}', github.repository_owner, inputs.version) || '' }}
+            ${{ inputs.push && inputs.version && format('ghcr.io/{0}/altairgraphqlapi:{1}{2}', github.repository_owner, inputs.version, inputs.release && '-release' || '') || '' }}

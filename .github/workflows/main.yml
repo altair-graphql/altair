@@ -77,7 +77,7 @@ jobs:
       push: ${{ needs.vars.outputs.type == 'master' || needs.vars.outputs.type == 'release' }}
       # Only push latest tag for releases
       release: ${{ needs.vars.outputs.type == 'release' }}
-      version: ${{ needs.prepare-release.outputs.release-tag || github.sha }}
+      version: ${{ needs.prepare-release.outputs.release-tag || github.sha }}-${{ github.run_number }}
     secrets:
       dockerhub_username: ${{ secrets.dockerhub_username }}
       dockerhub_token: ${{ secrets.dockerhub_token }}
