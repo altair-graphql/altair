@@ -37,7 +37,7 @@ jobs:
         with:
           main-branch-name: master
       - run: pnpm i --frozen-lockfile
-      - uses: browser-actions/setup-chrome@latest
+      - uses: browser-actions/setup-chrome@b94431e051d1c52dcbe9a7092a4f10f827795416 # v2.1.0
       - name: Build apps (with retries)
         uses: nick-invision/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2.9.0
         with:
@@ -71,7 +71,7 @@ jobs:
           node-version: ${{ inputs.node_version }}
           cache: "pnpm"
       - run: pnpm i --frozen-lockfile
-      - uses: browser-actions/setup-chrome@latest
+      - uses: browser-actions/setup-chrome@b94431e051d1c52dcbe9a7092a4f10f827795416 # v2.1.0
       - name: Build apps (with retries)
         uses: nick-invision/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2.9.0
         with:
