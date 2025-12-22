@@ -124,7 +124,7 @@ export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
       autocomplete: (context: CompletionContext) => {
         const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
 
-        // Only show if inside a field SelectionSet
+        // Show if inside a field SelectionSet
         if (
           nodeBefore.name === 'SelectionSet' &&
           nodeBefore.parent?.name === 'Field'
@@ -140,6 +140,27 @@ export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
                 boost: 99,
                 type: 'function',
                 info: 'Automatically fill in all the fields here. Optionally generates nested fields as well (controlled by addQueryDepthLimit in settings)',
+              },
+            ],
+          };
+        }
+
+        // Show if inside an argument ObjectValue (input object type)
+        if (
+          nodeBefore.name === 'ObjectValue' ||
+          (nodeBefore.name === '{' && nodeBefore.parent?.name === 'ObjectValue')
+        ) {
+          return {
+            from: context.pos,
+            options: [
+              {
+                label: 'Fill all fields',
+                apply(view: EditorView) {
+                  fillAllFieldsCommands(view);
+                },
+                boost: 99,
+                type: 'function',
+                info: 'Automatically fill in all the fields for this input object argument (controlled by addQueryDepthLimit in settings)',
               },
             ],
           };
