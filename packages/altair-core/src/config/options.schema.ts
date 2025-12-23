@@ -103,7 +103,8 @@ export const altairWindowOptionsSchema = object({
    */
   initialSubscriptionsPayload: record(string(), unknown())
     .meta({ description: 'Initial subscriptions connection params' })
-    .optional(),
+    .optional()
+    .nullable(),
 
   /**
    * Initial request handler id
@@ -194,6 +195,7 @@ export const altairConfigOptionsSchema = altairWindowOptionsSchema.extend({
    */
   initialSettings: settingsSchema
     .partial()
+    .nullable()
     .meta({ description: 'Initial app settings to use' })
     .optional(),
 
