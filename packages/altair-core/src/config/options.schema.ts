@@ -195,9 +195,9 @@ export const altairConfigOptionsSchema = altairWindowOptionsSchema.extend({
    */
   initialSettings: settingsSchema
     .partial()
-    .nullable()
     .meta({ description: 'Initial app settings to use' })
-    .optional(),
+    .optional()
+    .nullable(),
 
   /**
    * Indicates if the state should be preserved for subsequent app loads
