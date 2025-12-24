@@ -46,7 +46,7 @@
     "@types/object-path": "^0.11.0",
     "@types/uuid": "^9.0.5",
     "@typescript-eslint/eslint-plugin": "^7.4.0",
-    "@typescript-eslint/parser": "^7.4.0",
+    "@typescript-eslint/parser": "^8.50.0",
     "ajv-cli": "5.0.0",
     "change-case": "^5.4.4",
     "eslint": "^8.57.0",
