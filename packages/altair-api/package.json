@@ -9,7 +9,7 @@
     "@altairgraphql/emails": "workspace:*",
     "@langchain/anthropic": "^0.3.18",
     "@langchain/community": "^0.3.41",
-    "@langchain/core": "^0.3.45",
+    "@langchain/core": "^0.3.80",
     "@langchain/google-genai": "^0.2.4",
     "@langchain/ollama": "^0.2.0",
     "@langchain/openai": "^0.5.6",
