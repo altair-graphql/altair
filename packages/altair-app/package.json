@@ -12,7 +12,7 @@
     "@angular/cdk": "20.2.7",
     "@angular/cli": "20.3.4",
     "@angular/common": "20.3.3",
-    "@angular/core": "^20.3.3",
+    "@angular/core": "^20.3.16",
     "@angular/forms": "20.3.3",
     "@angular/platform-browser": "20.3.3",
     "@angular/platform-browser-dynamic": "20.3.3",
