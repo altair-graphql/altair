@@ -114,7 +114,7 @@
     "@angular-eslint/schematics": "20.3.0",
     "@angular-eslint/template-parser": "20.3.0",
     "@angular/build": "^20.3.4",
-    "@angular/compiler": "20.3.3",
+    "@angular/compiler": "20.3.16",
     "@angular/compiler-cli": "20.3.3",
     "@briebug/jest-schematic": "2.1.1",
     "@jest/globals": "28.1.3",
