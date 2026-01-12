@@ -2,8 +2,8 @@ import { environment } from './environment';
 import pkg from '../../package.json';
 
 describe('Environment configuration', () => {
-  it('should define production flag', () => {
-    expect(typeof environment.production).toBe('boolean');
+  it('should have production flag set to false', () => {
+    expect(environment.production).toBe(false);
   });
 
   it('should expose application version from package.json', () => {
