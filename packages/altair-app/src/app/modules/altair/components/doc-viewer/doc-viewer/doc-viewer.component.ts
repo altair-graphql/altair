@@ -15,7 +15,11 @@ import { debug } from '../../../utils/logger';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { GraphQLSchema, GraphQLObjectType, GraphQLDirective } from 'graphql';
-import { DocumentIndexEntry } from '../models';
+import {
+  DocumentIndexEntry,
+  RelatedOperation,
+  ParentTypeInfo,
+} from '../models';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
@@ -97,22 +101,9 @@ export class DocViewerComponent {
     return;
   });
 
-  readonly relatedOperations = signal<
-    Array<{
-      name: string;
-      parentType: string;
-      category: 'query' | 'mutation' | 'subscription';
-      description: string;
-    }>
-  >([]);
+  readonly relatedOperations = signal<RelatedOperation[]>([]);
 
-  readonly parentTypes = signal<
-    Array<{
-      name: string;
-      description: string;
-      fieldCount: number;
-    }>
-  >([]);
+  readonly parentTypes = signal<ParentTypeInfo[]>([]);
 
   constructor() {
     effect(async () => {

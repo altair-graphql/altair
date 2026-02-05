@@ -4,6 +4,8 @@ import {
   DocumentIndexEntry,
   DocumentIndexFieldEntry,
   DocumentIndexDirectiveEntry,
+  RelatedOperation,
+  ParentTypeInfo,
 } from './models';
 import { buildSchema } from 'graphql/utilities';
 import getRootTypes from '../../utils/get-root-types';
@@ -291,7 +293,7 @@ export class DocUtils {
    * Get operations (query/mutation/subscription fields) that use this type
    * Uses the search index for performance instead of traversing the schema
    */
-  getRelatedOperations(typeName: string) {
+  getRelatedOperations(typeName: string): RelatedOperation[] {
     // Skip built-in scalar types as they are used everywhere
     if (this.isBuiltInScalarType(typeName)) {
       return [];
@@ -301,12 +303,7 @@ export class DocUtils {
       return [];
     }
 
-    const operations: Array<{
-      name: string;
-      parentType: string;
-      category: 'query' | 'mutation' | 'subscription';
-      description: string;
-    }> = [];
+    const operations: RelatedOperation[] = [];
 
     // Get root types
     const queryType = this.schema.getQueryType();
@@ -328,9 +325,9 @@ export class DocUtils {
           category = 'subscription';
         }
 
-        if (category) {
+        if (category && this.schema) {
           // Check if this field uses our type
-          const parentType = this.schema!.getType(parentTypeName);
+          const parentType = this.schema.getType(parentTypeName);
           if (parentType && 'getFields' in parentType) {
             const fields = parentType.getFields();
             const field = fields[entry.name];
@@ -354,7 +351,7 @@ export class DocUtils {
    * Get all types that have fields of this type (parent types)
    * Uses the search index for performance instead of traversing the schema
    */
-  getParentTypes(typeName: string) {
+  getParentTypes(typeName: string): ParentTypeInfo[] {
     // Skip built-in scalar types as they are used everywhere
     if (this.isBuiltInScalarType(typeName)) {
       return [];
@@ -364,10 +361,7 @@ export class DocUtils {
       return [];
     }
 
-    const parentTypesMap = new Map<
-      string,
-      { name: string; description: string; fieldCount: number }
-    >();
+    const parentTypesMap = new Map<string, ParentTypeInfo>();
 
     // Get root type names to skip them
     const queryType = this.schema.getQueryType();
@@ -390,7 +384,10 @@ export class DocUtils {
         }
 
         // Check if this field uses our type
-        const parentType = this.schema!.getType(parentTypeName);
+        if (!this.schema) {
+          return;
+        }
+        const parentType = this.schema.getType(parentTypeName);
         if (parentType && 'getFields' in parentType) {
           const fields = parentType.getFields();
           const field = fields[entry.name];
