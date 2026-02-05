@@ -304,6 +304,9 @@ export class DocUtils {
     }
 
     const operations: RelatedOperation[] = [];
+    // Track operations we've already added to avoid duplicates
+    // Key format: "name|parentType|category"
+    const addedOperations = new Set<string>();
 
     // Get root types
     const queryType = this.schema.getQueryType();
@@ -332,12 +335,19 @@ export class DocUtils {
             const fields = parentType.getFields();
             const field = fields[entry.name];
             if (field && this.fieldUsesType(field, typeName)) {
-              operations.push({
-                name: entry.name,
-                parentType: parentTypeName,
-                category,
-                description: entry.description || '',
-              });
+              // Create a unique key for this operation
+              const operationKey = `${entry.name}|${parentTypeName}|${category}`;
+              
+              // Only add if we haven't seen this operation before
+              if (!addedOperations.has(operationKey)) {
+                addedOperations.add(operationKey);
+                operations.push({
+                  name: entry.name,
+                  parentType: parentTypeName,
+                  category,
+                  description: entry.description || '',
+                });
+              }
             }
           }
         }
