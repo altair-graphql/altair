@@ -174,7 +174,7 @@ app-doc-viewer {
 }
 
 .doc-viewer-search-filters {
-  margin-top: 15px;
+  margin: 10px 0;
   padding: 10px;
   background: rgba(var(--rgb-theme-off-bg), 0.3);
   border-radius: 4px;
@@ -196,8 +196,8 @@ app-doc-viewer {
 
 .doc-viewer-search-filter-button {
   font-size: fontsize(11);
-  padding: 5px 10px;
-  border: 1px solid var(--theme-border-color);
+  padding: 2px 5px;
+  border: 0px;
   background: var(--theme-bg-color);
   color: var(--theme-off-font-color);
   border-radius: 4px;
@@ -208,14 +208,11 @@ app-doc-viewer {
 
   &:hover {
     background: rgba(var(--rgb-secondary), 0.05);
-    border-color: var(--secondary-color);
   }
 
   &.active {
     background: rgba(var(--rgb-secondary), 0.15);
-    border-color: var(--secondary-color);
     color: var(--secondary-color);
-    font-weight: bold;
   }
 }
 
