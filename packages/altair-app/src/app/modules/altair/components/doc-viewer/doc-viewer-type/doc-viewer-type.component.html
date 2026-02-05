@@ -265,4 +265,69 @@
       }
     </div>
   }
+  @if (getRelatedOperations(data).length) {
+    <div class="doc-viewer-section doc-viewer-related-operations">
+      <div class="doc-viewer-section-title">
+        {{ 'DOCS_USED_IN_OPERATIONS_TEXT' | translate }}
+      </div>
+      @for (
+        item of getRelatedOperations(data);
+        track schemaItemTrackBy($index, item.field)
+      ) {
+        <div class="doc-viewer-item doc-viewer-item-query">
+          <div class="doc-viewer-item-query-inner">
+            <span
+              class="doc-viewer-item-field doc-viewer-item-value no-link-link"
+              (click)="goToField(item.field.name, item.parentType.name)"
+            >
+              {{ item.field.name }}
+            </span>
+            <span class="doc-viewer-item-type doc-viewer-item-category">
+              {{ item.category }}
+            </span>
+          </div>
+          @if (item.field.description) {
+            <div
+              class="doc-viewer-item-query-description"
+              markdown
+              [data]="item.field.description || ''"
+            ></div>
+          }
+        </div>
+      }
+    </div>
+  }
+  @if (getParentTypes(data).length) {
+    <div class="doc-viewer-section doc-viewer-parent-types">
+      <div class="doc-viewer-section-title">
+        {{ 'DOCS_USED_IN_TYPES_TEXT' | translate }}
+      </div>
+      @for (
+        item of getParentTypes(data);
+        track schemaItemTrackBy($index, item.type)
+      ) {
+        <div class="doc-viewer-item doc-viewer-item-query">
+          <div class="doc-viewer-item-query-inner">
+            <span
+              class="doc-viewer-item-field doc-viewer-item-value no-link-link"
+              (click)="goToType(item.type.name)"
+            >
+              {{ item.type.name }}
+            </span>
+            <span class="doc-viewer-item-type doc-viewer-item-fields-count">
+              ({{ item.fields.length }}
+              {{ item.fields.length === 1 ? 'field' : 'fields' }})
+            </span>
+          </div>
+          @if (item.type.description) {
+            <div
+              class="doc-viewer-item-query-description"
+              markdown
+              [data]="item.type.description || ''"
+            ></div>
+          }
+        </div>
+      }
+    </div>
+  }
 }
