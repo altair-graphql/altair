@@ -38,17 +38,20 @@ export class DocViewerSearchResultsComponent {
 
       // For fields, we need to determine if they are queries, mutations, or subscriptions
       if (item.cat === 'field') {
-        if (item.isQuery) {
-          const typeName = item.type?.toLowerCase() || '';
-          if (typeName.includes('query')) {
+        if (item.isQuery && item.type) {
+          // Use exact comparison for root operation types
+          const typeName = item.type;
+          if (typeName === 'Query') {
             return filters.has('queries');
           }
-          if (typeName.includes('mutation')) {
+          if (typeName === 'Mutation') {
             return filters.has('mutations');
           }
-          if (typeName.includes('subscription')) {
+          if (typeName === 'Subscription') {
             return filters.has('subscriptions');
           }
+          // If isQuery is true but type doesn't match known root types, treat as regular field
+          return filters.has('fields');
         } else {
           // Regular field (not a root query/mutation/subscription)
           return filters.has('fields');
