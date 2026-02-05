@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerSearchResultsComponent } from './doc-viewer-search-results.component';
-import { DocumentIndexEntry } from '../models';
+import { DocumentIndexEntry, DocSearchFilterKey } from '../models';
 
 describe('DocViewerSearchResultsComponent', () => {
   let component: DocViewerSearchResultsComponent;
@@ -83,7 +83,7 @@ describe('DocViewerSearchResultsComponent', () => {
       fixture.componentRef.setInput('results', mockResults);
       fixture.componentRef.setInput(
         'filters',
-        new Set(['types', 'fields', 'queries', 'mutations', 'subscriptions', 'directives'])
+        new Set<DocSearchFilterKey>(['types', 'fields', 'queries', 'mutations', 'subscriptions', 'directives'])
       );
       fixture.detectChanges();
 
@@ -93,7 +93,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should return all results when no filters are set', () => {
       fixture.componentRef.setInput('results', mockResults);
-      fixture.componentRef.setInput('filters', new Set());
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>());
       fixture.detectChanges();
 
       const filtered = component.filteredResults();
@@ -102,7 +102,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should filter to show only types', () => {
       fixture.componentRef.setInput('results', mockResults);
-      fixture.componentRef.setInput('filters', new Set(['types']));
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>(['types']));
       fixture.detectChanges();
 
       const filtered = component.filteredResults();
@@ -113,7 +113,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should filter to show only regular fields', () => {
       fixture.componentRef.setInput('results', mockResults);
-      fixture.componentRef.setInput('filters', new Set(['fields']));
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>(['fields']));
       fixture.detectChanges();
 
       const filtered = component.filteredResults();
@@ -124,7 +124,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should filter to show only queries', () => {
       fixture.componentRef.setInput('results', mockResults);
-      fixture.componentRef.setInput('filters', new Set(['queries']));
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>(['queries']));
       fixture.detectChanges();
 
       const filtered = component.filteredResults();
@@ -134,7 +134,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should filter to show only mutations', () => {
       fixture.componentRef.setInput('results', mockResults);
-      fixture.componentRef.setInput('filters', new Set(['mutations']));
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>(['mutations']));
       fixture.detectChanges();
 
       const filtered = component.filteredResults();
@@ -144,7 +144,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should filter to show only subscriptions', () => {
       fixture.componentRef.setInput('results', mockResults);
-      fixture.componentRef.setInput('filters', new Set(['subscriptions']));
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>(['subscriptions']));
       fixture.detectChanges();
 
       const filtered = component.filteredResults();
@@ -154,7 +154,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should filter to show only directives', () => {
       fixture.componentRef.setInput('results', mockResults);
-      fixture.componentRef.setInput('filters', new Set(['directives']));
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>(['directives']));
       fixture.detectChanges();
 
       const filtered = component.filteredResults();
@@ -165,7 +165,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should filter to show multiple categories', () => {
       fixture.componentRef.setInput('results', mockResults);
-      fixture.componentRef.setInput('filters', new Set(['types', 'directives']));
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>(['types', 'directives']));
       fixture.detectChanges();
 
       const filtered = component.filteredResults();
@@ -176,7 +176,7 @@ describe('DocViewerSearchResultsComponent', () => {
 
     it('should return empty array when results are empty', () => {
       fixture.componentRef.setInput('results', []);
-      fixture.componentRef.setInput('filters', new Set(['types']));
+      fixture.componentRef.setInput('filters', new Set<DocSearchFilterKey>(['types']));
       fixture.detectChanges();
 
       const filtered = component.filteredResults();

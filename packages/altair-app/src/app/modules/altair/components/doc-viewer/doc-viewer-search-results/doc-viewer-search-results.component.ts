@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input, output, computed } from '@angular/core';
-import { DocumentIndexEntry } from '../models';
+import { DocumentIndexEntry, DocSearchFilterKey } from '../models';
 
 @Component({
   selector: 'app-doc-viewer-search-results',
@@ -10,7 +10,7 @@ import { DocumentIndexEntry } from '../models';
 })
 export class DocViewerSearchResultsComponent {
   readonly results = input<DocumentIndexEntry[]>([]);
-  readonly filters = input<Set<string>>(new Set());
+  readonly filters = input<Set<DocSearchFilterKey>>(new Set());
 
   readonly filteredResults = computed(() => {
     const results = this.results();

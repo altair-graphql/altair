@@ -15,7 +15,7 @@ import { debug } from '../../../utils/logger';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { GraphQLSchema, GraphQLObjectType, GraphQLDirective } from 'graphql';
-import { DocumentIndexEntry } from '../models';
+import { DocumentIndexEntry, DocSearchFilterKey, DOC_SEARCH_FILTERS } from '../models';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
@@ -83,7 +83,11 @@ export class DocViewerComponent {
   readonly searchResult = signal<DocumentIndexEntry[]>([]);
   readonly searchTerm = signal('');
   readonly autocompleteOptions = signal<DocumentIndexEntry[]>([]);
-  readonly searchFilters = signal<Set<string>>(new Set(['types', 'fields', 'queries', 'mutations', 'subscriptions', 'directives']));
+  readonly searchFilters = signal<Set<DocSearchFilterKey>>(
+    new Set<DocSearchFilterKey>(['types', 'fields', 'queries', 'mutations', 'subscriptions', 'directives'])
+  );
+
+  readonly availableSearchFilters = DOC_SEARCH_FILTERS;
 
   docUtilWorker: any;
 
@@ -293,7 +297,7 @@ export class DocViewerComponent {
     }
   }
 
-  toggleSearchFilter(filter: string) {
+  toggleSearchFilter(filter: DocSearchFilterKey) {
     const filters = new Set(this.searchFilters());
     if (filters.has(filter)) {
       filters.delete(filter);
@@ -303,7 +307,7 @@ export class DocViewerComponent {
     this.searchFilters.set(filters);
   }
 
-  isSearchFilterActive(filter: string): boolean {
+  isSearchFilterActive(filter: DocSearchFilterKey): boolean {
     return this.searchFilters().has(filter);
   }
 }
