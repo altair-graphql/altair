@@ -44,4 +44,44 @@ describe('DocViewerComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('search filter methods', () => {
+    it('should initialize with all filters active', () => {
+      const filters = component.searchFilters();
+      expect(filters.has('types')).toBe(true);
+      expect(filters.has('fields')).toBe(true);
+      expect(filters.has('queries')).toBe(true);
+      expect(filters.has('mutations')).toBe(true);
+      expect(filters.has('subscriptions')).toBe(true);
+      expect(filters.has('directives')).toBe(true);
+    });
+
+    it('should toggle filter off when active', () => {
+      component.toggleSearchFilter('types');
+      expect(component.isSearchFilterActive('types')).toBe(false);
+    });
+
+    it('should toggle filter on when inactive', () => {
+      component.toggleSearchFilter('types');
+      expect(component.isSearchFilterActive('types')).toBe(false);
+      component.toggleSearchFilter('types');
+      expect(component.isSearchFilterActive('types')).toBe(true);
+    });
+
+    it('should check if filter is active correctly', () => {
+      expect(component.isSearchFilterActive('types')).toBe(true);
+      component.toggleSearchFilter('types');
+      expect(component.isSearchFilterActive('types')).toBe(false);
+    });
+
+    it('should handle multiple filter toggles independently', () => {
+      component.toggleSearchFilter('types');
+      component.toggleSearchFilter('fields');
+      
+      expect(component.isSearchFilterActive('types')).toBe(false);
+      expect(component.isSearchFilterActive('fields')).toBe(false);
+      expect(component.isSearchFilterActive('queries')).toBe(true);
+      expect(component.isSearchFilterActive('mutations')).toBe(true);
+    });
+  });
 });
