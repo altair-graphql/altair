@@ -261,7 +261,7 @@ export class DocViewerTypeComponent {
       // Skip internal types and root types
       if (!/^__/.test(key)) {
         const currentType = typeMap[key];
-        if (this.isGraphQLObject(currentType) || this.isGraphQLInterface(currentType)) {
+        if (currentType && (this.isGraphQLObject(currentType) || this.isGraphQLInterface(currentType))) {
           const fields = Object.values(currentType.getFields());
           const fieldsUsingType = fields.filter((field) =>
             this.fieldUsesType(field, typeName)
