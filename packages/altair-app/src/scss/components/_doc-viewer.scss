@@ -145,25 +145,41 @@ app-doc-viewer {
 .doc-viewer-breadcrumbs {
   margin: 0;
   padding: 0;
+  list-style: none;
+  font-size: fontsize(12);
 
   li {
     display: inline-block;
+    color: var(--theme-off-font-color);
 
     &::after {
       content: ' /';
       margin: 0 5px;
+      color: var(--theme-off-font-color);
     }
 
     &:last-child {
       &::after {
         content: none;
       }
+
+      span {
+        color: var(--theme-font-color);
+        font-weight: 500;
+      }
     }
   }
 
   a {
-    color: var(--blue-color);
+    color: var(--secondary-color);
     text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
   }
 }
 

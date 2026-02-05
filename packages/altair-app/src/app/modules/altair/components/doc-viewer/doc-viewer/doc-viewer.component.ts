@@ -291,4 +291,47 @@ export class DocViewerComponent {
       return this.directives().find((d) => d.name === docView.name);
     }
   }
+
+  /**
+   * Navigate to a specific point in history
+   * @param index The index in history to navigate to
+   */
+  navigateToBreadcrumb(index: number) {
+    if (index === -1) {
+      // Navigate to home
+      this.goHome();
+      return;
+    }
+
+    const history = this.docHistory();
+    if (index >= 0 && index < history.length) {
+      // Get the view at the specified index
+      const targetView = history[index];
+      // Update history to only include items up to this point
+      this.docHistory.set(history.slice(0, index));
+      // Navigate to the target view
+      this.setDocView(targetView);
+    }
+  }
+
+  /**
+   * Get a readable label for a doc view for breadcrumb display
+   * @param docView The doc view to get label for
+   */
+  getBreadcrumbLabel(docView: DocView): string {
+    switch (docView.view) {
+      case 'root':
+        return 'Home';
+      case 'type':
+        return docView.name;
+      case 'field':
+        return `${docView.parentType}.${docView.name}`;
+      case 'directive':
+        return `@${docView.name}`;
+      case 'search':
+        return 'Search Results';
+      default:
+        return '';
+    }
+  }
 }

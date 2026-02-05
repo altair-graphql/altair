@@ -65,6 +65,23 @@
           </div>
         </div>
       </div>
+      @if (docView.view !== 'root' && (docHistory().length > 0 || docView.view !== 'search')) {
+        <div class="doc-viewer-breadcrumbs-container">
+          <ul class="doc-viewer-breadcrumbs">
+            <li>
+              <a (click)="navigateToBreadcrumb(-1)">Home</a>
+            </li>
+            @for (item of docHistory(); track $index) {
+              <li>
+                <a (click)="navigateToBreadcrumb($index)">{{ getBreadcrumbLabel(item) }}</a>
+              </li>
+            }
+            <li>
+              <span>{{ getBreadcrumbLabel(docView) }}</span>
+            </li>
+          </ul>
+        </div>
+      }
     </div>
     <div class="doc-viewer-search-wrapper">
       <input
