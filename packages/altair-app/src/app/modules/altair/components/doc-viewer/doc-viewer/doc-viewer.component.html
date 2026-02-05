@@ -72,9 +72,11 @@
               <a (click)="navigateToBreadcrumb(-1)">Home</a>
             </li>
             @for (item of docHistory(); track $index) {
-              <li>
-                <a (click)="navigateToBreadcrumb($index)">{{ getBreadcrumbLabel(item) }}</a>
-              </li>
+              @if (item.view !== 'root') {
+                <li>
+                  <a (click)="navigateToBreadcrumb($index)">{{ getBreadcrumbLabel(item) }}</a>
+                </li>
+              }
             }
             <li>
               <span>{{ getBreadcrumbLabel(docView) }}</span>
