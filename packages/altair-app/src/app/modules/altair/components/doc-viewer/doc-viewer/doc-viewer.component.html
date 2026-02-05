@@ -66,8 +66,8 @@
         </div>
       </div>
       @if (docView.view !== 'root' && (docHistory().length > 0 || docView.view !== 'search')) {
-        <div class="doc-viewer-breadcrumbs-container">
-          <ul class="doc-viewer-breadcrumbs">
+        <div class="doc-viewer-breadcrumbs-container" #breadcrumbsContainer>
+          <ul class="doc-viewer-breadcrumbs" #breadcrumbsList>
             <li>
               <a (click)="navigateToBreadcrumb(-1)">Home</a>
             </li>

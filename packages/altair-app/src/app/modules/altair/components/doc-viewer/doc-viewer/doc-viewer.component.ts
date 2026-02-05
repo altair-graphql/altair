@@ -55,6 +55,8 @@ export class DocViewerComponent {
 
   @HostBinding('style.flex-grow') public resizeFactor?: number;
   @ViewChild('docViewer') docViewerRef?: ElementRef;
+  @ViewChild('breadcrumbsContainer') breadcrumbsContainerRef?: ElementRef;
+  @ViewChild('breadcrumbsList') breadcrumbsListRef?: ElementRef;
 
   readonly rootTypes = computed<GraphQLObjectType[]>(() => {
     const schema = this.gqlSchema();
@@ -131,6 +133,26 @@ export class DocViewerComponent {
     this.setDocViewChange.emit(docView);
     if (this.docViewerRef) {
       this.docViewerRef.nativeElement.scrollTop = 0;
+    }
+    // Check breadcrumb overflow after view updates
+    setTimeout(() => this.checkBreadcrumbOverflow(), 0);
+  }
+
+  /**
+   * Check if breadcrumbs overflow and add appropriate class
+   */
+  checkBreadcrumbOverflow() {
+    if (this.breadcrumbsContainerRef && this.breadcrumbsListRef) {
+      const container = this.breadcrumbsContainerRef.nativeElement;
+      const list = this.breadcrumbsListRef.nativeElement;
+      
+      if (list.scrollWidth > list.clientWidth) {
+        container.classList.add('has-overflow');
+        // Scroll to the end to show the current item
+        list.scrollLeft = list.scrollWidth;
+      } else {
+        container.classList.remove('has-overflow');
+      }
     }
   }
 

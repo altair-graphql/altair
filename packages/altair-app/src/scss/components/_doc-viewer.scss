@@ -140,6 +140,31 @@ app-doc-viewer {
 
 .doc-viewer-breadcrumbs-container {
   padding: 10px 0;
+  position: relative;
+  overflow: hidden;
+
+  // Fade effect on right edge when content overflows
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40px;
+    background: linear-gradient(
+      to right,
+      rgba(var(--rgb-theme-bg), 0),
+      rgba(var(--rgb-theme-bg), 1)
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  // Show fade effect when container can scroll
+  &.has-overflow::after {
+    opacity: 1;
+  }
 }
 
 .doc-viewer-breadcrumbs {
@@ -147,15 +172,43 @@ app-doc-viewer {
   padding: 0;
   list-style: none;
   font-size: fontsize(12);
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(var(--rgb-theme-font), 0.2) transparent;
+
+  // Webkit scrollbar styling
+  &::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba(var(--rgb-theme-font), 0.2);
+    border-radius: 2px;
+
+    &:hover {
+      background: rgba(var(--rgb-theme-font), 0.3);
+    }
+  }
 
   li {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    flex-shrink: 0;
     color: var(--theme-off-font-color);
 
     &::after {
       content: ' /';
       margin: 0 5px;
       color: var(--theme-off-font-color);
+      flex-shrink: 0;
     }
 
     &:last-child {
@@ -175,11 +228,22 @@ app-doc-viewer {
     text-decoration: none;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
 
     &:hover {
       color: var(--primary-color);
       text-decoration: underline;
     }
+  }
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
   }
 }
 
