@@ -97,6 +97,23 @@ export class DocViewerComponent {
     return;
   });
 
+  readonly relatedOperations = signal<
+    Array<{
+      name: string;
+      parentType: string;
+      category: 'query' | 'mutation' | 'subscription';
+      description: string;
+    }>
+  >([]);
+
+  readonly parentTypes = signal<
+    Array<{
+      name: string;
+      description: string;
+      fieldCount: number;
+    }>
+  >([]);
+
   constructor() {
     effect(async () => {
       const schema = this.gqlSchema();
@@ -113,6 +130,30 @@ export class DocViewerComponent {
       } catch (err) {
         debug.log('Error while generating index.', err);
         this.hasSearchIndex.set(false);
+      }
+    });
+
+    // Effect to update related operations and parent types when viewing a type
+    effect(async () => {
+      const docView = this.docView();
+      const typeData = this.typeData();
+      
+      if (docView.view === 'type' && typeData && this.hasSearchIndex()) {
+        try {
+          const docUtilWorker = await this.getDocUtilsWorker();
+          const operations = await docUtilWorker.getRelatedOperations(typeData.name);
+          const parents = await docUtilWorker.getParentTypes(typeData.name);
+          
+          this.relatedOperations.set(operations);
+          this.parentTypes.set(parents);
+        } catch (err) {
+          debug.log('Error getting type relationships:', err);
+          this.relatedOperations.set([]);
+          this.parentTypes.set([]);
+        }
+      } else {
+        this.relatedOperations.set([]);
+        this.parentTypes.set([]);
       }
     });
   }

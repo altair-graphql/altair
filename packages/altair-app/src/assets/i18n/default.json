@@ -50,6 +50,9 @@
   "DOCS_DIRECTIVES_TEXT": "Directives",
   "DOCS_LOCATIONS_TEXT": "Locations",
   "DOCS_REPEATABLE_TEXT": "Repeatable",
+  "DOCS_BELONGS_TO_TYPE_TEXT": "Belongs to Type",
+  "DOCS_USED_IN_OPERATIONS_TEXT": "Used in Operations",
+  "DOCS_USED_IN_TYPES_TEXT": "Used in Types",
   "DOCS_LAST_UPDATED": "Last updated",
 
   "QUERY_RESULT_TAB": "Result",

@@ -139,6 +139,8 @@
                   [gqlSchema]="gqlSchema()"
                   [sortByOption]="sortFieldsByOption"
                   [hideDeprecatedDocItems]="hideDeprecatedDocItems()"
+                  [relatedOperations]="relatedOperations()"
+                  [parentTypes]="parentTypes()"
                   (goToFieldChange)="goToField($event.name, $event.parentType)"
                   (goToTypeChange)="goToType($event.name)"
                   (addToEditorChange)="addToEditor($event.name, $event.parentType)"
