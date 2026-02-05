@@ -55,8 +55,6 @@ export class DocViewerComponent {
 
   @HostBinding('style.flex-grow') public resizeFactor?: number;
   @ViewChild('docViewer') docViewerRef?: ElementRef;
-  @ViewChild('breadcrumbsContainer') breadcrumbsContainerRef?: ElementRef;
-  @ViewChild('breadcrumbsList') breadcrumbsListRef?: ElementRef;
 
   readonly rootTypes = computed<GraphQLObjectType[]>(() => {
     const schema = this.gqlSchema();
@@ -133,26 +131,6 @@ export class DocViewerComponent {
     this.setDocViewChange.emit(docView);
     if (this.docViewerRef) {
       this.docViewerRef.nativeElement.scrollTop = 0;
-    }
-    // Check breadcrumb overflow after view updates
-    setTimeout(() => this.checkBreadcrumbOverflow(), 0);
-  }
-
-  /**
-   * Check if breadcrumbs overflow and add appropriate class
-   */
-  checkBreadcrumbOverflow() {
-    if (this.breadcrumbsContainerRef && this.breadcrumbsListRef) {
-      const container = this.breadcrumbsContainerRef.nativeElement;
-      const list = this.breadcrumbsListRef.nativeElement;
-      
-      if (list.scrollWidth > list.clientWidth) {
-        container.classList.add('has-overflow');
-        // Scroll to the end to show the current item
-        list.scrollLeft = list.scrollWidth;
-      } else {
-        container.classList.remove('has-overflow');
-      }
     }
   }
 
@@ -355,5 +333,39 @@ export class DocViewerComponent {
       default:
         return '';
     }
+  }
+
+  /**
+   * Determine if ellipsis should be shown in breadcrumbs
+   * Show ellipsis when there are more than 2 items in history (excluding root views)
+   */
+  shouldShowEllipsis(): boolean {
+    const history = this.docHistory();
+    const nonRootHistory = history.filter(item => item.view !== 'root');
+    return nonRootHistory.length > 2;
+  }
+
+  /**
+   * Get the visible breadcrumb items (last 2 before current)
+   * Returns items with their original indices for navigation
+   */
+  getVisibleBreadcrumbs(): Array<{ view: DocView; index: number }> {
+    const history = this.docHistory();
+    const nonRootHistory: Array<{ view: DocView; index: number }> = [];
+    
+    // Build array with original indices
+    history.forEach((item, index) => {
+      if (item.view !== 'root') {
+        nonRootHistory.push({ view: item, index });
+      }
+    });
+
+    // If 2 or fewer items, show all
+    if (nonRootHistory.length <= 2) {
+      return nonRootHistory;
+    }
+
+    // Otherwise, show last 2
+    return nonRootHistory.slice(-2);
   }
 }

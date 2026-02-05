@@ -118,4 +118,82 @@ describe('DocViewerComponent', () => {
       expect(component.getBreadcrumbLabel(docView)).toBe('Search Results');
     });
   });
+
+  describe('shouldShowEllipsis', () => {
+    it('should return false when history has 2 or fewer non-root items', () => {
+      component.docHistory.set([
+        { view: 'type', name: 'User' },
+        { view: 'field', name: 'name', parentType: 'User' }
+      ]);
+      expect(component.shouldShowEllipsis()).toBe(false);
+    });
+
+    it('should return true when history has more than 2 non-root items', () => {
+      component.docHistory.set([
+        { view: 'type', name: 'Query' },
+        { view: 'type', name: 'User' },
+        { view: 'field', name: 'name', parentType: 'User' }
+      ]);
+      expect(component.shouldShowEllipsis()).toBe(true);
+    });
+
+    it('should ignore root views in the count', () => {
+      component.docHistory.set([
+        { view: 'root' },
+        { view: 'type', name: 'User' },
+        { view: 'field', name: 'name', parentType: 'User' }
+      ]);
+      expect(component.shouldShowEllipsis()).toBe(false);
+    });
+  });
+
+  describe('getVisibleBreadcrumbs', () => {
+    it('should return all items when there are 2 or fewer', () => {
+      component.docHistory.set([
+        { view: 'type', name: 'User' },
+        { view: 'field', name: 'name', parentType: 'User' }
+      ]);
+      const visible = component.getVisibleBreadcrumbs();
+      expect(visible.length).toBe(2);
+      expect(visible[0].view.name).toBe('User');
+      expect(visible[1].view.name).toBe('name');
+    });
+
+    it('should return last 2 items when there are more than 2', () => {
+      component.docHistory.set([
+        { view: 'type', name: 'Query' },
+        { view: 'type', name: 'Organization' },
+        { view: 'type', name: 'User' },
+        { view: 'field', name: 'name', parentType: 'User' }
+      ]);
+      const visible = component.getVisibleBreadcrumbs();
+      expect(visible.length).toBe(2);
+      expect(visible[0].view.name).toBe('User');
+      expect(visible[1].view.name).toBe('name');
+    });
+
+    it('should return items with correct original indices', () => {
+      component.docHistory.set([
+        { view: 'type', name: 'Query' },
+        { view: 'type', name: 'Organization' },
+        { view: 'type', name: 'User' }
+      ]);
+      const visible = component.getVisibleBreadcrumbs();
+      expect(visible.length).toBe(2);
+      expect(visible[0].index).toBe(1); // Organization at index 1
+      expect(visible[1].index).toBe(2); // User at index 2
+    });
+
+    it('should filter out root views', () => {
+      component.docHistory.set([
+        { view: 'root' },
+        { view: 'type', name: 'User' },
+        { view: 'field', name: 'name', parentType: 'User' }
+      ]);
+      const visible = component.getVisibleBreadcrumbs();
+      expect(visible.length).toBe(2);
+      expect(visible[0].view.view).toBe('type');
+      expect(visible[1].view.view).toBe('field');
+    });
+  });
 });
