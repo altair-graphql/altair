@@ -173,6 +173,52 @@ app-doc-viewer {
   line-height: 1;
 }
 
+.doc-viewer-search-filters {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(var(--rgb-theme-off-bg), 0.3);
+  border-radius: 4px;
+}
+
+.doc-viewer-search-filters-label {
+  font-size: fontsize(11);
+  color: var(--theme-off-font-color);
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.doc-viewer-search-filters-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.doc-viewer-search-filter-button {
+  font-size: fontsize(11);
+  padding: 5px 10px;
+  border: 1px solid var(--theme-border-color);
+  background: var(--theme-bg-color);
+  color: var(--theme-off-font-color);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  font-weight: 500;
+
+  &:hover {
+    background: rgba(var(--rgb-secondary), 0.05);
+    border-color: var(--secondary-color);
+  }
+
+  &.active {
+    background: rgba(var(--rgb-secondary), 0.15);
+    border-color: var(--secondary-color);
+    color: var(--secondary-color);
+    font-weight: bold;
+  }
+}
+
 .doc-viewer-search-input {
   width: 100%;
   font-size: fontsize(14);

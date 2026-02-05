@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, computed } from '@angular/core';
 import { DocumentIndexEntry } from '../models';
 
 @Component({
@@ -10,6 +10,54 @@ import { DocumentIndexEntry } from '../models';
 })
 export class DocViewerSearchResultsComponent {
   readonly results = input<DocumentIndexEntry[]>([]);
+  readonly filters = input<Set<string>>(new Set());
+
+  readonly filteredResults = computed(() => {
+    const results = this.results();
+    const filters = this.filters();
+    
+    if (!results || !results.length) {
+      return [];
+    }
+
+    // If no filters are active, show all results
+    if (filters.size === 0) {
+      return results;
+    }
+
+    return results.filter(item => {
+      // Check if it's a directive
+      if (item.cat === 'directive') {
+        return filters.has('directives');
+      }
+
+      // Check if it's a type
+      if (item.cat === 'type') {
+        return filters.has('types');
+      }
+
+      // For fields, we need to determine if they are queries, mutations, or subscriptions
+      if (item.cat === 'field') {
+        if (item.isQuery) {
+          const typeName = item.type?.toLowerCase() || '';
+          if (typeName.includes('query')) {
+            return filters.has('queries');
+          }
+          if (typeName.includes('mutation')) {
+            return filters.has('mutations');
+          }
+          if (typeName.includes('subscription')) {
+            return filters.has('subscriptions');
+          }
+        } else {
+          // Regular field (not a root query/mutation/subscription)
+          return filters.has('fields');
+        }
+      }
+
+      return false;
+    });
+  });
 
   readonly goToFieldChange = output<{
     name: string;

@@ -83,6 +83,7 @@ export class DocViewerComponent {
   readonly searchResult = signal<DocumentIndexEntry[]>([]);
   readonly searchTerm = signal('');
   readonly autocompleteOptions = signal<DocumentIndexEntry[]>([]);
+  readonly searchFilters = signal<Set<string>>(new Set(['types', 'fields', 'queries', 'mutations', 'subscriptions', 'directives']));
 
   docUtilWorker: any;
 
@@ -290,5 +291,19 @@ export class DocViewerComponent {
     if (docView.view === 'directive') {
       return this.directives().find((d) => d.name === docView.name);
     }
+  }
+
+  toggleSearchFilter(filter: string) {
+    const filters = new Set(this.searchFilters());
+    if (filters.has(filter)) {
+      filters.delete(filter);
+    } else {
+      filters.add(filter);
+    }
+    this.searchFilters.set(filters);
+  }
+
+  isSearchFilterActive(filter: string): boolean {
+    return this.searchFilters().has(filter);
   }
 }
