@@ -1,4 +1,13 @@
-import { visit, print, TypeInfo, parse, GraphQLSchema, Kind } from 'graphql';
+import {
+  visit,
+  print,
+  TypeInfo,
+  parse,
+  GraphQLSchema,
+  Kind,
+  isInputObjectType,
+  GraphQLInputObjectType,
+} from 'graphql';
 import { debug } from '../../utils/logger';
 import getTypeInfo from 'codemirror-graphql/utils/getTypeInfo';
 import { ContextToken } from 'graphql-language-service';
@@ -57,6 +66,45 @@ export interface FillAllFieldsOptions {
   maxDepth?: number;
 }
 
+const buildInputObjectFields = (
+  inputType: GraphQLInputObjectType,
+  { maxDepth = 1, currentDepth = 0 } = {}
+): string => {
+  if (currentDepth >= maxDepth) {
+    return '';
+  }
+
+  const fields = inputType.getFields();
+  const fieldEntries = Object.entries(fields).map(([fieldName, field]) => {
+    // Unwrap the type to get to the base type (remove NonNull and List wrappers)
+    let unwrappedType = field.type;
+    while (
+      unwrappedType &&
+      ('ofType' in unwrappedType) &&
+      unwrappedType.ofType
+    ) {
+      unwrappedType = unwrappedType.ofType as any;
+    }
+    
+    // For nested input objects, recursively build fields
+    if (isInputObjectType(unwrappedType)) {
+      if (currentDepth + 1 < maxDepth) {
+        const nestedFields = buildInputObjectFields(unwrappedType, {
+          maxDepth,
+          currentDepth: currentDepth + 1,
+        });
+        return `${fieldName}: {${nestedFields ? `\n  ${nestedFields}\n` : ''}}`;
+      }
+      return `${fieldName}: `;
+    }
+    
+    // For scalar types, just add the field name
+    return `${fieldName}: `;
+  });
+
+  return fieldEntries.join('\n');
+};
+
 // Improved version based on:
 // https://github.com/graphql/graphiql/blob/272e2371fc7715217739efd7817ce6343cb4fbec/src/utility/fillLeafs.js
 export const fillAllFields = (
@@ -72,11 +120,64 @@ export const fillAllFields = (
   }
 
   let tokenState = token.state as any;
+  let isSelectionSetMode = false;
+  let isObjectValueMode = false;
+  
   if (tokenState.kind === Kind.SELECTION_SET) {
     tokenState.wasSelectionSet = true;
     tokenState = { ...tokenState, ...tokenState.prevState };
+    isSelectionSetMode = true;
   }
-  const fieldType = getTypeInfo(schema, token.state).type;
+  // Check if we're in an object value (argument)
+  // The token state kind for object values is typically 'ObjectValue' or the token itself is '{'
+  if (tokenState.kind === 'ObjectValue' || tokenState.kind === '{') {
+    tokenState.wasObjectValue = true;
+    tokenState = { ...tokenState, ...tokenState.prevState };
+    isObjectValueMode = true;
+  }
+  
+  const typeInfoResult = getTypeInfo(schema, token.state);
+  const fieldType = typeInfoResult.type;
+  const inputType = typeInfoResult.inputType;
+  
+  // For object value mode (arguments), handle specially without stripping
+  if (isObjectValueMode && inputType && isInputObjectType(inputType)) {
+    // Don't strip, parse as-is since `{ }` is valid for arguments
+    const ast = parseQuery(query);
+    if (!ast) {
+      return { insertions, result: query };
+    }
+    
+    const typeInfo = new TypeInfo(schema);
+    visit(ast, {
+      enter(node) {
+        typeInfo.enter(node);
+        // Find the OBJECT node at the cursor position
+        if (node.kind === Kind.OBJECT && node.loc &&
+            node.loc.startToken.line - 1 === cursor.line) {
+          const currentInputType = typeInfo.getInputType();
+          if (currentInputType && isInputObjectType(currentInputType)) {
+            const fieldsString = buildInputObjectFields(currentInputType, { maxDepth });
+            const indent = getIndentation(query, node.loc.start);
+            if (fieldsString && node.fields.length === 0) {
+              // Only fill if the object is empty
+              insertions.push({
+                index: node.loc.start + 1,
+                string: '\n' + indent + '  ' + fieldsString.replace(/\n/g, '\n' + indent + '  ') + '\n' + indent,
+              });
+            }
+          }
+        }
+      },
+    });
+    
+    return {
+      insertions,
+      result: withInsertions(query, insertions),
+    };
+  }
+  
+  // Original logic for selection sets
   // Strip out empty selection sets since those throw errors while parsing query
   query = query.replace(/{\s*}/g, '');
   const ast = parseQuery(query);
