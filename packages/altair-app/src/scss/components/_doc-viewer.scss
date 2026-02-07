@@ -334,44 +334,28 @@ app-doc-viewer {
 
 .doc-viewer-section {
   margin: 0 0 40px;
-  padding-top: 20px;
   border-top: 1px solid rgba(var(--rgb-theme-border), 0.3);
   
   // Remove border from first section
   &:first-child {
     border-top: none;
-    padding-top: 0;
   }
 }
 
 .doc-viewer-section-title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: fontsize(10);
   color: var(--theme-off-font-color);
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 10px;
   padding: 8px 0;
-  background: var(--theme-bg-color);
+  background: rgba(var(--rgb-theme-bg), 0.95);
   position: sticky;
   top: 0;
   z-index: 10;
-  
-  // Add shadow when sticky to indicate separation from content
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      to bottom,
-      rgba(var(--rgb-theme-border), 0.2),
-      transparent
-    );
-  }
 
   .icon-button {
     font-size: fontsize(12);
