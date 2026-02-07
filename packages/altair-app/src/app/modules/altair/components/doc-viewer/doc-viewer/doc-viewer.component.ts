@@ -372,6 +372,8 @@ export class DocViewerComponent {
 
     // Otherwise, show last 2
     return nonRootHistory.slice(-2);
+  }
+
   toggleSearchFilter(filter: DocSearchFilterKey) {
     const filters = new Set(this.searchFilters());
     if (filters.has(filter)) {
