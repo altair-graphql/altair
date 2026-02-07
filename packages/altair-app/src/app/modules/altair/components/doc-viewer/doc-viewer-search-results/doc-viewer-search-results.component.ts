@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, input, output } from '@angular/core';
-import { DocumentIndexEntry } from '../models';
+import { ChangeDetectionStrategy, Component, input, output, computed } from '@angular/core';
+import { DocumentIndexEntry, DocSearchFilterKey } from '../models';
 
 @Component({
   selector: 'app-doc-viewer-search-results',
@@ -10,6 +10,57 @@ import { DocumentIndexEntry } from '../models';
 })
 export class DocViewerSearchResultsComponent {
   readonly results = input<DocumentIndexEntry[]>([]);
+  readonly filters = input<Set<DocSearchFilterKey>>(new Set());
+
+  readonly filteredResults = computed(() => {
+    const results = this.results();
+    const filters = this.filters();
+    
+    if (!results || !results.length) {
+      return [];
+    }
+
+    // If no filters are active, show all results
+    if (filters.size === 0) {
+      return results;
+    }
+
+    return results.filter(item => {
+      // Check if it's a directive
+      if (item.cat === 'directive') {
+        return filters.has('directives');
+      }
+
+      // Check if it's a type
+      if (item.cat === 'type') {
+        return filters.has('types');
+      }
+
+      // For fields, we need to determine if they are queries, mutations, or subscriptions
+      if (item.cat === 'field') {
+        if (item.isQuery && item.type) {
+          // Use exact comparison for root operation types
+          const typeName = item.type;
+          if (typeName === 'Query') {
+            return filters.has('queries');
+          }
+          if (typeName === 'Mutation') {
+            return filters.has('mutations');
+          }
+          if (typeName === 'Subscription') {
+            return filters.has('subscriptions');
+          }
+          // If isQuery is true but type doesn't match known root types, treat as regular field
+          return filters.has('fields');
+        } else {
+          // Regular field (not a root query/mutation/subscription)
+          return filters.has('fields');
+        }
+      }
+
+      return false;
+    });
+  });
 
   readonly goToFieldChange = output<{
     name: string;
