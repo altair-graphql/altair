@@ -115,13 +115,31 @@ app-doc-viewer {
 .doc-viewer-navigation {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.doc-viewer-navigation--left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0; // Allow flexbox shrinking
+}
+
+.doc-viewer-navigation--right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0; // Prevent right section from shrinking
 }
 
 .doc-viewer-navigation__option {
   padding: 5px;
   color: var(--secondary-color);
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   vertical-align: middle;
   background: rgba(var(--rgb-secondary), 0.05);
   border-radius: 4px;
@@ -139,7 +157,11 @@ app-doc-viewer {
 }
 
 .doc-viewer-breadcrumbs-container {
-  padding: 10px 0;
+  padding: 0;
+  margin-left: 10px;
+  flex: 1;
+  min-width: 0; // Allow flexbox shrinking
+  overflow: hidden; // Prevent overflow
 }
 
 .doc-viewer-breadcrumbs {
@@ -148,14 +170,16 @@ app-doc-viewer {
   list-style: none;
   font-size: fontsize(12);
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; // Keep breadcrumbs on one line
   align-items: center;
+  overflow: hidden; // Prevent overflow
 
   li {
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
     color: var(--theme-off-font-color);
+    flex-shrink: 0; // Prevent individual items from shrinking
 
     &::after {
       content: ' /';
