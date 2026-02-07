@@ -98,6 +98,24 @@
         }
       </nz-autocomplete>
     </div>
+    @if (docView.view === 'search') {
+      <div class="doc-viewer-search-filters">
+        <div class="doc-viewer-search-filters-label">
+          {{ 'DOCS_FILTER_BY_TEXT' | translate }}:
+        </div>
+        <div class="doc-viewer-search-filters-buttons">
+          @for (filter of availableSearchFilters; track filter.key) {
+            <button
+              class="doc-viewer-search-filter-button"
+              [class.active]="isSearchFilterActive(filter.key)"
+              (click)="toggleSearchFilter(filter.key)"
+            >
+              {{ filter.translationKey | translate }}
+            </button>
+          }
+        </div>
+      </div>
+    }
     <div class="doc-viewer-items">
       @if (gqlSchema()) {
         <div>
@@ -178,6 +196,7 @@
             @case ('search') {
               <app-doc-viewer-search-results
                 [results]="searchResult()"
+                [filters]="searchFilters()"
                 (goToFieldChange)="goToField($event.name, $event.parentType)"
                 (goToTypeChange)="goToType($event.name)"
                 (goToDirectiveChange)="goToDirective($event.name)"

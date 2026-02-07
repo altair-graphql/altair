@@ -19,6 +19,8 @@ import {
   DocumentIndexEntry,
   RelatedOperation,
   ParentTypeInfo,
+  DocSearchFilterKey,
+  DOC_SEARCH_FILTERS,
 } from '../models';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
@@ -87,6 +89,11 @@ export class DocViewerComponent {
   readonly searchResult = signal<DocumentIndexEntry[]>([]);
   readonly searchTerm = signal('');
   readonly autocompleteOptions = signal<DocumentIndexEntry[]>([]);
+  readonly searchFilters = signal<Set<DocSearchFilterKey>>(
+    new Set<DocSearchFilterKey>(['types', 'fields', 'queries', 'mutations', 'subscriptions', 'directives'])
+  );
+
+  readonly availableSearchFilters = DOC_SEARCH_FILTERS;
 
   docUtilWorker: any;
 
@@ -322,5 +329,19 @@ export class DocViewerComponent {
     if (docView.view === 'directive') {
       return this.directives().find((d) => d.name === docView.name);
     }
+  }
+
+  toggleSearchFilter(filter: DocSearchFilterKey) {
+    const filters = new Set(this.searchFilters());
+    if (filters.has(filter)) {
+      filters.delete(filter);
+    } else {
+      filters.add(filter);
+    }
+    this.searchFilters.set(filters);
+  }
+
+  isSearchFilterActive(filter: DocSearchFilterKey): boolean {
+    return this.searchFilters().has(filter);
   }
 }
