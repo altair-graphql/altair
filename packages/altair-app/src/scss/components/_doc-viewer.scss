@@ -158,33 +158,46 @@ app-doc-viewer {
 
 .doc-viewer-breadcrumbs-container {
   padding: 0;
-  margin-left: 10px;
+  margin-left: 5px;
   flex: 1;
   min-width: 0; // Allow flexbox shrinking
   overflow: hidden; // Prevent overflow
+  display: flex;
 }
 
 .doc-viewer-breadcrumbs {
   margin: 0;
-  padding: 0;
+  padding: 5px 8px;
   list-style: none;
   font-size: fontsize(12);
   display: flex;
   flex-wrap: nowrap; // Keep breadcrumbs on one line
   align-items: center;
   overflow: hidden; // Prevent overflow
+  background: rgba(var(--rgb-secondary), 0.05);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  min-width: 0;
+  flex: 1;
+
+  &:hover {
+    background: rgba(var(--rgb-secondary), 0.1);
+  }
 
   li {
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
     color: var(--theme-off-font-color);
-    flex-shrink: 0; // Prevent individual items from shrinking
+    flex-shrink: 1; // Allow items to shrink
+    min-width: 0;
+    overflow: hidden;
 
     &::after {
       content: ' /';
       margin: 0 5px;
       color: var(--theme-off-font-color);
+      flex-shrink: 0;
     }
 
     &:last-child {
@@ -200,6 +213,7 @@ app-doc-viewer {
 
     &.breadcrumb-ellipsis {
       cursor: default;
+      flex-shrink: 0;
       
       span {
         color: var(--theme-off-font-color);
@@ -216,7 +230,7 @@ app-doc-viewer {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px;
+    min-width: 0;
 
     &:hover {
       color: var(--primary-color);
@@ -228,7 +242,7 @@ app-doc-viewer {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 200px;
+    min-width: 0;
   }
 }
 

@@ -37,9 +37,6 @@
           @if (docView.view !== 'root' && (docHistory().length > 0 || docView.view !== 'search')) {
             <div class="doc-viewer-breadcrumbs-container">
               <ul class="doc-viewer-breadcrumbs">
-                <li>
-                  <a (click)="navigateToBreadcrumb(-1)">Home</a>
-                </li>
                 @if (shouldShowEllipsis()) {
                   <li class="breadcrumb-ellipsis">
                     <span>...</span>
