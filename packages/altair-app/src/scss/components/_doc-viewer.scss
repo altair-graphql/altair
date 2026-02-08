@@ -180,7 +180,7 @@ app-doc-viewer {
   min-width: 0;
   flex: 1;
 
-  li {
+  .breadcrumb-item {
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
@@ -198,12 +198,8 @@ app-doc-viewer {
       background: rgba(var(--rgb-secondary), 0.1);
     }
 
-    &::after {
-      content: none; // Remove separator from within items
-    }
-
-    &:last-child {
-      span {
+    &.breadcrumb-current {
+      .breadcrumb-text {
         color: var(--theme-font-color);
         font-weight: 500;
       }
@@ -221,14 +217,14 @@ app-doc-viewer {
         background: none;
       }
       
-      span {
+      .breadcrumb-text {
         color: var(--theme-off-font-color);
         padding: 0 2px;
       }
     }
   }
 
-  a {
+  .breadcrumb-link {
     color: var(--secondary-color);
     text-decoration: none;
     cursor: pointer;
@@ -254,7 +250,7 @@ app-doc-viewer {
     }
   }
 
-  span {
+  .breadcrumb-text {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

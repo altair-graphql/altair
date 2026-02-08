@@ -38,13 +38,14 @@
             <nav class="doc-viewer-breadcrumbs-container" aria-label="Documentation breadcrumb">
               <ol class="doc-viewer-breadcrumbs">
                 @if (shouldShowEllipsis()) {
-                  <li class="breadcrumb-ellipsis">
-                    <span aria-hidden="true">...</span>
+                  <li class="breadcrumb-item breadcrumb-ellipsis">
+                    <span class="breadcrumb-text" aria-hidden="true">...</span>
                   </li>
                 }
                 @for (item of getVisibleBreadcrumbs(); track $index) {
-                  <li>
+                  <li class="breadcrumb-item">
                     <a 
+                      class="breadcrumb-link"
                       (click)="navigateToBreadcrumb(item.index)"
                       (keydown.enter)="navigateToBreadcrumb(item.index)"
                       (keydown.space)="navigateToBreadcrumb(item.index); $event.preventDefault()"
@@ -55,8 +56,8 @@
                     >{{ getBreadcrumbLabel(item.view) }}</a>
                   </li>
                 }
-                <li>
-                  <span [title]="getBreadcrumbLabel(docView)" aria-current="page">{{ getBreadcrumbLabel(docView) }}</span>
+                <li class="breadcrumb-item breadcrumb-current">
+                  <span class="breadcrumb-text" [title]="getBreadcrumbLabel(docView)" aria-current="page">{{ getBreadcrumbLabel(docView) }}</span>
                 </li>
               </ol>
             </nav>
