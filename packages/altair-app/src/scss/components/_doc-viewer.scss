@@ -5,6 +5,7 @@ app-doc-viewer {
   line-height: 1.2;
   // border-radius: 4px;
   border-inline-start: 1px solid rgba(var(--rgb-theme-border), 0.5);
+  width: 100%;
 
   &.hide-doc {
     flex-grow: 0 !important;
