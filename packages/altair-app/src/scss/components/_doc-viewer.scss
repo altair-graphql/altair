@@ -145,6 +145,7 @@ app-doc-viewer {
   border-radius: 4px;
   height: 25px;
   transition: all 0.3s ease;
+  flex-shrink: 0; // Prevent navigation buttons from shrinking
 
   &:hover {
     background: rgba(var(--rgb-secondary), 0.1);
@@ -185,6 +186,7 @@ app-doc-viewer {
     color: var(--theme-off-font-color);
     flex-shrink: 1; // Allow items to shrink
     min-width: 0;
+    max-width: 150px; // Limit maximum width of each breadcrumb item
     overflow: hidden;
     padding: 5px 8px;
     background: rgba(var(--rgb-secondary), 0.05);
@@ -209,6 +211,7 @@ app-doc-viewer {
     &.breadcrumb-ellipsis {
       cursor: default;
       flex-shrink: 0;
+      max-width: none; // No width limit for ellipsis
       padding: 0;
       background: none;
       border-radius: 0;
@@ -233,6 +236,7 @@ app-doc-viewer {
     overflow: hidden;
     text-overflow: ellipsis;
     min-width: 0;
+    width: 100%; // Make link take full width of li for ellipsis to work
 
     &:hover {
       color: var(--primary-color);
@@ -245,6 +249,7 @@ app-doc-viewer {
     overflow: hidden;
     text-overflow: ellipsis;
     min-width: 0;
+    width: 100%; // Make span take full width of li for ellipsis to work
   }
 }
 
