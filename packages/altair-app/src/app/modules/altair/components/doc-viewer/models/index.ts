@@ -29,6 +29,18 @@ export type DocumentIndexEntry =
   | DocumentIndexTypeEntry
   | DocumentIndexDirectiveEntry;
 
+export interface RelatedOperation {
+  name: string;
+  parentType: string;
+  category: 'query' | 'mutation' | 'subscription';
+  description: string;
+}
+
+export interface ParentTypeInfo {
+  name: string;
+  description: string;
+  fieldCount: number;
+}
 export type DocSearchFilterKey = 
   | 'types' 
   | 'fields' 

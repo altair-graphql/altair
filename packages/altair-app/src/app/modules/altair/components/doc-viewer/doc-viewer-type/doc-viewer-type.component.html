@@ -265,4 +265,69 @@
       }
     </div>
   }
+  @if (relatedOperations().length) {
+    <div class="doc-viewer-section doc-viewer-related-operations">
+      <div class="doc-viewer-section-title">
+        {{ 'DOCS_USED_IN_OPERATIONS_TEXT' | translate }}
+      </div>
+      @for (
+        item of relatedOperations();
+        track item.name + item.parentType
+      ) {
+        <div class="doc-viewer-item doc-viewer-item-query">
+          <div class="doc-viewer-item-query-inner">
+            <span
+              class="doc-viewer-item-field doc-viewer-item-value no-link-link"
+              (click)="goToField(item.name, item.parentType)"
+            >
+              {{ item.name }}
+            </span>
+            <span class="doc-viewer-item-type doc-viewer-item-category">
+              {{ item.category }}
+            </span>
+          </div>
+          @if (item.description) {
+            <div
+              class="doc-viewer-item-query-description"
+              markdown
+              [data]="item.description || ''"
+            ></div>
+          }
+        </div>
+      }
+    </div>
+  }
+  @if (parentTypes().length) {
+    <div class="doc-viewer-section doc-viewer-parent-types">
+      <div class="doc-viewer-section-title">
+        {{ 'DOCS_USED_IN_TYPES_TEXT' | translate }}
+      </div>
+      @for (
+        item of parentTypes();
+        track item.name
+      ) {
+        <div class="doc-viewer-item doc-viewer-item-query">
+          <div class="doc-viewer-item-query-inner">
+            <span
+              class="doc-viewer-item-field doc-viewer-item-value no-link-link"
+              (click)="goToType(item.name)"
+            >
+              {{ item.name }}
+            </span>
+            <span class="doc-viewer-item-type doc-viewer-item-fields-count">
+              ({{ item.fieldCount }}
+              {{ item.fieldCount === 1 ? 'field' : 'fields' }})
+            </span>
+          </div>
+          @if (item.description) {
+            <div
+              class="doc-viewer-item-query-description"
+              markdown
+              [data]="item.description || ''"
+            ></div>
+          }
+        </div>
+      }
+    </div>
+  }
 }

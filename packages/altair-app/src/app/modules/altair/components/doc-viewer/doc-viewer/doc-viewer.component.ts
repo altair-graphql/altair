@@ -15,7 +15,13 @@ import { debug } from '../../../utils/logger';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { GraphQLSchema, GraphQLObjectType, GraphQLDirective } from 'graphql';
-import { DocumentIndexEntry, DocSearchFilterKey, DOC_SEARCH_FILTERS } from '../models';
+import {
+  DocumentIndexEntry,
+  RelatedOperation,
+  ParentTypeInfo,
+  DocSearchFilterKey,
+  DOC_SEARCH_FILTERS,
+} from '../models';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
@@ -102,6 +108,10 @@ export class DocViewerComponent {
     return;
   });
 
+  readonly relatedOperations = signal<RelatedOperation[]>([]);
+
+  readonly parentTypes = signal<ParentTypeInfo[]>([]);
+
   constructor() {
     effect(async () => {
       const schema = this.gqlSchema();
@@ -118,6 +128,30 @@ export class DocViewerComponent {
       } catch (err) {
         debug.log('Error while generating index.', err);
         this.hasSearchIndex.set(false);
+      }
+    });
+
+    // Effect to update related operations and parent types when viewing a type
+    effect(async () => {
+      const docView = this.docView();
+      const typeData = this.typeData();
+      
+      if (docView.view === 'type' && typeData && this.hasSearchIndex()) {
+        try {
+          const docUtilWorker = await this.getDocUtilsWorker();
+          const operations = await docUtilWorker.getRelatedOperations(typeData.name);
+          const parents = await docUtilWorker.getParentTypes(typeData.name);
+          
+          this.relatedOperations.set(operations);
+          this.parentTypes.set(parents);
+        } catch (err) {
+          debug.log('Error getting type relationships:', err);
+          this.relatedOperations.set([]);
+          this.parentTypes.set([]);
+        }
+      } else {
+        this.relatedOperations.set([]);
+        this.parentTypes.set([]);
       }
     });
   }
