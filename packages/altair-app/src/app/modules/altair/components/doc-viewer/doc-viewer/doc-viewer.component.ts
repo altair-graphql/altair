@@ -331,6 +331,83 @@ export class DocViewerComponent {
     }
   }
 
+  /**
+   * Navigate to a specific point in history
+   * @param index The index in history to navigate to
+   */
+  navigateToBreadcrumb(index: number) {
+    if (index === -1) {
+      // Navigate to home
+      this.goHome();
+      return;
+    }
+
+    const history = this.docHistory();
+    if (index >= 0 && index < history.length) {
+      // Get the view at the specified index
+      const targetView = history[index];
+      // Update history to only include items up to this point
+      this.docHistory.set(history.slice(0, index));
+      // Navigate to the target view
+      this.setDocView(targetView);
+    }
+  }
+
+  /**
+   * Get a readable label for a doc view for breadcrumb display
+   * @param docView The doc view to get label for
+   */
+  getBreadcrumbLabel(docView: DocView): string {
+    switch (docView.view) {
+      case 'root':
+        return 'Home';
+      case 'type':
+        return docView.name;
+      case 'field':
+        return `${docView.parentType}.${docView.name}`;
+      case 'directive':
+        return `@${docView.name}`;
+      case 'search':
+        return 'Search Results';
+      default:
+        return '';
+    }
+  }
+
+  /**
+   * Determine if ellipsis should be shown in breadcrumbs
+   * Show ellipsis when there are more than 2 items in history (excluding root views)
+   */
+  shouldShowEllipsis(): boolean {
+    const history = this.docHistory();
+    const nonRootHistory = history.filter(item => item.view !== 'root');
+    return nonRootHistory.length > 2;
+  }
+
+  /**
+   * Get the visible breadcrumb items (last 2 before current)
+   * Returns items with their original indices for navigation
+   */
+  getVisibleBreadcrumbs(): Array<{ view: DocView; index: number }> {
+    const history = this.docHistory();
+    const nonRootHistory: Array<{ view: DocView; index: number }> = [];
+    
+    // Build array with original indices
+    history.forEach((item, index) => {
+      if (item.view !== 'root') {
+        nonRootHistory.push({ view: item, index });
+      }
+    });
+
+    // If 2 or fewer items, show all
+    if (nonRootHistory.length <= 2) {
+      return nonRootHistory;
+    }
+
+    // Otherwise, show last 2
+    return nonRootHistory.slice(-2);
+  }
+
   toggleSearchFilter(filter: DocSearchFilterKey) {
     const filters = new Set(this.searchFilters());
     if (filters.has(filter)) {

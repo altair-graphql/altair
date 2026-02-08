@@ -116,18 +116,37 @@ app-doc-viewer {
 .doc-viewer-navigation {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.doc-viewer-navigation--left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0; // Allow flexbox shrinking
+}
+
+.doc-viewer-navigation--right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0; // Prevent right section from shrinking
 }
 
 .doc-viewer-navigation__option {
   padding: 5px;
   color: var(--secondary-color);
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   vertical-align: middle;
   background: rgba(var(--rgb-secondary), 0.05);
   border-radius: 4px;
   height: 25px;
   transition: all 0.3s ease;
+  flex-shrink: 0; // Prevent navigation buttons from shrinking
 
   &:hover {
     background: rgba(var(--rgb-secondary), 0.1);
@@ -140,31 +159,98 @@ app-doc-viewer {
 }
 
 .doc-viewer-breadcrumbs-container {
-  padding: 10px 0;
+  padding: 0;
+  margin-left: 5px;
+  flex: 1;
+  min-width: 0; // Allow flexbox shrinking
+  overflow: hidden; // Prevent overflow
+  display: flex;
 }
 
 .doc-viewer-breadcrumbs {
   margin: 0;
   padding: 0;
+  list-style: none;
+  font-size: fontsize(12);
+  display: flex;
+  flex-wrap: nowrap; // Keep breadcrumbs on one line
+  align-items: center;
+  overflow: hidden; // Prevent overflow
+  gap: 5px; // Space between individual breadcrumb items
+  min-width: 0;
+  flex: 1;
 
   li {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    color: var(--theme-off-font-color);
+    flex-shrink: 1; // Allow items to shrink
+    min-width: 0;
+    max-width: 150px; // Limit maximum width of each breadcrumb item
+    overflow: hidden;
+    padding: 5px 8px;
+    background: rgba(var(--rgb-secondary), 0.05);
+    border-radius: 4px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: rgba(var(--rgb-secondary), 0.1);
+    }
 
     &::after {
-      content: ' /';
-      margin: 0 5px;
+      content: none; // Remove separator from within items
     }
 
     &:last-child {
-      &::after {
-        content: none;
+      span {
+        color: var(--theme-font-color);
+        font-weight: 500;
+      }
+    }
+
+    &.breadcrumb-ellipsis {
+      cursor: default;
+      flex-shrink: 0;
+      max-width: none; // No width limit for ellipsis
+      padding: 0;
+      background: none;
+      border-radius: 0;
+      
+      &:hover {
+        background: none;
+      }
+      
+      span {
+        color: var(--theme-off-font-color);
+        padding: 0 2px;
       }
     }
   }
 
   a {
-    color: var(--blue-color);
+    color: var(--secondary-color);
     text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    width: 100%; // Make link take full width of li for ellipsis to work
+
+    &:hover {
+      color: var(--primary-color);
+      text-decoration: underline;
+    }
+  }
+
+  span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+    width: 100%; // Make span take full width of li for ellipsis to work
   }
 }
 

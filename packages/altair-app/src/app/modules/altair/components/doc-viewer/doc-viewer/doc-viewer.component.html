@@ -27,12 +27,30 @@
               track-id="go_back_docs"
             >
               <app-icon name="arrow-left" />
-              <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
             </div>
           }
           @if (docView.view !== 'root') {
             <div class="doc-viewer-navigation__option" (click)="goHome()">
               <app-icon name="home" />
+            </div>
+          }
+          @if (docView.view !== 'root' && (docHistory().length > 0 || docView.view !== 'search')) {
+            <div class="doc-viewer-breadcrumbs-container">
+              <ul class="doc-viewer-breadcrumbs">
+                @if (shouldShowEllipsis()) {
+                  <li class="breadcrumb-ellipsis">
+                    <span>...</span>
+                  </li>
+                }
+                @for (item of getVisibleBreadcrumbs(); track $index) {
+                  <li>
+                    <a (click)="navigateToBreadcrumb(item.index)">{{ getBreadcrumbLabel(item.view) }}</a>
+                  </li>
+                }
+                <li>
+                  <span>{{ getBreadcrumbLabel(docView) }}</span>
+                </li>
+              </ul>
             </div>
           }
         </div>
