@@ -238,10 +238,19 @@ app-doc-viewer {
     text-overflow: ellipsis;
     min-width: 0;
     width: 100%; // Make link take full width of li for ellipsis to work
+    outline: none; // Remove default outline
 
-    &:hover {
+    &:hover,
+    &:focus {
       color: var(--primary-color);
       text-decoration: underline;
+    }
+
+    // Visible focus indicator for keyboard navigation
+    &:focus-visible {
+      outline: 2px solid var(--primary-color);
+      outline-offset: 2px;
+      border-radius: 2px;
     }
   }
 
