@@ -51,8 +51,9 @@ app-doc-viewer {
 }
 
 .app-doc-viewer {
+  --doc-viewer-padding: 20px;
   position: relative;
-  padding: 20px;
+  padding: var(--doc-viewer-padding);
   height: 100%;
   overflow: auto;
 }
@@ -354,7 +355,7 @@ app-doc-viewer {
   padding: 8px 0;
   background: rgba(var(--rgb-theme-bg), 0.95);
   position: sticky;
-  top: 0;
+  top: calc(var(--doc-viewer-padding) * -1);
   z-index: 10;
 
   .icon-button {
