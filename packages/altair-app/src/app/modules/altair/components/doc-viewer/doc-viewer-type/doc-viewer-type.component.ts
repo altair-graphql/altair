@@ -13,6 +13,7 @@ import {
   isUnionType,
   isInterfaceType,
 } from 'graphql';
+import { RelatedOperation, ParentTypeInfo } from '../models';
 
 @Component({
   selector: 'app-doc-viewer-type',
@@ -26,6 +27,8 @@ export class DocViewerTypeComponent {
   readonly gqlSchema = input<GraphQLSchema>();
   readonly sortByOption = input<SortByOptions>('none');
   readonly hideDeprecatedDocItems = input<boolean>(false);
+  readonly relatedOperations = input<RelatedOperation[]>([]);
+  readonly parentTypes = input<ParentTypeInfo[]>([]);
 
   readonly goToFieldChange = output<{
     name: string;

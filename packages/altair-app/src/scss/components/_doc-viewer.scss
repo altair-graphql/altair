@@ -51,8 +51,9 @@ app-doc-viewer {
 }
 
 .app-doc-viewer {
+  --doc-viewer-padding: 20px;
   position: relative;
-  padding: 20px;
+  padding: var(--doc-viewer-padding);
   height: 100%;
   overflow: auto;
 }
@@ -420,17 +421,28 @@ app-doc-viewer {
 
 .doc-viewer-section {
   margin: 0 0 40px;
-  // border-bottom: 1px solid var(--light-grey-color);
+  border-top: 1px solid rgba(var(--rgb-theme-border), 0.3);
+  
+  // Remove border from first section
+  &:first-child {
+    border-top: none;
+  }
 }
 
 .doc-viewer-section-title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: fontsize(10);
   color: var(--theme-off-font-color);
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 10px;
+  padding: 8px 0;
+  background: rgba(var(--rgb-theme-bg), 0.95);
+  position: sticky;
+  top: calc(var(--doc-viewer-padding) * -1);
+  z-index: 10;
 
   .icon-button {
     font-size: fontsize(12);
