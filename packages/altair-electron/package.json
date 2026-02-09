@@ -57,7 +57,7 @@
     "electron-chromedriver": "^14.0.0",
     "electron-reloader": "^1.2.1",
     "electron-vite": "^5.0.0",
-    "eslint": "^7.3.1",
+    "eslint": "^9.26.0",
     "eslint-config-altair": "workspace:*",
     "eslint-config-prettier": "8.5.0",
     "jest": "29.4.1",
