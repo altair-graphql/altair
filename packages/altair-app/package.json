@@ -81,7 +81,7 @@
     "hotkeys-js": "^3.13.15",
     "json-bigint": "^1.0.0",
     "json-schema": "^0.4.0",
-    "lodash-es": "4.17.21",
+    "lodash-es": "4.17.23",
     "loglevel": "1.8.0",
     "loglevel-plugin-prefix": "0.8.4",
     "lucide-angular": "^0.298.0",
