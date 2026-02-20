@@ -51,7 +51,7 @@ describe('DocViewerComponent', () => {
       const setDocViewSpy = jest.spyOn(component, 'setDocView');
       component.docHistory.set([
         { view: 'type', name: 'User' },
-        { view: 'field', name: 'name', parentType: 'User' }
+        { view: 'field', name: 'name', parentType: 'User' },
       ]);
 
       component.navigateToBreadcrumb(-1);
@@ -65,23 +65,25 @@ describe('DocViewerComponent', () => {
       const history: DocView[] = [
         { view: 'type', name: 'User' },
         { view: 'field', name: 'name', parentType: 'User' },
-        { view: 'type', name: 'Post' }
+        { view: 'type', name: 'Post' },
       ];
       component.docHistory.set([...history]);
 
       // Navigate to index 1 (field view)
       component.navigateToBreadcrumb(1);
 
-      expect(setDocViewSpy).toHaveBeenCalledWith({ view: 'field', name: 'name', parentType: 'User' });
+      expect(setDocViewSpy).toHaveBeenCalledWith({
+        view: 'field',
+        name: 'name',
+        parentType: 'User',
+      });
       // History should only include items before index 1
       expect(component.docHistory()).toEqual([{ view: 'type', name: 'User' }]);
     });
 
     it('should not navigate if index is out of bounds', () => {
       const setDocViewSpy = jest.spyOn(component, 'setDocView');
-      const history: DocView[] = [
-        { view: 'type', name: 'User' }
-      ];
+      const history: DocView[] = [{ view: 'type', name: 'User' }];
       component.docHistory.set([...history]);
 
       // Try to navigate to invalid index
@@ -123,7 +125,7 @@ describe('DocViewerComponent', () => {
     it('should return false when history has 2 or fewer non-root items', () => {
       component.docHistory.set([
         { view: 'type', name: 'User' },
-        { view: 'field', name: 'name', parentType: 'User' }
+        { view: 'field', name: 'name', parentType: 'User' },
       ]);
       expect(component.shouldShowEllipsis()).toBe(false);
     });
@@ -132,7 +134,7 @@ describe('DocViewerComponent', () => {
       component.docHistory.set([
         { view: 'type', name: 'Query' },
         { view: 'type', name: 'User' },
-        { view: 'field', name: 'name', parentType: 'User' }
+        { view: 'field', name: 'name', parentType: 'User' },
       ]);
       expect(component.shouldShowEllipsis()).toBe(true);
     });
@@ -141,7 +143,7 @@ describe('DocViewerComponent', () => {
       component.docHistory.set([
         { view: 'root' },
         { view: 'type', name: 'User' },
-        { view: 'field', name: 'name', parentType: 'User' }
+        { view: 'field', name: 'name', parentType: 'User' },
       ]);
       expect(component.shouldShowEllipsis()).toBe(false);
     });
@@ -151,12 +153,12 @@ describe('DocViewerComponent', () => {
     it('should return all items when there are 2 or fewer', () => {
       component.docHistory.set([
         { view: 'type', name: 'User' },
-        { view: 'field', name: 'name', parentType: 'User' }
+        { view: 'field', name: 'name', parentType: 'User' },
       ]);
       const visible = component.getVisibleBreadcrumbs();
       expect(visible.length).toBe(2);
-      expect(visible[0].view.name).toBe('User');
-      expect(visible[1].view.name).toBe('name');
+      expect((visible[0]?.view as any).name).toBe('User');
+      expect((visible[1]?.view as any).name).toBe('name');
     });
 
     it('should return last 2 items when there are more than 2', () => {
@@ -164,36 +166,36 @@ describe('DocViewerComponent', () => {
         { view: 'type', name: 'Query' },
         { view: 'type', name: 'Organization' },
         { view: 'type', name: 'User' },
-        { view: 'field', name: 'name', parentType: 'User' }
+        { view: 'field', name: 'name', parentType: 'User' },
       ]);
       const visible = component.getVisibleBreadcrumbs();
       expect(visible.length).toBe(2);
-      expect(visible[0].view.name).toBe('User');
-      expect(visible[1].view.name).toBe('name');
+      expect((visible[0]?.view as any).name).toBe('User');
+      expect((visible[1]?.view as any).name).toBe('name');
     });
 
     it('should return items with correct original indices', () => {
       component.docHistory.set([
         { view: 'type', name: 'Query' },
         { view: 'type', name: 'Organization' },
-        { view: 'type', name: 'User' }
+        { view: 'type', name: 'User' },
       ]);
       const visible = component.getVisibleBreadcrumbs();
       expect(visible.length).toBe(2);
-      expect(visible[0].index).toBe(1); // Organization at index 1
-      expect(visible[1].index).toBe(2); // User at index 2
+      expect(visible[0]?.index).toBe(1); // Organization at index 1
+      expect(visible[1]?.index).toBe(2); // User at index 2
     });
 
     it('should filter out root views', () => {
       component.docHistory.set([
         { view: 'root' },
         { view: 'type', name: 'User' },
-        { view: 'field', name: 'name', parentType: 'User' }
+        { view: 'field', name: 'name', parentType: 'User' },
       ]);
       const visible = component.getVisibleBreadcrumbs();
       expect(visible.length).toBe(2);
-      expect(visible[0].view.view).toBe('type');
-      expect(visible[1].view.view).toBe('field');
+      expect((visible[0]?.view as any).view).toBe('type');
+      expect((visible[1]?.view as any).view).toBe('field');
     });
   });
   describe('search filter methods', () => {
@@ -228,7 +230,7 @@ describe('DocViewerComponent', () => {
     it('should handle multiple filter toggles independently', () => {
       component.toggleSearchFilter('types');
       component.toggleSearchFilter('fields');
-      
+
       expect(component.isSearchFilterActive('types')).toBe(false);
       expect(component.isSearchFilterActive('fields')).toBe(false);
       expect(component.isSearchFilterActive('queries')).toBe(true);
