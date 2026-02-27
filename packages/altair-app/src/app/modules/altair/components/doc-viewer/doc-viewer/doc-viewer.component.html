@@ -27,13 +27,40 @@
               track-id="go_back_docs"
             >
               <app-icon name="arrow-left" />
-              <span>{{ 'DOCS_GO_BACK_TEXT' | translate }}</span>
             </div>
           }
           @if (docView.view !== 'root') {
             <div class="doc-viewer-navigation__option" (click)="goHome()">
               <app-icon name="home" />
             </div>
+          }
+          @if (docView.view !== 'root' && (docHistory().length > 0 || docView.view !== 'search')) {
+            <nav class="doc-viewer-breadcrumbs-container" aria-label="Documentation breadcrumb">
+              <ol class="doc-viewer-breadcrumbs">
+                @if (shouldShowEllipsis()) {
+                  <li class="breadcrumb-item breadcrumb-ellipsis">
+                    <span class="breadcrumb-text" aria-hidden="true">...</span>
+                  </li>
+                }
+                @for (item of getVisibleBreadcrumbs(); track $index) {
+                  <li class="breadcrumb-item">
+                    <a 
+                      class="breadcrumb-link"
+                      (click)="navigateToBreadcrumb(item.index)"
+                      (keydown.enter)="navigateToBreadcrumb(item.index)"
+                      (keydown.space)="navigateToBreadcrumb(item.index); $event.preventDefault()"
+                      tabindex="0"
+                      role="button"
+                      [attr.aria-label]="`Navigate to ${getBreadcrumbLabel(item.view)}`"
+                      [title]="getBreadcrumbLabel(item.view)"
+                    >{{ getBreadcrumbLabel(item.view) }}</a>
+                  </li>
+                }
+                <li class="breadcrumb-item breadcrumb-current">
+                  <span class="breadcrumb-text" [title]="getBreadcrumbLabel(docView)" aria-current="page">{{ getBreadcrumbLabel(docView) }}</span>
+                </li>
+              </ol>
+            </nav>
           }
         </div>
         <div class="doc-viewer-navigation--right">
