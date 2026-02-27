@@ -51,7 +51,7 @@
                       (keydown.space)="navigateToBreadcrumb(item.index); $event.preventDefault()"
                       tabindex="0"
                       role="button"
-                      [attr.aria-label]="'Navigate to ' + getBreadcrumbLabel(item.view)"
+                      [attr.aria-label]="`Navigate to ${getBreadcrumbLabel(item.view)}`"
                       [title]="getBreadcrumbLabel(item.view)"
                     >{{ getBreadcrumbLabel(item.view) }}</a>
                   </li>
