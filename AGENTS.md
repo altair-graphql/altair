@@ -30,15 +30,17 @@ pnpm build-electron       # Build Electron app
 ### Altair App (packages/altair-app)
 
 ```bash
-pnpm jest                           # Run all Jest tests
-pnpm jest --watch                  # Watch mode
-pnpm jest --clearCache             # Clear Jest cache
-pnpm jest path/to/file.test.ts     # Run single test file
-pnpm jest --testNamePattern="name" # Run tests matching name
-pnpm test-single-run               # Single run with coverage
-pnpm lint                          # Run ESLint (ng lint)
-pnpm build                         # Build the app
+pnpm jest --no-coverage                    # Run all Jest tests (fast, no coverage)
+pnpm jest --watch                          # Watch mode
+pnpm jest --clearCache                     # Clear Jest cache
+pnpm jest path/to/file.spec.ts --no-coverage  # Run single test file
+pnpm jest --testNamePattern="name"         # Run tests matching name
+pnpm test-single-run                       # Single run with coverage
+pnpm lint                                  # Run ESLint (ng lint)
+pnpm build                                 # Build the app
 ```
+
+> **Note:** Always run from the `packages/altair-app` directory. Use `--no-coverage` for faster runs when coverage is not needed. The test suite has 135 suites / ~1133 tests and takes ~3–4 minutes. A worker process force-exit warning and exit code 1 may appear at the end due to open handles/timers in test teardown — this is a known issue and does **not** indicate test failures. Check the summary line (`Test Suites: X passed`) to confirm actual results. There is also 1 obsolete snapshot in `account-dialog.component.spec.ts`; run `pnpm jest -u` to remove it.
 
 ## Code Style Guidelines
 

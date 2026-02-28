@@ -318,5 +318,127 @@ describe('WindowService', () => {
         );
       }
     ));
+
+    it('should import a plain GraphQL query string', inject(
+      [WindowService, Store],
+      async (service: WindowService, store: Store<RootState>) => {
+        await service.importStringData('{ hello }');
+        const windows = await firstValueFrom(store.select('windows'));
+        // A new window should have been created
+        expect(Object.values(windows).map((w) => w.query.query)).toEqual(
+          expect.arrayContaining(['{ hello }'])
+        );
+      }
+    ));
+  });
+
+  describe('importWindowDataFromJson', () => {
+    it('should import window data from valid JSON string', inject(
+      [WindowService, Store],
+      async (service: WindowService, store: Store<RootState>) => {
+        const data = JSON.stringify({
+          type: 'window',
+          version: 1,
+          apiUrl: 'http://localhost:4000',
+          windowName: 'JSON Import',
+          query: '{ test }',
+          headers: [],
+          subscriptionUrl: '',
+          variables: '{}',
+        });
+        await service.importWindowDataFromJson(data);
+        const windows = await firstValueFrom(store.select('windows'));
+        expect(Object.values(windows)).toEqual(
+          expect.arrayContaining([
+            expect.objectContaining({
+              layout: expect.objectContaining({ title: 'JSON Import' }),
+            }),
+          ])
+        );
+      }
+    ));
+
+    it('should throw for empty string', inject(
+      [WindowService],
+      async (service: WindowService) => {
+        await expect(service.importWindowDataFromJson('')).rejects.toThrow();
+      }
+    ));
+  });
+
+  describe('getEmptyWindowState', () => {
+    it('should return an empty window state', inject(
+      [WindowService],
+      (service: WindowService) => {
+        const state = service.getEmptyWindowState();
+        expect(state.type).toBe('window');
+        expect(state.version).toBe(1);
+        expect(state.query).toBe('');
+        expect(state.headers).toEqual([]);
+      }
+    ));
+  });
+
+  describe('getWindowExportData$', () => {
+    it('should return export data for an existing window', inject(
+      [WindowService, Store],
+      async (service: WindowService, store: Store<RootState>) => {
+        const newWindow = await firstValueFrom(
+          service.newWindow({ title: 'Export Me' })
+        );
+        const exportData = await firstValueFrom(
+          service.getWindowExportData$(newWindow.windowId)
+        );
+        expect(exportData).toEqual({
+          version: 1,
+          type: 'window',
+          apiUrl: '',
+          headers: [
+            {
+              enabled: true,
+              key: '',
+              value: '',
+            },
+          ],
+          query: expect.stringContaining('# Welcome to Altair GraphQL Client'),
+          subscriptionUrl: '',
+          variables: '{}',
+          windowName: 'Export Me',
+          requestHandlerId: 'http',
+          requestHandlerAdditionalParams: '{}',
+          subscriptionRequestHandlerId: 'websocket',
+          subscriptionConnectionParams: '{}',
+          subscriptionUseDefaultRequestHandler: false,
+          preRequestScript: '',
+          preRequestScriptEnabled: false,
+          postRequestScript: '',
+          postRequestScriptEnabled: false,
+          authorizationType: 'none',
+          authorizationData: undefined,
+        });
+      }
+    ));
+
+    it('should return undefined for non-existent window', inject(
+      [WindowService],
+      async (service: WindowService) => {
+        const exportData = await firstValueFrom(
+          service.getWindowExportData$('nonexistent-id')
+        );
+        expect(exportData).toBeUndefined();
+      }
+    ));
+  });
+
+  describe('setActiveWindow', () => {
+    it('should dispatch SetActiveWindowIdAction', inject(
+      [WindowService, Store],
+      async (service: WindowService, store: Store<RootState>) => {
+        const newWindow = await firstValueFrom(service.newWindow());
+        service.setActiveWindow(newWindow.windowId);
+        const windowsMeta = await firstValueFrom(store.select('windowsMeta'));
+        expect(windowsMeta.activeWindowId).toBe(newWindow.windowId);
+      }
+    ));
   });
 });

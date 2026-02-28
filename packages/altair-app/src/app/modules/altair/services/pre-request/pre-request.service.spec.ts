@@ -178,4 +178,70 @@ describe('PreRequestService', () => {
       }
     ));
   });
+
+  it('should call notifyService.info when altair.alert is called', inject(
+    [PreRequestService],
+    async (service: PreRequestService) => {
+      const script = `alert('hello from script')`;
+      await service.executeScript(script, {
+        environment: {},
+        headers: [],
+        operationName: '',
+        query: '',
+        variables: '',
+        url: '',
+        requestExtensions: '',
+      });
+
+      expect(mockNotifyService.info).toHaveBeenCalledWith('Alert: hello from script');
+    }
+  ));
+
+  it('should execute script that sets environment variable', inject(
+    [PreRequestService],
+    async (service: PreRequestService) => {
+      const script = `
+        altair.helpers.setEnvironment('testKey', 'testValue');
+      `;
+      const result = await service.executeScript(script, {
+        environment: { existing: 'yes' },
+        headers: [],
+        operationName: '',
+        query: '',
+        variables: '',
+        url: '',
+        requestExtensions: '',
+      });
+
+      expect(result.environment).toMatchObject({
+        existing: 'yes',
+        testKey: 'testValue',
+      });
+    }
+  ));
+
+  it('should handle script with multiple environment operations', inject(
+    [PreRequestService],
+    async (service: PreRequestService) => {
+      const script = `
+        altair.helpers.setEnvironment('key1', 'value1');
+        altair.helpers.setEnvironment('key2', 42);
+      `;
+      const result = await service.executeScript(script, {
+        environment: { existing: 'yes' },
+        headers: [{ key: 'Content-Type', value: 'application/json', enabled: true }],
+        operationName: '',
+        query: '',
+        variables: '',
+        url: '',
+        requestExtensions: '',
+      });
+
+      expect(result.environment).toMatchObject({
+        existing: 'yes',
+        key1: 'value1',
+        key2: 42,
+      });
+    }
+  ));
 });

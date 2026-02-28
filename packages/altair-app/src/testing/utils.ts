@@ -68,7 +68,7 @@ export function setValue<C>(
   // await nextTick(fixture);
 }
 
-function getComponentMeta(compType: any, propsData: IDictionary) {
+export function getComponentMeta(compType: any, propsData: IDictionary) {
   const rc = new ReflectionCapabilities();
   const props = compType.__prop__metadata__ || rc.ownPropMetadata(compType) || {};
 
@@ -96,21 +96,25 @@ function getComponentMeta(compType: any, propsData: IDictionary) {
 
   Object.keys(props).forEach((prop) => {
     const member = props[prop][0];
-    if (member.ngMetadataName === 'Input') {
-      // Check if it's a signal input
-      if (member.isSignal) {
-        signalInputs.push(prop);
-      } else {
-        normalInputs.push(prop);
+    switch (member.ngMetadataName) {
+      case 'Input': {
+        // Check if it's a signal input
+        if (member.isSignal) {
+          signalInputs.push(prop);
+        } else {
+          normalInputs.push(prop);
+        }
+        if (typeof propsData[prop] !== 'undefined') {
+          availableInputs.push(prop);
+        }
+        return;
       }
-      if (typeof propsData[prop] !== 'undefined') {
-        availableInputs.push(prop);
+      case 'Output': {
+        outputs.push(prop);
+        return;
       }
-      return;
-    }
-    if (member.ngMetadataName === 'Output') {
-      outputs.push(prop);
-      return;
+      default:
+        return;
     }
   });
 
@@ -122,7 +126,7 @@ function getComponentMeta(compType: any, propsData: IDictionary) {
   };
 }
 
-type ComponentMeta = ReturnType<typeof getComponentMeta>;
+export type ComponentMeta = ReturnType<typeof getComponentMeta>;
 
 export class BaseTestHostComponent {
   mock!: IDictionary<{ calls: any[] }>;

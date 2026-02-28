@@ -18,6 +18,36 @@ import {
 } from 'altair-graphql-core/build/request/ids';
 import { SSERequestHandler } from 'altair-graphql-core/build/request/handlers/sse';
 import { ActionCableRequestHandler } from 'altair-graphql-core/build/request/handlers/action-cable';
+import { FullTransformResult } from 'altair-graphql-core/build/script/types';
+
+const makeWindowState = (overrides: Partial<PerWindowState> = {}): PerWindowState =>
+  ({
+    windowId: 'test-window',
+    query: {
+      url: 'http://localhost:3000/graphql',
+      query: 'query { hello }',
+      subscriptionUrl: '',
+      subscriptionConnectionParams: '',
+      requestExtensions: '',
+      requestHandlerAdditionalParams: '',
+      selectedOperation: '',
+    },
+    variables: { variables: '{}' },
+    headers: [],
+    preRequest: { enabled: false, script: '' },
+    postRequest: { enabled: false, script: '' },
+    authorization: { type: 'none', data: {} },
+    ...overrides,
+  }) as unknown as PerWindowState;
+
+const makeTransformResult = (
+  overrides: Partial<FullTransformResult> = {}
+): FullTransformResult => ({
+  combinedHeaders: [],
+  requestScriptLogs: [],
+  environment: {},
+  ...overrides,
+});
 
 describe('QueryService', () => {
   let service: QueryService;
@@ -303,6 +333,136 @@ describe('QueryService', () => {
         true
       );
       expect(requestHandler).toBeInstanceOf(ActionCableRequestHandler);
+    });
+  });
+
+  describe('getPrerequestScriptResultForScript', () => {
+    it('returns preTransformedData unchanged when window state is not found', async () => {
+      jest.spyOn(service, 'getWindowState').mockResolvedValue(undefined);
+      const preTransformedData = makeTransformResult({
+        environment: { key: 'val' },
+      });
+
+      const result = await service.getPrerequestScriptResultForScript(
+        'window-1',
+        'console.log("test")',
+        preTransformedData
+      );
+
+      expect(result).toBe(preTransformedData);
+    });
+
+    it('merges script result with preTransformedData when state exists', async () => {
+      const state = makeWindowState();
+      jest.spyOn(service, 'getWindowState').mockResolvedValue(state);
+
+      const mockPreRequest = TestBed.inject(PreRequestService);
+      jest.spyOn(mockPreRequest, 'executeScript').mockResolvedValue({
+        environment: { newVar: 'newValue' },
+        requestScriptLogs: [],
+      });
+
+      const preTransformedData = makeTransformResult({
+        environment: { existing: 'yes' },
+      });
+
+      const result = await service.getPrerequestScriptResultForScript(
+        'window-1',
+        'altair.helpers.setEnvironment("newVar", "newValue");',
+        preTransformedData
+      );
+
+      expect(result.environment).toMatchObject({ newVar: 'newValue' });
+    });
+
+    it('returns preTransformedData and shows error when script execution fails', async () => {
+      const state = makeWindowState();
+      jest.spyOn(service, 'getWindowState').mockResolvedValue(state);
+
+      const mockPreRequest = TestBed.inject(PreRequestService);
+      jest
+        .spyOn(mockPreRequest, 'executeScript')
+        .mockRejectedValue(new Error('Script error'));
+
+      const mockNotify = TestBed.inject(NotifyService);
+      const errorSpy = jest.spyOn(mockNotify, 'error');
+
+      const preTransformedData = makeTransformResult();
+
+      const result = await service.getPrerequestScriptResultForScript(
+        'window-1',
+        'bad script',
+        preTransformedData
+      );
+
+      expect(result).toBe(preTransformedData);
+      expect(errorSpy).toHaveBeenCalled();
+    });
+  });
+
+  describe('getPostRequestTransformedDataForScript', () => {
+    it('returns preTransformedData unchanged when window state is not found', async () => {
+      jest.spyOn(service, 'getWindowState').mockResolvedValue(undefined);
+      const preTransformedData = makeTransformResult();
+
+      const result = await service.getPostRequestTransformedDataForScript(
+        'window-1',
+        'console.log("test")',
+        'query' as any,
+        {} as any,
+        preTransformedData
+      );
+
+      expect(result).toBe(preTransformedData);
+    });
+
+    it('merges script result with preTransformedData when state exists', async () => {
+      const state = makeWindowState();
+      jest.spyOn(service, 'getWindowState').mockResolvedValue(state);
+
+      const mockPreRequest = TestBed.inject(PreRequestService);
+      jest.spyOn(mockPreRequest, 'executeScript').mockResolvedValue({
+        environment: { postVar: 'postValue' },
+        requestScriptLogs: [],
+      });
+
+      const preTransformedData = makeTransformResult();
+
+      const result = await service.getPostRequestTransformedDataForScript(
+        'window-1',
+        'some script',
+        'query' as any,
+        {} as any,
+        preTransformedData
+      );
+
+      expect(result.environment).toMatchObject({ postVar: 'postValue' });
+    });
+
+    it('returns preTransformedData and shows error when script execution fails', async () => {
+      const state = makeWindowState();
+      jest.spyOn(service, 'getWindowState').mockResolvedValue(state);
+
+      const mockPreRequest = TestBed.inject(PreRequestService);
+      jest
+        .spyOn(mockPreRequest, 'executeScript')
+        .mockRejectedValue(new Error('Post script error'));
+
+      const mockNotify = TestBed.inject(NotifyService);
+      const errorSpy = jest.spyOn(mockNotify, 'error');
+
+      const preTransformedData = makeTransformResult();
+
+      const result = await service.getPostRequestTransformedDataForScript(
+        'window-1',
+        'bad post script',
+        'query' as any,
+        {} as any,
+        preTransformedData
+      );
+
+      expect(result).toBe(preTransformedData);
+      expect(errorSpy).toHaveBeenCalled();
     });
   });
 });

@@ -1,27 +1,45 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { AuthorizationBasicComponent } from './authorization-basic.component';
 import { SharedModule } from 'app/modules/altair/modules/shared/shared.module';
 import { ComponentModule } from '../../components.module';
 import { Store } from '@ngrx/store';
-import { MockModule } from 'ng-mocks';
+import { MockModule, MockProvider } from 'ng-mocks';
+import { mount } from 'testing/utils';
+import { NgxTestWrapper } from 'testing/wrapper';
 
 describe('AuthorizationBasicComponent', () => {
-  let component: AuthorizationBasicComponent;
-  let fixture: ComponentFixture<AuthorizationBasicComponent>;
+  let wrapper: NgxTestWrapper<AuthorizationBasicComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [AuthorizationBasicComponent],
-      imports: [MockModule(SharedModule), MockModule(ComponentModule)],
-    }).compileComponents();
-
-    fixture = TestBed.createComponent(AuthorizationBasicComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    wrapper = await mount({
+      component: AuthorizationBasicComponent,
+      imports: [MockModule(SharedModule), MockModule(ComponentModule), FormsModule],
+      providers: [MockProvider(Store)],
+      propsData: {
+        authData: { username: 'testuser', password: 'testpass' },
+      },
+    });
   });
 
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(wrapper.component).toBeTruthy();
+  });
+
+  it('should emit authDataChange with authData input on init', () => {
+    expect(wrapper.emitted('authDataChange')![0]![0]).toEqual({
+      username: 'testuser',
+      password: 'testpass',
+    });
+  });
+
+  it('should emit authDataChange when form values change', async () => {
+    wrapper.componentInstance.basicForm.patchValue({ username: 'newuser' });
+    await wrapper.nextTick();
+
+    expect(wrapper.emitted('authDataChange')![1]![0]).toEqual({
+      username: 'newuser',
+      password: 'testpass',
+    });
   });
 });

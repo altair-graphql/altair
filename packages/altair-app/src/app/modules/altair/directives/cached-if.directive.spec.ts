@@ -1,31 +1,53 @@
-import { MockInstance } from 'ng-mocks';
 import { CachedIfDirective } from './cached-if.directive';
-import { ElementRef, TemplateRef, ViewContainerRef } from '@angular/core';
-import { mock } from 'testing';
-import { inject, TestBed } from '@angular/core/testing';
+import { TemplateRef, ViewContainerRef } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 
 describe('CachedIfDirective', () => {
-  beforeEach(() =>
+  it('should create an instance', () => {
+    const mockTemplateRef = {};
+    const mockViewContainer = {
+      createEmbeddedView: jest.fn().mockReturnValue({
+        destroy: jest.fn(),
+        detach: jest.fn(),
+      }),
+      indexOf: jest.fn().mockReturnValue(-1),
+      insert: jest.fn(),
+    };
+
     TestBed.configureTestingModule({
-      imports: [],
       providers: [
         CachedIfDirective,
         {
           provide: TemplateRef,
-          useFactory: () => mock<TemplateRef<any>>(),
+          useValue: mockTemplateRef,
         },
         {
           provide: ViewContainerRef,
-          useFactory: () => mock<ViewContainerRef>(),
+          useValue: mockViewContainer,
         },
       ],
-    })
-  );
+    });
 
-  it('should create an instance', inject(
-    [CachedIfDirective],
-    (directive: CachedIfDirective) => {
-      expect(directive).toBeTruthy();
-    }
-  ));
+    const directive = TestBed.inject(CachedIfDirective);
+    expect(directive).toBeTruthy();
+  });
+
+  it('should have appCachedIf input', () => {
+    TestBed.configureTestingModule({
+      providers: [
+        CachedIfDirective,
+        {
+          provide: TemplateRef,
+          useValue: {},
+        },
+        {
+          provide: ViewContainerRef,
+          useValue: {},
+        },
+      ],
+    });
+
+    const directive = TestBed.inject(CachedIfDirective);
+    expect((directive as any).appCachedIf).toBeDefined();
+  });
 });

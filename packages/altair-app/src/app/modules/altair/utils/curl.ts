@@ -51,7 +51,7 @@ export const generateCurl = (opts: GenerateCurlOpts) => {
 
   const curlParts = [`'${url}'`];
 
-  if (!['GET', 'POST'].includes(method)) {
+  if (!['GET'].includes(method)) {
     curlParts.push(`-X ${method}`);
   }
 

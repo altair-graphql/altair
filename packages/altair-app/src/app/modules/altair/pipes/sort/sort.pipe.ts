@@ -21,6 +21,7 @@ export class SortPipe implements PipeTransform {
       const aValue = a[key];
       const bValue = b[key];
 
+      // TODO: handle non-string values better (e.g. numbers, booleans, etc.)
       if (typeof aValue !== 'string' || typeof bValue !== 'string') {
         return 0;
       }

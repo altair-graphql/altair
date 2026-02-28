@@ -1,10 +1,14 @@
 import { expect } from '@jest/globals';
+import { INIT } from '@ngrx/store';
 import {
   _setValueInPath,
   prepareValueToStore,
   _normalizeToResolvedKeyPartsValuePairs,
   normalizeToKeyValue,
+  defaultMergeReducer,
+  asyncStorageSync,
 } from './async-storage-sync';
+import { APP_INIT_ACTION } from './action';
 
 describe('async-storage-sync', () => {
   describe('_setValueInPath', () => {
@@ -336,6 +340,62 @@ describe('async-storage-sync', () => {
           schema: 'for 987-654-321',
         },
       });
+    });
+  });
+
+  describe('defaultMergeReducer', () => {
+    it('should return state as-is if action is not APP_INIT_ACTION', () => {
+      const state = { a: 1 };
+      const rehydrated = { b: 2 };
+      const result = defaultMergeReducer(state, rehydrated, { type: 'OTHER' });
+      expect(result).toBe(state);
+    });
+
+    it('should return state as-is if no rehydratedState', () => {
+      const state = { a: 1 };
+      const result = defaultMergeReducer(state, null, { type: APP_INIT_ACTION });
+      expect(result).toEqual({ a: 1 });
+    });
+
+    it('should deep merge state with rehydratedState on APP_INIT_ACTION', () => {
+      const state = { a: 1, nested: { x: 10 } };
+      const rehydrated = { b: 2, nested: { y: 20 } };
+      const result = defaultMergeReducer(state, rehydrated, {
+        type: APP_INIT_ACTION,
+      });
+      expect(result).toEqual({ a: 1, b: 2, nested: { x: 10, y: 20 } });
+    });
+
+    it('should overwrite arrays from rehydrated state', () => {
+      const state = { items: [1, 2, 3] };
+      const rehydrated = { items: [4, 5] };
+      const result = defaultMergeReducer(state, rehydrated, {
+        type: APP_INIT_ACTION,
+      });
+      expect(result.items).toEqual([4, 5]);
+    });
+  });
+
+  describe('asyncStorageSync', () => {
+    const mockReducer = (state: any = { count: 0 }, action: any) => {
+      if (action.type === 'INCREMENT') {
+        return { ...state, count: state.count + 1 };
+      }
+      return state;
+    };
+
+    it('should pass action through to the underlying reducer', () => {
+      const metaReducer = asyncStorageSync({ keys: [] as any });
+      const reducer = metaReducer(mockReducer);
+      const nextState = reducer({ count: 0 }, { type: 'INCREMENT' } as any);
+      expect(nextState.count).toBe(1);
+    });
+
+    it('should handle INIT action with no state by calling reducer', () => {
+      const metaReducer = asyncStorageSync({ keys: [] as any });
+      const reducer = metaReducer(mockReducer);
+      const nextState = reducer(undefined, { type: INIT } as any);
+      expect(nextState).toEqual({ count: 0 });
     });
   });
 });
