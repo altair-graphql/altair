@@ -1,3 +1,6 @@
+@use 'variables' as *;
+@use 'functions' as *;
+
 // You can add global styles to this file, and also import other style files
 
 * {
@@ -176,7 +179,7 @@ h6 {
   }
 }
 
-.glassy-border {
+@mixin glassy-border {
   position: relative;
   &:before {
     content: '';
@@ -197,6 +200,10 @@ h6 {
       linear-gradient(#fff 0 0);
     mask-composite: exclude;
   }
+}
+
+.glassy-border {
+  @include glassy-border;
 }
 
 @mixin show-transition {

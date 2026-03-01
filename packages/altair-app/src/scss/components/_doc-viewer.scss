@@ -1,3 +1,5 @@
+@use '../functions' as *;
+
 app-doc-viewer {
   position: relative;
   // background: var(--theme-bg-color);

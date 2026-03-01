@@ -1,3 +1,5 @@
+@use '../functions' as *;
+
 .upgrade-pro-title {
   color: var(--primary-color);
   background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));

@@ -1,3 +1,5 @@
+@use '../functions' as *;
+
 .app-dialog {
   background: var(--theme-bg-color);
   border-radius: 5px;
