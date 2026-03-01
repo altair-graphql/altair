@@ -31,21 +31,7 @@ const isInputElement = (
   );
 };
 
-export function setProps<C>(
-  fixture: ComponentFixture<C>,
-  debugEl: DebugElement,
-  valueObj: IDictionary = {}
-) {
-  Object.keys(valueObj).forEach((key) => {
-    debugEl.componentInstance[key] = valueObj[key];
-  });
-}
-
-export function setValue<C>(
-  fixture: ComponentFixture<C>,
-  debugEl: DebugElement,
-  value = ''
-) {
+export function setValue(debugEl: DebugElement, value = '') {
   const nativeElement: HTMLElement = debugEl.nativeElement;
 
   if (isInputElement(nativeElement)) {
@@ -58,9 +44,9 @@ export function setValue<C>(
 
 /**
  * Use the public `reflectComponentType()` API to get component metadata.
- * This replaces the previous approach using the private `ɵReflectionCapabilities` API.
+ * Returns a flat list of all input names and output names.
  */
-export function getComponentMeta(compType: any, propsData: IDictionary) {
+export function getComponentMeta(compType: any) {
   const mirror = reflectComponentType(compType);
   if (!mirror) {
     throw new Error(
@@ -68,32 +54,18 @@ export function getComponentMeta(compType: any, propsData: IDictionary) {
     );
   }
 
-  const normalInputs: string[] = [];
-  const signalInputs: string[] = [];
-  const availableInputs: string[] = [];
+  const inputs: string[] = [];
   const outputs: string[] = [];
 
   for (const inp of mirror.inputs) {
-    if (inp.isSignal) {
-      signalInputs.push(inp.propName);
-    } else {
-      normalInputs.push(inp.propName);
-    }
-    if (typeof propsData[inp.propName] !== 'undefined') {
-      availableInputs.push(inp.propName);
-    }
+    inputs.push(inp.propName);
   }
 
   for (const out of mirror.outputs) {
     outputs.push(out.propName);
   }
 
-  return {
-    normalInputs,
-    signalInputs,
-    availableInputs,
-    outputs,
-  };
+  return { inputs, outputs };
 }
 
 export type ComponentMeta = ReturnType<typeof getComponentMeta>;
@@ -111,6 +83,7 @@ export type AllowedPropsDataKeys<T> =
   | FilteredSignalKeys<T>;
 export type AllowedPropsDataValue<T, K extends keyof T> =
   T[K] extends Signal<infer U> ? U : T[K];
+
 interface TestMountOptions<C = any> extends TestModuleMetadata {
   component: Ctor<C>;
   propsData?: Partial<{
@@ -121,24 +94,15 @@ interface TestMountOptions<C = any> extends TestModuleMetadata {
 /**
  * Mount a component for testing using Angular's public APIs.
  *
- * Uses `reflectComponentType()` for metadata introspection (public API),
- * `ComponentRef.setInput()` for setting inputs (proper input lifecycle),
+ * Uses `reflectComponentType()` for metadata introspection,
+ * `ComponentRef.setInput()` for setting inputs,
  * and `OutputRef.subscribe()` for capturing output emissions.
- *
- * No dynamic TestHostComponent or private APIs needed.
  */
 export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   const MainComponent = mountOptions.component;
   const propsData: Record<string, unknown> = mountOptions.propsData ?? {};
-  const props: ComponentMeta = getComponentMeta(MainComponent, propsData);
+  const meta = getComponentMeta(MainComponent);
 
-  const mirror = reflectComponentType(MainComponent);
-  if (!mirror) {
-    throw new Error(`Component does not have the @Component annotations!`);
-  }
-
-  // Build TestBed module definition.
-  // The component under test is declared directly (no host component needed).
   const moduleDef: TestModuleMetadata = {
     ...mountOptions,
     declarations: [...(mountOptions.declarations || []), MainComponent],
@@ -150,8 +114,7 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   // Set inputs using the public ComponentRef.setInput() API.
   // This properly triggers the Angular input lifecycle for both
   // decorator-based @Input and signal-based input().
-  const allInputNames = [...props.normalInputs, ...props.signalInputs];
-  for (const inputName of allInputNames) {
+  for (const inputName of meta.inputs) {
     if (typeof propsData[inputName] !== 'undefined') {
       fixture.componentRef.setInput(inputName, propsData[inputName]);
     }
@@ -161,7 +124,7 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   // OutputRef.subscribe() works with signal-based output(), outputFromObservable(),
   // and EventEmitter (which implements OutputRef).
   const outputEmissions: IDictionary<{ calls: any[] }> = {};
-  for (const outputName of props.outputs) {
+  for (const outputName of meta.outputs) {
     const outputRef = (fixture.componentInstance as any)[
       outputName
     ] as OutputRef<unknown>;
@@ -183,33 +146,8 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
     throw error;
   }
 
-  return new NgxTestWrapper<C>(
-    fixture as unknown as ComponentFixture<any>,
-    MainComponent,
-    props,
-    outputEmissions
-  );
-}
-
-/** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
-export const ButtonClickEvents = {
-  left: { button: 0 },
-  right: { button: 2 },
-};
-
-/** Simulate element click. Defaults to mouse left-button click event. */
-export function click(
-  el: DebugElement | HTMLElement,
-  eventObj: any = ButtonClickEvents.left
-): void {
-  if (el instanceof HTMLElement) {
-    el.click();
-  } else {
-    el.triggerEventHandler('click', eventObj);
-  }
-}
-
-export function testLog(...msgs: any[]) {
-  // eslint-disable-next-line  @typescript-eslint/no-require-imports
-  require('console').log(...msgs);
+  return new NgxTestWrapper<C>(fixture as ComponentFixture<any>, {
+    meta,
+    outputEmissions,
+  });
 }

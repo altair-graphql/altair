@@ -8,13 +8,11 @@ import {
   Type,
 } from '@angular/core';
 import {
-  setProps,
   setValue,
   flushPromises,
   AllowedPropsDataKeys,
   AllowedPropsDataValue,
   ComponentMeta,
-  testLog,
 } from '../utils';
 import { IDictionary } from '../../app/modules/altair/interfaces/shared';
 
@@ -22,29 +20,34 @@ type FilteredKeys<T, U> = {
   [P in keyof T]: T[P] extends U ? P : never;
 }[keyof T];
 
-export class NgxTestWrapper<C> {
-  private _mainComponentDebugEl: DebugElement;
-  private _isWrapper = false;
+interface RootWrapperContext {
+  meta: ComponentMeta;
+  outputEmissions: IDictionary<{ calls: any[] }>;
+}
 
+export class NgxTestWrapper<C> {
+  private _debugEl: DebugElement;
+  private _rootContext?: RootWrapperContext;
+
+  /**
+   * @param fixture - The ComponentFixture for the component under test.
+   * @param contextOrDebugEl - Either a RootWrapperContext (when created by mount())
+   *   or a DebugElement (when created by find()/findAll() for child elements).
+   */
   constructor(
     private _fixture: ComponentFixture<any>,
-    private _mainComponent?: any,
-    private _props?: ComponentMeta,
-    private _outputEmissions?: IDictionary<{ calls: any[] }>
+    contextOrDebugEl?: RootWrapperContext | DebugElement
   ) {
-    if (_mainComponent instanceof DebugElement) {
-      // When used for child wrappers via find()/findAll()
-      this._mainComponentDebugEl = _mainComponent;
-    } else if (_mainComponent) {
-      // When used for the root wrapper created by mount().
-      // With TestBed.createComponent(Component), fixture.debugElement is the
-      // component's host element directly. No need to query for it.
-      this._mainComponentDebugEl = _fixture.debugElement;
-      this._isWrapper = true;
+    if (contextOrDebugEl instanceof DebugElement) {
+      this._debugEl = contextOrDebugEl;
     } else {
-      this._mainComponentDebugEl = _fixture.debugElement;
-      this._isWrapper = true;
+      this._debugEl = _fixture.debugElement;
+      this._rootContext = contextOrDebugEl;
     }
+  }
+
+  private get _isRoot(): boolean {
+    return !!this._rootContext;
   }
 
   get fx() {
@@ -52,11 +55,11 @@ export class NgxTestWrapper<C> {
   }
 
   get component() {
-    return this._mainComponentDebugEl;
+    return this._debugEl;
   }
 
   get componentInstance() {
-    return this._mainComponentDebugEl.componentInstance as C;
+    return this._debugEl.componentInstance as C;
   }
 
   get debugElement() {
@@ -64,34 +67,32 @@ export class NgxTestWrapper<C> {
   }
 
   get element() {
-    return this._mainComponentDebugEl.nativeElement;
+    return this._debugEl.nativeElement;
   }
 
   exists() {
-    return !!this._mainComponentDebugEl?.nativeNode;
+    return !!this._debugEl?.nativeNode;
   }
 
   find<SC = unknown>(selector: string) {
-    const comp = this._mainComponentDebugEl.query(By.css(selector));
-
+    const comp = this._debugEl.query(By.css(selector));
     return new NgxTestWrapper<SC>(this._fixture, comp);
   }
 
   findComponent<SC = unknown>(type: Type<any>) {
-    const comp = this._mainComponentDebugEl.query(By.directive(type));
-
+    const comp = this._debugEl.query(By.directive(type));
     return new NgxTestWrapper<SC>(this._fixture, comp);
   }
 
   findAll<SC = unknown>(selector: string) {
-    return this._mainComponentDebugEl
+    return this._debugEl
       .queryAll(By.css(selector))
       .filter(Boolean)
       .map((comp) => new NgxTestWrapper<SC>(this._fixture, comp));
   }
 
   findAllComponents<SC = unknown>(type: Type<any>) {
-    return this._mainComponentDebugEl
+    return this._debugEl
       .queryAll(By.directive(type))
       .filter(Boolean)
       .map((comp) => new NgxTestWrapper<SC>(this._fixture, comp));
@@ -115,22 +116,24 @@ export class NgxTestWrapper<C> {
       typeof EventEmitter | OutputEmitterRef<any> | OutputRef<any>
     >
   ) {
-    if (this._isWrapper && this._outputEmissions) {
-      const emitted = Object.entries(this._outputEmissions)
-        .filter(([_, data]) => data.calls && data.calls.length)
-        .reduce(
-          (acc: IDictionary<any[]>, [eventName, data]) => {
-            acc[eventName] = data.calls;
-            return acc;
-          },
-          {} as IDictionary<any[]>
-        );
-
-      if (event) {
-        return emitted[event as any];
-      }
-      return emitted;
+    if (!this._rootContext) {
+      return undefined;
     }
+
+    const emitted = Object.entries(this._rootContext.outputEmissions)
+      .filter(([_, data]) => data.calls && data.calls.length)
+      .reduce(
+        (acc: IDictionary<any[]>, [eventName, data]) => {
+          acc[eventName] = data.calls;
+          return acc;
+        },
+        {} as IDictionary<any[]>
+      );
+
+    if (event) {
+      return emitted[event as any];
+    }
+    return emitted;
   }
 
   async setProps(
@@ -138,38 +141,31 @@ export class NgxTestWrapper<C> {
       [K in AllowedPropsDataKeys<C>]-?: AllowedPropsDataValue<C, K>;
     }> = {}
   ) {
-    if (this._isWrapper && this._props) {
-      const allInputs = [
-        ...this._props.normalInputs,
-        ...this._props.signalInputs,
-      ];
-      Object.keys(valueObj).forEach((prop) => {
-        if (allInputs.includes(prop)) {
-          // Use ComponentRef.setInput() to properly trigger input lifecycle
+    if (this._rootContext) {
+      const { inputs } = this._rootContext.meta;
+      for (const prop of Object.keys(valueObj)) {
+        if (inputs.includes(prop)) {
           this._fixture.componentRef.setInput(prop, (valueObj as any)[prop]);
         }
-      });
-      return this.nextTick();
+      }
     }
-    testLog('..not a wrapper', valueObj);
-    setProps(this._fixture, this._mainComponentDebugEl, valueObj);
     return this.nextTick();
   }
 
   setValue(value = '') {
-    return setValue(this._fixture, this._mainComponentDebugEl, value);
+    return setValue(this._debugEl, value);
   }
 
   text() {
     if (this.exists()) {
-      return this.component.nativeElement.innerText;
+      return this._debugEl.nativeElement.innerText;
     }
     return '';
   }
 
   html() {
     if (this.exists()) {
-      return this.component.nativeElement.innerHTML;
+      return this._debugEl.nativeElement.innerHTML;
     }
     return '';
   }
@@ -194,7 +190,7 @@ export class NgxTestWrapper<C> {
 
   private assertExists() {
     if (!this.exists()) {
-      throw new Error(`component does not exists.`);
+      throw new Error(`component does not exist.`);
     }
   }
 }
