@@ -1,3 +1,5 @@
+@use '../functions' as *;
+
 .response-stats__item {
   display: inline-flex;
   align-items: center;

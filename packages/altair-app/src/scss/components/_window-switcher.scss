@@ -1,3 +1,5 @@
+@use '../globals' as *;
+
 .window-switcher__container {
   -webkit-app-region: drag;
 }
@@ -84,7 +86,7 @@ app-window-switcher-item {
 }
 
 .window-switcher__item--active {
-  @extend .glassy-border;
+  @include glassy-border;
   background: rgba(var(--rgb-theme-font), 0.05);
   // color: var(--primary-color);
   &,
