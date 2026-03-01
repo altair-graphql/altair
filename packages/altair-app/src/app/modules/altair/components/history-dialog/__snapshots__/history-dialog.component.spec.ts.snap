@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HistoryDialogComponent should render correctly 1`] = `
-<app-history-dialog>
+<div>
   <nz-modal
     nzcloseicon="close-circle"
   >
@@ -12,5 +12,5 @@ exports[`HistoryDialogComponent should render correctly 1`] = `
     
     
   </nz-modal>
-</app-history-dialog>
+</div>
 `;

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ImportCurlDialogComponent should render correctly 1`] = `
-<app-import-curl-dialog>
+<div>
   <nz-modal
     nzcloseicon="close-circle"
   >
@@ -12,5 +12,5 @@ exports[`ImportCurlDialogComponent should render correctly 1`] = `
     
     
   </nz-modal>
-</app-import-curl-dialog>
+</div>
 `;

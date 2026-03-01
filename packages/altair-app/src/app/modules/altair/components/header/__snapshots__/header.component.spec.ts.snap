@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HeaderComponent should render correctly 1`] = `
-<app-header>
+<div>
   <div
     class="header__logo-wrapper"
   >
@@ -112,5 +112,5 @@ exports[`HeaderComponent should render correctly 1`] = `
       </nz-dropdown-menu>
     </ul>
   </div>
-</app-header>
+</div>
 `;

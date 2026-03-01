@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`PreRequestEditorComponent should render correctly 1`] = `
-<app-pre-request-editor>
+<div>
   <div
     class="request-script-editor"
   >
@@ -35,5 +35,5 @@ exports[`PreRequestEditorComponent should render correctly 1`] = `
       </a>
     </small>
   </div>
-</app-pre-request-editor>
+</div>
 `;

@@ -1,11 +1,8 @@
-import 'reflect-metadata';
 import {
   DebugElement,
-  ɵReflectionCapabilities as ReflectionCapabilities,
-  Component,
-  ViewContainerRef,
+  reflectComponentType,
+  OutputRef,
   Signal,
-  inject,
 } from '@angular/core';
 import {
   TestBed,
@@ -34,28 +31,7 @@ const isInputElement = (
   );
 };
 
-async function nextTick<C>(fixture: ComponentFixture<C>) {
-  fixture.detectChanges();
-  await fixture.whenStable();
-}
-
-export function setProps<C>(
-  fixture: ComponentFixture<C>,
-  debugEl: DebugElement,
-  valueObj: IDictionary = {}
-) {
-  Object.keys(valueObj).forEach((key) => {
-    debugEl.componentInstance[key] = valueObj[key];
-  });
-
-  // await nextTick(fixture);
-}
-
-export function setValue<C>(
-  fixture: ComponentFixture<C>,
-  debugEl: DebugElement,
-  value = ''
-) {
+export function setValue(debugEl: DebugElement, value = '') {
   const nativeElement: HTMLElement = debugEl.nativeElement;
 
   if (isInputElement(nativeElement)) {
@@ -64,76 +40,35 @@ export function setValue<C>(
   } else {
     debugEl.triggerEventHandler('ngModelChange', value);
   }
-
-  // await nextTick(fixture);
 }
 
-export function getComponentMeta(compType: any, propsData: IDictionary) {
-  const rc = new ReflectionCapabilities();
-  const props = compType.__prop__metadata__ || rc.ownPropMetadata(compType) || {};
+/**
+ * Use the public `reflectComponentType()` API to get component metadata.
+ * Returns a flat list of all input names and output names.
+ */
+export function getComponentMeta(compType: any) {
+  const mirror = reflectComponentType(compType);
+  if (!mirror) {
+    throw new Error(
+      `Could not reflect component type. Ensure the class has the @Component decorator.`
+    );
+  }
 
-  /**
-   * All @Input inputs of the component
-   */
-  const normalInputs: string[] = [];
-
-  /**
-   * Inputs that are signals
-   */
-  const signalInputs: string[] = [];
-
-  /**
-   * Inputs that have values provided in propsData (i.e. passed to the mount function)
-   * These are the inputs that will actually be set on the component instance in the test host component
-   * to ensure that the input lifecycle is properly triggered.
-   */
-  const availableInputs: string[] = [];
-
-  /**
-   * All outputs of the component
-   */
+  const inputs: string[] = [];
   const outputs: string[] = [];
 
-  Object.keys(props).forEach((prop) => {
-    const member = props[prop][0];
-    switch (member.ngMetadataName) {
-      case 'Input': {
-        // Check if it's a signal input
-        if (member.isSignal) {
-          signalInputs.push(prop);
-        } else {
-          normalInputs.push(prop);
-        }
-        if (typeof propsData[prop] !== 'undefined') {
-          availableInputs.push(prop);
-        }
-        return;
-      }
-      case 'Output': {
-        outputs.push(prop);
-        return;
-      }
-      default:
-        return;
-    }
-  });
+  for (const inp of mirror.inputs) {
+    inputs.push(inp.propName);
+  }
 
-  return {
-    normalInputs,
-    signalInputs,
-    availableInputs,
-    outputs,
-  };
+  for (const out of mirror.outputs) {
+    outputs.push(out.propName);
+  }
+
+  return { inputs, outputs };
 }
 
 export type ComponentMeta = ReturnType<typeof getComponentMeta>;
-
-export class BaseTestHostComponent {
-  mock!: IDictionary<{ calls: any[] }>;
-  props!: ComponentMeta;
-  inputs!: IDictionary;
-  outputList!: string[];
-}
 
 type Ctor<C> = new (...args: any[]) => C;
 
@@ -148,92 +83,61 @@ export type AllowedPropsDataKeys<T> =
   | FilteredSignalKeys<T>;
 export type AllowedPropsDataValue<T, K extends keyof T> =
   T[K] extends Signal<infer U> ? U : T[K];
+
 interface TestMountOptions<C = any> extends TestModuleMetadata {
   component: Ctor<C>;
   propsData?: Partial<{
     [K in AllowedPropsDataKeys<C>]-?: AllowedPropsDataValue<C, K>;
   }>;
 }
+
+/**
+ * Mount a component for testing using Angular's public APIs.
+ *
+ * Uses `reflectComponentType()` for metadata introspection,
+ * `ComponentRef.setInput()` for setting inputs,
+ * and `OutputRef.subscribe()` for capturing output emissions.
+ */
 export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
   const MainComponent = mountOptions.component;
   const propsData: Record<string, unknown> = mountOptions.propsData ?? {};
-  const props: ComponentMeta = getComponentMeta(MainComponent, propsData);
-  const annotations = Reflect.getOwnPropertyDescriptor(
-    MainComponent,
-    '__annotations__'
-  )?.value[0];
-  if (!annotations) {
-    throw new Error(`Component does not have the @Component annotations!`);
-  }
-  const COMPONENT_TAG_NAME = annotations.selector;
-
-  const template = buildTestHostComponentTemplate(COMPONENT_TAG_NAME, props);
-
-  @Component({
-    selector: 'app-test-host',
-    template: template,
-    standalone: false,
-  })
-  class TestHostComponent extends BaseTestHostComponent {
-    private viewContainerRef = inject(ViewContainerRef);
-
-    mock = {};
-    props = props;
-    inputs: IDictionary;
-    outputList = props.outputs;
-
-    constructor() {
-      super();
-      // create the main component to retrieve default values to be applied to the actual component instance used for testing
-      const componentRef = this.viewContainerRef.createComponent(MainComponent);
-      const newTemplateInputs = [
-        ...props.normalInputs,
-        ...props.signalInputs,
-      ].reduce((acc, cur) => {
-        // Set default props values
-        let val = propsData[cur];
-        if (typeof val === 'undefined') {
-          // If value not provided, get the default value from the component instance created above
-          if (props.signalInputs.includes(cur)) {
-            val = (componentRef.instance as any)?.[cur]();
-          } else {
-            val = (componentRef.instance as any)?.[cur];
-          }
-        }
-        if (typeof val !== 'undefined') {
-          return {
-            ...acc,
-            [cur]: val,
-          };
-        }
-        return acc;
-      }, {});
-      this.inputs = newTemplateInputs;
-      componentRef.destroy(); // component is no longer needed
-    }
-  }
-
-  props.outputs.forEach((prop) => {
-    // Set output listeners
-    (TestHostComponent.prototype as any)[prop] = function (...args: unknown[]) {
-      this.mock[prop] = this.mock[prop] || { calls: [] };
-      this.mock[prop].calls.push(args);
-    };
-  });
+  const meta = getComponentMeta(MainComponent);
 
   const moduleDef: TestModuleMetadata = {
     ...mountOptions,
-    declarations: [
-      ...(mountOptions.declarations || []),
-      TestHostComponent,
-      MainComponent,
-    ],
+    declarations: [...(mountOptions.declarations || []), MainComponent],
   };
 
   await TestBed.configureTestingModule(moduleDef).compileComponents();
-  const testHostFixture = TestBed.createComponent(TestHostComponent);
+  const fixture = TestBed.createComponent(MainComponent);
+
+  // Set inputs using the public ComponentRef.setInput() API.
+  // This properly triggers the Angular input lifecycle for both
+  // decorator-based @Input and signal-based input().
+  for (const inputName of meta.inputs) {
+    if (typeof propsData[inputName] !== 'undefined') {
+      fixture.componentRef.setInput(inputName, propsData[inputName]);
+    }
+  }
+
+  // Subscribe to outputs to capture emissions.
+  // OutputRef.subscribe() works with signal-based output(), outputFromObservable(),
+  // and EventEmitter (which implements OutputRef).
+  const outputEmissions: IDictionary<{ calls: any[] }> = {};
+  for (const outputName of meta.outputs) {
+    const outputRef = (fixture.componentInstance as any)[
+      outputName
+    ] as OutputRef<unknown>;
+    if (outputRef && typeof outputRef.subscribe === 'function') {
+      outputEmissions[outputName] = { calls: [] };
+      outputRef.subscribe((value: unknown) => {
+        outputEmissions[outputName]!.calls.push([value]);
+      });
+    }
+  }
+
   try {
-    testHostFixture.detectChanges();
+    fixture.detectChanges();
   } catch (error) {
     (error as Error).message =
       `There was an error while creating the test component.\n${
@@ -242,50 +146,8 @@ export async function mount<C = any>(mountOptions: TestMountOptions<C>) {
     throw error;
   }
 
-  return new NgxTestWrapper<C>(testHostFixture, MainComponent);
-}
-
-export function buildTestHostComponentTemplate(
-  componentTagName: string,
-  props: ComponentMeta
-) {
-  const inputTmpl = [...props.normalInputs, ...props.signalInputs]
-    .map((input) => `[${input}]="inputs.${input}"`)
-    .join('\n');
-  const outputTmpl = props.outputs
-    .map((output) => `(${output})="${output}($event)"`)
-    .join('\n');
-  const template = `
-    <div class="test-host">
-      <${componentTagName}
-        ${inputTmpl}
-
-        ${outputTmpl}
-      ></${componentTagName}>
-    </div>
-  `;
-  return template;
-}
-
-/** Button events to pass to `DebugElement.triggerEventHandler` for RouterLink event handler */
-export const ButtonClickEvents = {
-  left: { button: 0 },
-  right: { button: 2 },
-};
-
-/** Simulate element click. Defaults to mouse left-button click event. */
-export function click(
-  el: DebugElement | HTMLElement,
-  eventObj: any = ButtonClickEvents.left
-): void {
-  if (el instanceof HTMLElement) {
-    el.click();
-  } else {
-    el.triggerEventHandler('click', eventObj);
-  }
-}
-
-export function testLog(...msgs: any[]) {
-  // eslint-disable-next-line  @typescript-eslint/no-require-imports
-  require('console').log(...msgs);
+  return new NgxTestWrapper<C>(fixture as ComponentFixture<any>, {
+    meta,
+    outputEmissions,
+  });
 }
