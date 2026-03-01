@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`HeadersEditorComponent should render correctly 1`] = `
-<app-headers-editor>
+<div>
   <div
     class="headers-editor"
   >
@@ -46,5 +46,5 @@ exports[`HeadersEditorComponent should render correctly 1`] = `
       </div>
     </div>
   </div>
-</app-headers-editor>
+</div>
 `;

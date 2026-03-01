@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`VariableFileItemComponent should render correctly 1`] = `
-<app-variable-file-item>
+<div>
   <div
     class="variables-file-item"
   >
@@ -57,5 +57,5 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
        × 
     </div>
   </div>
-</app-variable-file-item>
+</div>
 `;

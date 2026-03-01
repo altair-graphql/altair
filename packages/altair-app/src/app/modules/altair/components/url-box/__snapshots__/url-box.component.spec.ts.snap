@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`UrlBoxComponent should render correctly 1`] = `
-<app-url-box>
+<div>
   <div
     class="url-box"
   >
@@ -149,11 +149,11 @@ exports[`UrlBoxComponent should render correctly 1`] = `
     </div>
   </div>
   
-</app-url-box>
+</div>
 `;
 
 exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = `
-<app-url-box>
+<div>
   <div
     class="url-box"
   >
@@ -324,5 +324,5 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
     </div>
   </div>
   
-</app-url-box>
+</div>
 `;

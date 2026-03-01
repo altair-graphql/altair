@@ -10,10 +10,10 @@ import {
 import {
   setProps,
   setValue,
-  BaseTestHostComponent,
   flushPromises,
   AllowedPropsDataKeys,
   AllowedPropsDataValue,
+  ComponentMeta,
   testLog,
 } from '../utils';
 import { IDictionary } from '../../app/modules/altair/interfaces/shared';
@@ -27,21 +27,28 @@ export class NgxTestWrapper<C> {
   private _isWrapper = false;
 
   constructor(
-    private _testHostFixture: ComponentFixture<BaseTestHostComponent>,
-    private _mainComponent?: any
+    private _fixture: ComponentFixture<any>,
+    private _mainComponent?: any,
+    private _props?: ComponentMeta,
+    private _outputEmissions?: IDictionary<{ calls: any[] }>
   ) {
     if (_mainComponent instanceof DebugElement) {
+      // When used for child wrappers via find()/findAll()
       this._mainComponentDebugEl = _mainComponent;
+    } else if (_mainComponent) {
+      // When used for the root wrapper created by mount().
+      // With TestBed.createComponent(Component), fixture.debugElement is the
+      // component's host element directly. No need to query for it.
+      this._mainComponentDebugEl = _fixture.debugElement;
+      this._isWrapper = true;
     } else {
-      this._mainComponentDebugEl = _testHostFixture.debugElement.query(
-        By.directive(_mainComponent)
-      );
+      this._mainComponentDebugEl = _fixture.debugElement;
       this._isWrapper = true;
     }
   }
 
   get fx() {
-    return this._testHostFixture;
+    return this._fixture;
   }
 
   get component() {
@@ -53,7 +60,7 @@ export class NgxTestWrapper<C> {
   }
 
   get debugElement() {
-    return this._testHostFixture.debugElement;
+    return this._fixture.debugElement;
   }
 
   get element() {
@@ -67,27 +74,27 @@ export class NgxTestWrapper<C> {
   find<SC = unknown>(selector: string) {
     const comp = this._mainComponentDebugEl.query(By.css(selector));
 
-    return new NgxTestWrapper<SC>(this._testHostFixture, comp);
+    return new NgxTestWrapper<SC>(this._fixture, comp);
   }
 
   findComponent<SC = unknown>(type: Type<any>) {
     const comp = this._mainComponentDebugEl.query(By.directive(type));
 
-    return new NgxTestWrapper<SC>(this._testHostFixture, comp);
+    return new NgxTestWrapper<SC>(this._fixture, comp);
   }
 
   findAll<SC = unknown>(selector: string) {
     return this._mainComponentDebugEl
       .queryAll(By.css(selector))
       .filter(Boolean)
-      .map((comp) => new NgxTestWrapper<SC>(this._testHostFixture, comp));
+      .map((comp) => new NgxTestWrapper<SC>(this._fixture, comp));
   }
 
   findAllComponents<SC = unknown>(type: Type<any>) {
     return this._mainComponentDebugEl
       .queryAll(By.directive(type))
       .filter(Boolean)
-      .map((comp) => new NgxTestWrapper<SC>(this._testHostFixture, comp));
+      .map((comp) => new NgxTestWrapper<SC>(this._fixture, comp));
   }
 
   emit(eventName: string, eventObj: any = null) {
@@ -108,18 +115,12 @@ export class NgxTestWrapper<C> {
       typeof EventEmitter | OutputEmitterRef<any> | OutputRef<any>
     >
   ) {
-    if (this._isWrapper) {
-      const emitted = this._testHostFixture.componentInstance.outputList
-        .map((prop) => {
-          return {
-            event: prop,
-            calls: (this._testHostFixture.componentInstance.mock[prop] || {}).calls,
-          };
-        })
-        .filter((_) => _.calls && _.calls.length)
+    if (this._isWrapper && this._outputEmissions) {
+      const emitted = Object.entries(this._outputEmissions)
+        .filter(([_, data]) => data.calls && data.calls.length)
         .reduce(
-          (acc, cur) => {
-            acc[cur.event] = cur.calls!;
+          (acc: IDictionary<any[]>, [eventName, data]) => {
+            acc[eventName] = data.calls;
             return acc;
           },
           {} as IDictionary<any[]>
@@ -137,32 +138,26 @@ export class NgxTestWrapper<C> {
       [K in AllowedPropsDataKeys<C>]-?: AllowedPropsDataValue<C, K>;
     }> = {}
   ) {
-    if (this._isWrapper) {
-      const componentInputs = Object.keys(
-        this._testHostFixture.componentInstance.inputs
-      );
+    if (this._isWrapper && this._props) {
+      const allInputs = [
+        ...this._props.normalInputs,
+        ...this._props.signalInputs,
+      ];
       Object.keys(valueObj).forEach((prop) => {
-        if (componentInputs.includes(prop)) {
-          // testLog('....', this._testHostFixture.componentInstance.inputs, valueObj);
-          // For component inputs (@input), we set the data on the test host itself, which would pass the value as input.
-          // This is to properly trigger the full input lifecycle of the component.
-          // Setting the input directly on the component instance would not do that.
-          // TODO: Only set inputs where valueObj property is defined?
-          this._testHostFixture.componentInstance.inputs[prop] = (valueObj as any)[
-            prop
-          ];
+        if (allInputs.includes(prop)) {
+          // Use ComponentRef.setInput() to properly trigger input lifecycle
+          this._fixture.componentRef.setInput(prop, (valueObj as any)[prop]);
         }
       });
       return this.nextTick();
-      // return setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
     }
     testLog('..not a wrapper', valueObj);
-    setProps(this._testHostFixture, this._mainComponentDebugEl, valueObj);
+    setProps(this._fixture, this._mainComponentDebugEl, valueObj);
     return this.nextTick();
   }
 
   setValue(value = '') {
-    return setValue(this._testHostFixture, this._mainComponentDebugEl, value);
+    return setValue(this._fixture, this._mainComponentDebugEl, value);
   }
 
   text() {
@@ -188,13 +183,13 @@ export class NgxTestWrapper<C> {
   }
 
   async nextTick() {
-    this._testHostFixture.detectChanges();
+    this._fixture.detectChanges();
     TestBed.tick();
-    await this._testHostFixture.whenStable();
+    await this._fixture.whenStable();
     await flushPromises();
 
     // Ensure that the fixture is stable after all changes
-    this._testHostFixture.detectChanges();
+    this._fixture.detectChanges();
   }
 
   private assertExists() {

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QueryCollectionItemComponent should render collapsed collection correctly 1`] = `
-<app-query-collection-item>
+<div>
   <div
     class="query-collections__item"
   >
@@ -297,11 +297,11 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
     </div>
   </div>
   
-</app-query-collection-item>
+</div>
 `;
 
 exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
-<app-query-collection-item>
+<div>
   <div
     class="query-collections__item"
   >
@@ -597,5 +597,5 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
     </div>
   </div>
   
-</app-query-collection-item>
+</div>
 `;
