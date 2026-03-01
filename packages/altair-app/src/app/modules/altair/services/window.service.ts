@@ -46,7 +46,6 @@ export class WindowService {
   private collectionService = inject(QueryCollectionService);
   private notifyService = inject(NotifyService);
 
-
   newWindow(
     opts: {
       title?: string;
@@ -489,7 +488,23 @@ export class WindowService {
     } catch (err) {
       debug.log('Invalid Altair window file.', err);
       try {
-        // Check if sdl file
+        // check if graphql query
+        const node = this.gqlService.parseQueryOrEmptyDocument(dataStr);
+        debug.log(node);
+        if (node && node.definitions && node.definitions.length) {
+          // Import only query
+          return this.importWindowData({
+            ...emptyWindowData,
+            version: 1,
+            type: 'window',
+            query: dataStr,
+          });
+        }
+        throw invalidFileError;
+      } catch (queryError) {
+        debug.log('Invalid GQL query.', queryError);
+
+        // Else Check if sdl file
         const schema = this.gqlService.sdlToSchema(dataStr);
         if (schema) {
           // Import only schema
@@ -503,21 +518,6 @@ export class WindowService {
             'Successfully imported GraphQL schema. Open the docs section to view it.'
           );
           return;
-        }
-        throw invalidFileError;
-      } catch (sdlError) {
-        debug.log('Invalid SDL file.', sdlError);
-        // Else check if graphql query
-        const operations = this.gqlService.getOperations(dataStr);
-        debug.log(operations);
-        if (operations && operations.length) {
-          // Import only query
-          return this.importWindowData({
-            ...emptyWindowData,
-            version: 1,
-            type: 'window',
-            query: dataStr,
-          });
         }
         throw invalidFileError;
       }

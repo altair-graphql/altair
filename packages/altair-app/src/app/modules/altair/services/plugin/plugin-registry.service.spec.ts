@@ -9,6 +9,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import { pluginSourceSchema } from 'altair-graphql-core/build/plugin/plugin.schema';
 import { DbService } from '../db.service';
 import { NotifyService } from '../notify/notify.service';
+import { of } from 'rxjs';
 
 let mockHttpClient: HttpClient;
 let mockPluginContextService: PluginContextService;
@@ -140,6 +141,244 @@ describe('PluginRegistryService', () => {
         version: '0.1.1',
         pluginSource: pluginSourceSchema.enum.URL,
       });
+    });
+  });
+
+  describe('.isUserApprovedPlugin()', () => {
+    it('should return false when version is "latest"', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const result = await service.isUserApprovedPlugin({
+        name: 'altair-graphql-plugin-test',
+        version: 'latest',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(result).toBe(false);
+    });
+
+    it('should return false when no approved map exists in db', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const dbService = TestBed.inject(DbService) as any;
+      dbService.getItem = jest.fn().mockReturnValue(of(undefined));
+
+      const result = await service.isUserApprovedPlugin({
+        name: 'altair-graphql-plugin-test',
+        version: '1.0.0',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(result).toBe(false);
+    });
+
+    it('should return false when plugin source not in approved map', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const dbService = TestBed.inject(DbService) as any;
+      dbService.getItem = jest.fn().mockReturnValue(of({}));
+
+      const result = await service.isUserApprovedPlugin({
+        name: 'altair-graphql-plugin-test',
+        version: '1.0.0',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(result).toBe(false);
+    });
+
+    it('should return false when plugin name not in approved map', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const dbService = TestBed.inject(DbService) as any;
+      dbService.getItem = jest.fn().mockReturnValue(of({ npm: {} }));
+
+      const result = await service.isUserApprovedPlugin({
+        name: 'altair-graphql-plugin-test',
+        version: '1.0.0',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(result).toBe(false);
+    });
+
+    it('should return true when version is in approved map', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const dbService = TestBed.inject(DbService) as any;
+      dbService.getItem = jest
+        .fn()
+        .mockReturnValue(of({ npm: { 'altair-graphql-plugin-test': ['1.0.0'] } }));
+
+      const result = await service.isUserApprovedPlugin({
+        name: 'altair-graphql-plugin-test',
+        version: '1.0.0',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(result).toBe(true);
+    });
+
+    it('should return false when version is not in approved list', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const dbService = TestBed.inject(DbService) as any;
+      dbService.getItem = jest
+        .fn()
+        .mockReturnValue(of({ npm: { 'altair-graphql-plugin-test': ['2.0.0'] } }));
+
+      const result = await service.isUserApprovedPlugin({
+        name: 'altair-graphql-plugin-test',
+        version: '1.0.0',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('.addPluginToApprovedMap()', () => {
+    it('should return early without calling db.setItem for version "latest"', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const dbService = TestBed.inject(DbService) as any;
+      dbService.getItem = jest.fn().mockReturnValue(of(undefined));
+      dbService.setItem = jest.fn().mockReturnValue(of(undefined));
+
+      await service.addPluginToApprovedMap({
+        name: 'altair-graphql-plugin-test',
+        version: 'latest',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(dbService.setItem).not.toHaveBeenCalled();
+    });
+
+    it('should create new approved map entry when db has no existing map', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const dbService = TestBed.inject(DbService) as any;
+      dbService.getItem = jest.fn().mockReturnValue(of(undefined));
+      dbService.setItem = jest.fn().mockReturnValue(of(undefined));
+
+      await service.addPluginToApprovedMap({
+        name: 'altair-graphql-plugin-test',
+        version: '1.0.0',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(dbService.setItem).toHaveBeenCalledWith('__user_plugin_approved_map', {
+        npm: { 'altair-graphql-plugin-test': ['1.0.0'] },
+      });
+    });
+
+    it('should append to existing approved map', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const dbService = TestBed.inject(DbService) as any;
+      dbService.getItem = jest
+        .fn()
+        .mockReturnValue(of({ npm: { 'altair-graphql-plugin-test': ['0.9.0'] } }));
+      dbService.setItem = jest.fn().mockReturnValue(of(undefined));
+
+      await service.addPluginToApprovedMap({
+        name: 'altair-graphql-plugin-test',
+        version: '1.0.0',
+        pluginSource: pluginSourceSchema.enum.NPM,
+      });
+      expect(dbService.setItem).toHaveBeenCalledWith('__user_plugin_approved_map', {
+        npm: { 'altair-graphql-plugin-test': ['0.9.0', '1.0.0'] },
+      });
+    });
+  });
+
+  describe('.isPluginInSettings()', () => {
+    it('should return false when plugin.list is absent in settings', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const store = TestBed.inject(Store) as any;
+      store.select = jest.fn().mockReturnValue(of({}));
+
+      const result = await service.isPluginInSettings('altair-graphql-plugin-test');
+      expect(result).toBe(false);
+    });
+
+    it('should return true when plugin name is in settings list', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const store = TestBed.inject(Store) as any;
+      store.select = jest
+        .fn()
+        .mockReturnValue(
+          of({ 'plugin.list': ['altair-graphql-plugin-test@1.0.0'] })
+        );
+
+      const result = await service.isPluginInSettings('altair-graphql-plugin-test');
+      expect(result).toBe(true);
+    });
+
+    it('should return false when plugin name is not in settings list', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const store = TestBed.inject(Store) as any;
+      store.select = jest
+        .fn()
+        .mockReturnValue(
+          of({ 'plugin.list': ['altair-graphql-plugin-other@1.0.0'] })
+        );
+
+      const result = await service.isPluginInSettings('altair-graphql-plugin-test');
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('.addPluginToSettings()', () => {
+    it('should dispatch SetSettingsJsonAction with plugin appended to list', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const store = TestBed.inject(Store) as any;
+      store.select = jest.fn().mockReturnValue(of({ 'plugin.list': [] }));
+      store.dispatch = jest.fn();
+
+      await service.addPluginToSettings('altair-graphql-plugin-test@1.0.0');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'SET_SETTINGS_JSON' })
+      );
+    });
+
+    it('should initialize plugin.list if absent', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const store = TestBed.inject(Store) as any;
+      store.select = jest.fn().mockReturnValue(of({}));
+      store.dispatch = jest.fn();
+
+      await service.addPluginToSettings('altair-graphql-plugin-test@1.0.0');
+      expect(store.dispatch).toHaveBeenCalled();
+      const dispatched = (store.dispatch as jest.Mock).mock.calls[0][0];
+      const value = JSON.parse(dispatched.payload.value);
+      expect(value['plugin.list']).toContain('altair-graphql-plugin-test@1.0.0');
+    });
+  });
+
+  describe('.removePluginFromSettings()', () => {
+    it('should dispatch SetSettingsJsonAction with plugin removed from list', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const store = TestBed.inject(Store) as any;
+      store.select = jest.fn().mockReturnValue(
+        of({
+          'plugin.list': [
+            'altair-graphql-plugin-test@1.0.0',
+            'altair-graphql-plugin-other@1.0.0',
+          ],
+        })
+      );
+      store.dispatch = jest.fn();
+
+      await service.removePluginFromSettings('altair-graphql-plugin-test');
+      expect(store.dispatch).toHaveBeenCalledWith(
+        expect.objectContaining({ type: 'SET_SETTINGS_JSON' })
+      );
+      const dispatched = (store.dispatch as jest.Mock).mock.calls[0][0];
+      const value = JSON.parse(dispatched.payload.value);
+      expect(value['plugin.list']).not.toContain('altair-graphql-plugin-test@1.0.0');
+    });
+  });
+
+  describe('.installedPlugins()', () => {
+    it('should return an observable from the store', () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const store = TestBed.inject(Store) as any;
+      store.select = jest.fn().mockReturnValue(of([]));
+
+      const result = service.installedPlugins();
+      expect(result).toBeTruthy();
+    });
+  });
+
+  describe('.pluginsReady()', () => {
+    it('should resolve immediately when no plugins have been fetched', async () => {
+      const service = TestBed.inject(PluginRegistryService);
+      const result = await service.pluginsReady();
+      expect(result).toEqual([]);
     });
   });
 });

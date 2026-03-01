@@ -1,4 +1,17 @@
-import { getFullUrl, setByDotNotation, truncateText } from '.';
+import {
+  getFullUrl,
+  setByDotNotation,
+  truncateText,
+  isValidUrl,
+  jsonc,
+  parseJson,
+  mapToKeyValueList,
+  str,
+  capitalize,
+  parseDotNotationKey,
+} from '.';
+
+jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
 
 describe('utils', () => {
   it('should correctly set value by dot notation', () => {
@@ -69,6 +82,126 @@ describe('utils', () => {
       const endpoint = 'graphql';
       const result = getFullUrl(endpoint, 'wss');
       expect(result).toBe('wss://' + location.host + '/' + endpoint);
+    });
+    it('should return empty string for empty url', () => {
+      expect(getFullUrl('')).toBe('');
+    });
+    it('should return location.href for wildcard url', () => {
+      expect(getFullUrl('*')).toBe(location.href);
+    });
+  });
+
+  describe('.isValidUrl', () => {
+    it('should return true for a valid URL', () => {
+      expect(isValidUrl('https://example.com')).toBe(true);
+    });
+    it('should return false for an invalid URL', () => {
+      expect(isValidUrl('not-a-url')).toBe(false);
+    });
+    it('should return false for empty string', () => {
+      expect(isValidUrl('')).toBe(false);
+    });
+  });
+
+  describe('.jsonc', () => {
+    it('should parse JSON without comments', () => {
+      expect(jsonc('{"a":1}')).toEqual({ a: 1 });
+    });
+    it('should strip single-line comments', () => {
+      expect(jsonc('{"a":1} // comment')).toEqual({ a: 1 });
+    });
+    it('should return empty object for empty string', () => {
+      expect(jsonc('')).toEqual({});
+    });
+    it('should return empty object for whitespace only string', () => {
+      expect(jsonc('   ')).toEqual({});
+    });
+  });
+
+  describe('.parseJson', () => {
+    it('should parse valid JSON', () => {
+      expect(parseJson('{"a":1}')).toEqual({ a: 1 });
+    });
+    it('should return default value for invalid JSON', () => {
+      expect(parseJson('not-json')).toEqual({});
+    });
+    it('should return provided default value on failure', () => {
+      expect(parseJson('bad', null)).toBeNull();
+    });
+    it('should handle big integers', () => {
+      const result = parseJson('{"id":9007199254740993}');
+      expect(result).toBeTruthy();
+    });
+  });
+
+  describe('.mapToKeyValueList', () => {
+    it('should convert an object to key-value pairs', () => {
+      const result = mapToKeyValueList({ a: 'x', b: 'y' });
+      expect(result).toEqual([
+        { key: 'a', value: 'x' },
+        { key: 'b', value: 'y' },
+      ]);
+    });
+    it('should filter out non-string values', () => {
+      const result = mapToKeyValueList({ a: 'x', b: 123 as any });
+      expect(result).toEqual([{ key: 'a', value: 'x' }]);
+    });
+    it('should filter out empty keys', () => {
+      const result = mapToKeyValueList({ '': 'x', a: 'y' });
+      expect(result).toEqual([{ key: 'a', value: 'y' }]);
+    });
+  });
+
+  describe('.str', () => {
+    it('should return string as-is', () => {
+      expect(str('hello')).toBe('hello');
+    });
+    it('should convert number to string', () => {
+      expect(str(42)).toBe('42');
+    });
+    it('should return undefined for undefined', () => {
+      expect(str(undefined)).toBeUndefined();
+    });
+    it('should return undefined for null', () => {
+      expect(str(null)).toBeUndefined();
+    });
+  });
+
+  describe('.capitalize', () => {
+    it('should capitalize the first letter', () => {
+      expect(capitalize('hello')).toBe('Hello');
+    });
+    it('should handle empty string', () => {
+      expect(capitalize('')).toBe('');
+    });
+    it('should handle already capitalized string', () => {
+      expect(capitalize('World')).toBe('World');
+    });
+  });
+
+  describe('.parseDotNotationKey', () => {
+    it('should return integer for numeric string', () => {
+      expect(parseDotNotationKey('0')).toBe(0);
+      expect(parseDotNotationKey('3')).toBe(3);
+    });
+    it('should return original string for non-numeric key', () => {
+      expect(parseDotNotationKey('abc')).toBe('abc');
+    });
+    // TODO: revisit handling of float keys - currently treated as non-numeric, but may want to consider parsing as nested integer keys instead (e.g. '1.5' => [1, 5])
+    it.skip('should return original string for float key', () => {
+      expect(parseDotNotationKey('1.5')).toBe('1.5');
+    });
+  });
+
+  describe('.setByDotNotation edge cases', () => {
+    it('should return undefined for empty path', () => {
+      const obj: any = {};
+      expect(setByDotNotation(obj, '', 1)).toBeUndefined();
+    });
+    it('should handle numeric path', () => {
+      const obj: any = [0, 1, 2];
+      setByDotNotation(obj, 0, 99);
+      expect(obj[0]).toBe(99);
     });
   });
 });

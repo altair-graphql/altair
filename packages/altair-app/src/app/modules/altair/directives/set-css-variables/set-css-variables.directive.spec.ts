@@ -1,26 +1,67 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { NgModule, Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { SetCssVariablesDirective } from './set-css-variables.directive';
-import { ElementRef } from '@angular/core';
-class MockElementRef extends ElementRef {}
+import { IDictionary } from '../../interfaces/shared';
+
+@Component({
+  selector: 'app-test-host',
+  template: '<div [appSetCssVariables]="cssVars"></div>',
+  standalone: false,
+})
+class TestHostComponent {
+  cssVars: IDictionary = {};
+}
+
+@NgModule({
+  declarations: [TestHostComponent, SetCssVariablesDirective],
+})
+class TestModule {}
 
 describe('SetCssVariablesDirective', () => {
-  beforeEach(() =>
-    TestBed.configureTestingModule({
-      imports: [],
-      providers: [
-        SetCssVariablesDirective,
-        {
-          provide: ElementRef,
-          useFactory: () => new MockElementRef(document.body),
-        },
-      ],
-    })
-  );
+  let fixture: ComponentFixture<TestHostComponent>;
+  let directive: SetCssVariablesDirective;
 
-  it('should create an instance', inject(
-    [SetCssVariablesDirective],
-    (directive: SetCssVariablesDirective) => {
-      expect(directive).toBeTruthy();
-    }
-  ));
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [TestModule],
+    });
+    fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+    const debugEl = fixture.debugElement.query(
+      By.directive(SetCssVariablesDirective)
+    );
+    directive = debugEl.injector.get(SetCssVariablesDirective);
+  });
+
+  it('should create an instance', () => {
+    expect(directive).toBeTruthy();
+  });
+
+  it('should apply CSS variables from input', () => {
+    fixture.componentInstance.cssVars = { '--test-color': '#ff0000' };
+    fixture.detectChanges();
+    expect(document.documentElement.style.getPropertyValue('--test-color')).toBe(
+      '#ff0000'
+    );
+  });
+
+  it('should remove CSS variable when value is empty', () => {
+    document.documentElement.style.setProperty('--test-remove', '#00ff00');
+    fixture.componentInstance.cssVars = { '--test-remove': '' };
+    fixture.detectChanges();
+    expect(document.documentElement.style.getPropertyValue('--test-remove')).toBe(
+      ''
+    );
+  });
+
+  it('should set multiple CSS variables', () => {
+    fixture.componentInstance.cssVars = {
+      '--var1': 'value1',
+      '--var2': 'value2',
+    };
+    fixture.detectChanges();
+    expect(document.documentElement.style.getPropertyValue('--var1')).toBe('value1');
+    expect(document.documentElement.style.getPropertyValue('--var2')).toBe('value2');
+  });
 });
