@@ -47,7 +47,7 @@
     "@webcomponents/custom-elements": "1.4.1",
     "abab": "2.0.6",
     "actioncable": "5.2.8",
-    "ajv": "^8.11.2",
+    "ajv": "^8.18.0",
     "altair-graphql-core": "workspace:*",
     "angular-resizable-element": "^6.0.0",
     "angular-split": "^18.0.0",
