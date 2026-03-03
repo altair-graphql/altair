@@ -6,12 +6,12 @@ describe('CachedIfDirective', () => {
   it('should create an instance', () => {
     const mockTemplateRef = {};
     const mockViewContainer = {
-      createEmbeddedView: jest.fn().mockReturnValue({
-        destroy: jest.fn(),
-        detach: jest.fn(),
+      createEmbeddedView: vi.fn().mockReturnValue({
+        destroy: vi.fn(),
+        detach: vi.fn(),
       }),
-      indexOf: jest.fn().mockReturnValue(-1),
-      insert: jest.fn(),
+      indexOf: vi.fn().mockReturnValue(-1),
+      insert: vi.fn(),
     };
 
     TestBed.configureTestingModule({

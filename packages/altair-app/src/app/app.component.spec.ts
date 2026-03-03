@@ -1,19 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MockModule } from 'ng-mocks';
+import { Component } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { AltairModule } from './modules/altair/altair.module';
 
+// Create a minimal test that avoids importing AltairModule (which contains BrowserModule)
+// The builder's init-testbed already loads BrowserTestingModule, so importing BrowserModule
+// again causes NG05100.
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [MockModule(AltairModule)],
+      imports: [AppComponent],
       teardown: { destroyAfterEach: false },
-    }).compileComponents();
+    })
+      .overrideComponent(AppComponent, {
+        set: {
+          template: '',
+          imports: [],
+        },
+      })
+      .compileComponents();
   });
 
   beforeEach(() => {

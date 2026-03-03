@@ -1,11 +1,7 @@
-import { expect, it, beforeEach, describe } from '@jest/globals';
 import {
   ComponentFixture,
   TestBed,
-  tick,
-  fakeAsync,
-  waitForAsync,
-} from '@angular/core/testing';
+  } from '@angular/core/testing';
 
 import { FancyInputComponent } from './fancy-input.component';
 import { FormsModule } from '@angular/forms';

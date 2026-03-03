@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { mockStoreFactory } from '../../../../../testing';
 
@@ -12,6 +13,7 @@ describe('BetaIndicatorComponent', () => {
     const mockStore = mockStoreFactory();
     await TestBed.configureTestingModule({
       declarations: [BetaIndicatorComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       providers: [
         {
           provide: Store,

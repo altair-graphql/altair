@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../../modules/shared/shared.module';
@@ -9,13 +9,13 @@ describe('DocViewerFieldComponent', () => {
   let component: DocViewerFieldComponent;
   let fixture: ComponentFixture<DocViewerFieldComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [DocViewerFieldComponent, DocViewerTypeComponent],
       imports: [TranslateModule.forRoot(), SharedModule],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocViewerFieldComponent);

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { QueryRevisionDialogComponent } from './query-revision-dialog.component';
 import { MockModule, MockProviders } from 'ng-mocks';
@@ -12,6 +13,7 @@ describe('QueryRevisionDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [QueryRevisionDialogComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [MockModule(SharedModule)],
       providers: [MockProviders(ApiService)],
     }).compileComponents();

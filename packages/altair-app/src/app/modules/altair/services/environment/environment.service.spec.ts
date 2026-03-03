@@ -48,7 +48,7 @@ describe('EnvironmentService', () => {
     });
     mockStore = mock();
     mockStore.subscribe = createStoreSubscribeFn(environments);
-    mockStore.dispatch = jest.fn();
+    mockStore.dispatch = vi.fn();
     TestBed.configureTestingModule({
       providers: [
         EnvironmentService,

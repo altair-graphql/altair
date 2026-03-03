@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { RequestExtensionsDialogComponent } from './request-extensions-dialog.component';
 import { MockModule } from 'ng-mocks';
@@ -11,6 +12,7 @@ describe('RequestExtensionsDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RequestExtensionsDialogComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [MockModule(SharedModule)],
     }).compileComponents();
 

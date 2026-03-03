@@ -1,4 +1,3 @@
-import { describe, it, expect } from '@jest/globals';
 import { getComponentMeta } from '../utils';
 
 // Note: buildTestHostComponentTemplate was removed as part of migrating

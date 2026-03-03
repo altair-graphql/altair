@@ -72,7 +72,7 @@ export class EvaluatorFrameClient extends ScriptEvaluatorClient {
     this.messageListeners.forEach((listener) => {
       window.removeEventListener('message', listener);
     });
-    this.iframe.removeAllListeners?.();
+    (this.iframe as any).removeAllListeners?.();
     this.iframe.remove();
   }
 }

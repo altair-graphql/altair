@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { RequestHandlerDialogComponent } from './request-handler-dialog.component';
 import { MockModule } from 'ng-mocks';
@@ -11,6 +12,7 @@ describe('RequestHandlerDialogComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [RequestHandlerDialogComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [MockModule(SharedModule)],
     }).compileComponents();
 

@@ -10,16 +10,16 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 let mockToastService: any;
 let mockStore: Store<RootState>;
 
-jest.mock('sanitize-html', () => jest.fn((text) => text));
+vi.mock('sanitize-html', () => vi.fn((text: string) => text));
 
 describe('NotifyService', () => {
   beforeEach(() => {
     mockToastService = {
-      success: jest.fn(),
-      error: jest.fn(),
-      warning: jest.fn(),
-      info: jest.fn(),
-      show: jest.fn(() => ({
+      success: vi.fn(),
+      error: vi.fn(),
+      warning: vi.fn(),
+      info: vi.fn(),
+      show: vi.fn(() => ({
         onHidden: of(true),
         onAction: of(undefined),
       })),
@@ -193,7 +193,7 @@ describe('NotifyService', () => {
         const onTapSubject = new Subject();
         mockToastService.success.mockReturnValueOnce({ onTap: onTapSubject });
 
-        const action = jest.fn();
+        const action = vi.fn();
         service.exec('success', 'message', 'title', { data: { action } });
 
         onTapSubject.next(undefined);
@@ -208,7 +208,7 @@ describe('NotifyService', () => {
         const onTapSubject = new Subject();
         mockToastService.info.mockReturnValueOnce({ onTap: onTapSubject });
 
-        const openSpy = jest.spyOn(window, 'open').mockImplementation(() => null);
+        const openSpy = vi.spyOn(window, 'open').mockImplementation(() => null);
         service.exec('info', 'message', 'title', {
           data: { url: 'https://example.com' },
         });
@@ -229,7 +229,7 @@ describe('NotifyService', () => {
         mockStore.select = (predicate: any) => of(predicate(state));
 
         const mockNotificationInstance = { onclick: null };
-        const MockNotification = jest.fn(() => mockNotificationInstance);
+        const MockNotification = vi.fn(() => mockNotificationInstance);
         (global as any).Notification = MockNotification;
 
         service.electronPushNotify('Test message', 'Test Title');
@@ -250,7 +250,7 @@ describe('NotifyService', () => {
         const state = { settings: { disablePushNotification: true } };
         mockStore.select = (predicate: any) => of(predicate(state));
 
-        const MockNotification = jest.fn();
+        const MockNotification = vi.fn();
         (global as any).Notification = MockNotification;
 
         service.electronPushNotify('Test message');

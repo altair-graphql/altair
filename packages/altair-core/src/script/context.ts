@@ -47,6 +47,7 @@ export const importModuleHelper = async (moduleName: string) => {
     throw new Error(`No request script module found matching "${moduleName}"`);
   }
 
+  console.log(`Importing module "${moduleName}" for request script...`);
   return mod.exec();
 };
 

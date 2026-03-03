@@ -1,15 +1,9 @@
-import fs from 'fs';
-import path from 'path';
-import { describe, it, expect } from '@jest/globals';
 import { buildSchema } from 'graphql';
 import { generateQuery } from './generateQuery';
+import { testSdl } from './test-sdl';
 
 const getTestSchema = () => {
-  const sdl = fs.readFileSync(
-    path.resolve(__dirname, '../../../../../../fixtures/test.sdl'),
-    'utf8'
-  );
-  return buildSchema(sdl);
+  return buildSchema(testSdl);
 };
 
 describe('generateQuery', () => {

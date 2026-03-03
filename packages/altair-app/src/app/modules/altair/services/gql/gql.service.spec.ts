@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { expect, jest } from '@jest/globals';
+
 
 import { HttpClient } from '@angular/common/http';
 
@@ -27,7 +27,7 @@ let mockRequestHandler: GraphQLRequestHandler;
 describe('GqlService', () => {
   beforeEach(() => {
     mockHttpClient = {} as HttpClient;
-    mockHttpClient.request = jest.fn(() => {
+    mockHttpClient.request = vi.fn(() => {
       return EMPTY;
     });
     mockStore = {
@@ -198,7 +198,7 @@ describe('GqlService', () => {
       [GqlService],
       async (service: GqlService) => {
         let httpClientCallCount = 0;
-        mockRequestHandler.handle = jest.fn(() => {
+        mockRequestHandler.handle = vi.fn(() => {
           httpClientCallCount++;
           switch (httpClientCallCount) {
             case 1: {
@@ -686,7 +686,7 @@ describe('GqlService', () => {
       (service: GqlService) => {
         const _originalRandom = Math.random;
         let cnt = 1;
-        Math.random = jest.fn(() => cnt++);
+        Math.random = vi.fn(() => cnt++);
         const res = service.refactorQuery(
           `
         query{
@@ -756,7 +756,7 @@ describe('GqlService', () => {
   describe('.closeStreamClient()', () => {
     it('should close client', inject([GqlService], (service: GqlService) => {
       const client = new EventSource('http://example.com/stream');
-      jest.spyOn(client, 'close');
+      vi.spyOn(client, 'close');
       service.closeStreamClient(client);
 
       expect(client.close).toHaveBeenCalled();

@@ -1,22 +1,19 @@
-import { NgModule, Component, DebugElement } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SetCssVariablesDirective } from './set-css-variables.directive';
 import { IDictionary } from '../../interfaces/shared';
+import { DirectivesModule } from '../index';
 
 @Component({
   selector: 'app-test-host',
   template: '<div [appSetCssVariables]="cssVars"></div>',
-  standalone: false,
+  standalone: true,
+  imports: [DirectivesModule],
 })
 class TestHostComponent {
   cssVars: IDictionary = {};
 }
-
-@NgModule({
-  declarations: [TestHostComponent, SetCssVariablesDirective],
-})
-class TestModule {}
 
 describe('SetCssVariablesDirective', () => {
   let fixture: ComponentFixture<TestHostComponent>;
@@ -24,7 +21,7 @@ describe('SetCssVariablesDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [TestModule],
+      imports: [TestHostComponent],
     });
     fixture = TestBed.createComponent(TestHostComponent);
     fixture.detectChanges();

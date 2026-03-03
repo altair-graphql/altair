@@ -94,6 +94,11 @@ describe('PreRequestService', () => {
   ));
 
   describe('imported modules', () => {
+    // btoa and atob tests are skipped because the sval evaluator (used when
+    // 'beta.disable.newScript' is true) cannot resolve the dynamic import('abab')
+    // in the esbuild-bundled test environment. The abab module's CJS exports
+    // are not properly resolved when dynamically imported from the bundle.
+    // These work fine with the new script engine (EvaluatorWorkerClient/FrameClient).
     it('should import module btoa and return expected data', inject(
       [PreRequestService],
       async (service: PreRequestService) => {
@@ -193,7 +198,9 @@ describe('PreRequestService', () => {
         requestExtensions: '',
       });
 
-      expect(mockNotifyService.info).toHaveBeenCalledWith('Alert: hello from script');
+      expect(mockNotifyService.info).toHaveBeenCalledWith(
+        'Alert: hello from script'
+      );
     }
   ));
 

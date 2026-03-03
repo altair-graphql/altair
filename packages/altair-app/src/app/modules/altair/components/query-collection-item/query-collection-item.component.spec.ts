@@ -4,7 +4,7 @@ import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
 import { MockModule, MockProvider, ngMocks } from 'ng-mocks';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { expect } from '@jest/globals';
+
 import { mock } from 'testing';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { IQueryCollectionTree } from 'altair-graphql-core/build/types/state/collection.interfaces';

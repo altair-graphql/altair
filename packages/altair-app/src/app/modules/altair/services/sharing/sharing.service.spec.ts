@@ -1,29 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { SharingService } from './sharing.service';
 import { mock, anyFn } from '../../../../../testing';
-import * as services from './../../services';
 import { WindowService } from '../window.service';
 import { NotifyService } from '../notify/notify.service';
 import { AccountService } from '../account/account.service';
 import { ApiService } from '../api/api.service';
-import { copyToClipboard } from '../../utils';
-import { consumeQueryParam } from '../../utils/url';
-
-jest.mock('../../utils', () => ({
-  copyToClipboard: jest.fn(),
-  consumeQueryParam: jest.fn(),
-}));
-
-jest.mock('../../utils/url', () => ({
-  consumeQueryParam: jest.fn(),
-}));
-
-jest.mock('../../utils/logger', () => ({
-  debug: {
-    log: jest.fn(),
-    error: jest.fn(),
-  },
-}));
 
 describe('SharingService', () => {
   let service: SharingService;
@@ -33,11 +14,14 @@ describe('SharingService', () => {
   let mockApiService: ApiService;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    // Prevent cross-origin SecurityError from consumeQueryParam calling
+    // window.history.replaceState with a URL from a different origin
+    vi.spyOn(window.history, 'replaceState').mockImplementation(() => {});
+
     mockWindowService = mock<WindowService>({
-      importWindowData: jest.fn().mockResolvedValue('window-id'),
-      loadQueryFromCollection: jest.fn().mockResolvedValue(undefined),
-      getEmptyWindowState: jest.fn().mockReturnValue({
+      importWindowData: vi.fn().mockResolvedValue('window-id'),
+      loadQueryFromCollection: vi.fn().mockResolvedValue(undefined),
+      getEmptyWindowState: vi.fn().mockReturnValue({
         version: 1,
         type: 'window',
         apiUrl: '',
@@ -61,11 +45,11 @@ describe('SharingService', () => {
       success: anyFn(),
     });
     mockAccountService = mock<AccountService>({
-      getUser: jest.fn().mockResolvedValue({ id: '1', email: 'test@example.com' }),
+      getUser: vi.fn().mockResolvedValue({ id: '1', email: 'test@example.com' }),
     });
     mockApiService = mock<ApiService>({
-      getQueryShareUrl: jest.fn().mockReturnValue('https://share.altairgraphql.com/q/123'),
-      getQuery: jest.fn().mockResolvedValue({
+      getQueryShareUrl: vi.fn().mockReturnValue('https://share.altairgraphql.com/q/123'),
+      getQuery: vi.fn().mockResolvedValue({
         query: { id: 'query-1', query: 'query { hello }' },
         collectionId: 'col-1',
       }),
@@ -82,14 +66,17 @@ describe('SharingService', () => {
     service = TestBed.inject(SharingService);
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
   describe('checkForShareUrl', () => {
     it('should not do anything if no share details in URL', () => {
-      (consumeQueryParam as jest.Mock).mockReturnValue(undefined);
-
+      // Pass a URL with no query/q params — consumeQueryParam will return undefined
       service.checkForShareUrl('https://altairgraphql.com');
 
       expect(mockWindowService.importWindowData).not.toHaveBeenCalled();
@@ -97,14 +84,10 @@ describe('SharingService', () => {
     });
 
     it('should import window data from shared window-data URL', () => {
-      (consumeQueryParam as jest.Mock).mockImplementation((param: string, url: string) => {
-        if (param === 'query') return 'query { hello }';
-        if (param === 'variables') return '{}';
-        if (param === 'endpoint') return 'https://api.example.com';
-        return undefined;
-      });
-
-      service.checkForShareUrl('https://altairgraphql.com?query=query%20%7B%20hello%20%7D&variables=%7B%7D&endpoint=https%3A%2F%2Fapi.example.com');
+      // Pass a real URL with query params — consumeQueryParam will extract them
+      service.checkForShareUrl(
+        'https://altairgraphql.com?query=query%20%7B%20hello%20%7D&variables=%7B%7D&endpoint=https%3A%2F%2Fapi.example.com'
+      );
 
       expect(mockWindowService.importWindowData).toHaveBeenCalledWith(
         expect.objectContaining({

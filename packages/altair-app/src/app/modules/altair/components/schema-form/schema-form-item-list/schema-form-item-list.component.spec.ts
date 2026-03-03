@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SchemaFormItemListComponent } from './schema-form-item-list.component';
 import { SharedModule } from '../../../modules/shared/shared.module';
@@ -10,7 +10,7 @@ describe('SchemaFormItemListComponent', () => {
   let component: SchemaFormItemListComponent;
   let fixture: ComponentFixture<SchemaFormItemListComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, SharedModule, SchemaFormModule],
       declarations: [
@@ -19,7 +19,7 @@ describe('SchemaFormItemListComponent', () => {
       ],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SchemaFormItemListComponent);

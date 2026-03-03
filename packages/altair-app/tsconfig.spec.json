@@ -2,17 +2,12 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    // "target": "es2020",
     "baseUrl": "src",
-    "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": false,
-    "allowJs": true
-    // "types": ["jest"]
+    "allowJs": true,
+    "types": ["node", "chrome", "firefox-webext-browser"]
   },
-  "files": ["polyfills.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"],
-  "angularCompilerOptions": {
-    "enableIvy": false
-  }
+  "files": ["src/polyfills.ts"],
+  "include": ["**/*.spec.ts", "**/*.d.ts"]
 }

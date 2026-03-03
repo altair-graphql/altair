@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals';
 import { DialogComponent } from './dialog.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';

@@ -6,8 +6,7 @@ import { AppComponent } from './app.component';
 import { AltairModule } from './modules/altair/altair.module';
 
 @NgModule({
-  declarations: [AppComponent],
-  imports: [CommonModule, BrowserModule, AltairModule.forRoot()],
+  imports: [CommonModule, BrowserModule, AltairModule.forRoot(), AppComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

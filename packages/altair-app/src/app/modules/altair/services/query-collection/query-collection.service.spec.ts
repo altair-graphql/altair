@@ -1,5 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-import { describe, expect, it } from '@jest/globals';
+
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore - no types for fake-indexeddb in commonjs mode
 import { IDBFactory } from 'fake-indexeddb';

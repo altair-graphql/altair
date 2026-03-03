@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { Store, combineReducers } from '@ngrx/store';
@@ -19,7 +19,7 @@ describe('WindowComponent', () => {
   let fixture: ComponentFixture<WindowComponent>;
   let mockStore: Store<RootState>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockStore = mockStoreFactory<RootState>({
       windows: {
         'abc-123': getInitWindowState(combineReducers(getPerWindowReducer())),
@@ -85,8 +85,8 @@ describe('WindowComponent', () => {
         provide: services.RequestHandlerRegistryService,
         useFactory: () =>
           mock<services.RequestHandlerRegistryService>({
-            getAllHandlerData: jest.fn(),
-            getAllHandlerData$: jest.fn(),
+            getAllHandlerData: vi.fn(),
+            getAllHandlerData$: vi.fn(),
           }),
       },
     ];
@@ -97,7 +97,7 @@ describe('WindowComponent', () => {
       schemas: [NO_ERRORS_SCHEMA],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WindowComponent);

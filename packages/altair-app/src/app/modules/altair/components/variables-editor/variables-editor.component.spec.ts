@@ -1,5 +1,3 @@
-import { expect, describe, it } from '@jest/globals';
-
 import { VariablesEditorComponent } from './variables-editor.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper, mount } from '../../../../../testing';

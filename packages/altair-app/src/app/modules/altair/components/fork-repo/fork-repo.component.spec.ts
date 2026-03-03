@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ForkRepoComponent } from './fork-repo.component';
 
@@ -6,12 +6,12 @@ describe('ForkRepoComponent', () => {
   let component: ForkRepoComponent;
   let fixture: ComponentFixture<ForkRepoComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [ForkRepoComponent],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForkRepoComponent);

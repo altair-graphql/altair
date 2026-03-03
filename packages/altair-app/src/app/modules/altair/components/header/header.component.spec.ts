@@ -1,5 +1,5 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { expect, describe, it } from '@jest/globals';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MockModule } from 'ng-mocks';
 import { mount, NgxTestWrapper } from '../../../../../testing';

@@ -6,17 +6,11 @@ import {
   ClearHistoryAction,
 } from './history.action';
 import { HistoryState } from 'altair-graphql-core/build/types/state/history.interfaces';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 
-jest.mock('altair-graphql-core/build/config', () => {
-  return {
-    getAltairConfig() {
-      return {
-        query_history_depth: 2,
-      };
-    },
-  };
-});
 describe('history', () => {
+  const defaultHistoryDepth = getAltairConfig().query_history_depth;
+
   it('should return the state for unknown action', () => {
     const state: HistoryState = {
       list: [
@@ -50,28 +44,22 @@ describe('history', () => {
   });
 
   it(`should remove the last history item if default limit is reached for [${ADD_HISTORY}] action`, () => {
-    const state: HistoryState = {
-      list: [
-        {
-          query: 'query B{}',
-        },
-        {
-          query: 'query A{}',
-        },
-      ],
-    };
-    const action = new AddHistoryAction('', { query: 'query C{}' });
+    // Build a list that is exactly at the default limit
+    const list: HistoryState['list'] = [];
+    for (let i = defaultHistoryDepth - 1; i >= 0; i--) {
+      list.push({ query: `query ${i}{}` });
+    }
+
+    const state: HistoryState = { list };
+    const action = new AddHistoryAction('', { query: 'query NEW{}' });
     const newState = historyReducer(state, action);
 
-    expect(newState).toEqual({
-      list: [
-        {
-          query: 'query C{}',
-        },
-        {
-          query: 'query B{}',
-        },
-      ],
+    // The new item should be at the top, the last item should have been removed
+    expect(newState.list.length).toBe(defaultHistoryDepth);
+    expect(newState.list[0]).toEqual({ query: 'query NEW{}' });
+    // The original last item should be removed
+    expect(newState.list[newState.list.length - 1]).toEqual({
+      query: `query 1{}`,
     });
   });
 

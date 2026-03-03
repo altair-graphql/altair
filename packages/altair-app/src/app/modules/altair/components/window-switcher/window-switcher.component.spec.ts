@@ -1,4 +1,3 @@
-import { expect, describe, it } from '@jest/globals';
 import { WindowSwitcherComponent } from './window-switcher.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper, mount } from '../../../../../testing';

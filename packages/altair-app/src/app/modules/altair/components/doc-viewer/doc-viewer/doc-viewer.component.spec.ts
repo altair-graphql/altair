@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerComponent } from './doc-viewer.component';
@@ -14,7 +14,7 @@ describe('DocViewerComponent', () => {
   let component: DocViewerComponent;
   let fixture: ComponentFixture<DocViewerComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockGqlService = new Mock();
     TestBed.configureTestingModule({
       imports: [
@@ -34,7 +34,7 @@ describe('DocViewerComponent', () => {
       ],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocViewerComponent);
@@ -48,7 +48,7 @@ describe('DocViewerComponent', () => {
 
   describe('Breadcrumb navigation', () => {
     it('should navigate to home when breadcrumb index is -1', () => {
-      const setDocViewSpy = jest.spyOn(component, 'setDocView');
+      const setDocViewSpy = vi.spyOn(component, 'setDocView');
       component.docHistory.set([
         { view: 'type', name: 'User' },
         { view: 'field', name: 'name', parentType: 'User' },
@@ -61,7 +61,7 @@ describe('DocViewerComponent', () => {
     });
 
     it('should navigate to specific history point and update history', () => {
-      const setDocViewSpy = jest.spyOn(component, 'setDocView');
+      const setDocViewSpy = vi.spyOn(component, 'setDocView');
       const history: DocView[] = [
         { view: 'type', name: 'User' },
         { view: 'field', name: 'name', parentType: 'User' },
@@ -82,7 +82,7 @@ describe('DocViewerComponent', () => {
     });
 
     it('should not navigate if index is out of bounds', () => {
-      const setDocViewSpy = jest.spyOn(component, 'setDocView');
+      const setDocViewSpy = vi.spyOn(component, 'setDocView');
       const history: DocView[] = [{ view: 'type', name: 'User' }];
       component.docHistory.set([...history]);
 

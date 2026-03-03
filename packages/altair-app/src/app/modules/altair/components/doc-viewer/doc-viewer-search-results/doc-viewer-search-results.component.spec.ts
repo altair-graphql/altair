@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { TranslateModule } from '@ngx-translate/core';
 import { DocViewerSearchResultsComponent } from './doc-viewer-search-results.component';
@@ -8,13 +9,14 @@ describe('DocViewerSearchResultsComponent', () => {
   let component: DocViewerSearchResultsComponent;
   let fixture: ComponentFixture<DocViewerSearchResultsComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [DocViewerSearchResultsComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [TranslateModule.forRoot()],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DocViewerSearchResultsComponent);

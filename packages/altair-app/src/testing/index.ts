@@ -2,14 +2,14 @@ import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 type AnyFunction<R = unknown> = (...args: unknown[]) => R;
-export const anyFn = <R>() => jest.fn() as AnyFunction<R>;
+export const anyFn = <R>() => vi.fn() as AnyFunction<R>;
 export function mock<T>(obj: Partial<T> = {}): T {
   return obj as T;
 }
 
 export function mockStoreFactory<T>(obj: Partial<T> = {}): Store<T> {
   const store = of(obj);
-  (store as any).dispatch = jest.fn();
+  (store as any).dispatch = vi.fn();
   (store as any).select = (
     ...args: [
       key1: string | number | symbol,

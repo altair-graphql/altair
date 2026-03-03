@@ -1,33 +1,58 @@
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { QueryCollectionsComponent } from './query-collections.component';
 import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { describe, expect } from '@jest/globals';
-import { MockModule, MockComponent, MockService, MockProvider } from 'ng-mocks';
-import { QueryCollectionItemComponent } from '../query-collection-item/query-collection-item.component';
+
+import { MockModule, MockProvider } from 'ng-mocks';
 import {
   AccountService,
   ApiService,
   QueryCollectionService,
   StorageService,
 } from '../../services';
-import { of } from 'rxjs';
 import { IQueryCollectionTree } from 'altair-graphql-core/build/types/state/collection.interfaces';
+
+/**
+ * Manual stub for QueryCollectionItemComponent.
+ * MockComponent from ng-mocks does not properly support signal input.required<T>(),
+ * so we use a plain @Input() instead.
+ */
+@Component({
+  selector: 'app-query-collection-item',
+  template: '',
+  standalone: true,
+})
+class StubQueryCollectionItemComponent {
+  @Input() collectionTree!: IQueryCollectionTree;
+  @Input() loggedIn = false;
+  @Input() queriesSortBy = 'newest';
+  @Input() expanded = true;
+  @Output() selectQueryChange = new EventEmitter();
+  @Output() deleteQueryChange = new EventEmitter();
+  @Output() deleteCollectionChange = new EventEmitter();
+  @Output() editCollectionChange = new EventEmitter();
+  @Output() syncCollectionChange = new EventEmitter();
+  @Output() exportCollectionChange = new EventEmitter();
+  @Output() sortCollectionQueriesChange = new EventEmitter();
+  @Output() showQueryRevisionsChange = new EventEmitter();
+  @Output() copyQueryShareLinkChange = new EventEmitter();
+}
 
 describe('QueryCollectionsComponent', () => {
   let wrapper: NgxTestWrapper<QueryCollectionsComponent>;
-  let mockQueryCollectionService: jest.Mocked<QueryCollectionService>;
+  let mockQueryCollectionService: import('vitest').Mocked<QueryCollectionService>;
 
   beforeEach(async () => {
     mockQueryCollectionService = {
-      getCollectionTrees: jest.fn(),
-      getCollectionTree$: jest.fn(),
+      getCollectionTrees: vi.fn(),
+      getCollectionTree$: vi.fn(),
     } as any;
 
     wrapper = await mount({
       component: QueryCollectionsComponent,
-      declarations: [MockComponent(QueryCollectionItemComponent)],
+      declarations: [StubQueryCollectionItemComponent],
       imports: [MockModule(SharedModule)],
       providers: [
         { provide: QueryCollectionService, useValue: mockQueryCollectionService },
@@ -150,7 +175,7 @@ describe('QueryCollectionsComponent', () => {
     await wrapper.nextTick();
     await wrapper.nextTick();
 
-    const collectionItems = wrapper.findAll<QueryCollectionItemComponent>(
+    const collectionItems = wrapper.findAll<StubQueryCollectionItemComponent>(
       'app-query-collection-item'
     );
     expect(collectionItems.length).toBe(3);

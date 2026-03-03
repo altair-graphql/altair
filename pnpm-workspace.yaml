@@ -11,7 +11,7 @@ catalog:
   typescript: ^5.8.0
   zod: ^4.1.13
   vite: ^7.3.0
-  vitest: ^3.0.5
+  vitest: ^3.2.4
 
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade

@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { empty as observableEmpty } from 'rxjs';
 import { FormsModule } from '@angular/forms';
@@ -29,9 +30,10 @@ describe('SettingsDialogComponent', () => {
   let component: SettingsDialogComponent;
   let fixture: ComponentFixture<SettingsDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [SettingsDialogComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       teardown: { destroyAfterEach: false },
       imports: [
         NoopAnimationsModule,
@@ -64,7 +66,7 @@ describe('SettingsDialogComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SettingsDialogComponent);

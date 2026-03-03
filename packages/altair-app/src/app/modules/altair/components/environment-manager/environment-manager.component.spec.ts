@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { EnvironmentManagerComponent } from './environment-manager.component';
 import { FormsModule } from '@angular/forms';
@@ -16,9 +17,10 @@ describe('EnvironmentManagerComponent', () => {
   let component: EnvironmentManagerComponent;
   let fixture: ComponentFixture<EnvironmentManagerComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [EnvironmentManagerComponent, CodemirrorComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [
         NoopAnimationsModule,
         FormsModule,
@@ -28,7 +30,7 @@ describe('EnvironmentManagerComponent', () => {
       providers: [MockProvider(NotifyService)],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EnvironmentManagerComponent);

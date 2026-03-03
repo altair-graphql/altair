@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -12,9 +13,10 @@ describe('SetVariableDialogComponent', () => {
   let component: SetVariableDialogComponent;
   let fixture: ComponentFixture<SetVariableDialogComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     TestBed.configureTestingModule({
       declarations: [SetVariableDialogComponent, VariablesEditorComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       imports: [
         NoopAnimationsModule,
         FormsModule,
@@ -24,7 +26,7 @@ describe('SetVariableDialogComponent', () => {
       providers: [],
       teardown: { destroyAfterEach: false },
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SetVariableDialogComponent);

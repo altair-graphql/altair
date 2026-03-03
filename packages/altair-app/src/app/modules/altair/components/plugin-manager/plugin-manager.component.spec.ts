@@ -1,4 +1,5 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { PluginManagerComponent } from './plugin-manager.component';
 import { SharedModule } from '../../modules/shared/shared.module';
@@ -12,12 +13,13 @@ describe('PluginManagerComponent', () => {
   let component: PluginManagerComponent;
   let fixture: ComponentFixture<PluginManagerComponent>;
 
-  beforeEach(waitForAsync(() => {
+  beforeEach(async () => {
     mockPluginRegistryService = {
       getRemotePluginList: () => of({}),
     } as PluginRegistryService;
     TestBed.configureTestingModule({
       declarations: [PluginManagerComponent],
+      schemas: [NO_ERRORS_SCHEMA],
       teardown: { destroyAfterEach: false },
       imports: [SharedModule],
       providers: [
@@ -28,7 +30,7 @@ describe('PluginManagerComponent', () => {
         provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PluginManagerComponent);

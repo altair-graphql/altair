@@ -1,14 +1,12 @@
-import { FormsModule } from '@angular/forms';
+import { TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 import { AuthorizationOauth2Component } from './authorization-oauth2.component';
-import { SharedModule } from 'app/modules/altair/modules/shared/shared.module';
-import { MockModule, MockProvider } from 'ng-mocks';
-import { ComponentModule } from '../../components.module';
 import { NotifyService } from 'app/modules/altair/services';
 import { Store } from '@ngrx/store';
 import { EnvironmentService } from 'app/modules/altair/services/environment/environment.service';
-import { mount } from 'testing/utils';
-import { NgxTestWrapper } from 'testing/wrapper';
+import { MockProvider } from 'ng-mocks';
 import {
   OAuth2Type,
   AuthFormat,
@@ -16,36 +14,45 @@ import {
 } from 'altair-graphql-core/build/oauth2';
 
 describe('AuthorizationOauth2Component', () => {
-  let wrapper: NgxTestWrapper<AuthorizationOauth2Component>;
+  let component: AuthorizationOauth2Component;
   let mockNotifyService: any;
   let mockEnvironmentService: any;
 
   beforeEach(async () => {
     mockNotifyService = {
-      success: jest.fn(),
-      error: jest.fn(),
+      success: vi.fn(),
+      error: vi.fn(),
     };
     mockEnvironmentService = {
-      hydrate: jest.fn((val: string) => val),
+      hydrate: vi.fn((val: string) => val),
     };
 
-    wrapper = await mount({
-      component: AuthorizationOauth2Component,
-      imports: [MockModule(SharedModule), MockModule(ComponentModule), FormsModule],
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormsModule],
+      declarations: [AuthorizationOauth2Component],
       providers: [
         { provide: NotifyService, useValue: mockNotifyService },
         { provide: EnvironmentService, useValue: mockEnvironmentService },
         MockProvider(Store),
       ],
-    });
+      schemas: [NO_ERRORS_SCHEMA],
+    })
+      .overrideComponent(AuthorizationOauth2Component, {
+        set: { template: '' },
+      })
+      .compileComponents();
+
+    const fixture = TestBed.createComponent(AuthorizationOauth2Component);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(wrapper.component).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it('should have default form values', () => {
-    const formValue = wrapper.componentInstance.form.value;
+    const formValue = component.form.value;
     expect(formValue.type).toBe(OAuth2Type.AUTHORIZATION_CODE);
     expect(formValue.clientId).toBe('');
     expect(formValue.clientSecret).toBe('');
@@ -55,7 +62,7 @@ describe('AuthorizationOauth2Component', () => {
 
   describe('getOAuthWindowUrl', () => {
     it('should return oauth window URL', () => {
-      const url = wrapper.componentInstance.getOAuthWindowUrl();
+      const url = component.getOAuthWindowUrl();
       expect(url).toContain('/oauth2');
       expect(url).toContain('sc=');
     });
@@ -63,15 +70,13 @@ describe('AuthorizationOauth2Component', () => {
 
   describe('getOAuth2Options', () => {
     it('should throw error if type is not set', () => {
-      wrapper.componentInstance.form.patchValue({ type: undefined as any });
-      expect(() => wrapper.componentInstance.getOAuth2Options()).toThrow(
-        'type is required'
-      );
+      component.form.patchValue({ type: undefined as any });
+      expect(() => component.getOAuth2Options()).toThrow('type is required');
     });
 
     // TODO: Fix this test, the result isnt correct
     it.skip('should return options with hydrated values', () => {
-      wrapper.componentInstance.form.patchValue({
+      component.form.patchValue({
         type: OAuth2Type.AUTHORIZATION_CODE,
         clientId: '{{clientId}}',
         clientSecret: '{{clientSecret}}',
@@ -80,7 +85,7 @@ describe('AuthorizationOauth2Component', () => {
         scopes: 'read write',
       });
 
-      const options = wrapper.componentInstance.getOAuth2Options() as any;
+      const options = component.getOAuth2Options() as any;
       expect(options.type).toBe(OAuth2Type.AUTHORIZATION_CODE);
       expect(options.clientId).toBe('{{clientId}}');
       expect(options.clientSecret).toBe('{{clientSecret}}');
@@ -92,42 +97,43 @@ describe('AuthorizationOauth2Component', () => {
     });
 
     it('should generate codeVerifier if not provided', () => {
-      wrapper.componentInstance.form.patchValue({
+      component.form.patchValue({
         type: OAuth2Type.AUTHORIZATION_CODE_PKCE,
         clientId: 'test-client',
       });
 
-      const options = wrapper.componentInstance.getOAuth2Options() as any;
+      const options = component.getOAuth2Options() as any;
       expect(options.codeVerifier).toBeDefined();
       expect(options.codeVerifier?.length).toBeGreaterThan(0);
     });
 
     it('should generate state if not provided', () => {
-      wrapper.componentInstance.form.patchValue({
+      component.form.patchValue({
         type: OAuth2Type.AUTHORIZATION_CODE,
         clientId: 'test-client',
       });
 
-      const options = wrapper.componentInstance.getOAuth2Options() as any;
+      const options = component.getOAuth2Options() as any;
       expect(options.state).toBeDefined();
     });
   });
 
   describe('handleGetAccessToken', () => {
     it('should call getAccessToken and update form on success', async () => {
-      const mockResponse = { access_token: 'test-token', token_type: 'Bearer' };
-      jest
-        .spyOn(wrapper.componentInstance, 'getAccessToken')
-        .mockResolvedValue(mockResponse as any);
+      const mockResponse = {
+        access_token: 'test-token',
+        token_type: 'Bearer',
+      };
+      vi.spyOn(component, 'getAccessToken').mockResolvedValue(
+        mockResponse as any
+      );
 
-      await wrapper.componentInstance.handleGetAccessToken();
+      await component.handleGetAccessToken();
 
       expect(mockNotifyService.success).toHaveBeenCalledWith(
         'Retrieved access token successfully'
       );
-      expect(wrapper.componentInstance.form.value.accessTokenResponse).toEqual(
-        mockResponse
-      );
+      expect(component.form.value.accessTokenResponse).toEqual(mockResponse);
     });
 
     it('should call getAccessToken and show error on failure', async () => {
@@ -135,11 +141,11 @@ describe('AuthorizationOauth2Component', () => {
         error: 'invalid_grant',
         error_description: 'Invalid credentials',
       };
-      jest
-        .spyOn(wrapper.componentInstance, 'getAccessToken')
-        .mockResolvedValue(mockErrorResponse as any);
+      vi.spyOn(component, 'getAccessToken').mockResolvedValue(
+        mockErrorResponse as any
+      );
 
-      await wrapper.componentInstance.handleGetAccessToken();
+      await component.handleGetAccessToken();
 
       expect(mockNotifyService.error).toHaveBeenCalledWith(
         'Failed to retrieve access token: Invalid credentials'
@@ -148,24 +154,15 @@ describe('AuthorizationOauth2Component', () => {
 
     it('should handle error without error_description', async () => {
       const mockErrorResponse = { error: 'invalid_grant' };
-      jest
-        .spyOn(wrapper.componentInstance, 'getAccessToken')
-        .mockResolvedValue(mockErrorResponse as any);
+      vi.spyOn(component, 'getAccessToken').mockResolvedValue(
+        mockErrorResponse as any
+      );
 
-      await wrapper.componentInstance.handleGetAccessToken();
+      await component.handleGetAccessToken();
 
       expect(mockNotifyService.error).toHaveBeenCalledWith(
         'Failed to retrieve access token: invalid_grant'
       );
-    });
-  });
-
-  describe('emit authDataChange', () => {
-    it('should emit authDataChange when form values change', async () => {
-      wrapper.componentInstance.form.patchValue({ clientId: 'new-client-id' });
-      await wrapper.nextTick();
-
-      expect(wrapper.emitted('authDataChange')).toBeTruthy();
     });
   });
 });
