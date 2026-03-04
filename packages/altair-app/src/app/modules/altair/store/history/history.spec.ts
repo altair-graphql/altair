@@ -7,7 +7,7 @@ import {
 } from './history.action';
 import { HistoryState } from 'altair-graphql-core/build/types/state/history.interfaces';
 
-jest.mock('altair-graphql-core/build/config', () => {
+vi.mock('altair-graphql-core/build/config', () => {
   return {
     getAltairConfig() {
       return {

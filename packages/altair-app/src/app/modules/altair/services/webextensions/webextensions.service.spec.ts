@@ -4,9 +4,9 @@ import { WebExtensionsService } from './webextensions.service';
 import { MockProvider } from 'ng-mocks';
 import { WindowService } from '../window.service';
 
-jest.mock('altair-graphql-core/build/crx', () => ({
+vi.mock('altair-graphql-core/build/crx', () => ({
   isExtension: false,
-  sendMessage: jest.fn(),
+  sendMessage: vi.fn(),
 }));
 
 describe('WebextensionsService', () => {

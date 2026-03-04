@@ -3,7 +3,6 @@ import { SharedModule } from '../../modules/shared/shared.module';
 import { NgxTestWrapper } from '../../../../../testing/wrapper';
 import { mount } from '../../../../../testing/utils';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { describe, expect } from '@jest/globals';
 import { MockModule, MockComponent, MockService, MockProvider } from 'ng-mocks';
 import { QueryCollectionItemComponent } from '../query-collection-item/query-collection-item.component';
 import {
@@ -17,12 +16,12 @@ import { IQueryCollectionTree } from 'altair-graphql-core/build/types/state/coll
 
 describe('QueryCollectionsComponent', () => {
   let wrapper: NgxTestWrapper<QueryCollectionsComponent>;
-  let mockQueryCollectionService: jest.Mocked<QueryCollectionService>;
+  let mockQueryCollectionService: vi.Mocked<QueryCollectionService>;
 
   beforeEach(async () => {
     mockQueryCollectionService = {
-      getCollectionTrees: jest.fn(),
-      getCollectionTree$: jest.fn(),
+      getCollectionTrees: vi.fn(),
+      getCollectionTree$: vi.fn(),
     } as any;
 
     wrapper = await mount({

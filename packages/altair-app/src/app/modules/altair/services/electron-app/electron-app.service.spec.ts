@@ -30,7 +30,10 @@ describe('ElectronAppService', () => {
         GqlService,
         {
           provide: Store,
-          useValue: mockStoreFactory(),
+          useValue: mockStoreFactory({
+            windowsMeta: { activeWindowId: '' },
+            windows: {},
+          }),
         },
         provideHttpClient(withInterceptorsFromDi()),
       ],

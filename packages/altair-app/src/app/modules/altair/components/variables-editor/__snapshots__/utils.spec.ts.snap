@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`utils vttToJsonSchema converts variabltToType to a JSONSchema7 object 1`] = `
+exports[`utils > vttToJsonSchema > converts variabltToType to a JSONSchema7 object 1`] = `
 {
   "properties": {
     "myvar": {

@@ -1,15 +1,21 @@
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+
+import { setupTestBed } from '@analogjs/vitest-angular/setup-testbed';
+
+setupTestBed({
+  zoneless: false,
+});
+
 import 'core-js/es/reflect';
 import 'core-js/proposals/reflect-metadata';
-
-setupZoneTestEnv();
-// import 'jest-preset-angular/setup-jest.mjs';
 import 'fake-indexeddb/auto';
 import crypto from 'crypto';
 
 import jestChrome from 'jest-chrome';
 Object.assign(global, jestChrome);
 import { TextEncoder, TextDecoder } from 'util';
+import { vi } from 'vitest';
 
 Object.assign(global, { TextDecoder, TextEncoder });
 Object.defineProperty(window, 'crypto', {
@@ -17,13 +23,14 @@ Object.defineProperty(window, 'crypto', {
     getRandomValues: (arr: unknown[]) => crypto.randomBytes(arr.length),
   },
 });
-jest.mock(
+
+vi.mock(
   './app/modules/altair/components/doc-viewer/doc-viewer/worker-helper',
   () => ({
     getDocUtilsWorkerAsyncClass: () => {},
   })
 );
-jest.mock(
+vi.mock(
   './app/modules/altair/services/pre-request/evaluator-client.factory',
   () => ({
     ScriptEvaluatorWorkerFactory: function () {
@@ -65,9 +72,9 @@ Object.defineProperty(window, 'getComputedStyle', {
 // Console no-op
 Object.defineProperty(window, 'console', {
   value: {
-    log: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    log: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
   },
 });
 
@@ -108,6 +115,3 @@ Object.defineProperty(document.body.style, 'transform', {
     };
   },
 });
-
-/* output shorter and more meaningful Zone error stack traces */
-// Error.stackTraceLimit = 2;

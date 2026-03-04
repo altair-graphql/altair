@@ -1,4 +1,3 @@
-import { describe, expect, jest, it } from '@jest/globals';
 import {
   validateSettings,
   getSchemaFormProperty,
