@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
-    "@types/node": "^22.7.4",
+    "@types/node": "catalog:",
     "express": "^4.19.2",
     "typescript": "catalog:"
   },

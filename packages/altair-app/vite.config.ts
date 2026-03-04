@@ -34,7 +34,10 @@ function forceEsmPlugin() {
     name: 'force-esm-for-graphql',
     enforce: 'pre' as const,
     resolveId(source: string) {
-      // Redirect graphql bare + deep imports to .mjs entries
+      // Redirect graphql bare + deep imports to .mjs entries.
+      // Only intercept when an .mjs file exists; otherwise let Vite's
+      // default resolver handle it (returning .js or a directory path
+      // here would re-introduce the CJS dual-instance problem).
       if (source === 'graphql' || source.startsWith('graphql/')) {
         const subpath =
           source === 'graphql' ? 'index' : source.slice('graphql/'.length);
@@ -42,11 +45,6 @@ function forceEsmPlugin() {
         if (fs.existsSync(mjsPath)) {
           return mjsPath;
         }
-        const jsPath = path.join(graphqlDir, subpath + '.js');
-        if (fs.existsSync(jsPath)) {
-          return jsPath;
-        }
-        return path.join(graphqlDir, subpath);
       }
       // Redirect codemirror-graphql deep imports to .esm.js entries
       if (source.startsWith('codemirror-graphql/')) {

@@ -6,7 +6,7 @@
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "devDependencies": {
     "@altairgraphql/app": "workspace:*",
-    "@types/node": "^22.7.4",
+    "@types/node": "catalog:",
     "altair-graphql-core": "workspace:*",
     "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.14.43",
