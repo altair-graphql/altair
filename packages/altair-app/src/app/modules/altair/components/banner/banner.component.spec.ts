@@ -31,7 +31,7 @@ describe('BannerComponent', () => {
   });
 
   describe('onDismiss', () => {
-    it('should emit the banner id when banner has an id', () => {
+    it('should emit the banner id exactly once when banner has a valid id', () => {
       fixture.componentRef.setInput('banner', mockBanner);
       fixture.detectChanges();
 
@@ -41,6 +41,7 @@ describe('BannerComponent', () => {
       component.onDismiss();
 
       expect(dismissSpy).toHaveBeenCalledWith('test-banner-id');
+      expect(dismissSpy).toHaveBeenCalledTimes(1);
     });
 
     it('should not emit if banner is undefined', () => {
@@ -65,6 +66,33 @@ describe('BannerComponent', () => {
       component.onDismiss();
 
       expect(dismissSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not emit on rapid repeated calls if banner is undefined', () => {
+      fixture.componentRef.setInput('banner', undefined);
+      fixture.detectChanges();
+
+      const dismissSpy = jest.fn();
+      component.dismiss.subscribe(dismissSpy);
+
+      component.onDismiss();
+      component.onDismiss();
+      component.onDismiss();
+
+      expect(dismissSpy).not.toHaveBeenCalled();
+    });
+
+    it('should emit exactly once per call when called multiple times with valid banner', () => {
+      fixture.componentRef.setInput('banner', mockBanner);
+      fixture.detectChanges();
+
+      const dismissSpy = jest.fn();
+      component.dismiss.subscribe(dismissSpy);
+
+      component.onDismiss();
+      component.onDismiss();
+
+      expect(dismissSpy).toHaveBeenCalledTimes(2);
     });
   });
 });
