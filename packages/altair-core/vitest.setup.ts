@@ -14,6 +14,7 @@ import { webcrypto, randomFillSync, randomUUID } from 'node:crypto';
 import { clearImmediate } from 'node:timers';
 import { performance } from 'node:perf_hooks';
 import { LocationMock } from '@jedmao/location';
+import { Blob, File } from 'node:buffer';
 
 Object.defineProperties(globalThis, {
   crypto: {
@@ -35,6 +36,11 @@ Object.defineProperties(globalThis, {
 });
 
 Object.defineProperties(globalThis, {
+  // Using Blob and File from node:buffer since the ones used in undici (used in jsdom)
+  // don't seem to implement all the APIs properly, causing issues with tests (await request.formData() never resolves)
+  Blob: { value: Blob },
+  File: { value: File },
+
   // Mock the location object
   location: {
     value: new LocationMock('http://test.com'),
