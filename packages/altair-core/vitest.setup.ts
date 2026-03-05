@@ -9,13 +9,11 @@
  */
 
 import { TextDecoder, TextEncoder } from 'node:util';
-import { ReadableStream, TransformStream } from 'node:stream/web';
+import { ReadableStream } from 'node:stream/web';
 import { webcrypto, randomFillSync, randomUUID } from 'node:crypto';
 import { clearImmediate } from 'node:timers';
 import { performance } from 'node:perf_hooks';
 import { LocationMock } from '@jedmao/location';
-import { Blob } from 'node:buffer';
-import { fetch, Headers, FormData, Request, Response, File } from 'undici';
 
 Object.defineProperties(globalThis, {
   crypto: {
@@ -37,14 +35,6 @@ Object.defineProperties(globalThis, {
 });
 
 Object.defineProperties(globalThis, {
-  fetch: { value: fetch, writable: true },
-  Blob: { value: Blob },
-  File: { value: File },
-  Headers: { value: Headers },
-  FormData: { value: FormData },
-  Request: { value: Request },
-  Response: { value: Response },
-
   // Mock the location object
   location: {
     value: new LocationMock('http://test.com'),

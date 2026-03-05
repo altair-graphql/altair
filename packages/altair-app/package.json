@@ -171,7 +171,7 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "^4.0.18"
+    "vitest": "catalog:"
   },
   "homepage": "https://altair-graphql.github.io/altair/",
   "license": "MIT",
