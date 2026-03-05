@@ -10,14 +10,14 @@ setupTestBed({
 import 'core-js/es/reflect';
 import 'core-js/proposals/reflect-metadata';
 import 'fake-indexeddb/auto';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 import jestChrome from 'jest-chrome';
-Object.assign(global, jestChrome);
-import { TextEncoder, TextDecoder } from 'util';
+Object.assign(globalThis, jestChrome);
+import { TextEncoder, TextDecoder } from 'node:util';
 import { vi } from 'vitest';
 
-Object.assign(global, { TextDecoder, TextEncoder });
+Object.assign(globalThis, { TextDecoder, TextEncoder });
 Object.defineProperty(globalThis, 'crypto', {
   value: {
     getRandomValues: (arr: unknown[]) => crypto.randomBytes(arr.length),
@@ -27,7 +27,7 @@ Object.defineProperty(globalThis, 'crypto', {
 vi.mock(
   './app/modules/altair/components/doc-viewer/doc-viewer/worker-helper',
   () => ({
-    getDocUtilsWorkerAsyncClass: () => {},
+    getDocUtilsWorkerAsyncClass: vi.fn(),
   })
 );
 vi.mock(
@@ -44,7 +44,6 @@ vi.mock(
 );
 class Worker {
   onmessage = vi.fn();
-  constructor() {}
 
   postMessage(msg: string) {
     this.onmessage(msg);
@@ -53,7 +52,7 @@ class Worker {
   addEventListener = vi.fn();
 }
 
-/* global mocks for jsdom */
+/* mocks for jsdom */
 const mock = () => {
   let storage: { [key: string]: string } = {};
   return {
@@ -79,7 +78,7 @@ Object.defineProperty(globalThis, 'console', {
 });
 
 Object.defineProperty(globalThis, 'DragEvent', {
-  value: class DragEvent {},
+  value: vi.fn(),
 });
 Object.defineProperty(globalThis, 'EventSource', {
   value: class EventSource {
@@ -87,7 +86,7 @@ Object.defineProperty(globalThis, 'EventSource', {
     constructor(url: string) {
       this.url = url;
     }
-    close() {}
+    close = vi.fn();
   },
 });
 
