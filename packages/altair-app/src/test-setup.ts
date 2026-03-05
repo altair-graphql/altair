@@ -18,7 +18,7 @@ import { TextEncoder, TextDecoder } from 'util';
 import { vi } from 'vitest';
 
 Object.assign(global, { TextDecoder, TextEncoder });
-Object.defineProperty(window, 'crypto', {
+Object.defineProperty(globalThis, 'crypto', {
   value: {
     getRandomValues: (arr: unknown[]) => crypto.randomBytes(arr.length),
   },
@@ -43,14 +43,14 @@ vi.mock(
   })
 );
 class Worker {
-  onmessage = (msg: string) => {};
+  onmessage = vi.fn();
   constructor() {}
 
   postMessage(msg: string) {
     this.onmessage(msg);
   }
-  terminate() {}
-  addEventListener() {}
+  terminate = vi.fn();
+  addEventListener = vi.fn();
 }
 
 /* global mocks for jsdom */
@@ -64,13 +64,13 @@ const mock = () => {
   };
 };
 
-Object.defineProperty(window, 'localStorage', { value: mock() });
-Object.defineProperty(window, 'sessionStorage', { value: mock() });
-Object.defineProperty(window, 'getComputedStyle', {
+Object.defineProperty(globalThis, 'localStorage', { value: mock() });
+Object.defineProperty(globalThis, 'sessionStorage', { value: mock() });
+Object.defineProperty(globalThis, 'getComputedStyle', {
   value: () => ['-webkit-appearance'],
 });
 // Console no-op
-Object.defineProperty(window, 'console', {
+Object.defineProperty(globalThis, 'console', {
   value: {
     log: vi.fn(),
     warn: vi.fn(),
@@ -78,10 +78,10 @@ Object.defineProperty(window, 'console', {
   },
 });
 
-Object.defineProperty(window, 'DragEvent', {
+Object.defineProperty(globalThis, 'DragEvent', {
   value: class DragEvent {},
 });
-Object.defineProperty(window, 'EventSource', {
+Object.defineProperty(globalThis, 'EventSource', {
   value: class EventSource {
     url = '';
     constructor(url: string) {
@@ -91,11 +91,11 @@ Object.defineProperty(window, 'EventSource', {
   },
 });
 
-Object.defineProperty(window, 'CSS', { value: null });
+Object.defineProperty(globalThis, 'CSS', { value: null });
 Object.defineProperty(document, 'doctype', {
   value: '<!DOCTYPE html>',
 });
-Object.defineProperty(window, 'getComputedStyle', {
+Object.defineProperty(globalThis, 'getComputedStyle', {
   value: () => {
     return {
       display: 'none',
