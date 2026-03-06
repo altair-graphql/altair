@@ -17,7 +17,7 @@ const parseUrl = (url: string) => {
   }
 };
 
-export const isTranslateMode = (window as TODO).__ALTAIR_TRANSLATE__;
+export const isTranslateMode = (globalThis as TODO).__ALTAIR_TRANSLATE__;
 
 export class AltairConfig {
   private localSandboxUrl: string | undefined;
@@ -38,7 +38,7 @@ export class AltairConfig {
   defaultTheme = DEFAULT_OPTIONS.DEFAULT_THEME;
   themes = DEFAULT_OPTIONS.THEMES;
   isTranslateMode = isTranslateMode;
-  isWebApp = (window as TODO).__ALTAIR_WEB_APP__;
+  isWebApp = (globalThis as TODO).__ALTAIR_WEB_APP__;
   cspNonce = '';
   // assigning options here to get the return type
   options = getOptions({});
@@ -46,27 +46,29 @@ export class AltairConfig {
   constructor(options: input<typeof altairConfigOptionsSchema> = {}) {
     this.options = getOptions(options);
     this.options.endpointURL =
-      (window as TODO).__ALTAIR_ENDPOINT_URL__ ?? this.options.endpointURL ?? '';
+      (globalThis as TODO).__ALTAIR_ENDPOINT_URL__ ?? this.options.endpointURL ?? '';
     this.options.subscriptionsEndpoint =
-      (window as TODO).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ ??
+      (globalThis as TODO).__ALTAIR_SUBSCRIPTIONS_ENDPOINT__ ??
       this.options.subscriptionsEndpoint ??
       '';
     this.options.initialQuery =
-      (window as TODO).__ALTAIR_INITIAL_QUERY__ ?? this.options.initialQuery ?? '';
+      (globalThis as TODO).__ALTAIR_INITIAL_QUERY__ ??
+      this.options.initialQuery ??
+      '';
     this.options.initialVariables =
-      (window as TODO).__ALTAIR_INITIAL_VARIABLES__ ??
+      (globalThis as TODO).__ALTAIR_INITIAL_VARIABLES__ ??
       this.options.initialVariables ??
       '';
     this.options.initialHeaders =
-      (window as TODO).__ALTAIR_INITIAL_HEADERS__ ??
+      (globalThis as TODO).__ALTAIR_INITIAL_HEADERS__ ??
       this.options.initialHeaders ??
       {};
     this.options.initialPreRequestScript =
-      (window as TODO).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ ??
+      (globalThis as TODO).__ALTAIR_INITIAL_PRE_REQUEST_SCRIPT__ ??
       this.options.initialPreRequestScript ??
       '';
     this.options.instanceStorageNamespace =
-      (window as TODO).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ ??
+      (globalThis as TODO).__ALTAIR_INSTANCE_STORAGE_NAMESPACE__ ??
       this.options.instanceStorageNamespace ??
       'altair_';
 
@@ -87,7 +89,7 @@ export class AltairConfig {
     // check document base url
     if (
       document.baseURI &&
-      parseUrl(document.baseURI)?.origin === window.location.origin
+      parseUrl(document.baseURI)?.origin === globalThis.location.origin
     ) {
       // add iframe-sandbox path to base url
       if (document.baseURI.endsWith('/')) {
@@ -154,4 +156,4 @@ export const setAltairConfig = (_config: AltairConfig) => {
 export const getAltairConfig = () => {
   return config;
 };
-(window as TODO).getAltairConfig = getAltairConfig;
+(globalThis as TODO).getAltairConfig = getAltairConfig;

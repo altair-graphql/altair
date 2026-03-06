@@ -1,3 +1,4 @@
+import { expect, vi } from 'vitest';
 import * as request from 'supertest';
 import { PrismaClient } from '@altairgraphql/db';
 import { ConsoleLogger, INestApplication, Logger } from '@nestjs/common';
@@ -94,7 +95,7 @@ export const testUser4 = {
 };
 export const testUsers = [testUser, testUser2, testUser3, testUser4];
 const defaultMockUser: any = undefined;
-export const mockUserFn = jest.fn(() => defaultMockUser);
+export const mockUserFn = vi.fn(() => defaultMockUser);
 
 export const cleanupDatabase = async (prisma: PrismaClient) => {
   const tablenames = await prisma.$queryRaw<
@@ -215,7 +216,7 @@ export const createQuery = async (app: INestApplication, collectionId: string) =
 
 const originalEnv = process.env;
 export const beforeAllSetup = async () => {
-  jest.resetModules();
+  vi.resetModules();
   process.env = {
     ...originalEnv,
     RESEND_API_KEY: 're_test',
@@ -268,12 +269,12 @@ export const createTestApp = async () => {
     logLevels: ['error', 'warn', 'log', 'debug', 'verbose'],
   });
   const stripeService = {
-    createCustomer: jest.fn().mockResolvedValue({
+    createCustomer: vi.fn().mockResolvedValue({
       id: 'cus_test',
       email: '',
       name: '',
     }),
-    updateSubscriptionQuantity: jest.fn().mockResolvedValue({}),
+    updateSubscriptionQuantity: vi.fn().mockResolvedValue({}),
   };
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [AppModule],
