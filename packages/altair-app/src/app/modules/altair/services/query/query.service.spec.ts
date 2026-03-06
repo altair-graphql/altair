@@ -338,7 +338,7 @@ describe('QueryService', () => {
 
   describe('getPrerequestScriptResultForScript', () => {
     it('returns preTransformedData unchanged when window state is not found', async () => {
-      jest.spyOn(service, 'getWindowState').mockResolvedValue(undefined);
+      vi.spyOn(service, 'getWindowState').mockResolvedValue(undefined);
       const preTransformedData = makeTransformResult({
         environment: { key: 'val' },
       });
@@ -354,10 +354,10 @@ describe('QueryService', () => {
 
     it('merges script result with preTransformedData when state exists', async () => {
       const state = makeWindowState();
-      jest.spyOn(service, 'getWindowState').mockResolvedValue(state);
+      vi.spyOn(service, 'getWindowState').mockResolvedValue(state);
 
       const mockPreRequest = TestBed.inject(PreRequestService);
-      jest.spyOn(mockPreRequest, 'executeScript').mockResolvedValue({
+      vi.spyOn(mockPreRequest, 'executeScript').mockResolvedValue({
         environment: { newVar: 'newValue' },
         requestScriptLogs: [],
       });
@@ -377,15 +377,15 @@ describe('QueryService', () => {
 
     it('returns preTransformedData and shows error when script execution fails', async () => {
       const state = makeWindowState();
-      jest.spyOn(service, 'getWindowState').mockResolvedValue(state);
+      vi.spyOn(service, 'getWindowState').mockResolvedValue(state);
 
       const mockPreRequest = TestBed.inject(PreRequestService);
-      jest
+      vi
         .spyOn(mockPreRequest, 'executeScript')
         .mockRejectedValue(new Error('Script error'));
 
       const mockNotify = TestBed.inject(NotifyService);
-      const errorSpy = jest.spyOn(mockNotify, 'error');
+      const errorSpy = vi.spyOn(mockNotify, 'error');
 
       const preTransformedData = makeTransformResult();
 
@@ -402,7 +402,7 @@ describe('QueryService', () => {
 
   describe('getPostRequestTransformedDataForScript', () => {
     it('returns preTransformedData unchanged when window state is not found', async () => {
-      jest.spyOn(service, 'getWindowState').mockResolvedValue(undefined);
+      vi.spyOn(service, 'getWindowState').mockResolvedValue(undefined);
       const preTransformedData = makeTransformResult();
 
       const result = await service.getPostRequestTransformedDataForScript(
@@ -418,10 +418,10 @@ describe('QueryService', () => {
 
     it('merges script result with preTransformedData when state exists', async () => {
       const state = makeWindowState();
-      jest.spyOn(service, 'getWindowState').mockResolvedValue(state);
+      vi.spyOn(service, 'getWindowState').mockResolvedValue(state);
 
       const mockPreRequest = TestBed.inject(PreRequestService);
-      jest.spyOn(mockPreRequest, 'executeScript').mockResolvedValue({
+      vi.spyOn(mockPreRequest, 'executeScript').mockResolvedValue({
         environment: { postVar: 'postValue' },
         requestScriptLogs: [],
       });
@@ -441,15 +441,15 @@ describe('QueryService', () => {
 
     it('returns preTransformedData and shows error when script execution fails', async () => {
       const state = makeWindowState();
-      jest.spyOn(service, 'getWindowState').mockResolvedValue(state);
+      vi.spyOn(service, 'getWindowState').mockResolvedValue(state);
 
       const mockPreRequest = TestBed.inject(PreRequestService);
-      jest
+      vi
         .spyOn(mockPreRequest, 'executeScript')
         .mockRejectedValue(new Error('Post script error'));
 
       const mockNotify = TestBed.inject(NotifyService);
-      const errorSpy = jest.spyOn(mockNotify, 'error');
+      const errorSpy = vi.spyOn(mockNotify, 'error');
 
       const preTransformedData = makeTransformResult();
 

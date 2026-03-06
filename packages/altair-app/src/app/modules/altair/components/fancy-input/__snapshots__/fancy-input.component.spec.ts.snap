@@ -1,7 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`FancyInputComponent should render the highlights correctly based on the matched variables in text 1`] = `
-<div>
+exports[`FancyInputComponent > should render the highlights correctly based on the matched variables in text 1`] = `
+<div
+  id="root2"
+  ng-version="20.3.3"
+>
   <div
     class="fancy-input-container"
   >
@@ -19,47 +22,50 @@ exports[`FancyInputComponent should render the highlights correctly based on the
         <span>
           some text 
         </span>
-        
-        
-        
+        <!--container-->
+        <!--container-->
+        <!--container-->
         <app-fancy-input-marker>
           <mark
             class="fancy-input-marker__invalid"
           >
             {{variable1}}
           </mark>
-          
+          <!--container-->
         </app-fancy-input-marker>
-        
+        <!--container-->
         <span>
            then 
         </span>
-        
-        
-        
+        <!--container-->
+        <!--container-->
+        <!--container-->
         <app-fancy-input-marker>
           <mark
             class="fancy-input-marker__invalid"
           >
             {{variable2}}
           </mark>
-          
+          <!--container-->
         </app-fancy-input-marker>
-        
+        <!--container-->
         <span>
            is next
         </span>
-        
-        
-        
+        <!--container-->
+        <!--container-->
+        <!--container-->
       </div>
     </div>
   </div>
 </div>
 `;
 
-exports[`FancyInputComponent should set component value when input value changes 1`] = `
-<div>
+exports[`FancyInputComponent > should set component value when input value changes 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <div
     class="fancy-input-container"
   >
@@ -77,9 +83,9 @@ exports[`FancyInputComponent should set component value when input value changes
         <span>
           some text
         </span>
-        
-        
-        
+        <!--container-->
+        <!--container-->
+        <!--container-->
       </div>
     </div>
   </div>

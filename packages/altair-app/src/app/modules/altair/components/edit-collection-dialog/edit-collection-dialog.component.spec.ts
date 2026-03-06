@@ -7,7 +7,6 @@ import {
 import { SharedModule } from '../../modules/shared/shared.module';
 import { mount, NgxTestWrapper } from '../../../../../testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { expect, it } from '@jest/globals';
 
 describe('EditCollectionDialogComponent', () => {
   let wrapper: NgxTestWrapper<EditCollectionDialogComponent>;

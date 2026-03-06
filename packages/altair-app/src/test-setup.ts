@@ -1,29 +1,36 @@
-import { setupZoneTestEnv } from 'jest-preset-angular/setup-env/zone';
+import '@angular/compiler';
+import '@analogjs/vitest-angular/setup-zone';
+
+import { setupTestBed } from '@analogjs/vitest-angular/setup-testbed';
+
+setupTestBed({
+  zoneless: false,
+});
+
 import 'core-js/es/reflect';
 import 'core-js/proposals/reflect-metadata';
-
-setupZoneTestEnv();
-// import 'jest-preset-angular/setup-jest.mjs';
 import 'fake-indexeddb/auto';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 import jestChrome from 'jest-chrome';
-Object.assign(global, jestChrome);
-import { TextEncoder, TextDecoder } from 'util';
+Object.assign(globalThis, jestChrome);
+import { TextEncoder, TextDecoder } from 'node:util';
+import { vi } from 'vitest';
 
-Object.assign(global, { TextDecoder, TextEncoder });
-Object.defineProperty(window, 'crypto', {
+Object.assign(globalThis, { TextDecoder, TextEncoder });
+Object.defineProperty(globalThis, 'crypto', {
   value: {
     getRandomValues: (arr: unknown[]) => crypto.randomBytes(arr.length),
   },
 });
-jest.mock(
+
+vi.mock(
   './app/modules/altair/components/doc-viewer/doc-viewer/worker-helper',
   () => ({
-    getDocUtilsWorkerAsyncClass: () => {},
+    getDocUtilsWorkerAsyncClass: vi.fn(),
   })
 );
-jest.mock(
+vi.mock(
   './app/modules/altair/services/pre-request/evaluator-client.factory',
   () => ({
     ScriptEvaluatorWorkerFactory: function () {
@@ -36,17 +43,16 @@ jest.mock(
   })
 );
 class Worker {
-  onmessage = (msg: string) => {};
-  constructor() {}
+  onmessage = vi.fn();
 
   postMessage(msg: string) {
     this.onmessage(msg);
   }
-  terminate() {}
-  addEventListener() {}
+  terminate = vi.fn();
+  addEventListener = vi.fn();
 }
 
-/* global mocks for jsdom */
+/* mocks for jsdom */
 const mock = () => {
   let storage: { [key: string]: string } = {};
   return {
@@ -57,38 +63,38 @@ const mock = () => {
   };
 };
 
-Object.defineProperty(window, 'localStorage', { value: mock() });
-Object.defineProperty(window, 'sessionStorage', { value: mock() });
-Object.defineProperty(window, 'getComputedStyle', {
+Object.defineProperty(globalThis, 'localStorage', { value: mock() });
+Object.defineProperty(globalThis, 'sessionStorage', { value: mock() });
+Object.defineProperty(globalThis, 'getComputedStyle', {
   value: () => ['-webkit-appearance'],
 });
 // Console no-op
-Object.defineProperty(window, 'console', {
+Object.defineProperty(globalThis, 'console', {
   value: {
-    log: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    log: vi.fn(),
+    warn: vi.fn(),
+    error: vi.fn(),
   },
 });
 
-Object.defineProperty(window, 'DragEvent', {
-  value: class DragEvent {},
+Object.defineProperty(globalThis, 'DragEvent', {
+  value: vi.fn(),
 });
-Object.defineProperty(window, 'EventSource', {
+Object.defineProperty(globalThis, 'EventSource', {
   value: class EventSource {
     url = '';
     constructor(url: string) {
       this.url = url;
     }
-    close() {}
+    close = vi.fn();
   },
 });
 
-Object.defineProperty(window, 'CSS', { value: null });
+Object.defineProperty(globalThis, 'CSS', { value: null });
 Object.defineProperty(document, 'doctype', {
   value: '<!DOCTYPE html>',
 });
-Object.defineProperty(window, 'getComputedStyle', {
+Object.defineProperty(globalThis, 'getComputedStyle', {
   value: () => {
     return {
       display: 'none',
@@ -108,6 +114,3 @@ Object.defineProperty(document.body.style, 'transform', {
     };
   },
 });
-
-/* output shorter and more meaningful Zone error stack traces */
-// Error.stackTraceLimit = 2;

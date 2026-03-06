@@ -85,8 +85,8 @@ describe('WindowComponent', () => {
         provide: services.RequestHandlerRegistryService,
         useFactory: () =>
           mock<services.RequestHandlerRegistryService>({
-            getAllHandlerData: jest.fn(),
-            getAllHandlerData$: jest.fn(),
+            getAllHandlerData: vi.fn(),
+            getAllHandlerData$: vi.fn(),
           }),
       },
     ];

@@ -22,11 +22,11 @@ describe('AuthorizationOauth2Component', () => {
 
   beforeEach(async () => {
     mockNotifyService = {
-      success: jest.fn(),
-      error: jest.fn(),
+      success: vi.fn(),
+      error: vi.fn(),
     };
     mockEnvironmentService = {
-      hydrate: jest.fn((val: string) => val),
+      hydrate: vi.fn((val: string) => val),
     };
 
     wrapper = await mount({
@@ -116,7 +116,7 @@ describe('AuthorizationOauth2Component', () => {
   describe('handleGetAccessToken', () => {
     it('should call getAccessToken and update form on success', async () => {
       const mockResponse = { access_token: 'test-token', token_type: 'Bearer' };
-      jest
+      vi
         .spyOn(wrapper.componentInstance, 'getAccessToken')
         .mockResolvedValue(mockResponse as any);
 
@@ -135,7 +135,7 @@ describe('AuthorizationOauth2Component', () => {
         error: 'invalid_grant',
         error_description: 'Invalid credentials',
       };
-      jest
+      vi
         .spyOn(wrapper.componentInstance, 'getAccessToken')
         .mockResolvedValue(mockErrorResponse as any);
 
@@ -148,7 +148,7 @@ describe('AuthorizationOauth2Component', () => {
 
     it('should handle error without error_description', async () => {
       const mockErrorResponse = { error: 'invalid_grant' };
-      jest
+      vi
         .spyOn(wrapper.componentInstance, 'getAccessToken')
         .mockResolvedValue(mockErrorResponse as any);
 

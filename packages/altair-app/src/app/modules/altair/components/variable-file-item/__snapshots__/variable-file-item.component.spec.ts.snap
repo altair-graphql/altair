@@ -1,7 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`VariableFileItemComponent should render correctly 1`] = `
-<div>
+exports[`VariableFileItemComponent > should render correctly 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <div
     class="variables-file-item"
   >
@@ -15,17 +18,17 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
         <span>
           1
         </span>
-        
-        
+        <!--container-->
+        <!--container-->
       </span>
-      
+      <!--container-->
       <input
         class="variables-file-item-name-input"
         data-tid="file_name"
         placeholder="undefined"
         type="text"
       />
-      
+      <!--container-->
     </div>
     <div
       class="variables-file-item-input-wrapper"
@@ -40,7 +43,7 @@ exports[`VariableFileItemComponent should render correctly 1`] = `
       >
          0 file(s) 
       </span>
-      
+      <!--container-->
       <button
         class="app-button variables-file-item-button"
         type="button"
