@@ -1,4 +1,5 @@
-import * as request from 'supertest';
+import { expect, vi } from 'vitest';
+import request from 'supertest';
 import { PrismaClient } from '@altairgraphql/db';
 import { ConsoleLogger, INestApplication, Logger } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -25,9 +26,9 @@ const prisma = new PrismaClient();
 
 const wait = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
 export const testUser = {
-  id: 'test-user',
+  id: 'test-user' + Math.floor(Math.random() * 1000),
   stripeCustomerId: 'cus_test',
-  email: 'user@test.com',
+  email: `user+${Math.floor(Math.random() * 1000)}@test.com`,
   picture: 'https://example.com/picture.png',
   firstName: 'Test',
   lastName: 'User',
@@ -42,9 +43,9 @@ export const testUser = {
   },
 };
 export const testUser2 = {
-  id: 'test-user-2',
+  id: 'test-user-2' + Math.floor(Math.random() * 1000),
   stripeCustomerId: 'cus_test2',
-  email: 'user2@test.com',
+  email: `user2+${Math.floor(Math.random() * 1000)}@test.com`,
   picture: 'https://example.com/picture2.png',
   firstName: 'Test2',
   lastName: 'User2',
@@ -59,9 +60,9 @@ export const testUser2 = {
   },
 };
 export const testUser3 = {
-  id: 'test-user-3',
+  id: 'test-user-3' + Math.floor(Math.random() * 1000),
   stripeCustomerId: 'cus_test3',
-  email: 'user3@test.com',
+  email: `user3+${Math.floor(Math.random() * 1000)}@test.com`,
   picture: 'https://example.com/picture3.png',
   firstName: 'Test3',
   lastName: 'User3',
@@ -76,9 +77,9 @@ export const testUser3 = {
   },
 };
 export const testUser4 = {
-  id: 'test-user-4',
+  id: 'test-user-4' + Math.floor(Math.random() * 1000),
   stripeCustomerId: 'cus_test4',
-  email: 'user4@test.com',
+  email: `user4+${Math.floor(Math.random() * 1000)}@test.com`,
   picture: 'https://example.com/picture4.png',
   firstName: 'Test4',
   lastName: 'User4',
@@ -94,7 +95,7 @@ export const testUser4 = {
 };
 export const testUsers = [testUser, testUser2, testUser3, testUser4];
 const defaultMockUser: any = undefined;
-export const mockUserFn = jest.fn(() => defaultMockUser);
+export const mockUserFn = vi.fn(() => defaultMockUser);
 
 export const cleanupDatabase = async (prisma: PrismaClient) => {
   const tablenames = await prisma.$queryRaw<
@@ -215,7 +216,7 @@ export const createQuery = async (app: INestApplication, collectionId: string) =
 
 const originalEnv = process.env;
 export const beforeAllSetup = async () => {
-  jest.resetModules();
+  vi.resetModules();
   process.env = {
     ...originalEnv,
     RESEND_API_KEY: 're_test',
@@ -268,12 +269,12 @@ export const createTestApp = async () => {
     logLevels: ['error', 'warn', 'log', 'debug', 'verbose'],
   });
   const stripeService = {
-    createCustomer: jest.fn().mockResolvedValue({
+    createCustomer: vi.fn().mockResolvedValue({
       id: 'cus_test',
       email: '',
       name: '',
     }),
-    updateSubscriptionQuantity: jest.fn().mockResolvedValue({}),
+    updateSubscriptionQuantity: vi.fn().mockResolvedValue({}),
   };
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [AppModule],
@@ -319,7 +320,7 @@ export const afterAllCleanup = async (
   process.env = originalEnv;
   // await prismaService?.$disconnect();
   // await prisma.$disconnect();
-  await app.close();
+  await app?.close();
 };
 
 export const authedRequest = (

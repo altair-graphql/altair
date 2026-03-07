@@ -1,7 +1,8 @@
+import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { ICreateTeamMembershipDto } from '@altairgraphql/api-utils';
 import { INestApplication } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import * as request from 'supertest';
+import request from 'supertest';
 import {
   afterAllCleanup,
   beforeAllSetup,
@@ -33,9 +34,7 @@ describe('TeamMembershipsController', () => {
   });
 
   it('/team-memberships/team/:id (GET) should return 401 when not authenticated', () => {
-    return request(app.getHttpServer())
-      .get('/team-memberships/team/1')
-      .expect(401);
+    return request(app.getHttpServer()).get('/team-memberships/team/1').expect(401);
   });
 
   it('/team-memberships/team/:id (GET) should return 400 when team does not exist or user is not allowed to access the team', () => {
@@ -107,10 +106,7 @@ describe('TeamMembershipsController', () => {
     await createTeamMembership(app, team.id, testUser2.email);
     await createTeamMembership(app, team.id, testUser3.email);
 
-    expect(stripeService.updateSubscriptionQuantity).toBeCalledWith(
-      'cus_test',
-      3
-    );
+    expect(stripeService.updateSubscriptionQuantity).toBeCalledWith('cus_test', 3);
   });
 
   it('/team-memberships/team/:teamId/member/:memberId (DELETE) should return 401 when not authenticated', () => {

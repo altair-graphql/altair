@@ -1,3 +1,4 @@
+import { vi } from 'vitest';
 import { ConfigService } from '@nestjs/config';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
@@ -25,7 +26,7 @@ export const testProviders = [
   {
     provide: ConfigService,
     useValue: {
-      get: jest.fn().mockReturnValue('test'),
+      get: vi.fn().mockReturnValue('test'),
     },
   },
 ];
