@@ -1,7 +1,7 @@
-import { jest, describe, it, expect } from '@jest/globals';
+import { vi, describe, it, expect } from 'vitest';
 import { InMemoryStore } from './store';
 
-jest.mock('electron-store');
+vi.mock('electron-store');
 
 describe('InMemoryStore', () => {
   it('should create', () => {
