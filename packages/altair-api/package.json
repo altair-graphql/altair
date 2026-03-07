@@ -78,7 +78,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "tsc --noEmit && nest build",
+    "build": "tsc --noEmit -p tsconfig.build.json && nest build",
     "env": "sync-dotenv",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
