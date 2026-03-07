@@ -2,7 +2,7 @@ import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { IUpdateQueryDto } from '@altairgraphql/api-utils';
 import { INestApplication } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
-import * as request from 'supertest';
+import request from 'supertest';
 import {
   afterAllCleanup,
   beforeAllSetup,

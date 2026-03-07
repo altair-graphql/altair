@@ -4,13 +4,13 @@ import path from 'path';
 
 export default defineConfig({
   test: {
-    globals: false,
     environment: 'node',
     include: ['test/**/*.e2e-spec.ts'],
     setupFiles: ['./test/custom-matchers.ts'],
     root: './',
     testTimeout: 30000,
     hookTimeout: 30000,
+    fileParallelism: false,
   },
   resolve: {
     alias: {
