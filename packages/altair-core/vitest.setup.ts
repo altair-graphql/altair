@@ -1,11 +1,8 @@
 /**
  * @note The block below contains polyfills for Node.js globals
- * required for Jest to function when running JSDOM tests.
- * These HAVE to be require's and HAVE to be in this exact
- * order, since "undici" depends on the "TextEncoder" global API.
- *
- * Consider migrating to a more modern test runner if
- * you don't want to deal with this.
+ * required for JSDOM tests. These HAVE to be require's and HAVE
+ * to be in this exact order, since "undici" depends on the
+ * "TextEncoder" global API.
  */
 
 import { TextDecoder, TextEncoder } from 'node:util';
@@ -54,9 +51,9 @@ global.structuredClone = (data) => {
 global.console = {
   ...console,
   // uncomment to ignore a specific log level
-  // log: jest.fn(),
-  // debug: jest.fn(),
-  // info: jest.fn(),
-  // warn: jest.fn(),
-  // error: jest.fn(),
+  // log: vi.fn(),
+  // debug: vi.fn(),
+  // info: vi.fn(),
+  // warn: vi.fn(),
+  // error: vi.fn(),
 };
