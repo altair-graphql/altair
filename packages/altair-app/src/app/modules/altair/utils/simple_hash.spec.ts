@@ -1,4 +1,3 @@
-import { describe, expect, jest, it, beforeAll } from '@jest/globals';
 import { hash, uaSeedHash } from './simple_hash';
 
 describe('hash', () => {

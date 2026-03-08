@@ -214,11 +214,11 @@ app-doc-viewer {
       padding: 0;
       background: none;
       border-radius: 0;
-      
+
       &:hover {
         background: none;
       }
-      
+
       .breadcrumb-text {
         color: var(--theme-off-font-color);
         padding: 0 2px;
@@ -429,7 +429,7 @@ app-doc-viewer {
 .doc-viewer-section {
   margin: 0 0 40px;
   border-top: 1px solid rgba(var(--rgb-theme-border), 0.3);
-  
+
   // Remove border from first section
   &:first-child {
     border-top: none;
@@ -445,11 +445,12 @@ app-doc-viewer {
   text-transform: uppercase;
   font-weight: bold;
   margin-bottom: 10px;
-  padding: 8px 0;
+  padding: 8px 4px;
   background: rgba(var(--rgb-theme-bg), 0.95);
   position: sticky;
   top: calc(var(--doc-viewer-padding) * -1);
-  z-index: 10;
+  z-index: 1;
+  min-height: 40px;
 
   .icon-button {
     font-size: fontsize(12);

@@ -1,4 +1,3 @@
-import { expect, describe, it } from '@jest/globals';
 
 import { ImportCurlDialogComponent } from './import-curl-dialog.component';
 

@@ -1,14 +1,17 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`HeadersEditorComponent should render correctly 1`] = `
-<div>
+exports[`HeadersEditorComponent > should render correctly 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <div
     class="headers-editor"
   >
     <div
       class="headers-editor__list"
     >
-      
+      <!--container-->
       <button
         class="btn btn--full-width"
         type="button"
@@ -31,7 +34,7 @@ exports[`HeadersEditorComponent should render correctly 1`] = `
           Learn more
         </a>
       </div>
-      
+      <!--container-->
       <div
         class="headers__notice"
       >

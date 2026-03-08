@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { LoggingInterceptor } from './logging.interceptor';
 
 describe('LoggingInterceptor', () => {

@@ -1,4 +1,3 @@
-import { expect, describe, it, beforeEach } from '@jest/globals';
 import { TestBed } from '@angular/core/testing';
 
 import { PluginContextService } from './plugin-context.service';
@@ -36,9 +35,9 @@ const createContext = () => {
 
 describe('PluginContextService', () => {
   let mockStore: Store<RootState>;
-  let mockEventBus: { on: jest.Mock; unsubscribe: jest.Mock };
+  let mockEventBus: { on: vi.Mock; unsubscribe: vi.Mock };
   beforeEach(() => {
-    mockEventBus = { on: jest.fn(), unsubscribe: jest.fn() };
+    mockEventBus = { on: vi.fn(), unsubscribe: vi.fn() };
     mockStore = mockStoreFactory<RootState>({
       windows: {
         'abc-123': getInitWindowState(combineReducers(getPerWindowReducer())),
@@ -63,7 +62,7 @@ describe('PluginContextService', () => {
         },
         {
           provide: NotifyService,
-          useFactory: () => mock<NotifyService>({ info: jest.fn() }),
+          useFactory: () => mock<NotifyService>({ info: vi.fn() }),
         },
         {
           provide: PluginEventService,
@@ -80,9 +79,9 @@ describe('PluginContextService', () => {
           provide: ThemeRegistryService,
           useFactory: () =>
             mock<ThemeRegistryService>({
-              addTheme: jest.fn(),
-              getTheme: jest.fn(),
-              mergeThemes: jest.fn().mockReturnValue({}),
+              addTheme: vi.fn(),
+              getTheme: vi.fn(),
+              mergeThemes: vi.fn().mockReturnValue({}),
             }),
         },
       ],
@@ -299,7 +298,7 @@ describe('PluginContextService', () => {
       it('should call windowService.importWindowData', () => {
         const ctx = createContext();
         const windowService = TestBed.inject(WindowService) as any;
-        windowService.importWindowData = jest.fn();
+        windowService.importWindowData = vi.fn();
         ctx.app.createWindow({ version: 1, type: 'window' } as any);
         expect(windowService.importWindowData).toHaveBeenCalled();
       });
@@ -317,10 +316,10 @@ describe('PluginContextService', () => {
       it('should call requestHandlerRegistryService.addHandlerData', () => {
         const ctx = createContext();
         const registryService = TestBed.inject(RequestHandlerRegistryService) as any;
-        registryService.addHandlerData = jest.fn();
+        registryService.addHandlerData = vi.fn();
         ctx.app.addSubscriptionProvider({
           id: 'test-provider',
-          getProviderClass: jest.fn().mockResolvedValue(class {}),
+          getProviderClass: vi.fn().mockResolvedValue(class {}),
           copyTag: 'TEST',
         } as any);
         expect(registryService.addHandlerData).toHaveBeenCalledWith(

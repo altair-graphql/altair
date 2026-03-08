@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`generateQuery fragment generates expected fragment 1`] = `
+exports[`generateQuery > fragment > generates expected fragment 1`] = `
 "fragment ____ on GOTHouse {
   overlord {
     id
@@ -17,7 +17,7 @@ exports[`generateQuery fragment generates expected fragment 1`] = `
 "
 `;
 
-exports[`generateQuery fragment generates expected fragment with specified max depth 1`] = `
+exports[`generateQuery > fragment > generates expected fragment with specified max depth 1`] = `
 "fragment ____ on GOTHouse {
   overlord {
     id
@@ -422,7 +422,7 @@ exports[`generateQuery fragment generates expected fragment with specified max d
 "
 `;
 
-exports[`generateQuery fragment generates expected fragment with specified tab size 1`] = `
+exports[`generateQuery > fragment > generates expected fragment with specified tab size 1`] = `
 "fragment ____ on GOTHouse {
      overlord {
           id
@@ -439,7 +439,7 @@ exports[`generateQuery fragment generates expected fragment with specified tab s
 "
 `;
 
-exports[`generateQuery query generates expected query 1`] = `
+exports[`generateQuery > query > generates expected query 1`] = `
 "{
   GOTHouses(name: "string") {
     id
@@ -456,7 +456,7 @@ exports[`generateQuery query generates expected query 1`] = `
 "
 `;
 
-exports[`generateQuery query generates expected query with boolean argument 1`] = `
+exports[`generateQuery > query > generates expected query with boolean argument 1`] = `
 "{
   withBoolean(isValid: true) {
     id
@@ -470,7 +470,7 @@ exports[`generateQuery query generates expected query with boolean argument 1`] 
 "
 `;
 
-exports[`generateQuery query generates expected query with default enum argument 1`] = `
+exports[`generateQuery > query > generates expected query with default enum argument 1`] = `
 "{
   files(filetype: PDF) {
     filename
@@ -482,7 +482,7 @@ exports[`generateQuery query generates expected query with default enum argument
 "
 `;
 
-exports[`generateQuery query generates expected query with default string argument 1`] = `
+exports[`generateQuery > query > generates expected query with default string argument 1`] = `
 "{
   GOTBooks(name: "my-book") {
     id
@@ -496,7 +496,7 @@ exports[`generateQuery query generates expected query with default string argume
 "
 `;
 
-exports[`generateQuery query generates expected query with enum argument 1`] = `
+exports[`generateQuery > query > generates expected query with enum argument 1`] = `
 "{
   withEnum(name: JPG) {
     id
@@ -510,7 +510,7 @@ exports[`generateQuery query generates expected query with enum argument 1`] = `
 "
 `;
 
-exports[`generateQuery query generates expected query with int argument 1`] = `
+exports[`generateQuery > query > generates expected query with int argument 1`] = `
 "{
   withInt(count: 1) {
     id
@@ -524,7 +524,7 @@ exports[`generateQuery query generates expected query with int argument 1`] = `
 "
 `;
 
-exports[`generateQuery query generates expected query with list argument 1`] = `
+exports[`generateQuery > query > generates expected query with list argument 1`] = `
 "{
   withStringList(list: ["string"]) {
     id
@@ -538,7 +538,7 @@ exports[`generateQuery query generates expected query with list argument 1`] = `
 "
 `;
 
-exports[`generateQuery query generates expected query with multiple complex arguments 1`] = `
+exports[`generateQuery > query > generates expected query with multiple complex arguments 1`] = `
 "{
   withMultipleListArguments(
     list: [{ id: 1 }]
@@ -556,7 +556,7 @@ exports[`generateQuery query generates expected query with multiple complex argu
 "
 `;
 
-exports[`generateQuery query generates expected query with object argument 1`] = `
+exports[`generateQuery > query > generates expected query with object argument 1`] = `
 "{
   withGOTCharacter(character: { id: 1, book: { id: 1 } }) {
     id
@@ -573,7 +573,7 @@ exports[`generateQuery query generates expected query with object argument 1`] =
 "
 `;
 
-exports[`generateQuery query generates expected query with specified max depth 1`] = `
+exports[`generateQuery > query > generates expected query with specified max depth 1`] = `
 "{
   GOTHouses(name: "string") {
     id
@@ -978,7 +978,7 @@ exports[`generateQuery query generates expected query with specified max depth 1
 "
 `;
 
-exports[`generateQuery query generates expected query with specified tab size 1`] = `
+exports[`generateQuery > query > generates expected query with specified tab size 1`] = `
 "{
      GOTHouses(name: "string") {
           id
@@ -995,7 +995,7 @@ exports[`generateQuery query generates expected query with specified tab size 1`
 "
 `;
 
-exports[`generateQuery query generates expected query with string argument 1`] = `
+exports[`generateQuery > query > generates expected query with string argument 1`] = `
 "{
   withString(name: "string") {
     id

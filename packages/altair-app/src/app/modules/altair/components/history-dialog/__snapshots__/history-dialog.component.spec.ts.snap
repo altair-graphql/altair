@@ -1,16 +1,19 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`HistoryDialogComponent should render correctly 1`] = `
-<div>
+exports[`HistoryDialogComponent > should render correctly 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <nz-modal
     nzcloseicon="close-circle"
   >
-    
-    
-    
-    
-    
-    
+    <!--container-->
+    <!--container-->
+    <!--container-->
+    <!--container-->
+    <!--container-->
+    <!--container-->
   </nz-modal>
 </div>
 `;
