@@ -1,3 +1,12 @@
+import { expect } from 'vitest';
+import buffer from 'node:buffer';
+
+// Polyfill SlowBuffer for Node.js >= 25 where it was removed.
+// Required by buffer-equal-constant-time (transitive dep via jsonwebtoken/jws/jwa).
+if (!(buffer as any).SlowBuffer) {
+  (buffer as any).SlowBuffer = buffer.Buffer;
+}
+
 function typeCheck(name: string, value: unknown, expectedType: string) {
   const type = typeof value;
   if (type != expectedType) {

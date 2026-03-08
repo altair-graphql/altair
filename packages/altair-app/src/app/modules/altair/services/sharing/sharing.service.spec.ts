@@ -9,19 +9,19 @@ import { ApiService } from '../api/api.service';
 import { copyToClipboard } from '../../utils';
 import { consumeQueryParam } from '../../utils/url';
 
-jest.mock('../../utils', () => ({
-  copyToClipboard: jest.fn(),
-  consumeQueryParam: jest.fn(),
+vi.mock('../../utils', () => ({
+  copyToClipboard: vi.fn(),
+  consumeQueryParam: vi.fn(),
 }));
 
-jest.mock('../../utils/url', () => ({
-  consumeQueryParam: jest.fn(),
+vi.mock('../../utils/url', () => ({
+  consumeQueryParam: vi.fn(),
 }));
 
-jest.mock('../../utils/logger', () => ({
+vi.mock('../../utils/logger', () => ({
   debug: {
-    log: jest.fn(),
-    error: jest.fn(),
+    log: vi.fn(),
+    error: vi.fn(),
   },
 }));
 
@@ -33,11 +33,11 @@ describe('SharingService', () => {
   let mockApiService: ApiService;
 
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
     mockWindowService = mock<WindowService>({
-      importWindowData: jest.fn().mockResolvedValue('window-id'),
-      loadQueryFromCollection: jest.fn().mockResolvedValue(undefined),
-      getEmptyWindowState: jest.fn().mockReturnValue({
+      importWindowData: vi.fn().mockResolvedValue('window-id'),
+      loadQueryFromCollection: vi.fn().mockResolvedValue(undefined),
+      getEmptyWindowState: vi.fn().mockReturnValue({
         version: 1,
         type: 'window',
         apiUrl: '',
@@ -61,11 +61,11 @@ describe('SharingService', () => {
       success: anyFn(),
     });
     mockAccountService = mock<AccountService>({
-      getUser: jest.fn().mockResolvedValue({ id: '1', email: 'test@example.com' }),
+      getUser: vi.fn().mockResolvedValue({ id: '1', email: 'test@example.com' }),
     });
     mockApiService = mock<ApiService>({
-      getQueryShareUrl: jest.fn().mockReturnValue('https://share.altairgraphql.com/q/123'),
-      getQuery: jest.fn().mockResolvedValue({
+      getQueryShareUrl: vi.fn().mockReturnValue('https://share.altairgraphql.com/q/123'),
+      getQuery: vi.fn().mockResolvedValue({
         query: { id: 'query-1', query: 'query { hello }' },
         collectionId: 'col-1',
       }),
@@ -88,7 +88,7 @@ describe('SharingService', () => {
 
   describe('checkForShareUrl', () => {
     it('should not do anything if no share details in URL', () => {
-      (consumeQueryParam as jest.Mock).mockReturnValue(undefined);
+      (consumeQueryParam as vi.Mock).mockReturnValue(undefined);
 
       service.checkForShareUrl('https://altairgraphql.com');
 
@@ -97,7 +97,7 @@ describe('SharingService', () => {
     });
 
     it('should import window data from shared window-data URL', () => {
-      (consumeQueryParam as jest.Mock).mockImplementation((param: string, url: string) => {
+      (consumeQueryParam as vi.Mock).mockImplementation((param: string, url: string) => {
         if (param === 'query') return 'query { hello }';
         if (param === 'variables') return '{}';
         if (param === 'endpoint') return 'https://api.example.com';

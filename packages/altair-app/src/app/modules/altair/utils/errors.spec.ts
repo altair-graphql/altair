@@ -1,4 +1,3 @@
-import { describe, expect, it } from '@jest/globals';
 import { getErrorResponse, getApiErrorCode } from './errors';
 
 describe('getErrorResponse', () => {

@@ -1,4 +1,3 @@
-import { describe } from '@jest/globals';
 import { getInitialState } from './query.reducer';
 import { AltairConfig, setAltairConfig } from 'altair-graphql-core/build/config';
 

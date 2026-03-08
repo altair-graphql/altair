@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { Test, TestingModule } from '@nestjs/testing';
 import { testProviders } from 'test/providers';
 import { UserController } from './user.controller';
@@ -43,7 +44,7 @@ describe('UserController', () => {
         user: mockUser(),
         headers: { referer: 'https://altairgraphql.dev/billing' },
       });
-      jest.spyOn(userService, 'getBillingUrl').mockResolvedValueOnce(urlMock);
+      vi.spyOn(userService, 'getBillingUrl').mockResolvedValueOnce(urlMock);
 
       // WHEN
       const response = await controller.getBillingUrl(requestMock);
@@ -58,7 +59,7 @@ describe('UserController', () => {
       // GIVEN
       const requestMock = mockRequest({ user: mockUser() });
       const planConfigMock = mockPlanConfig();
-      jest
+      vi
         .spyOn(userService, 'getPlanConfig')
         .mockResolvedValueOnce(planConfigMock);
 
@@ -74,9 +75,9 @@ describe('UserController', () => {
     it(`should return user stats`, async () => {
       // GIVEN
       const requestMock = mockRequest({ user: mockUser() });
-      jest.spyOn(queryService, 'count').mockResolvedValue(42);
-      jest.spyOn(collectionService, 'count').mockResolvedValue(43);
-      jest.spyOn(teamService, 'count').mockResolvedValue(44);
+      vi.spyOn(queryService, 'count').mockResolvedValue(42);
+      vi.spyOn(collectionService, 'count').mockResolvedValue(43);
+      vi.spyOn(teamService, 'count').mockResolvedValue(44);
 
       // WHEN
       const response = await controller.getStats(requestMock);
@@ -90,7 +91,7 @@ describe('UserController', () => {
     it(`should return the pro URL`, async () => {
       // GIVEN
       const requestMock = mockRequest({ user: mockUser() });
-      jest.spyOn(userService, 'getProPlanUrl').mockResolvedValueOnce(urlMock);
+      vi.spyOn(userService, 'getProPlanUrl').mockResolvedValueOnce(urlMock);
 
       // WHEN
       const response = await controller.getProPlanUrl(requestMock);

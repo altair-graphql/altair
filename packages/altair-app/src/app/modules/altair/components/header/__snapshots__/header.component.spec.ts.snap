@@ -1,7 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`HeaderComponent should render correctly 1`] = `
-<div>
+exports[`HeaderComponent > should render correctly 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <div
     class="header__logo-wrapper"
   >
@@ -18,13 +21,13 @@ exports[`HeaderComponent should render correctly 1`] = `
     <ul
       class="header__menu"
     >
-      
+      <!--container-->
       <li
         class="header__menu-item"
         nz-dropdown=""
         nztrigger="click"
       >
-        
+        <!--container-->
         <span>
           <app-icon
             name="eye-off"
@@ -33,23 +36,23 @@ exports[`HeaderComponent should render correctly 1`] = `
             
           </span>
         </span>
-        
+        <!--container-->
       </li>
-      
+      <!--container-->
       <nz-dropdown-menu>
         <ul
           class="environments-dropdown__list"
           nz-menu=""
         >
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
              ... 
           </li>
-          
+          <!--container-->
         </ul>
-        
+        <!--container-->
       </nz-dropdown-menu>
       <li
         class="header__menu-item"
@@ -60,7 +63,7 @@ exports[`HeaderComponent should render correctly 1`] = `
           name="settings"
         />
       </li>
-      
+      <!--container-->
       <nz-dropdown-menu>
         <ul
           nz-menu=""
@@ -70,45 +73,45 @@ exports[`HeaderComponent should render correctly 1`] = `
           >
               
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
               
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
               
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
               
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
               
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
               
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
               
           </li>
-          
+          <!--container-->
         </ul>
-        
+        <!--container-->
       </nz-dropdown-menu>
     </ul>
   </div>

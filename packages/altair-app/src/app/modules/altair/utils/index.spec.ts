@@ -11,7 +11,7 @@ import {
   parseDotNotationKey,
 } from '.';
 
-jest.mock('file-saver', () => ({ saveAs: jest.fn() }));
+vi.mock('file-saver', () => ({ saveAs: vi.fn() }));
 
 describe('utils', () => {
   it('should correctly set value by dot notation', () => {

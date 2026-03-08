@@ -2,17 +2,13 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
-    // "target": "es2020",
+    "target": "es2022",
     "baseUrl": "src",
-    "module": "commonjs",
     "esModuleInterop": true,
     "emitDecoratorMetadata": false,
-    "allowJs": true
-    // "types": ["jest"]
+    "allowJs": true,
+    "types": ["vitest/globals", "node"]
   },
-  "files": ["polyfills.ts"],
-  "include": ["**/*.spec.ts", "**/*.d.ts"],
-  "angularCompilerOptions": {
-    "enableIvy": false
-  }
+  "files": ["src/test-setup.ts"],
+  "include": ["src/**/*.spec.ts", "src/**/*.d.ts"]
 }
