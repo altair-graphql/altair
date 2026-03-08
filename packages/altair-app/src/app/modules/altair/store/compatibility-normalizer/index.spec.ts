@@ -1,4 +1,3 @@
-import { describe, expect, it } from '@jest/globals';
 import { normalize } from './index';
 import { WindowState } from 'altair-graphql-core/build/types/state/window.interfaces';
 

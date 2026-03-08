@@ -1,7 +1,9 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`QueryEditorComponent should render correctly 1`] = `
+exports[`QueryEditorComponent > should render correctly 1`] = `
 <div
+  id="root1"
+  ng-version="20.3.3"
   style="flex-grow: 1;"
 >
   <nz-tabset
@@ -16,7 +18,7 @@ exports[`QueryEditorComponent should render correctly 1`] = `
           class="query-editor__input"
           ngdefaultcontrol=""
         />
-        
+        <!--container-->
       </div>
       <div
         class="variables-editor-container"
@@ -28,30 +30,30 @@ exports[`QueryEditorComponent should render correctly 1`] = `
         >
             
         </div>
-        
+        <!--container-->
       </div>
-      
-      
+      <!--container-->
+      <!--container-->
     </nz-tab>
-    
+    <!--container-->
     <nz-tab>
-      
+      <!--container-->
       <app-pre-request-editor />
-      
+      <!--container-->
     </nz-tab>
-    
+    <!--container-->
     <nz-tab>
-      
+      <!--container-->
       <app-post-request-editor />
-      
+      <!--container-->
     </nz-tab>
-    
+    <!--container-->
     <nz-tab>
-      
+      <!--container-->
       <app-authorization-editor />
-      
+      <!--container-->
     </nz-tab>
-    
+    <!--container-->
   </nz-tabset>
 </div>
 `;

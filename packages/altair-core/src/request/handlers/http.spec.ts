@@ -3,7 +3,7 @@ import { delay } from 'msw';
 import { setupServer } from 'msw/node';
 import { GraphQLRequestHandler, GraphQLRequestOptions } from '../types';
 import { HttpRequestHandler } from './http';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MswMockRequestHandler } from '../../test-helpers';
 
 const server = setupServer();
@@ -14,7 +14,7 @@ afterAll(() => server.close());
 
 const testObserver = (o: Observable<unknown>) => {
   const values: unknown[] = [];
-  let s: any;
+  let s: Subscription | null = null;
 
   return new Promise<unknown[]>((resolve, reject) => {
     s = o.subscribe({
@@ -22,11 +22,11 @@ const testObserver = (o: Observable<unknown>) => {
         values.push(value);
       },
       error: (err) => {
-        s.unsubscribe();
+        s?.unsubscribe();
         return reject(err);
       },
       complete: () => {
-        s.unsubscribe();
+        s?.unsubscribe();
         return resolve(values);
       },
     });
@@ -38,14 +38,14 @@ const testObserver = (o: Observable<unknown>) => {
 describe('HTTP handler', () => {
   it('should properly handle normal successful HTTP requests', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/graphql',
+      'http://localhost:4000/graphql',
       async () => {
         return Response.json({ data: { hello: 'world' } });
       }
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/graphql',
+      url: 'http://localhost:4000/graphql',
       method: 'POST',
       additionalParams: {},
       headers: [
@@ -63,7 +63,7 @@ describe('HTTP handler', () => {
     const res = await testObserver(httpHandler.handle(request));
 
     const receivedRequest = mockHandler.receivedRequest();
-    expect(receivedRequest?.url).toEqual('http://localhost:3000/graphql');
+    expect(receivedRequest?.url).toEqual('http://localhost:4000/graphql');
     expect(receivedRequest?.headers.get('X-GraphQL-Token')).toEqual(
       'asd7-237s-2bdk-nsdk4'
     );
@@ -78,7 +78,7 @@ describe('HTTP handler', () => {
         data: '{"data":{"hello":"world"}}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/graphql',
+        url: 'http://localhost:4000/graphql',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -88,7 +88,7 @@ describe('HTTP handler', () => {
 
   it('should properly handle normal successful HTTP GET requests', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/graphql',
+      'http://localhost:4000/graphql',
       async () => {
         return Response.json({ data: { hello: 'world' } });
       }
@@ -96,7 +96,7 @@ describe('HTTP handler', () => {
     server.use(mockHandler);
 
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/graphql',
+      url: 'http://localhost:4000/graphql',
       method: 'GET',
       additionalParams: {
         testData: [
@@ -116,7 +116,7 @@ describe('HTTP handler', () => {
 
     const receivedRequest = mockHandler.receivedRequest();
     expect(receivedRequest?.url).toEqual(
-      'http://localhost:3000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello'
+      'http://localhost:4000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello'
     );
     expect(receivedRequest?.body).toBeNull();
 
@@ -126,7 +126,7 @@ describe('HTTP handler', () => {
         data: '{"data":{"hello":"world"}}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello',
+        url: 'http://localhost:4000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -136,14 +136,14 @@ describe('HTTP handler', () => {
 
   it('should handle requests with file variables', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/graphql',
+      'http://localhost:4000/graphql',
       async () => {
         return Response.json({ data: { hello: 'world' } });
       }
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/graphql',
+      url: 'http://localhost:4000/graphql',
       method: 'POST',
       additionalParams: {
         testData: [
@@ -157,7 +157,7 @@ describe('HTTP handler', () => {
       variables: {},
       files: [
         {
-          data: new File(['asdfghjkl'], 'test.txt'),
+          data: new File([Buffer.from('asdfghjkl')], 'test.txt'),
           name: 'myfile',
         },
       ],
@@ -168,8 +168,9 @@ describe('HTTP handler', () => {
     const res = await testObserver(httpHandler.handle(request));
 
     const receivedRequest = mockHandler.receivedRequest();
-    expect(receivedRequest?.url).toEqual('http://localhost:3000/graphql');
+    expect(receivedRequest?.url).toEqual('http://localhost:4000/graphql');
     const formData = await receivedRequest?.formData();
+
     expect(formData?.get('operations')).toEqual(
       JSON.stringify({
         query: 'query { hello }',
@@ -182,6 +183,7 @@ describe('HTTP handler', () => {
         '0': ['variables.myfile'],
       })
     );
+
     // TODO: figure out why formData.get() returns the file is stringified object `[object File]`
     // expect(formData?.get('0')).toEqual(new File(['asdfghjkl'], 'test.txt'));
     expect(res).toEqual([
@@ -190,7 +192,7 @@ describe('HTTP handler', () => {
         data: '{"data":{"hello":"world"}}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/graphql',
+        url: 'http://localhost:4000/graphql',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -200,7 +202,7 @@ describe('HTTP handler', () => {
 
   it('should properly handle batched requests', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/graphql',
+      'http://localhost:4000/graphql',
       async () => {
         return Response.json([
           { data: { hello: 'world' } },
@@ -210,7 +212,7 @@ describe('HTTP handler', () => {
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/graphql',
+      url: 'http://localhost:4000/graphql',
       method: 'POST',
       additionalParams: {
         testData: [
@@ -252,7 +254,7 @@ describe('HTTP handler', () => {
         data: '[{"data":{"hello":"world"}},{"data":{"bye":"longer"}}]',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/graphql',
+        url: 'http://localhost:4000/graphql',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -262,14 +264,14 @@ describe('HTTP handler', () => {
 
   it('should handle empty response', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/graphql',
+      'http://localhost:4000/graphql',
       async () => {
         return new Response(null, { status: 204 });
       }
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/graphql',
+      url: 'http://localhost:4000/graphql',
       method: 'POST',
       additionalParams: {},
       headers: [],
@@ -287,7 +289,7 @@ describe('HTTP handler', () => {
         data: '',
         headers: expect.any(Object),
         status: 204,
-        url: 'http://localhost:3000/graphql',
+        url: 'http://localhost:4000/graphql',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -297,7 +299,7 @@ describe('HTTP handler', () => {
 
   it('should properly handle normal unsuccessful HTTP GET requests', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/graphql',
+      'http://localhost:4000/graphql',
       async () => {
         return new Response('my data is not found', {
           status: 404,
@@ -307,7 +309,7 @@ describe('HTTP handler', () => {
     server.use(mockHandler);
 
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/graphql',
+      url: 'http://localhost:4000/graphql',
       method: 'GET',
       additionalParams: {
         testData: [
@@ -327,7 +329,7 @@ describe('HTTP handler', () => {
 
     const receivedRequest = mockHandler.receivedRequest();
     expect(receivedRequest?.url).toEqual(
-      'http://localhost:3000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello'
+      'http://localhost:4000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello'
     );
     expect(receivedRequest?.body).toBeNull();
 
@@ -337,7 +339,7 @@ describe('HTTP handler', () => {
         data: 'my data is not found',
         headers: expect.any(Object),
         status: 404,
-        url: 'http://localhost:3000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello',
+        url: 'http://localhost:4000/graphql?query=query+%7B+hello+%7D&variables=%7B%7D&operationName=hello',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -347,14 +349,14 @@ describe('HTTP handler', () => {
 
   it('should properly handle failed HTTP requests', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/error',
+      'http://localhost:4000/error',
       async () => {
         return Response.error();
       }
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/error',
+      url: 'http://localhost:4000/error',
       method: 'POST',
       additionalParams: {
         testData: [
@@ -371,12 +373,12 @@ describe('HTTP handler', () => {
 
     const httpHandler: GraphQLRequestHandler = new HttpRequestHandler();
 
-    expect(testObserver(httpHandler.handle(request))).rejects.toThrow();
+    await expect(testObserver(httpHandler.handle(request))).rejects.toThrow();
   });
 
   it('should properly handle aborting the request', () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/delay',
+      'http://localhost:4000/delay',
       async () => {
         await delay(1000);
         return Response.json({ data: { hello: 'world' } });
@@ -384,7 +386,7 @@ describe('HTTP handler', () => {
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/delay',
+      url: 'http://localhost:4000/delay',
       method: 'POST',
       additionalParams: {
         testData: [
@@ -407,7 +409,7 @@ describe('HTTP handler', () => {
 
   it('should properly handle streamed responses', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/simple-stream',
+      'http://localhost:4000/simple-stream',
       async () => {
         const encoder = new TextEncoder();
         const stream = new ReadableStream({
@@ -432,7 +434,7 @@ describe('HTTP handler', () => {
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/simple-stream',
+      url: 'http://localhost:4000/simple-stream',
       method: 'POST',
       additionalParams: {
         testData: [
@@ -456,7 +458,7 @@ describe('HTTP handler', () => {
         data: '{"data":{"hello":"world"}}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/simple-stream',
+        url: 'http://localhost:4000/simple-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -466,7 +468,7 @@ describe('HTTP handler', () => {
         data: '{"data":{"bye":"longer"}}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/simple-stream',
+        url: 'http://localhost:4000/simple-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -476,7 +478,7 @@ describe('HTTP handler', () => {
         data: '{"data":{"rest":"afva"}}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/simple-stream',
+        url: 'http://localhost:4000/simple-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -486,7 +488,7 @@ describe('HTTP handler', () => {
 
   it('should properly handle streamed responses with errors', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/error-stream',
+      'http://localhost:4000/error-stream',
       async () => {
         const encoder = new TextEncoder();
         const stream = new ReadableStream({
@@ -511,7 +513,7 @@ describe('HTTP handler', () => {
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/error-stream',
+      url: 'http://localhost:4000/error-stream',
       method: 'POST',
       additionalParams: {
         testData: [
@@ -537,7 +539,7 @@ describe('HTTP handler', () => {
 
   it('should properly handle multipart streamed responses', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/multipart-stream',
+      'http://localhost:4000/multipart-stream',
       async () => {
         const encoder = new TextEncoder();
         const stream = new ReadableStream({
@@ -580,7 +582,7 @@ describe('HTTP handler', () => {
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/multipart-stream',
+      url: 'http://localhost:4000/multipart-stream',
       method: 'POST',
       additionalParams: {
         testData: [
@@ -604,7 +606,7 @@ describe('HTTP handler', () => {
         data: '{"data":{"hello":"Hello world","alphabet":[],"fastField":"This field resolves fast! ⚡️"},"hasNext":true}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/multipart-stream',
+        url: 'http://localhost:4000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -614,7 +616,7 @@ describe('HTTP handler', () => {
         data: '{"incremental":[{"items":["a"],"path":["alphabet",0]}],"hasNext":true}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/multipart-stream',
+        url: 'http://localhost:4000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -624,7 +626,7 @@ describe('HTTP handler', () => {
         data: '{"incremental":[{"items":["b"],"path":["alphabet",1]}],"hasNext":true}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/multipart-stream',
+        url: 'http://localhost:4000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -634,7 +636,7 @@ describe('HTTP handler', () => {
         data: '{"incremental":[{"items":["c"],"path":["alphabet",2]}],"hasNext":true}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/multipart-stream',
+        url: 'http://localhost:4000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -644,7 +646,7 @@ describe('HTTP handler', () => {
         data: '{"incremental":[{"items":["d"],"path":["alphabet",3]}],"hasNext":true}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/multipart-stream',
+        url: 'http://localhost:4000/multipart-stream',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -655,7 +657,7 @@ describe('HTTP handler', () => {
   // https://github.com/felipe-gdr/spring-graphql-defer/issues/5
   it('should properly handle multipart streamed responses - sample 2', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/multipart-stream-2',
+      'http://localhost:4000/multipart-stream-2',
       async () => {
         const encoder = new TextEncoder();
         const stream = new ReadableStream({
@@ -693,7 +695,7 @@ describe('HTTP handler', () => {
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/multipart-stream-2',
+      url: 'http://localhost:4000/multipart-stream-2',
       method: 'POST',
       additionalParams: {
         testData: [
@@ -717,7 +719,7 @@ describe('HTTP handler', () => {
         data: '{"hasNext":true,"incremental":[{"path":["bookById"],"data":{"author":{"firstName":"Joshua"}}}]}',
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/multipart-stream-2',
+        url: 'http://localhost:4000/multipart-stream-2',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -727,7 +729,7 @@ describe('HTTP handler', () => {
         data: `{"hasNext":false,"incremental":[{"path":[],"data":{"book2":{"name":"Hitchhiker's Guide to the Galaxy"}}}]}`,
         headers: expect.any(Object),
         status: 200,
-        url: 'http://localhost:3000/multipart-stream-2',
+        url: 'http://localhost:4000/multipart-stream-2',
         requestStartTimestamp: expect.any(Number),
         requestEndTimestamp: expect.any(Number),
         responseTimeMs: expect.any(Number),
@@ -737,7 +739,7 @@ describe('HTTP handler', () => {
 
   it('should properly handle multipart streamed responses with errors', async () => {
     const mockHandler = new MswMockRequestHandler(
-      'http://localhost:3000/error-multipart-stream',
+      'http://localhost:4000/error-multipart-stream',
       async () => {
         const encoder = new TextEncoder();
         const stream = new ReadableStream({
@@ -770,7 +772,7 @@ describe('HTTP handler', () => {
     );
     server.use(mockHandler);
     const request: GraphQLRequestOptions = {
-      url: 'http://localhost:3000/error-multipart-stream',
+      url: 'http://localhost:4000/error-multipart-stream',
       method: 'POST',
       additionalParams: {
         testData: [

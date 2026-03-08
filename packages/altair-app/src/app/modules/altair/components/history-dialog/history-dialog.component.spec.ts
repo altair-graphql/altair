@@ -1,4 +1,3 @@
-import { expect, describe, it } from '@jest/globals';
 import { HistoryDialogComponent } from './history-dialog.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from '../../modules/shared/shared.module';

@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { ConsoleLogger } from '@nestjs/common';
 import { NewrelicInterceptor } from './newrelic.interceptor';
 

@@ -1,11 +1,10 @@
-import { describe, expect, jest, it, beforeEach, afterEach } from '@jest/globals';
 import { PerformantLocalStorage } from './performant-local-storage';
 
 describe('PerformantLocalStorage', () => {
   let storage: PerformantLocalStorage;
 
   beforeEach(() => {
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
     storage = new PerformantLocalStorage();
   });
 
@@ -42,7 +41,7 @@ describe('PerformantLocalStorage', () => {
     });
 
     it('should schedule via requestIdleCallback when available', () => {
-      const mockRic = jest.fn().mockReturnValue(1) as any;
+      const mockRic = vi.fn().mockReturnValue(1) as any;
       (window as any).requestIdleCallback = mockRic;
       storage.setItem('idleKey', 'idleVal');
       expect(mockRic).toHaveBeenCalled();
@@ -50,8 +49,8 @@ describe('PerformantLocalStorage', () => {
     });
 
     it('should cancel previous callback when same key is set again', () => {
-      const mockCic = jest.fn() as any;
-      const mockRic = jest.fn().mockReturnValue(42) as any;
+      const mockCic = vi.fn() as any;
+      const mockRic = vi.fn().mockReturnValue(42) as any;
       (window as any).requestIdleCallback = mockRic;
       (window as any).cancelIdleCallback = mockCic;
       storage.setItem('sameKey', 'val1');

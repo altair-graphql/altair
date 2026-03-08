@@ -1,7 +1,5 @@
 # AGENTS.md - Altair GraphQL Client
 
-Guidelines for AI agents working in this repository.
-
 ## Repository Overview
 
 Altair GraphQL Client is a monorepo managed with **pnpm** and **Nx/Turbo**. Key packages:
@@ -30,36 +28,18 @@ pnpm build-electron       # Build Electron app
 ### Altair App (packages/altair-app)
 
 ```bash
-pnpm jest --no-coverage                    # Run all Jest tests (fast, no coverage)
-pnpm jest --watch                          # Watch mode
-pnpm jest --clearCache                     # Clear Jest cache
-pnpm jest path/to/file.spec.ts --no-coverage  # Run single test file
-pnpm jest --testNamePattern="name"         # Run tests matching name
+pnpm vitest run                            # Run all Vitest tests
+pnpm vitest                                # Watch mode
+pnpm vitest run path/to/file.spec.ts       # Run single test file
+pnpm vitest run -t "name"                  # Run tests matching name
 pnpm test-single-run                       # Single run with coverage
 pnpm lint                                  # Run ESLint (ng lint)
 pnpm build                                 # Build the app
 ```
 
-> **Note:** Always run from the `packages/altair-app` directory. Use `--no-coverage` for faster runs when coverage is not needed. The test suite has 135 suites / ~1133 tests and takes ~3–4 minutes. A worker process force-exit warning and exit code 1 may appear at the end due to open handles/timers in test teardown — this is a known issue and does **not** indicate test failures. Check the summary line (`Test Suites: X passed`) to confirm actual results. There is also 1 obsolete snapshot in `account-dialog.component.spec.ts`; run `pnpm jest -u` to remove it.
+> **Note:** Always run from the `packages/altair-app` directory. The test suite has 135 suites / ~1133 tests and takes ~3–4 minutes.
 
-## Code Style Guidelines
-
-### TypeScript
-
-- Use **explicit type annotations** for function parameters and return types
-- Prefer **interfaces over type aliases** for object shapes
-- Use **named exports** over default exports
-- Leverage **generic types** for reusable components
-
-```typescript
-interface QueryState {
-  query: string;
-  variables: Record<string, unknown>;
-  headers: HeaderState[];
-}
-
-function processQuery<T>(query: string, variables?: Record<string, unknown>): Promise<T> {}
-```
+## Code Style
 
 ### Imports
 
@@ -68,53 +48,17 @@ Group imports in this order:
 2. Internal packages (@altairgraphql/*)
 3. Relative imports (../, ./)
 
-```typescript
-import { Observable, Subject } from 'rxjs';
-import { Injectable } from '@angular/core';
-import { QueryState } from '@altairgraphql/core';
-import { formatQuery } from '../utils/query-formatter';
-```
-
 ### Angular Components
 
 - Use **OnPush change detection** strategy
-- Implement **subscription management** (unsubscribe in ngOnDestroy)
 - Use **signal inputs** (`input<T>()`) and **signal outputs** (`output<T>()`)
-
-```typescript
-@Component({
-  selector: 'app-example',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class ExampleComponent implements OnInit, OnDestroy {
-  readonly inputProperty = input<string>('');
-  readonly someEvent = output<SomeType>();
-  private subscription: Subscription;
-
-  ngOnDestroy() { this.subscription?.unsubscribe(); }
-}
-```
+- Manage subscriptions (unsubscribe in ngOnDestroy)
 
 ### Angular Services
 
-- Use `@Injectable({ providedIn: 'root' })` for root services
 - Return **observables** from data methods
 - Use **selectors** for NgRx state access
 - Dispatch **actions** for state modifications
-
-### Error Handling
-
-- Create **custom error classes** that extend Error
-- Implement proper error boundaries
-
-```typescript
-class ValidationError extends Error {
-  constructor(message: string, public field?: string) {
-    super(message);
-    this.name = 'ValidationError';
-  }
-}
-```
 
 ## Testing Guidelines
 
@@ -159,7 +103,7 @@ Each test should be independent. Avoid tracking emission indices across tests.
 
 - **"no elements in sequence"**: Use `take(1)` instead of `first()`
 - **Multiple actions, only one works**: Use `mergeMap` instead of `switchMap` in NgRx effects
-- **Tests failing**: Run `pnpm jest --clearCache`
+- **Tests failing**: Try deleting the `node_modules/.vite` cache directory
 
 ## Additional Resources
 

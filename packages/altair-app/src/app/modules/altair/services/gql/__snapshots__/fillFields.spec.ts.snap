@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`fillAllFields generates expected query 1`] = `
+exports[`fillAllFields > generates expected query 1`] = `
 {
   "insertions": [
     {

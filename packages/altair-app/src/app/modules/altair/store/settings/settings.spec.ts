@@ -6,10 +6,10 @@ let mockAltairConfig = {
   options: {},
   defaultTheme: 'system',
 };
-jest.mock('altair-graphql-core/build/config', () => {
+vi.mock('altair-graphql-core/build/config', async () => {
+  const actual = await vi.importActual('altair-graphql-core/build/config');
   return {
-    AltairConfig: jest.requireActual('altair-graphql-core/build/config')
-      .AltairConfig,
+    AltairConfig: (actual as any).AltairConfig,
     getAltairConfig() {
       return mockAltairConfig;
     },

@@ -1,4 +1,4 @@
-import { jest, describe, it, expect } from '@jest/globals';
+import { describe, it, expect } from 'vitest';
 import { cspAsString } from './csp';
 
 describe('cspAsString', () => {

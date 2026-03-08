@@ -1,7 +1,7 @@
 {
   "name": "altair-koa-middleware",
   "description": "Koa middleware for altair graphql client",
-  "version": "8.5.1",
+  "version": "8.5.2",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "dependencies": {
@@ -9,18 +9,16 @@
     "@koa/send": "^6.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^27.0.1",
     "@types/koa": "^3.0.0",
     "@types/koa__router": "^12.0.4",
-    "@types/node": "^22.7.4",
+    "@types/node": "catalog:",
     "@types/supertest": "^6.0.2",
-    "jest": "29.4.1",
     "koa": "^3.0.1",
     "nodemon": "^2.0.12",
     "supertest": "^7.0.0",
-    "ts-jest": "29.0.5",
     "ts-node": "^10.2.1",
-    "typescript": "catalog:"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "@koa/router": ">= 11"
@@ -49,7 +47,7 @@
     "declarations": "tsc --declaration",
     "example": "nodemon example/index.ts",
     "bootstrap": "pnpm declarations",
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "test": "vitest run --passWithNoTests"
   },
   "types": "./build/src/index.d.ts",
   "publishConfig": {

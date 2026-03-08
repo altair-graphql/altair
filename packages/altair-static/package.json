@@ -1,12 +1,12 @@
 {
   "name": "altair-static",
   "description": "Static package for altair graphql client",
-  "version": "8.5.1",
+  "version": "8.5.2",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "devDependencies": {
     "@altairgraphql/app": "workspace:*",
-    "@types/node": "^22.7.4",
+    "@types/node": "catalog:",
     "altair-graphql-core": "workspace:*",
     "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.14.43",

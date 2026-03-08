@@ -63,7 +63,7 @@ describe('BannerService', () => {
     });
 
     it('should call onDismiss callback when removing banner', async () => {
-      const onDismiss = jest.fn();
+      const onDismiss = vi.fn();
       service.addBanner('banner-1', {
         message: 'Test message',
         type: 'info',

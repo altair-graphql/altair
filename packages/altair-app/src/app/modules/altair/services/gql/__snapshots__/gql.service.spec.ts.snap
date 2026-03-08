@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`GqlService .fillAllFields() should return query with fields filled 1`] = `
+exports[`GqlService > .fillAllFields() > should return query with fields filled 1`] = `
 {
   "insertions": [
     {
@@ -36,7 +36,7 @@ exports[`GqlService .fillAllFields() should return query with fields filled 1`] 
 }
 `;
 
-exports[`GqlService .getIntrospectionSchema() should return schema for introspection data 1`] = `
+exports[`GqlService > .getIntrospectionSchema() > should return schema for introspection data 1`] = `
 GraphQLSchema {
   "__validationErrors": undefined,
   "_directives": [
@@ -81,7 +81,7 @@ GraphQLSchema {
 }
 `;
 
-exports[`GqlService .parseQuery() should return GraphQL document 1`] = `
+exports[`GqlService > .parseQuery() > should return GraphQL document 1`] = `
 {
   "definitions": [
     {
@@ -132,7 +132,7 @@ exports[`GqlService .parseQuery() should return GraphQL document 1`] = `
 }
 `;
 
-exports[`GqlService .refactorQuery() should return edited query with generated name 1`] = `
+exports[`GqlService > .refactorQuery() > should return edited query with generated name 1`] = `
 "query refactored1000($name: String) {
   GOTHouses(name: $name) {
     ...GOTHouseFields
@@ -157,7 +157,7 @@ fragment GOTHouseFields on GOTHouse {
 "
 `;
 
-exports[`GqlService .refactorQuery() should return edited query with generated name 2`] = `
+exports[`GqlService > .refactorQuery() > should return edited query with generated name 2`] = `
 {
   "name": "first",
   "name2000": "second",
