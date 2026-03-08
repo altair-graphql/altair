@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { vi, MockInstance } from 'vitest';
 import { ForkRepoComponent } from './fork-repo.component';
 
 describe('ForkRepoComponent', () => {
@@ -25,13 +26,13 @@ describe('ForkRepoComponent', () => {
   describe('externalLink', () => {
     const testUrl = 'https://github.com/altair-graphql/altair';
     let mockEvent: Event;
-    let preventDefaultSpy: jest.SpyInstance;
-    let windowOpenSpy: jest.SpyInstance;
+    let preventDefaultSpy: MockInstance;
+    let windowOpenSpy: MockInstance;
 
     beforeEach(() => {
       mockEvent = new Event('click');
-      preventDefaultSpy = jest.spyOn(mockEvent, 'preventDefault');
-      windowOpenSpy = jest.spyOn(window, 'open');
+      preventDefaultSpy = vi.spyOn(mockEvent, 'preventDefault');
+      windowOpenSpy = vi.spyOn(window, 'open');
     });
 
     afterEach(() => {
@@ -51,7 +52,7 @@ describe('ForkRepoComponent', () => {
     });
 
     it('should focus the new window if it was opened successfully', () => {
-      const mockWindow = { focus: jest.fn() } as unknown as Window;
+      const mockWindow = { focus: vi.fn() } as unknown as Window;
       windowOpenSpy.mockReturnValue(mockWindow);
       component.externalLink(mockEvent, testUrl);
       expect(mockWindow.focus).toHaveBeenCalled();
