@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BannerComponent } from './banner.component';
 import { Banner } from '../../services/banner/banner.service';
+import { vi } from 'vitest';
 
 describe('BannerComponent', () => {
   let component: BannerComponent;
@@ -35,7 +36,7 @@ describe('BannerComponent', () => {
       fixture.componentRef.setInput('banner', mockBanner);
       fixture.detectChanges();
 
-      const dismissSpy = jest.fn();
+      const dismissSpy = vi.fn();
       component.dismiss.subscribe(dismissSpy);
 
       component.onDismiss();
@@ -48,7 +49,7 @@ describe('BannerComponent', () => {
       fixture.componentRef.setInput('banner', undefined);
       fixture.detectChanges();
 
-      const dismissSpy = jest.fn();
+      const dismissSpy = vi.fn();
       component.dismiss.subscribe(dismissSpy);
 
       component.onDismiss();
@@ -60,7 +61,7 @@ describe('BannerComponent', () => {
       fixture.componentRef.setInput('banner', { ...mockBanner, id: undefined });
       fixture.detectChanges();
 
-      const dismissSpy = jest.fn();
+      const dismissSpy = vi.fn();
       component.dismiss.subscribe(dismissSpy);
 
       component.onDismiss();
@@ -72,7 +73,7 @@ describe('BannerComponent', () => {
       fixture.componentRef.setInput('banner', undefined);
       fixture.detectChanges();
 
-      const dismissSpy = jest.fn();
+      const dismissSpy = vi.fn();
       component.dismiss.subscribe(dismissSpy);
 
       component.onDismiss();
@@ -86,7 +87,7 @@ describe('BannerComponent', () => {
       fixture.componentRef.setInput('banner', mockBanner);
       fixture.detectChanges();
 
-      const dismissSpy = jest.fn();
+      const dismissSpy = vi.fn();
       component.dismiss.subscribe(dismissSpy);
 
       component.onDismiss();
