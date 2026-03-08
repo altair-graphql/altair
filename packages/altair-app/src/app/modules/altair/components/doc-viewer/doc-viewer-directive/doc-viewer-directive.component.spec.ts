@@ -3,6 +3,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../../modules/shared/shared.module';
 import { DocViewerDirectiveComponent } from './doc-viewer-directive.component';
 import { GraphQLDirective, GraphQLArgument, DirectiveLocation } from 'graphql';
+import { vi } from 'vitest';
 
 describe('DocViewerDirectiveComponent', () => {
   let component: DocViewerDirectiveComponent;
@@ -40,7 +41,7 @@ describe('DocViewerDirectiveComponent', () => {
 
   describe('goToType', () => {
     it('should emit the type name', () => {
-      const spy = jest.fn();
+      const spy = vi.fn();
       component.goToTypeChange.subscribe(spy);
 
       component.goToType('String');
