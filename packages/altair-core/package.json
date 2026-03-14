@@ -60,7 +60,8 @@
     "typescript": "catalog:",
     "typescript-json-schema": "0.50.1",
     "undici": "^6.19.1",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:"
   },
   "engines": {
     "node": ">= 12"
@@ -83,7 +84,8 @@
   "scripts": {
     "build": "node ./scripts/build.js",
     "bootstrap": "pnpm build",
-    "test": "vitest"
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "types": "./build/index.d.ts",
   "publishConfig": {

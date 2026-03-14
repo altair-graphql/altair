@@ -63,6 +63,7 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "webdriverio": "^8.18.2"
   },
   "funding": {
@@ -87,6 +88,7 @@
     "bootstrap": "pnpm compile",
     "postinstall": "electron-builder install-app-deps",
     "test": "pnpm test:unit",
+    "test:coverage": "vitest run --coverage",
     "test:e2e": "([[ -n $RUNNER_OS ]] && [[ $RUNNER_OS != 'Linux' ]]) && exit 0 || playwright test e2e",
     "test:unit": "vitest run",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",

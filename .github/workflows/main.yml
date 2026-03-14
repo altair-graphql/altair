@@ -61,6 +61,8 @@ jobs:
   tests:
     needs: vars
     uses: ./.github/workflows/_tests.yml
+    permissions:
+      pull-requests: write
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
 
