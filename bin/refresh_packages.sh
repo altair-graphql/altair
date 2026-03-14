@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -euo pipefail
 
 # Always run from the repo root, regardless of where the script is invoked from
 cd "$(dirname "$0")/.."
