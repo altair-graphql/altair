@@ -85,7 +85,7 @@ jobs:
           run: pnpm test:coverage
       - name: Coverage report
         if: always()
-        uses: davelosert/vitest-coverage-report-action@v2
+        uses: davelosert/vitest-coverage-report-action@2500dafcee7dd64f85ab689c0b83798a8359770e # v2.9.3
 
   e2e-test:
     strategy:
