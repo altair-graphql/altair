@@ -171,7 +171,8 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:"
   },
   "homepage": "https://altair-graphql.github.io/altair/",
   "license": "MIT",
@@ -191,6 +192,7 @@
     "test": "vitest run && ng lint",
     "test-build": "ng lint && pnpm build && pnpm test-single-run",
     "test-single-run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:watch": "vitest"
   },
   "repository": {

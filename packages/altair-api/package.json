@@ -73,7 +73,8 @@
     "typescript": "catalog:",
     "unplugin-swc": "^1.5.4",
     "vite": "catalog:",
-    "vitest": "^3.2.4"
+    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:"
   },
   "license": "UNLICENSED",
   "private": true,
@@ -92,7 +93,7 @@
     "start:prod:in-docker": "pnpm --dir ./node_modules/@altairgraphql/db prod:prestart && node dist/main",
     "migrate:e2e": "dotenv -e .env.e2e -- pnpm dlx prisma@5.16.2 migrate deploy --schema ../altair-db/prisma/schema.prisma",
     "test": "vitest run",
-    "test:cov": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
     "test:e2e": "dotenv -e .env.e2e -- vitest run --config ./vitest.e2e.config.ts",
     "test:watch": "vitest"
