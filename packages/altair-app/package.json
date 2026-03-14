@@ -89,7 +89,7 @@
     "memoizee": "0.4.14",
     "ng-zorro-antd": "^15.1.1",
     "ngrx-store-localstorage": "12.0.1",
-    "ngx-cookie-service": "14.0.1",
+    "ngx-cookie-service": "21.1.0",
     "ngx-markdown": "^14.0.1",
     "ngx-pipes": "^3.2.2",
     "ngx-take-until-destroy": "5.4.0",
