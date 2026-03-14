@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-
+import { vi, MockInstance } from 'vitest';
 import { ForkRepoComponent } from './fork-repo.component';
 
 describe('ForkRepoComponent', () => {
@@ -21,5 +21,48 @@ describe('ForkRepoComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('externalLink', () => {
+    const testUrl = 'https://github.com/altair-graphql/altair';
+    let mockEvent: Event;
+    let preventDefaultSpy: MockInstance;
+    let windowOpenSpy: MockInstance;
+
+    beforeEach(() => {
+      mockEvent = new Event('click');
+      preventDefaultSpy = vi.spyOn(mockEvent, 'preventDefault');
+      windowOpenSpy = vi.spyOn(window, 'open');
+    });
+
+    afterEach(() => {
+      windowOpenSpy.mockRestore();
+    });
+
+    it('should call preventDefault on the event', () => {
+      windowOpenSpy.mockReturnValue(null);
+      component.externalLink(mockEvent, testUrl);
+      expect(preventDefaultSpy).toHaveBeenCalled();
+    });
+
+    it('should open the url in a new tab', () => {
+      windowOpenSpy.mockReturnValue(null);
+      component.externalLink(mockEvent, testUrl);
+      expect(windowOpenSpy).toHaveBeenCalledWith(testUrl, '_blank');
+    });
+
+    it('should focus the new window if it was opened successfully', () => {
+      const mockWindow = { focus: vi.fn() } as unknown as Window;
+      windowOpenSpy.mockReturnValue(mockWindow);
+      component.externalLink(mockEvent, testUrl);
+      expect(mockWindow.focus).toHaveBeenCalled();
+    });
+
+    it('should not throw if window.open returns null', () => {
+      windowOpenSpy.mockReturnValue(null);
+      expect(() => {
+        component.externalLink(mockEvent, testUrl);
+      }).not.toThrow();
+    });
   });
 });
