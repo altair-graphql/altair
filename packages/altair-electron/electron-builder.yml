@@ -50,8 +50,6 @@ snap:
   base: core24
   confinement: strict
   grade: stable
-  extensions:
-    - gnome
   publish:
     - provider: github
       releaseType: release

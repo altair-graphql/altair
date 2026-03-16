@@ -6,7 +6,7 @@ export default defineConfig({
     build: {
       sourcemap: true,
       rollupOptions: {
-        external: ['electron'],
+        external: (id) => id === 'electron' || id.startsWith('electron/'),
       },
     },
     plugins: [
