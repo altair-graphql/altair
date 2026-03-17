@@ -149,7 +149,8 @@ jobs:
   # Deploy sites and docs
   sites:
     needs: [vars, publish-release]
-    if: ${{ !cancelled() && !failure() }}
+    # only deploy for master and release builds
+    if: ${{ !cancelled() && !failure() && (needs.vars.outputs.type == 'master' || needs.vars.outputs.type == 'release') }}
     uses: ./.github/workflows/_deploy-sites.yml
     with:
       node_version: ${{ needs.vars.outputs.node_version }}
