@@ -16,6 +16,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
 import { UpdateQueryCollectionDto } from './dto/update-query-collection.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { getUserId } from 'src/common/request';
 
 @Controller('query-collections')
 @ApiTags('Query Collections')
@@ -30,7 +31,7 @@ export class QueryCollectionsController {
     @Req() req: Request,
     @Body() createQueryCollectionDto: CreateQueryCollectionDto
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.queryCollectionsService.create(
       userId,
       createQueryCollectionDto
@@ -39,13 +40,13 @@ export class QueryCollectionsController {
 
   @Get()
   findAll(@Req() req: Request) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.queryCollectionsService.findAll(userId);
   }
 
   @Get(':id')
   async findOne(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const collection = await this.queryCollectionsService.findOne(userId, id);
 
     if (!collection) {
@@ -61,7 +62,7 @@ export class QueryCollectionsController {
     @Param('id') id: string,
     @Body() updateQueryCollectionDto: UpdateQueryCollectionDto
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const res = await this.queryCollectionsService.update(
       userId,
       id,
@@ -77,7 +78,7 @@ export class QueryCollectionsController {
 
   @Delete(':id')
   async remove(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const res = await this.queryCollectionsService.remove(userId, id);
     if (!res.count) {
       throw new NotFoundException();

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
 import { renderWelcomeEmail } from '@altairgraphql/emails';
@@ -11,6 +11,7 @@ import { Agent, getAgent } from 'src/newrelic/newrelic';
 export class EmailService {
   private resend: Resend;
   private agent = getAgent();
+  private readonly logger = new Logger(EmailService.name);
 
   constructor(
     private configService: ConfigService<Config>,
@@ -29,7 +30,7 @@ export class EmailService {
     const audienceId = this.configService.get('email.audienceId', { infer: true });
 
     if (!audienceId) {
-      console.error('No audience ID found');
+      this.logger.error('No audience ID found');
       return;
     }
 
@@ -41,12 +42,12 @@ export class EmailService {
     });
 
     if (error) {
-      console.error('Error subscribing user', error);
+      this.logger.error('Error subscribing user', error);
       return;
     }
 
     if (!data?.id) {
-      console.error('No contact ID found');
+      this.logger.error('No contact ID found');
       return;
     }
 
@@ -61,7 +62,7 @@ export class EmailService {
       html: await renderWelcomeEmail({ username: this.getFirstName(user) }),
     });
     if (error) {
-      console.error('Error sending welcome email', error);
+      this.logger.error('Error sending welcome email', error);
     }
 
     return { data, error };
@@ -90,7 +91,7 @@ export class EmailService {
       P.S. If you cancelled because of a technical issue or need help with something, just let me know -- I'm happy to help!`,
     });
     if (error) {
-      console.error('Error sending goodbye email', error);
+      this.logger.error('Error sending goodbye email', error);
     }
 
     return { data, error };
@@ -116,9 +117,9 @@ export class EmailService {
     });
     if (error) {
       this.agent?.incrementMetric('email.send.error');
+    } else {
+      this.agent?.incrementMetric('email.send.success');
     }
-
-    this.agent?.incrementMetric('email.send.success');
     return { data, error };
   }
 

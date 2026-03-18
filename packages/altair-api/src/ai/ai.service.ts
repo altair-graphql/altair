@@ -35,24 +35,26 @@ export class AiService {
   ) {}
 
   async createNewActiveSession(userId: string) {
-    // Only one active session per user
-    const res = await this.prisma.aiChatSession.updateMany({
-      where: {
-        userId,
-      },
-      data: {
-        isActive: false,
-      },
-    });
+    // Only one active session per user — use a transaction to prevent races
+    return this.prisma.$transaction(async (tx) => {
+      const res = await tx.aiChatSession.updateMany({
+        where: {
+          userId,
+        },
+        data: {
+          isActive: false,
+        },
+      });
 
-    this.agent?.incrementMetric('ai.session.create');
+      this.agent?.incrementMetric('ai.session.create');
 
-    return this.prisma.aiChatSession.create({
-      data: {
-        userId,
-        isActive: true,
-        title: `Session ${res.count + 1} (${new Date().toISOString()})`,
-      },
+      return tx.aiChatSession.create({
+        data: {
+          userId,
+          isActive: true,
+          title: `Session ${res.count + 1} (${new Date().toISOString()})`,
+        },
+      });
     });
   }
 
@@ -194,36 +196,40 @@ export class AiService {
 
     // Send message (+ all previous messages in session) to AI
     const response = await this.sendToAI(messageInput, messages);
-    // Save user message to session
-    await this.prisma.aiChatMessage.create({
-      data: {
-        sessionId,
-        message: messageInput.message,
-        role: AiChatRole.USER,
-        sdl: messageInput.sdl,
-        graphqlQuery: messageInput.graphqlQuery,
-        graphqlVariables: messageInput.graphqlVariables,
-        transactionId: creditUse.transactionId,
-      },
-    });
-    // Save AI response to session
-    await this.prisma.aiChatMessage.create({
-      data: {
-        sessionId,
-        message: response.content,
-        role: AiChatRole.ASSISTANT,
-        inputTokens: response.usage_metadata?.input_tokens,
-        outputTokens: response.usage_metadata?.output_tokens,
-      },
-    });
-    // Update session updated_at
-    await this.prisma.aiChatSession.update({
-      where: {
-        id: sessionId,
-      },
-      data: {
-        updatedAt: new Date(),
-      },
+
+    // Save messages and update session atomically
+    await this.prisma.$transaction(async (tx) => {
+      // Save user message to session
+      await tx.aiChatMessage.create({
+        data: {
+          sessionId,
+          message: messageInput.message,
+          role: AiChatRole.USER,
+          sdl: messageInput.sdl,
+          graphqlQuery: messageInput.graphqlQuery,
+          graphqlVariables: messageInput.graphqlVariables,
+          transactionId: creditUse.transactionId,
+        },
+      });
+      // Save AI response to session
+      await tx.aiChatMessage.create({
+        data: {
+          sessionId,
+          message: response.content,
+          role: AiChatRole.ASSISTANT,
+          inputTokens: response.usage_metadata?.input_tokens,
+          outputTokens: response.usage_metadata?.output_tokens,
+        },
+      });
+      // Update session updated_at
+      await tx.aiChatSession.update({
+        where: {
+          id: sessionId,
+        },
+        data: {
+          updatedAt: new Date(),
+        },
+      });
     });
 
     this.agent?.incrementMetric('ai.session.message.send');

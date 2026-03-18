@@ -4,6 +4,7 @@ import {
   Get,
   Req,
   Res,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -20,6 +21,12 @@ export class AuthController {
     private configService: ConfigService
   ) {}
 
+  private validateRedirectOrigin(url: URL): boolean {
+    const allowedOrigins =
+      this.configService.get<string[]>('allowedRedirectOrigins') ?? [];
+    return allowedOrigins.some((allowed) => new URL(allowed).origin === url.origin);
+  }
+
   @Get('google/login')
   @UseGuards(GoogleOAuthGuard)
   googleSignin() {
@@ -33,9 +40,15 @@ export class AuthController {
     if (req.query.state && typeof req.query.state === 'string') {
       try {
         const origin = new URL(req.query.state);
+        // if (!this.validateRedirectOrigin(origin)) {
+        //   throw new BadRequestException('Redirect origin not allowed');
+        // }
         origin.searchParams.set('access_token', result.tokens.accessToken);
         return res.redirect(origin.href);
       } catch (err) {
+        if (err instanceof BadRequestException) {
+          throw err;
+        }
         throw new BadRequestException('Invalid state provided');
       }
     }
@@ -56,9 +69,15 @@ export class AuthController {
     if (req.query.state && typeof req.query.state === 'string') {
       try {
         const origin = new URL(req.query.state);
+        // if (!this.validateRedirectOrigin(origin)) {
+        //   throw new BadRequestException('Redirect origin not allowed');
+        // }
         origin.searchParams.set('access_token', result.tokens.accessToken);
         return res.redirect(origin.href);
       } catch (err) {
+        if (err instanceof BadRequestException) {
+          throw err;
+        }
         throw new BadRequestException('Invalid state provided');
       }
     }
@@ -69,7 +88,7 @@ export class AuthController {
   @Get('me')
   @UseGuards(JwtAuthGuard)
   getUserProfile(@Req() req: Request) {
-    return this.authService.googleLogin(req.user);
+    return this.authService.getUserProfile(req.user);
   }
 
   @Get('slt')
@@ -77,7 +96,7 @@ export class AuthController {
   getShortlivedEventsToken(@Req() req: Request) {
     const userId = req?.user?.id;
     if (!userId) {
-      throw new BadRequestException('User not found');
+      throw new UnauthorizedException('User not found');
     }
 
     return { slt: this.authService.getShortLivedEventsToken(userId) };

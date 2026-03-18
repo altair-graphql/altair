@@ -5,6 +5,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
 import { SendMessageDto } from './dto/send-message.dto';
 import { RateMessageDto } from './dto/rate-message.dto';
+import { getUserId } from 'src/common/request';
 
 @Controller('ai')
 @ApiTags('AI')
@@ -14,25 +15,25 @@ export class AiController {
 
   @Get('sessions/active')
   async getActiveSession(@Req() req: Request) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.aiService.getActiveSession(userId);
   }
 
   @Get('sessions')
   async getAllSessions(@Req() req: Request) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.aiService.getSessions(userId);
   }
 
   @Post('sessions')
   async createSession(@Req() req: Request) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.aiService.createNewActiveSession(userId);
   }
 
   @Get('sessions/:id/messages')
   async getSessionMessages(@Req() req: Request, @Param('id') sessionId: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.aiService.getSessionMessages(userId, sessionId);
   }
 
@@ -42,7 +43,7 @@ export class AiController {
     @Param('id') sessionId: string,
     @Body() sendMessageDto: SendMessageDto
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.aiService.sendMessage(userId, sessionId, sendMessageDto);
   }
 
@@ -53,7 +54,7 @@ export class AiController {
     @Param('messageId') messageId: string,
     @Body() rateMessageDto: RateMessageDto
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.aiService.rateMessage({
       userId,
       sessionId,

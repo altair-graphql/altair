@@ -90,6 +90,7 @@ export class TeamMembershipsService {
     const validMember = await this.prisma.teamMembership.findFirst({
       where: {
         userId,
+        teamId,
       },
     });
     const validOwner = await this.prisma.team.findFirst({
@@ -139,11 +140,10 @@ export class TeamMembershipsService {
   }
 
   async remove(ownerId: string, teamId: string, memberId: string) {
-    const validOwner = await this.prisma.teamMembership.findFirst({
+    const validOwner = await this.prisma.team.findFirst({
       where: {
-        team: {
-          ownerId,
-        },
+        id: teamId,
+        ownerId,
       },
     });
 

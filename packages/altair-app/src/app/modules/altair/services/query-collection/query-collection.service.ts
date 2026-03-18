@@ -237,10 +237,14 @@ export class QueryCollectionService {
 
   async getLocalCollectionByID(collectionId: CollectionID) {
     const localCollection = await this.storage.queryCollections.get(collectionId);
-    if (!localCollection) {
-      collectionId = this.getAlternateCollectionID(collectionId);
+    if (localCollection) {
+      return localCollection;
     }
-    return await this.storage.queryCollections.get(collectionId);
+    const alternateId = this.getAlternateCollectionID(collectionId);
+    if (alternateId === '') {
+      return undefined;
+    }
+    return await this.storage.queryCollections.get(alternateId);
   }
 
   async getCollectionByID(
@@ -524,7 +528,7 @@ export class QueryCollectionService {
   }
 
   getSubcollections$(collectionId: CollectionID, recursive = false) {
-    observableFrom(this.getSubcollections(collectionId, recursive));
+    return observableFrom(this.getSubcollections(collectionId, recursive));
   }
 
   moveCollection(collectionId: CollectionID, newParentCollectionId: CollectionID) {

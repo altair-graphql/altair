@@ -23,7 +23,7 @@ import {
 import { AltairConfig, getAltairConfig } from 'altair-graphql-core/build/config';
 import { IPlan, IPlanInfo, IUserProfile, IUserStats } from './user';
 import { ICreateTeamDto, ICreateTeamMembershipDto, IUpdateTeamDto } from './team';
-import { firstValueFrom, from, Observable, Subject } from 'rxjs';
+import { firstValueFrom, from, Observable, ReplaySubject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ReturnedWorkspace } from './workspace';
 import { ConfigEnvironment } from 'altair-graphql-core/build/config/environment';
@@ -59,7 +59,7 @@ export class APIClient {
   ky: KyInstance;
   authToken?: string;
 
-  user$ = new Subject<IUserProfile | undefined>();
+  user$ = new ReplaySubject<IUserProfile | undefined>(1);
   private _user?: IUserProfile;
   get user() {
     return this._user;
@@ -180,20 +180,25 @@ export class APIClient {
               new URL(message.origin).href !==
               new URL(this.urlConfig.loginClient).href
             ) {
-              return reject(new Error('origin does not match!'));
+              // Ignore messages from unexpected origins without removing listener
+              return;
             }
 
             // Verify returned nonce
             if (nonce !== message?.data?.payload?.nonce) {
               window.removeEventListener('message', listener);
+              popup.close();
               return reject(new Error('nonce does not match!'));
             }
 
             const token = message?.data?.payload?.token;
             window.removeEventListener('message', listener);
+            popup.close();
             return resolve(token);
           }
         } catch (err) {
+          window.removeEventListener('message', listener);
+          popup.close();
           reject(err);
         }
       };
@@ -370,14 +375,20 @@ export class APIClient {
     return this.ky.get(`auth/slt`).json<{ slt: string }>();
   }
 
-  private fromEventSource(url: string) {
+  private fromEventSource(url: string): Observable<string> {
     return new Observable((subscriber) => {
       const eventSource = new EventSource(url);
       eventSource.onmessage = (x) => subscriber.next(x.data);
-      eventSource.onerror = (x) => subscriber.error(x);
+      eventSource.onerror = () => {
+        // Only terminate observable if the connection is permanently closed.
+        // EventSource auto-reconnects on transient errors (readyState === CONNECTING).
+        if (eventSource.readyState === EventSource.CLOSED) {
+          subscriber.error(new Error('EventSource connection closed'));
+        }
+      };
 
       return () => {
-        eventSource?.close();
+        eventSource.close();
       };
     });
   }

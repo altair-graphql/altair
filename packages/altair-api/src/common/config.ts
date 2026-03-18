@@ -8,12 +8,15 @@ const config = {
     enabled: true,
   },
   swagger: {
-    enabled: true,
+    enabled: process.env.NODE_ENV !== 'production',
     title: 'Altair API',
     description: 'The Altair API description',
     version: '1.0',
     path: 'swagger',
   },
+  allowedRedirectOrigins: (
+    process.env.ALLOWED_REDIRECT_ORIGINS ?? 'https://altairgraphql.dev'
+  ).split(','),
   security: {
     shortExpiresIn: '30s',
     expiresIn: '2d',
@@ -52,6 +55,14 @@ const config = {
     audienceId: process.env.RESEND_AUDIENCE_ID,
     defaultFrom: 'Altair GraphQL <mail@mail.altairgraphql.dev>',
     replyTo: 'info@altairgraphql.dev',
+  },
+  stripe: {
+    checkoutSuccessUrl:
+      process.env.STRIPE_CHECKOUT_SUCCESS_URL ??
+      'https://altairgraphql.dev/checkout_success?session_id={CHECKOUT_SESSION_ID}',
+    checkoutCancelUrl:
+      process.env.STRIPE_CHECKOUT_CANCEL_URL ??
+      'https://altairgraphql.dev/checkout_cancel?session_id={CHECKOUT_SESSION_ID}',
   },
 };
 

@@ -94,7 +94,7 @@ export class UserService {
       if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') {
         throw new ConflictException(`Email ${payload.email} already used.`);
       }
-      throw new Error(e as any);
+      throw e;
     }
   }
 
@@ -222,7 +222,7 @@ export class UserService {
   async getProPlanUrl(userId: string) {
     const planConfig = await this.getPlanConfig(userId);
     if (planConfig?.id === PRO_PLAN_ID) {
-      console.warn(
+      this.logger.warn(
         'User is already on pro plan. Going to return billing url instead.'
       );
       return this.getBillingUrl(userId);
@@ -266,36 +266,38 @@ export class UserService {
   async toBasicPlan(userId: string) {
     await this.updateUserPlan(userId, BASIC_PLAN_ID, 1);
 
-    // Deduct remaining monthly credits
-    const creditBalance = await this.prisma.creditBalance.findUnique({
-      where: { userId },
-    });
-
-    if (!creditBalance) {
-      throw new Error('User has no credit balance');
-    }
-
-    const remainingMonthlyCredits = creditBalance.monthlyCredits;
-
-    if (remainingMonthlyCredits > 0) {
-      await this.prisma.creditBalance.update({
+    // Deduct remaining monthly credits atomically
+    await this.prisma.$transaction(async (tx) => {
+      const creditBalance = await tx.creditBalance.findUnique({
         where: { userId },
-        data: {
-          monthlyCredits: 0,
-        },
       });
 
-      // Create CreditTransaction record (type: downgraded) with deducted amount
-      await this.prisma.creditTransaction.create({
-        data: {
-          userId,
-          monthlyAmount: remainingMonthlyCredits,
-          fixedAmount: 0,
-          type: CreditTransactionType.DOWNGRADED,
-          description: 'Downgraded to basic plan',
-        },
-      });
-    }
+      if (!creditBalance) {
+        throw new Error('User has no credit balance');
+      }
+
+      const remainingMonthlyCredits = creditBalance.monthlyCredits;
+
+      if (remainingMonthlyCredits > 0) {
+        await tx.creditBalance.update({
+          where: { userId },
+          data: {
+            monthlyCredits: 0,
+          },
+        });
+
+        // Create CreditTransaction record (type: downgraded) with deducted amount
+        await tx.creditTransaction.create({
+          data: {
+            userId,
+            monthlyAmount: remainingMonthlyCredits,
+            fixedAmount: 0,
+            type: CreditTransactionType.DOWNGRADED,
+            description: 'Downgraded to basic plan',
+          },
+        });
+      }
+    });
   }
 
   async toProPlan(userId: string, quantity: number) {

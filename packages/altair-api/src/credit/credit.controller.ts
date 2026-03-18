@@ -4,6 +4,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
 import { BuyDto } from './dto/buy.dto';
+import { getUserId } from 'src/common/request';
 
 @Controller('credits')
 @ApiTags('Credits')
@@ -13,13 +14,13 @@ export class CreditController {
 
   @Get()
   async getAvailableCredits(@Req() req: Request) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.creditService.getAvailableCredits(userId);
   }
 
   @Post('buy')
   async buyCredits(@Req() req: Request, @Body() buyDto: BuyDto) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.creditService.buyCredits(userId, buyDto.quantity);
   }
 }

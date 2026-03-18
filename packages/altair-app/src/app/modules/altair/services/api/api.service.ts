@@ -182,7 +182,8 @@ export class ApiService {
       map((x) => {
         return x;
       })
-      // takeUntil(this.accountService.observeSignout())
+      // TODO: Add takeUntil to clean up SSE connection on signout.
+      // Requires adding an observeSignout() observable to AccountService.
     );
   }
 

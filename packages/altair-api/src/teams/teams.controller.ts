@@ -16,6 +16,7 @@ import { Request } from 'express';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { getUserId } from 'src/common/request';
 
 @Controller('teams')
 @ApiTags('Teams')
@@ -25,19 +26,19 @@ export class TeamsController {
 
   @Post()
   create(@Req() req: Request, @Body() createTeamDto: CreateTeamDto) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.teamsService.create(userId, createTeamDto);
   }
 
   @Get()
   findAll(@Req() req: Request) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.teamsService.findAll(userId);
   }
 
   @Get(':id')
   async findOne(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const res = await this.teamsService.findOne(userId, id);
 
     if (!res) {
@@ -53,7 +54,7 @@ export class TeamsController {
     @Param('id') id: string,
     @Body() updateTeamDto: UpdateTeamDto
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const res = await this.teamsService.update(userId, id, updateTeamDto);
     if (!res.count) {
       throw new NotFoundException();
@@ -64,7 +65,7 @@ export class TeamsController {
 
   @Delete(':id')
   async remove(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const res = await this.teamsService.remove(userId, id);
     if (!res.count) {
       throw new NotFoundException();

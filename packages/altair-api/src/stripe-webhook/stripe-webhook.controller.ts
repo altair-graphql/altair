@@ -126,39 +126,42 @@ export class StripeWebhookController {
             }
             const quantity = purchasedCreditsItem.quantity ?? 0;
 
-            // Update user credit balance
-            await this.prisma.creditBalance.update({
-              where: {
-                userId: user.id,
-              },
-              data: {
-                fixedCredits: {
-                  increment: quantity,
+            // Update balance, create transaction and purchase record atomically
+            await this.prisma.$transaction(async (tx) => {
+              // Update user credit balance
+              await tx.creditBalance.update({
+                where: {
+                  userId: user.id,
                 },
-              },
-            });
+                data: {
+                  fixedCredits: {
+                    increment: quantity,
+                  },
+                },
+              });
 
-            // Create credit transaction
-            const transaction = await this.prisma.creditTransaction.create({
-              data: {
-                userId: user.id,
-                fixedAmount: quantity,
-                monthlyAmount: 0,
-                description: 'Purchased credits',
-                type: CreditTransactionType.PURCHASED,
-              },
-            });
+              // Create credit transaction
+              const transaction = await tx.creditTransaction.create({
+                data: {
+                  userId: user.id,
+                  fixedAmount: quantity,
+                  monthlyAmount: 0,
+                  description: 'Purchased credits',
+                  type: CreditTransactionType.PURCHASED,
+                },
+              });
 
-            // Create purchase record
-            await this.prisma.creditPurchase.create({
-              data: {
-                userId: user.id,
-                transactionId: transaction.id,
-                stripeSessionId: checkoutSession.id,
-                amount: quantity,
-                cost: creditInfo.price,
-                currency: creditInfo.currency,
-              },
+              // Create purchase record
+              await tx.creditPurchase.create({
+                data: {
+                  userId: user.id,
+                  transactionId: transaction.id,
+                  stripeSessionId: checkoutSession.id,
+                  amount: quantity,
+                  cost: creditInfo.price,
+                  currency: creditInfo.currency,
+                },
+              });
             });
           } else {
             throw new BadRequestException('Unknown checkout session');

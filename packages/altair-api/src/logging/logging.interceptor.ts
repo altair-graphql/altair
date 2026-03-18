@@ -43,7 +43,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
         throw error;
       }),
-      tap((x) => {
+      tap(() => {
         tags.duration = `${Date.now() - now}ms`;
         tags.status = response.statusCode;
         tags.size = response.get('content-length');

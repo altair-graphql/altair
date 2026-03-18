@@ -15,6 +15,7 @@ import { Request } from 'express';
 import { CreateTeamMembershipDto } from './dto/create-team-membership.dto';
 import { UpdateTeamMembershipDto } from './dto/update-team-membership.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { getUserId } from 'src/common/request';
 
 @Controller('team-memberships')
 @ApiTags('Team Memberships')
@@ -29,19 +30,19 @@ export class TeamMembershipsController {
     @Req() req: Request,
     @Body() createTeamMembershipDto: CreateTeamMembershipDto
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.teamMembershipsService.create(userId, createTeamMembershipDto);
   }
 
   @Get('team/:id')
   findAll(@Req() req: Request, @Param('id') teamId: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.teamMembershipsService.findAll(userId, teamId);
   }
 
   @Get(':id')
   findOne(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.teamMembershipsService.findOne(userId, id);
   }
 
@@ -51,7 +52,7 @@ export class TeamMembershipsController {
     @Param('id') id: string,
     @Body() updateTeamMembershipDto: UpdateTeamMembershipDto
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.teamMembershipsService.update(
       userId,
       id,
@@ -65,7 +66,7 @@ export class TeamMembershipsController {
     @Param('teamId') teamId: string,
     @Param('memberId') memberId: string
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.teamMembershipsService.remove(userId, teamId, memberId);
   }
 }

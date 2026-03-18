@@ -11,7 +11,7 @@ import {
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Request, Response } from 'express';
 import { PrismaService } from 'nestjs-prisma';
-import { map, Observable, Subject } from 'rxjs';
+import { finalize, map, Observable, Subject } from 'rxjs';
 import { AppService } from './app.service';
 import { EventsJwtAuthGuard } from './auth/guards/events-jwt-auth.guard';
 import { EVENTS } from './common/events';
@@ -115,6 +115,13 @@ export class AppController {
       }
     };
     this.eventService.on([EVENTS.QUERY_UPDATE], queryUpdateListener);
+
+    // Clean up listeners when the client disconnects
+    req.on('close', () => {
+      this.eventService.off([EVENTS.COLLECTION_UPDATE], collectionUpdateListener);
+      this.eventService.off([EVENTS.QUERY_UPDATE], queryUpdateListener);
+      subject$.complete();
+    });
 
     return subject$.pipe(map((data) => ({ data })));
   }
