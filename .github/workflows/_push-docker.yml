@@ -78,13 +78,11 @@ jobs:
               }
             }
       - name: Login to Docker Hub
-        if: ${{ inputs.push }}
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           username: ${{ secrets.dockerhub_username }}
           password: ${{ secrets.dockerhub_token }}
       - name: Login to GHCR
-        if: ${{ inputs.push }}
         uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
         with:
           registry: ghcr.io
@@ -94,8 +92,7 @@ jobs:
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6.18.0
         with:
           context: .
-          # multi-platform builds are only supported when pushing to a registry
-          platforms: ${{ inputs.push && 'linux/amd64,linux/arm64' || 'linux/amd64' }}
+          platforms: linux/amd64,linux/arm64
           load: true
           provenance: true
           push: ${{ inputs.push }}
