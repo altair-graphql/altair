@@ -7,5 +7,6 @@ import { AuthModule } from 'src/auth/auth.module';
   imports: [AuthModule],
   controllers: [TeamMembershipsController],
   providers: [TeamMembershipsService],
+  exports: [TeamMembershipsService],
 })
 export class TeamMembershipsModule {}

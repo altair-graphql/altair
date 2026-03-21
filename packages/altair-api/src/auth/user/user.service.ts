@@ -6,9 +6,11 @@ import {
   User,
 } from '@altairgraphql/db';
 import { ConflictException, Injectable, Logger } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
 import { Prisma } from '@prisma/client';
 import { StripeService } from 'src/stripe/stripe.service';
+import { EVENTS } from 'src/common/events';
 import { ProviderInfo } from '../models/provider-info.dto';
 import { SignupInput } from '../models/signup.input';
 import { UpdateUserInput } from '../models/update-user.input';
@@ -20,7 +22,8 @@ export class UserService {
   private readonly agent = getAgent();
   constructor(
     private readonly prisma: PrismaService,
-    private readonly stripeService: StripeService
+    private readonly stripeService: StripeService,
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
   async createUser(
@@ -298,10 +301,20 @@ export class UserService {
         });
       }
     });
+
+    this.eventEmitter.emit(EVENTS.PLAN_UPDATE, {
+      userId,
+      planId: BASIC_PLAN_ID,
+    });
   }
 
   async toProPlan(userId: string, quantity: number) {
     await this.updateUserPlan(userId, PRO_PLAN_ID, quantity);
+
+    this.eventEmitter.emit(EVENTS.PLAN_UPDATE, {
+      userId,
+      planId: PRO_PLAN_ID,
+    });
   }
 
   async getProUsers() {

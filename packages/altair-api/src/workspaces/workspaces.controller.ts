@@ -48,18 +48,30 @@ export class WorkspacesController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Req() req: Request,
     @Param('id') id: string,
     @Body() updateWorkspaceDto: UpdateWorkspaceDto
   ) {
     const userId = getUserId(req);
-    return this.workspacesService.update(userId, id, updateWorkspaceDto);
+    const res = await this.workspacesService.update(userId, id, updateWorkspaceDto);
+
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 
   @Delete(':id')
-  remove(@Req() req: Request, @Param('id') id: string) {
+  async remove(@Req() req: Request, @Param('id') id: string) {
     const userId = getUserId(req);
-    return this.workspacesService.remove(userId, id);
+    const res = await this.workspacesService.remove(userId, id);
+
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 }

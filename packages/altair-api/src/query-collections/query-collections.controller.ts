@@ -10,11 +10,13 @@ import {
   UseGuards,
   NotFoundException,
 } from '@nestjs/common';
-import { QueryCollectionsService } from './query-collections.service';
+import { QueryCollectionsService, ExportedCollection } from './query-collections.service';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
 import { UpdateQueryCollectionDto } from './dto/update-query-collection.dto';
+import { MoveCollectionDto } from './dto/move-collection.dto';
+import { ImportCollectionDto } from './dto/import-collection.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { getUserId } from 'src/common/request';
 
@@ -76,6 +78,20 @@ export class QueryCollectionsController {
     return res;
   }
 
+  @Patch(':id/move')
+  async move(
+    @Req() req: Request,
+    @Param('id') id: string,
+    @Body() moveCollectionDto: MoveCollectionDto
+  ) {
+    const userId = getUserId(req);
+    return this.queryCollectionsService.moveCollection(
+      userId,
+      id,
+      moveCollectionDto
+    );
+  }
+
   @Delete(':id')
   async remove(@Req() req: Request, @Param('id') id: string) {
     const userId = getUserId(req);
@@ -85,5 +101,25 @@ export class QueryCollectionsController {
     }
 
     return res;
+  }
+
+  @Get(':id/export')
+  async exportCollection(@Req() req: Request, @Param('id') id: string) {
+    const userId = getUserId(req);
+    return this.queryCollectionsService.exportCollection(userId, id);
+  }
+
+  @Post('import')
+  async importCollection(
+    @Req() req: Request,
+    @Body() importDto: ImportCollectionDto
+  ) {
+    const userId = getUserId(req);
+    return this.queryCollectionsService.importCollection(
+      userId,
+      importDto.workspaceId,
+      importDto.data,
+      importDto.parentCollectionId
+    );
   }
 }

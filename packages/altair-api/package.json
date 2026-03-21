@@ -22,6 +22,7 @@
     "@nestjs/platform-express": "^11.1.17",
     "@nestjs/schedule": "^6.1.1",
     "@nestjs/swagger": "^11.2.6",
+    "@nestjs/throttler": "^6",
     "@prisma/client": "^5.16.2",
     "altair-graphql-core": "workspace:*",
     "bcrypt": "^5.1.0",

@@ -1,8 +1,9 @@
 import { Prisma } from '@altairgraphql/db';
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
+import { TeamMembershipsService } from 'src/team-memberships/team-memberships.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
 import { getAgent } from 'src/newrelic/newrelic';
@@ -12,7 +13,8 @@ export class TeamsService {
   private readonly agent = getAgent();
   constructor(
     private prisma: PrismaService,
-    private userService: UserService
+    private userService: UserService,
+    private teamMembershipsService: TeamMembershipsService
   ) {}
 
   async create(userId: string, createTeamDto: CreateTeamDto) {
@@ -86,11 +88,14 @@ export class TeamsService {
     });
   }
 
-  update(userId: string, id: string, updateTeamDto: UpdateTeamDto) {
+  async update(userId: string, id: string, updateTeamDto: UpdateTeamDto) {
+    // OWNER or ADMIN can update team info
+    await this.teamMembershipsService.assertTeamRole(userId, id, ['OWNER', 'ADMIN'],
+      'You do not have permission to update this team.');
+
     return this.prisma.team.updateMany({
       where: {
         id,
-        ...this.ownerWhere(userId),
       },
       data: {
         ...updateTeamDto,
@@ -98,11 +103,14 @@ export class TeamsService {
     });
   }
 
-  remove(userId: string, id: string) {
+  async remove(userId: string, id: string) {
+    // Only OWNER can delete a team
+    await this.teamMembershipsService.assertTeamRole(userId, id, ['OWNER'],
+      'Only the team owner can delete the team.');
+
     return this.prisma.team.deleteMany({
       where: {
         id,
-        ...this.ownerWhere(userId),
       },
     });
   }

@@ -1,7 +1,9 @@
 import {
   BadRequestException,
+  Body,
   Controller,
   Get,
+  Post,
   Req,
   Res,
   UnauthorizedException,
@@ -13,12 +15,18 @@ import { AuthService } from './auth.service';
 import { GoogleOAuthGuard } from './guards/google-oauth.guard';
 import { GitHubOAuthGuard } from './guards/github-oauth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { RefreshTokenInput } from './models/refresh-token.input';
+import { VerifyEmailInput } from './models/verify-email.input';
+import { EmailService } from 'src/email/email.service';
+import { Throttle } from '@nestjs/throttler';
+import { Config } from 'src/common/config';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
-    private configService: ConfigService
+    private configService: ConfigService<Config>,
+    private emailService: EmailService
   ) {}
 
   private validateRedirectOrigin(url: URL): boolean {
@@ -28,6 +36,7 @@ export class AuthController {
   }
 
   @Get('google/login')
+  @Throttle({ default: { ttl: 60000, limit: 10 } })
   @UseGuards(GoogleOAuthGuard)
   googleSignin() {
     // handled by the auth guard
@@ -57,6 +66,7 @@ export class AuthController {
   }
 
   @Get('github/login')
+  @Throttle({ default: { ttl: 60000, limit: 10 } })
   @UseGuards(GitHubOAuthGuard)
   githubSignin() {
     // handled by the auth guard
@@ -91,6 +101,12 @@ export class AuthController {
     return this.authService.getUserProfile(req.user);
   }
 
+  @Post('refresh')
+  @Throttle({ default: { ttl: 60000, limit: 10 } })
+  refreshToken(@Body() body: RefreshTokenInput) {
+    return this.authService.refreshToken(body.token);
+  }
+
   @Get('slt')
   @UseGuards(JwtAuthGuard)
   getShortlivedEventsToken(@Req() req: Request) {
@@ -100,5 +116,53 @@ export class AuthController {
     }
 
     return { slt: this.authService.getShortLivedEventsToken(userId) };
+  }
+
+  @Post('send-verification')
+  @Throttle({ default: { ttl: 60000, limit: 5 } })
+  @UseGuards(JwtAuthGuard)
+  async sendVerificationEmail(
+    @Req() req: Request,
+    @Body() body: { callbackUrl?: string }
+  ) {
+    const userId = req?.user?.id;
+    if (!userId) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    const token = this.authService.generateEmailVerificationToken(userId);
+
+    // Build the verification URL
+    const allowedOrigins: string[] =
+      this.configService.get('allowedRedirectOrigins', {
+        infer: true,
+      }) ?? [];
+    let baseUrl = 'https://altairgraphql.dev';
+
+    if (body.callbackUrl) {
+      try {
+        const callbackOrigin = new URL(body.callbackUrl);
+        const isAllowed = allowedOrigins.some(
+          (allowed) => new URL(allowed).origin === callbackOrigin.origin
+        );
+        if (isAllowed) {
+          baseUrl = body.callbackUrl;
+        }
+      } catch {
+        // ignore invalid URL, use default
+      }
+    }
+
+    const verificationUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}token=${token}`;
+
+    await this.emailService.sendVerificationEmail(userId, verificationUrl);
+
+    return { sent: true };
+  }
+
+  @Post('verify-email')
+  @Throttle({ default: { ttl: 60000, limit: 10 } })
+  async verifyEmail(@Body() body: VerifyEmailInput) {
+    return this.authService.verifyEmail(body.token);
   }
 }

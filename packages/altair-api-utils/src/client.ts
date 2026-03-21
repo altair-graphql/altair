@@ -9,30 +9,46 @@ import {
   ICreateQueryDto,
   IUpdateQueryCollectionDto,
   IUpdateQueryDto,
+  ExportedCollection,
 } from './query';
 import {
   QueryItem,
   QueryCollection,
   Team,
   TeamMembership,
+  TeamInvitation,
   QueryItemRevision,
   AiChatSession,
   AiChatMessage,
   IdentityProvider,
+  SharedQuery,
 } from '@altairgraphql/db';
 import { AltairConfig, getAltairConfig } from 'altair-graphql-core/build/config';
-import { IPlan, IPlanInfo, IUserProfile, IUserStats } from './user';
-import { ICreateTeamDto, ICreateTeamMembershipDto, IUpdateTeamDto } from './team';
+import { IPlan, IPlanInfo, IUserProfile, IUserStats, IToken } from './user';
+import {
+  ICreateTeamDto,
+  ICreateTeamInvitationDto,
+  ICreateTeamMembershipDto,
+  IUpdateTeamDto,
+} from './team';
 import { firstValueFrom, from, Observable, ReplaySubject } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { ReturnedWorkspace } from './workspace';
+import {
+  ReturnedWorkspace,
+  ICreateWorkspaceDto,
+  IUpdateWorkspaceDto,
+} from './workspace';
 import { ConfigEnvironment } from 'altair-graphql-core/build/config/environment';
 import { UrlConfig } from 'altair-graphql-core/build/config/urls';
-import { IRateMessageDto, ISendMessageDto } from './ai';
+import { AiStreamEvent, IRateMessageDto, ISendMessageDto } from './ai';
+import { ICreditTransactionsResponse } from './credit';
 import { IAvailableCredits } from 'altair-graphql-core/build/types/state/account.interfaces';
 import { getPopupUrl } from 'altair-graphql-core/build/identity/providers';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
+};
+export type SharedQueryWithContent = SharedQuery & {
+  query: QueryItem;
 };
 export type ReturnedTeamMembership = TeamMembership & {
   user: Pick<IUserProfile, 'firstName' | 'lastName' | 'email'>;
@@ -213,6 +229,29 @@ export class APIClient {
     this.clearCachedToken();
   }
 
+  async refreshToken(token: string) {
+    const tokens = await this.ky
+      .post('auth/refresh', { json: { token } })
+      .json<IToken>();
+    this.authToken = tokens.accessToken;
+    this.setCachedToken(tokens.accessToken);
+    return tokens;
+  }
+
+  sendVerificationEmail(callbackUrl?: string) {
+    return this.ky
+      .post('auth/send-verification', {
+        json: { ...(callbackUrl ? { callbackUrl } : {}) },
+      })
+      .json<{ sent: boolean }>();
+  }
+
+  verifyEmail(token: string) {
+    return this.ky
+      .post('auth/verify-email', { json: { token } })
+      .json<{ verified: boolean }>();
+  }
+
   createQuery(queryInput: ICreateQueryDto) {
     return this.ky.post('queries', { json: queryInput }).json<QueryItem>();
   }
@@ -257,13 +296,44 @@ export class APIClient {
     return this.ky.delete(`query-collections/${id}`).json();
   }
 
+  moveCollection(
+    id: string,
+    dto: { parentCollectionId?: string | null; workspaceId?: string }
+  ) {
+    return this.ky
+      .patch(`query-collections/${id}/move`, { json: dto })
+      .json<FullQueryCollection>();
+  }
+
   getCollection(id: string) {
     return this.ky
+
       .get(`query-collections/${id}`)
       .json<FullQueryCollection | undefined>();
   }
+
   getCollections() {
     return this.ky.get(`query-collections`).json<FullQueryCollection[]>();
+  }
+
+  exportCollection(id: string) {
+    return this.ky.get(`query-collections/${id}/export`).json<ExportedCollection>();
+  }
+
+  importCollection(
+    workspaceId: string,
+    data: ExportedCollection,
+    parentCollectionId?: string
+  ) {
+    return this.ky
+      .post('query-collections/import', {
+        json: {
+          workspaceId,
+          data,
+          ...(parentCollectionId ? { parentCollectionId } : {}),
+        },
+      })
+      .json<{ id: string; name: string }>();
   }
 
   createTeam(teamInput: ICreateTeamDto) {
@@ -296,8 +366,48 @@ export class APIClient {
       .json<ReturnedTeamMembership[]>();
   }
 
+  createTeamInvitation(teamId: string, input: ICreateTeamInvitationDto) {
+    return this.ky
+      .post(`team-memberships/team/${teamId}/invitations`, { json: input })
+      .json<TeamInvitation>();
+  }
+
+  getTeamInvitations(teamId: string) {
+    return this.ky
+      .get(`team-memberships/team/${teamId}/invitations`)
+      .json<TeamInvitation[]>();
+  }
+
+  acceptTeamInvitation(token: string) {
+    return this.ky
+      .post(`team-memberships/invitations/${token}/accept`)
+      .json<TeamMembership>();
+  }
+
+  revokeTeamInvitation(invitationId: string) {
+    return this.ky.delete(`team-memberships/invitations/${invitationId}`).json();
+  }
+
   getWorkspaces() {
     return this.ky.get(`workspaces`).json<ReturnedWorkspace[]>();
+  }
+
+  getWorkspace(id: string) {
+    return this.ky.get(`workspaces/${id}`).json<ReturnedWorkspace>();
+  }
+
+  createWorkspace(dto: ICreateWorkspaceDto) {
+    return this.ky.post(`workspaces`, { json: dto }).json<ReturnedWorkspace>();
+  }
+
+  updateWorkspace(id: string, dto: IUpdateWorkspaceDto) {
+    return this.ky
+      .patch(`workspaces/${id}`, { json: dto })
+      .json<{ count: number }>();
+  }
+
+  deleteWorkspace(id: string) {
+    return this.ky.delete(`workspaces/${id}`).json<{ count: number }>();
   }
 
   getBillingUrl() {
@@ -330,6 +440,20 @@ export class APIClient {
     return this.ky.get('credits').json<IAvailableCredits>();
   }
 
+  getCreditTransactions(options?: {
+    limit?: number;
+    cursor?: string;
+    type?: string;
+  }) {
+    const searchParams = new URLSearchParams();
+    if (options?.limit) searchParams.set('limit', String(options.limit));
+    if (options?.cursor) searchParams.set('cursor', options.cursor);
+    if (options?.type) searchParams.set('type', options.type);
+    return this.ky
+      .get('credits/transactions', { searchParams })
+      .json<ICreditTransactionsResponse>();
+  }
+
   buyCredits() {
     return this.ky.post('credits/buy').json<{
       url: string | null;
@@ -344,6 +468,24 @@ export class APIClient {
     return this.ky.post('ai/sessions').json<AiChatSession>();
   }
 
+  getAiSessions() {
+    return this.ky.get('ai/sessions').json<AiChatSession[]>();
+  }
+
+  renameAiSession(sessionId: string, title: string) {
+    return this.ky
+      .patch(`ai/sessions/${sessionId}`, { json: { title } })
+      .json<AiChatSession>();
+  }
+
+  deleteAiSession(sessionId: string) {
+    return this.ky.delete(`ai/sessions/${sessionId}`).json<{ deleted: boolean }>();
+  }
+
+  resumeAiSession(sessionId: string) {
+    return this.ky.post(`ai/sessions/${sessionId}/resume`).json<AiChatSession>();
+  }
+
   getAiSessionMessages(sessionId: string) {
     return this.ky.get(`ai/sessions/${sessionId}/messages`).json<AiChatMessage[]>();
   }
@@ -354,6 +496,74 @@ export class APIClient {
       .json<{ response: string }>();
   }
 
+  /**
+   * Stream a message to an AI session. Returns an Observable that emits
+   * { type: 'chunk' | 'done' | 'error', content: string } events.
+   */
+  sendMessageToAiSessionStream(
+    sessionId: string,
+    input: ISendMessageDto
+  ): Observable<AiStreamEvent> {
+    return new Observable((subscriber) => {
+      const abortController = new AbortController();
+
+      this.ky
+        .post(`ai/sessions/${sessionId}/messages/stream`, {
+          json: input,
+          signal: abortController.signal,
+        })
+        .then(async (response) => {
+          const reader = response.body?.getReader();
+          if (!reader) {
+            subscriber.error(new Error('No response body'));
+            return;
+          }
+
+          const decoder = new TextDecoder();
+          let buffer = '';
+
+          try {
+            for (;;) {
+              const { done, value } = await reader.read();
+              if (done) break;
+
+              buffer += decoder.decode(value, { stream: true });
+              const lines = buffer.split('\n');
+              // Keep the last potentially incomplete line in the buffer
+              buffer = lines.pop() ?? '';
+
+              for (const line of lines) {
+                if (line.startsWith('data: ')) {
+                  try {
+                    const event = JSON.parse(line.slice(6)) as AiStreamEvent;
+                    subscriber.next(event);
+                  } catch {
+                    // skip malformed SSE lines
+                  }
+                }
+              }
+            }
+          } catch (err) {
+            if (!abortController.signal.aborted) {
+              subscriber.error(err);
+              return;
+            }
+          }
+
+          subscriber.complete();
+        })
+        .catch((err) => {
+          if (!abortController.signal.aborted) {
+            subscriber.error(err);
+          }
+        });
+
+      return () => {
+        abortController.abort();
+      };
+    });
+  }
+
   rateAiMessage(sessionId: string, messageId: string, input: IRateMessageDto) {
     return this.ky
       .post(`ai/sessions/${sessionId}/messages/${messageId}/rate`, {
@@ -362,12 +572,35 @@ export class APIClient {
       .json<AiChatMessage>();
   }
 
+  /**
+   * Get a shareable URL for a team query. This URL can be used to share the query with
+   * other team members who have access to the same query. The URL will not work for users
+   * who do not have access to the query, and will require authentication.
+   * Currently, this only works with the desktop app.
+   */
   getQueryShareUrl(queryId: string) {
     const url = new URL(this.urlConfig.loginClient);
     url.searchParams.set('action', 'share');
     url.searchParams.set('q', queryId);
 
     return url.toString();
+  }
+
+  sharePublicQuery(queryId: string) {
+    return this.ky.post(`queries/${queryId}/share`).json<SharedQuery>();
+  }
+
+  unsharePublicQuery(queryId: string) {
+    return this.ky.delete(`queries/${queryId}/share`).json();
+  }
+
+  /**
+   * Get a publicly shared query by its share ID. This is intended for use
+   * in the public query sharing flow, where a user can share a query and get a URL
+   * that can be accessed by anyone (even without authentication) to view the shared query.
+   */
+  getSharedPublicQuery(shareId: string) {
+    return this.ky.get(`shared/${shareId}`).json<SharedQueryWithContent>();
   }
 
   // short-lived-token for events

@@ -86,4 +86,16 @@ export class QueriesController {
     const userId = getUserId(req);
     return this.queriesService.restoreRevision(userId, revisionId);
   }
+
+  @Post(':id/share')
+  async shareQuery(@Req() req: Request, @Param('id') id: string) {
+    const userId = getUserId(req);
+    return this.queriesService.shareQuery(userId, id);
+  }
+
+  @Delete(':id/share')
+  async unshareQuery(@Req() req: Request, @Param('id') id: string) {
+    const userId = getUserId(req);
+    return this.queriesService.unshareQuery(userId, id);
+  }
 }

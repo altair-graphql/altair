@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from 'nestjs-prisma';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PasswordService } from './auth/password/password.service';
 import { QueriesModule } from './queries/queries.module';
 import { QueryCollectionsModule } from './query-collections/query-collections.module';
 import { TeamsModule } from './teams/teams.module';
-import config from './common/config';
+import config, { RateLimitConfig } from './common/config';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { TeamMembershipsModule } from './team-memberships/team-memberships.module';
 import { StripeModule } from './stripe/stripe.module';
@@ -20,6 +21,7 @@ import { WinstonModule, utilities } from 'nest-winston';
 import { format, transports } from 'winston';
 import { AiModule } from './ai/ai.module';
 import { EmailService } from './email/email.service';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
@@ -39,6 +41,21 @@ import { EmailService } from './email/email.service';
       ],
     }),
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
+    ThrottlerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const rateLimitConfig = configService.get<RateLimitConfig>('rateLimit');
+        return {
+          throttlers: [
+            {
+              name: 'default',
+              ttl: rateLimitConfig?.ttl ?? 60000,
+              limit: rateLimitConfig?.limit ?? 60,
+            },
+          ],
+        };
+      },
+    }),
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {
@@ -60,6 +77,14 @@ import { EmailService } from './email/email.service';
     AiModule,
   ],
   controllers: [AppController, StripeWebhookController],
-  providers: [AppService, PasswordService, EmailService],
+  providers: [
+    AppService,
+    PasswordService,
+    EmailService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}

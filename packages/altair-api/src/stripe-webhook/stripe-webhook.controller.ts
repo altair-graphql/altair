@@ -5,20 +5,25 @@ import {
 } from '@altairgraphql/db';
 import { Headers, RawBodyRequest } from '@nestjs/common';
 import { BadRequestException, Controller, Header, Post, Req } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Request } from 'express';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
+import { EVENTS } from 'src/common/events';
 import { EmailService } from 'src/email/email.service';
 import { StripeService } from 'src/stripe/stripe.service';
 import { Stripe } from 'stripe';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('stripe-webhook')
+@SkipThrottle()
 export class StripeWebhookController {
   constructor(
     private readonly stripeService: StripeService,
     private readonly userService: UserService,
     private readonly prisma: PrismaService,
-    private readonly emailService: EmailService
+    private readonly emailService: EmailService,
+    private readonly eventEmitter: EventEmitter2
   ) {
     // TODO: Synchronise with Stripe on startup
   }
@@ -162,6 +167,10 @@ export class StripeWebhookController {
                   currency: creditInfo.currency,
                 },
               });
+            });
+
+            this.eventEmitter.emit(EVENTS.CREDIT_UPDATE, {
+              userId: user.id,
             });
           } else {
             throw new BadRequestException('Unknown checkout session');

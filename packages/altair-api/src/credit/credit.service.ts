@@ -5,9 +5,11 @@ import {
   PRO_PLAN_ID,
 } from '@altairgraphql/db';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
+import { EVENTS } from 'src/common/events';
 import { getAgent } from 'src/newrelic/newrelic';
 import { StripeService } from 'src/stripe/stripe.service';
 
@@ -19,7 +21,8 @@ export class CreditService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
-    private readonly stripeService: StripeService
+    private readonly stripeService: StripeService,
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
   async buyCredits(userId: string, amount = MINIMUM_CREDIT_PURCHASE) {
@@ -59,12 +62,44 @@ export class CreditService {
     };
   }
 
+  /**
+   * List credit transactions for a user with cursor-based pagination.
+   */
+  async getTransactions(
+    userId: string,
+    options: { limit?: number; cursor?: string; type?: CreditTransactionType } = {}
+  ) {
+    const { limit = 20, cursor, type } = options;
+    const take = Math.min(limit, 100); // cap at 100
+
+    const transactions = await this.prisma.creditTransaction.findMany({
+      where: {
+        userId,
+        ...(type ? { type } : {}),
+      },
+      take: take + 1, // fetch one extra to detect hasMore
+      ...(cursor
+        ? {
+            cursor: { id: cursor },
+            skip: 1, // skip the cursor itself
+          }
+        : {}),
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const hasMore = transactions.length > take;
+    const items = hasMore ? transactions.slice(0, take) : transactions;
+    const nextCursor = hasMore ? items[items.length - 1]!.id : undefined;
+
+    return { items, hasMore, nextCursor };
+  }
+
   async useCredits(userId: string, amount: number) {
     if (amount <= 0) {
       throw new BadRequestException('Invalid amount');
     }
 
-    return this.prisma.$transaction(async (tx) => {
+    const result = await this.prisma.$transaction(async (tx) => {
       const creditBalance = await tx.creditBalance.findUnique({
         where: { userId },
       });
@@ -110,6 +145,14 @@ export class CreditService {
         monthlyCredits: balance.monthlyCredits,
       };
     });
+
+    this.eventEmitter.emit(EVENTS.CREDIT_UPDATE, {
+      userId,
+      fixedCredits: result.fixedCredits,
+      monthlyCredits: result.monthlyCredits,
+    });
+
+    return result;
   }
 
   @Cron(CronExpression.EVERY_1ST_DAY_OF_MONTH_AT_MIDNIGHT)
@@ -141,6 +184,11 @@ export class CreditService {
               description: 'Monthly refill',
             },
           });
+        });
+
+        this.eventEmitter.emit(EVENTS.CREDIT_UPDATE, {
+          userId: user.id,
+          monthlyCredits: MONTHLY_CREDIT_REFILL,
         });
       } catch (err) {
         this.logger.error(

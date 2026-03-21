@@ -3,7 +3,7 @@ import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { BaseChatModel } from '@langchain/core/language_models/chat_models';
 import { AIMessage, HumanMessage, SystemMessage } from '@langchain/core/messages';
 import { StringOutputParser } from '@langchain/core/output_parsers';
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreditService } from 'src/credit/credit.service';
 import { SendMessageDto } from './dto/send-message.dto';
 import { AiChatMessage, AiChatRating, AiChatRole } from '@altairgraphql/db';
@@ -122,6 +122,58 @@ export class AiService {
     return this.createNewActiveSession(userId);
   }
 
+  async renameSession(userId: string, sessionId: string, title: string) {
+    const session = await this.getSession(userId, sessionId);
+    if (!session) {
+      throw new NotFoundException('Session not found');
+    }
+
+    return this.prisma.aiChatSession.update({
+      where: { id: sessionId, userId },
+      data: { title },
+    });
+  }
+
+  async deleteSession(userId: string, sessionId: string) {
+    const session = await this.getSession(userId, sessionId);
+    if (!session) {
+      throw new NotFoundException('Session not found');
+    }
+
+    // Delete session and all its messages atomically
+    await this.prisma.$transaction(async (tx) => {
+      await tx.aiChatMessage.deleteMany({
+        where: { sessionId },
+      });
+      await tx.aiChatSession.delete({
+        where: { id: sessionId, userId },
+      });
+    });
+
+    this.agent?.incrementMetric('ai.session.delete');
+
+    return { deleted: true };
+  }
+
+  async resumeSession(userId: string, sessionId: string) {
+    const session = await this.getSession(userId, sessionId);
+    if (!session) {
+      throw new NotFoundException('Session not found');
+    }
+
+    // Deactivate all sessions, then activate the target one
+    return this.prisma.$transaction(async (tx) => {
+      await tx.aiChatSession.updateMany({
+        where: { userId },
+        data: { isActive: false },
+      });
+      return tx.aiChatSession.update({
+        where: { id: sessionId, userId },
+        data: { isActive: true },
+      });
+    });
+  }
+
   async rateMessage({
     userId,
     sessionId,
@@ -157,6 +209,87 @@ export class AiService {
     sessionId: string,
     messageInput: SendMessageDto
   ) {
+    const { session, messages, creditUse } = await this.prepareSendMessage(
+      userId,
+      sessionId,
+      messageInput
+    );
+
+    // Send message (+ all previous messages in session) to AI
+    const response = await this.sendToAI(messageInput, messages);
+
+    // Save messages and update session atomically
+    await this.saveMessagePair(
+      sessionId,
+      messageInput,
+      response.content,
+      creditUse.transactionId,
+      response.usage_metadata
+    );
+
+    this.agent?.incrementMetric('ai.session.message.send');
+
+    // Return AI response
+    return {
+      response: response.content,
+    };
+  }
+
+  /**
+   * Streaming variant of sendMessage. Returns an async generator that yields
+   * text chunks as they arrive from the LLM, then persists the full exchange.
+   */
+  async *sendMessageStream(
+    userId: string,
+    sessionId: string,
+    messageInput: SendMessageDto
+  ): AsyncGenerator<{ type: 'chunk' | 'done' | 'error'; content: string }> {
+    const { session, messages, creditUse } = await this.prepareSendMessage(
+      userId,
+      sessionId,
+      messageInput
+    );
+
+    const chain = this.buildPromptChain(messageInput, messages);
+    const parser = new StringOutputParser();
+    const streamChain = chain.pipe(parser);
+
+    let fullResponse = '';
+
+    try {
+      const stream = await streamChain.stream({});
+      for await (const chunk of stream) {
+        fullResponse += chunk;
+        yield { type: 'chunk', content: chunk };
+      }
+
+      // Save messages and update session atomically
+      await this.saveMessagePair(
+        sessionId,
+        messageInput,
+        fullResponse,
+        creditUse.transactionId
+      );
+
+      this.agent?.incrementMetric('ai.session.message.send');
+
+      yield { type: 'done', content: fullResponse };
+    } catch (err) {
+      yield {
+        type: 'error',
+        content: err instanceof Error ? err.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Shared validation + setup for both sendMessage and sendMessageStream.
+   */
+  private async prepareSendMessage(
+    userId: string,
+    sessionId: string,
+    messageInput: SendMessageDto
+  ) {
     // Validate message input
     if (!messageInput.message) {
       throw new BadRequestException('Message is required');
@@ -185,21 +318,114 @@ export class AiService {
       throw new BadRequestException('Session not found');
     }
 
-    const messages = await this.prisma.aiChatMessage.findMany({
+    const allMessages = await this.prisma.aiChatMessage.findMany({
       where: {
         sessionId,
       },
+      orderBy: {
+        createdAt: 'asc',
+      },
     });
+
+    // Truncate context if it exceeds the configured limit
+    const messages = await this.truncateContext(allMessages);
 
     // Use credit
     const creditUse = await this.creditService.useCredits(userId, 1);
 
-    // Send message (+ all previous messages in session) to AI
-    const response = await this.sendToAI(messageInput, messages);
+    return { session, messages, creditUse };
+  }
 
-    // Save messages and update session atomically
+  /**
+   * Truncate the message history to fit within `maxContextMessages`.
+   * When truncation is needed, the oldest messages are dropped and a short
+   * summary of the dropped conversation is prepended as a synthetic
+   * ASSISTANT message so the LLM retains high-level context.
+   */
+  private async truncateContext(
+    messages: AiChatMessage[]
+  ): Promise<AiChatMessage[]> {
+    const maxContextMessages = this.configService.get('ai.maxContextMessages', {
+      infer: true,
+    }) ?? 40;
+
+    if (messages.length <= maxContextMessages) {
+      return messages;
+    }
+
+    const dropCount = messages.length - maxContextMessages;
+    const droppedMessages = messages.slice(0, dropCount);
+    const keptMessages = messages.slice(dropCount);
+
+    // Build a compact summary of the dropped messages
+    const summary = await this.summarizeMessages(droppedMessages);
+
+    // Create a synthetic assistant message containing the summary
+    const syntheticSummary = {
+      id: 'context-summary',
+      sessionId: messages[0]!.sessionId,
+      message: `[Context summary of ${droppedMessages.length} earlier messages]: ${summary}`,
+      role: AiChatRole.ASSISTANT,
+      transactionId: null,
+      sdl: null,
+      graphqlQuery: null,
+      graphqlVariables: null,
+      inputTokens: null,
+      outputTokens: null,
+      rating: null,
+      createdAt: droppedMessages[0]!.createdAt,
+      updatedAt: droppedMessages[0]!.createdAt,
+    } as AiChatMessage;
+
+    return [syntheticSummary, ...keptMessages];
+  }
+
+  /**
+   * Generate a concise summary of a list of chat messages using the LLM.
+   * Falls back to a simple extractive summary if the LLM call fails.
+   */
+  private async summarizeMessages(messages: AiChatMessage[]): Promise<string> {
+    try {
+      const model = this.getChatModel();
+      const conversationText = messages
+        .map(
+          (m) =>
+            `${m.role === AiChatRole.USER ? 'User' : 'Assistant'}: ${m.message.slice(0, 200)}`
+        )
+        .join('\n');
+
+      const prompt = ChatPromptTemplate.fromMessages([
+        new SystemMessage(
+          'Summarize the following conversation in 2-3 sentences. Focus on the key topics discussed and any important conclusions or code/queries that were shared.'
+        ),
+        new HumanMessage(conversationText),
+      ]);
+
+      const chain = prompt.pipe(model).pipe(new StringOutputParser());
+      const summary = await chain.invoke({});
+      return summary;
+    } catch {
+      // Fallback: extract key user messages
+      const userMessages = messages
+        .filter((m) => m.role === AiChatRole.USER)
+        .slice(-3)
+        .map((m) => m.message.slice(0, 100))
+        .join('; ');
+      return `Earlier conversation topics: ${userMessages}`;
+    }
+  }
+
+  /**
+   * Persist user + assistant messages and bump the session timestamp.
+   */
+  private async saveMessagePair(
+    sessionId: string,
+    messageInput: SendMessageDto,
+    responseContent: string,
+    transactionId: string,
+    usageMetadata?: { input_tokens?: number; output_tokens?: number }
+  ) {
     await this.prisma.$transaction(async (tx) => {
-      // Save user message to session
       await tx.aiChatMessage.create({
         data: {
           sessionId,
@@ -208,73 +434,54 @@ export class AiService {
           sdl: messageInput.sdl,
           graphqlQuery: messageInput.graphqlQuery,
           graphqlVariables: messageInput.graphqlVariables,
-          transactionId: creditUse.transactionId,
+          transactionId,
         },
       });
-      // Save AI response to session
       await tx.aiChatMessage.create({
         data: {
           sessionId,
-          message: response.content,
+          message: responseContent,
           role: AiChatRole.ASSISTANT,
-          inputTokens: response.usage_metadata?.input_tokens,
-          outputTokens: response.usage_metadata?.output_tokens,
+          inputTokens: usageMetadata?.input_tokens,
+          outputTokens: usageMetadata?.output_tokens,
         },
       });
-      // Update session updated_at
       await tx.aiChatSession.update({
-        where: {
-          id: sessionId,
-        },
-        data: {
-          updatedAt: new Date(),
-        },
+        where: { id: sessionId },
+        data: { updatedAt: new Date() },
       });
     });
-
-    this.agent?.incrementMetric('ai.session.message.send');
-
-    // Return AI response
-    return {
-      response: response.content,
-    };
   }
 
   private async sendToAI(
     messageInput: SendMessageDto,
     previousMessages: AiChatMessage[]
   ) {
+    const chain = this.buildPromptChain(messageInput, previousMessages);
+
+    // Pass variables to invoke (variables are wrapped in curly braces)
+    const response = await chain.invoke({});
+    const parser = new StringOutputParser();
+    const out = await parser.invoke(response);
+    return {
+      content: out,
+      // FIXME: Is there a better way?
+      usage_metadata:
+        'usage_metadata' in response
+          ? (response as AIMessage).usage_metadata
+          : undefined,
+    };
+  }
+
+  /**
+   * Build the LangChain prompt + model pipeline. Shared by both invoke and stream paths.
+   */
+  private buildPromptChain(
+    messageInput: SendMessageDto,
+    previousMessages: AiChatMessage[]
+  ) {
     const model = this.getChatModel();
 
-    // https://platform.openai.com/docs/guides/prompt-engineering
-    const systemMessageParts = [
-      dedent`You are an expert in GraphQL and Altair GraphQL Client (https://altairgraphql.dev). Your task is to answer user questions related to these topics professionally and concisely. Follow these instructions carefully:`,
-      dedent`1. First, review the provided SDL (Schema Definition Language):
-        <sdl>
-        ${messageInput.sdl ?? ''}
-        </sdl>`,
-      dedent`2. Next, examine the GraphQL query:
-        <graphql_query>
-        ${messageInput.graphqlQuery ?? ''}
-        </graphql_query>`,
-      dedent`3. Then, look at the GraphQL variables (in JSON format):
-        <graphql_variables>
-        ${messageInput.graphqlVariables ?? ''}
-        </graphql_variables>`,
-      dedent`4. When answering the user's question, follow these guidelines:
-        - Only answer questions related to GraphQL and Altair GraphQL Client.
-        - Focus solely on the topic the user is asking about.
-        - Provide enough information to guide the user in the right direction, but not necessarily a complete solution.
-        - Be respectful and professional in your responses.
-        - Keep your responses concise and clear, using no more than 3-4 sentences.
-        - Provide a maximum of 2 code snippets in your response, if necessary.
-        - Write your responses in markdown format.
-        - Always wrap GraphQL queries in \`\`\`graphql\`\`\` code blocks.
-        - If a sdl schema is provided, only generate GraphQL queries that are valid for the provided schema.`,
-      dedent`5. If you're unsure about something or need clarification, ask the user for more information.`,
-      dedent`6. If you're unable to answer a question, respond with: "I'm not sure about that, but I can try to help you with something else."`,
-      dedent`Now, please answer the following user question:`,
-    ];
     const promptTemplate = ChatPromptTemplate.fromMessages([
       new SystemMessage({
         content: [
@@ -299,20 +506,7 @@ export class AiService {
       new HumanMessage(`${messageInput.message}`),
     ]);
 
-    const chain = promptTemplate.pipe(model);
-
-    // Pass variables to invoke (variables are wrapped in curly braces)
-    const response = await chain.invoke({});
-    const parser = new StringOutputParser();
-    const out = await parser.invoke(response);
-    return {
-      content: out,
-      // FIXME: Is there a better way?
-      usage_metadata:
-        'usage_metadata' in response
-          ? (response as AIMessage).usage_metadata
-          : undefined,
-    };
+    return promptTemplate.pipe(model);
   }
 
   // Get chat model based on environment variables

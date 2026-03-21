@@ -182,4 +182,49 @@ export class AuthService {
       throw new UnauthorizedException();
     }
   }
+
+  /**
+   * Generate a short-lived JWT for email verification (24h expiry).
+   */
+  generateEmailVerificationToken(userId: string): string {
+    return this.jwtService.sign(
+      { userId, purpose: 'email-verification' },
+      { expiresIn: '24h' }
+    );
+  }
+
+  /**
+   * Verify an email verification token and mark the user's email as verified.
+   */
+  async verifyEmail(token: string): Promise<{ verified: boolean }> {
+    try {
+      const payload = this.jwtService.verify(token);
+      if (payload?.purpose !== 'email-verification' || !payload?.userId) {
+        throw new BadRequestException('Invalid verification token');
+      }
+
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.userId },
+      });
+      if (!user) {
+        throw new BadRequestException('User not found');
+      }
+      if (user.emailVerified) {
+        return { verified: true };
+      }
+
+      await this.prisma.user.update({
+        where: { id: payload.userId },
+        data: { emailVerified: new Date() },
+      });
+
+      this.agent?.incrementMetric('auth.email_verified');
+      return { verified: true };
+    } catch (e) {
+      if (e instanceof BadRequestException) {
+        throw e;
+      }
+      throw new BadRequestException('Invalid or expired verification token');
+    }
+  }
 }
