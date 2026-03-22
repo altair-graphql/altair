@@ -218,7 +218,7 @@ export class QueriesService {
    * Create (or return existing) share link for a query.
    * Only the owner or team member may share.
    */
-  async shareQuery(userId: string, queryId: string) {
+  async sharePublicQuery(userId: string, queryId: string) {
     // Verify the user has access to the query
     const query = await this.findOne(userId, queryId);
 
@@ -244,7 +244,7 @@ export class QueriesService {
   /**
    * Revoke a shared link for a query.
    */
-  async unshareQuery(userId: string, queryId: string) {
+  async unsharePublicQuery(userId: string, queryId: string) {
     const result = await this.prisma.sharedQuery.deleteMany({
       where: { queryId, sharedBy: userId },
     });
@@ -255,7 +255,7 @@ export class QueriesService {
   /**
    * Fetch a shared query by its public shareId. No auth required.
    */
-  async getSharedQuery(shareId: string) {
+  async getSharedPublicQuery(shareId: string) {
     const shared = await this.prisma.sharedQuery.findUnique({
       where: { shareId },
       include: {

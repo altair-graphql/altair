@@ -88,14 +88,14 @@ export class QueriesController {
   }
 
   @Post(':id/share')
-  async shareQuery(@Req() req: Request, @Param('id') id: string) {
+  async sharePublicQuery(@Req() req: Request, @Param('id') id: string) {
     const userId = getUserId(req);
-    return this.queriesService.shareQuery(userId, id);
+    return this.queriesService.sharePublicQuery(userId, id);
   }
 
   @Delete(':id/share')
-  async unshareQuery(@Req() req: Request, @Param('id') id: string) {
+  async unsharePublicQuery(@Req() req: Request, @Param('id') id: string) {
     const userId = getUserId(req);
-    return this.queriesService.unshareQuery(userId, id);
+    return this.queriesService.unsharePublicQuery(userId, id);
   }
 }

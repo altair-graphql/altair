@@ -8,7 +8,7 @@ export class SharedController {
   constructor(private readonly queriesService: QueriesService) {}
 
   @Get(':shareId')
-  async getSharedQuery(@Param('shareId') shareId: string) {
-    return this.queriesService.getSharedQuery(shareId);
+  async getSharedPublicQuery(@Param('shareId') shareId: string) {
+    return this.queriesService.getSharedPublicQuery(shareId);
   }
 }
