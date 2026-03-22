@@ -15,6 +15,7 @@ import {
   workspaceWhereOwnerOrMember,
 } from 'src/common/where-clauses';
 import { getAgent } from 'src/newrelic/newrelic';
+import { ExportedCollection } from '@altairgraphql/api-utils';
 
 @Injectable()
 export class QueryCollectionsService {
@@ -418,23 +419,4 @@ export class QueryCollectionsService {
 
     return { id: collection.id, name: collection.name };
   }
-}
-
-export interface ExportedQuery {
-  name: string;
-  content: any;
-  queryVersion?: number;
-}
-
-export interface ExportedCollection {
-  name: string;
-  description?: string | null;
-  preRequestScript?: string | null;
-  preRequestScriptEnabled?: boolean;
-  postRequestScript?: string | null;
-  postRequestScriptEnabled?: boolean;
-  headers?: any;
-  environmentVariables?: any;
-  queries?: ExportedQuery[];
-  collections?: ExportedCollection[];
 }

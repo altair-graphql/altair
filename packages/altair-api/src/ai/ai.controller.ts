@@ -19,7 +19,7 @@ import { SendMessageDto } from './dto/send-message.dto';
 import { RateMessageDto } from './dto/rate-message.dto';
 import { RenameSessionDto } from './dto/rename-session.dto';
 import { getUserId } from 'src/common/request';
-import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('ai')
 @ApiTags('AI')

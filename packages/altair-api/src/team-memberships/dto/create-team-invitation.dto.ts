@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { TeamMemberRole } from '@prisma/client';
+import { Type } from 'class-transformer';
 import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateTeamInvitationDto {
@@ -11,5 +13,5 @@ export class CreateTeamInvitationDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
-  role?: string;
+  role?: TeamMemberRole;
 }

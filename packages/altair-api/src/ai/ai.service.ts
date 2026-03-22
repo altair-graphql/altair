@@ -209,7 +209,7 @@ export class AiService {
     sessionId: string,
     messageInput: SendMessageDto
   ) {
-    const { session, messages, creditUse } = await this.prepareSendMessage(
+    const { messages, creditUse } = await this.prepareSendMessage(
       userId,
       sessionId,
       messageInput
@@ -345,9 +345,10 @@ export class AiService {
   private async truncateContext(
     messages: AiChatMessage[]
   ): Promise<AiChatMessage[]> {
-    const maxContextMessages = this.configService.get('ai.maxContextMessages', {
-      infer: true,
-    }) ?? 40;
+    const maxContextMessages =
+      this.configService.get('ai.maxContextMessages', {
+        infer: true,
+      }) ?? 40;
 
     if (messages.length <= maxContextMessages) {
       return messages;

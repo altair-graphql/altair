@@ -12,9 +12,9 @@ import { getAgent } from 'src/newrelic/newrelic';
 export class TeamsService {
   private readonly agent = getAgent();
   constructor(
-    private prisma: PrismaService,
-    private userService: UserService,
-    private teamMembershipsService: TeamMembershipsService
+    private readonly prisma: PrismaService,
+    private readonly userService: UserService,
+    private readonly teamMembershipsService: TeamMembershipsService
   ) {}
 
   async create(userId: string, createTeamDto: CreateTeamDto) {
@@ -90,8 +90,12 @@ export class TeamsService {
 
   async update(userId: string, id: string, updateTeamDto: UpdateTeamDto) {
     // OWNER or ADMIN can update team info
-    await this.teamMembershipsService.assertTeamRole(userId, id, ['OWNER', 'ADMIN'],
-      'You do not have permission to update this team.');
+    await this.teamMembershipsService.assertTeamRole(
+      userId,
+      id,
+      ['OWNER', 'ADMIN'],
+      'You do not have permission to update this team.'
+    );
 
     return this.prisma.team.updateMany({
       where: {
@@ -105,8 +109,12 @@ export class TeamsService {
 
   async remove(userId: string, id: string) {
     // Only OWNER can delete a team
-    await this.teamMembershipsService.assertTeamRole(userId, id, ['OWNER'],
-      'Only the team owner can delete the team.');
+    await this.teamMembershipsService.assertTeamRole(
+      userId,
+      id,
+      ['OWNER'],
+      'Only the team owner can delete the team.'
+    );
 
     return this.prisma.team.deleteMany({
       where: {

@@ -1,17 +1,9 @@
 import { IPlanInfo } from '@altairgraphql/api-utils';
-import {
-  Controller,
-  Get,
-  OnModuleDestroy,
-  Req,
-  Res,
-  Sse,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Get, Req, Res, Sse, UseGuards } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Request, Response } from 'express';
 import { PrismaService } from 'nestjs-prisma';
-import { finalize, map, Observable, Subject } from 'rxjs';
+import { map, Observable, Subject } from 'rxjs';
 import { AppService } from './app.service';
 import { EventsJwtAuthGuard } from './auth/guards/events-jwt-auth.guard';
 import { EVENTS } from './common/events';
@@ -122,27 +114,21 @@ export class AppController {
       teamId,
       userId: affectedUserId,
       action,
-    }: any) => {
+    }: {
+      teamId: string;
+      userId: string;
+      action: string;
+    }) => {
       // Notify team owner and all existing members
-      const team = await this.prisma.team.findUnique({
-        where: { id: teamId },
-        select: { ownerId: true },
+      const team = await this.prisma.team.findFirst({
+        where: {
+          id: teamId,
+          OR: [{ ownerId: userId }, { TeamMemberships: { some: { userId } } }],
+        },
+        select: { id: true },
       });
-      if (team?.ownerId === userId) {
-        subject$.next({
-          uid: userId,
-          event: 'team-membership-update',
-          teamId,
-          affectedUserId,
-          action,
-        });
-        return;
-      }
-      const isMember = await this.prisma.teamMembership.findFirst({
-        where: { teamId, userId },
-        select: { userId: true },
-      });
-      if (isMember) {
+
+      if (team) {
         subject$.next({
           uid: userId,
           event: 'team-membership-update',
@@ -168,10 +154,7 @@ export class AppController {
     };
     this.eventService.on([EVENTS.PLAN_UPDATE], planUpdateListener);
 
-    const creditUpdateListener = ({
-      userId: affectedUserId,
-      ...rest
-    }: any) => {
+    const creditUpdateListener = ({ userId: affectedUserId, ...rest }: any) => {
       if (affectedUserId === userId) {
         subject$.next({
           uid: userId,

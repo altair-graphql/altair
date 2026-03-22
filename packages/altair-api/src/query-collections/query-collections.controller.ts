@@ -10,7 +10,7 @@ import {
   UseGuards,
   NotFoundException,
 } from '@nestjs/common';
-import { QueryCollectionsService, ExportedCollection } from './query-collections.service';
+import { QueryCollectionsService } from './query-collections.service';
 import { Request } from 'express';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { CreateQueryCollectionDto } from './dto/create-query-collection.dto';
@@ -24,9 +24,7 @@ import { getUserId } from 'src/common/request';
 @ApiTags('Query Collections')
 @UseGuards(JwtAuthGuard)
 export class QueryCollectionsController {
-  constructor(
-    private readonly queryCollectionsService: QueryCollectionsService
-  ) {}
+  constructor(private readonly queryCollectionsService: QueryCollectionsService) {}
 
   @Post()
   create(
@@ -34,10 +32,7 @@ export class QueryCollectionsController {
     @Body() createQueryCollectionDto: CreateQueryCollectionDto
   ) {
     const userId = getUserId(req);
-    return this.queryCollectionsService.create(
-      userId,
-      createQueryCollectionDto
-    );
+    return this.queryCollectionsService.create(userId, createQueryCollectionDto);
   }
 
   @Get()

@@ -27,14 +27,15 @@ export class CreditController {
     @Query('type') type?: string
   ) {
     const userId = getUserId(req);
-    const parsedLimit = limit ? parseInt(limit, 10) : undefined;
+    const parsedLimit = limit ? Number.parseInt(limit, 10) : undefined;
     const validType =
-      type && Object.values(CreditTransactionType).includes(type as CreditTransactionType)
+      type &&
+      Object.values(CreditTransactionType).includes(type as CreditTransactionType)
         ? (type as CreditTransactionType)
         : undefined;
 
     return this.creditService.getTransactions(userId, {
-      limit: parsedLimit && !isNaN(parsedLimit) ? parsedLimit : undefined,
+      limit: parsedLimit && !Number.isNaN(parsedLimit) ? parsedLimit : undefined,
       cursor: cursor || undefined,
       type: validType,
     });

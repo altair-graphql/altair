@@ -39,6 +39,7 @@ export interface ExportedQuery {
   queryVersion?: number;
 }
 
+// TODO: keeping this temporarily for now. We should use the export type used by altair-app instead of a different one here
 export interface ExportedCollection {
   name: string;
   description?: string | null;

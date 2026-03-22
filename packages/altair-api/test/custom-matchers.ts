@@ -1,5 +1,4 @@
 import { expect } from 'vitest';
-import buffer from 'node:buffer';
 
 function typeCheck(name: string, value: unknown, expectedType: string) {
   const type = typeof value;

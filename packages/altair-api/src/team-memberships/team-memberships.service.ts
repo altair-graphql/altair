@@ -28,9 +28,9 @@ export class TeamMembershipsService {
   private readonly agent = getAgent();
   private readonly logger = new Logger(TeamMembershipsService.name);
   constructor(
-    private prisma: PrismaService,
-    private userService: UserService,
-    private eventEmitter: EventEmitter2
+    private readonly prisma: PrismaService,
+    private readonly userService: UserService,
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
   // ── Role helpers ────────────────────────────────────────────────────
@@ -341,7 +341,7 @@ export class TeamMembershipsService {
     inviterId: string,
     teamId: string,
     email: string,
-    role?: string
+    role?: TeamMemberRole
   ) {
     // Verify inviter is OWNER or ADMIN of the team
     await this.assertTeamRole(
