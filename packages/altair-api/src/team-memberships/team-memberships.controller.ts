@@ -88,7 +88,7 @@ export class TeamMembershipsController {
       userId,
       teamId,
       dto.email,
-      dto.role
+      dto.role as any
     );
   }
 

@@ -13,5 +13,5 @@ export class CreateTeamInvitationDto {
   @IsString()
   @IsOptional()
   @ApiProperty({ required: false })
-  role?: TeamMemberRole;
+  role?: string;
 }
