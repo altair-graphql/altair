@@ -18,6 +18,7 @@ import {
 import Stripe from 'stripe';
 import { PRO_PLAN_ID } from '@altairgraphql/db';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ConfigService } from '@nestjs/config';
 
 describe('UserService', () => {
   let service: UserService;
@@ -26,7 +27,13 @@ describe('UserService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UserService, PrismaService, StripeService, EventEmitter2],
+      providers: [
+        UserService,
+        PrismaService,
+        StripeService,
+        EventEmitter2,
+        ConfigService,
+      ],
     }).compile();
 
     service = module.get<UserService>(UserService);

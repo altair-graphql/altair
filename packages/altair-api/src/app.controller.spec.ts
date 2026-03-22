@@ -5,6 +5,7 @@ import { PrismaService } from 'nestjs-prisma';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { StripeService } from './stripe/stripe.service';
+import { ConfigService } from '@nestjs/config';
 
 describe('AppController', () => {
   let appController: AppController;
@@ -12,7 +13,13 @@ describe('AppController', () => {
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
       controllers: [AppController],
-      providers: [AppService, PrismaService, EventEmitter2, StripeService],
+      providers: [
+        AppService,
+        PrismaService,
+        EventEmitter2,
+        StripeService,
+        ConfigService,
+      ],
     }).compile();
 
     appController = app.get<AppController>(AppController);

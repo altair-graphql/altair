@@ -10,7 +10,8 @@ import { mockRequest, mockResponse } from './mocks/express.mock';
 import { mockUser } from './mocks/prisma-service.mock';
 import { User } from '@altairgraphql/db';
 import { IToken } from '@altairgraphql/api-utils';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { testProviders } from 'test/providers';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -26,6 +27,7 @@ describe('AuthController', () => {
       providers: [
         AuthService,
         JwtService,
+        ...testProviders,
         PrismaService,
         PasswordService,
         ConfigService,
@@ -153,7 +155,7 @@ describe('AuthController', () => {
 
       // THEN
       expect(() => controller.getShortlivedEventsToken(requestMock)).toThrow(
-        BadRequestException
+        UnauthorizedException
       );
     });
   });
