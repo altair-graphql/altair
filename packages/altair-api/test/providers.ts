@@ -24,7 +24,12 @@ export const testProviders = [
   CreditService,
   AiService,
   ConfigService,
-  EmailService,
+  {
+    provide: EmailService,
+    useValue: {
+      sendEmail: vi.fn().mockResolvedValue(undefined),
+    },
+  },
   {
     provide: ConfigService,
     useValue: {
