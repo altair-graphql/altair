@@ -106,7 +106,7 @@ jobs:
       - uses: browser-actions/setup-chrome@b94431e051d1c52dcbe9a7092a4f10f827795416 # v2.1.0
         with:
           chrome-version: 120
-      - run: chrome --version
+      # - run: chrome --version
       - name: Build apps (with retries)
         uses: nick-invision/retry@14672906e672a08bd6eeb15720e9ed3ce869cdd4 # v2.9.0
         with:
