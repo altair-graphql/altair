@@ -4,6 +4,9 @@ import { TestBed, inject } from '@angular/core/testing';
 import { IDBFactory } from 'fake-indexeddb';
 
 import { QueryCollectionService } from './query-collection.service';
+import { LocalCollectionService } from './local-collection.service';
+import { RemoteCollectionService } from './remote-collection.service';
+import { CollectionUtilsService } from './collection-utils.service';
 import { StorageService } from '../storage/storage.service';
 import {
   IQuery,
@@ -100,6 +103,9 @@ describe('QueryCollectionService', () => {
     TestBed.configureTestingModule({
       providers: [
         QueryCollectionService,
+        LocalCollectionService,
+        RemoteCollectionService,
+        CollectionUtilsService,
         StorageService,
         ApiService,
         MockProvider(AccountService),
