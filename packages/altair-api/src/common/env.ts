@@ -114,21 +114,25 @@ function parseEnv(): EnvSchema {
   if (skipValidation) {
     // In test mode, we use mock values for required envs to ensure type safety
     // and allow tests to run without a full .env file.
-    const mockRequiredEnvs = {
-      NODE_ENV: 'test',
-      JWT_ACCESS_SECRET: 'test-secret',
-      JWT_REFRESH_SECRET: 'test-secret',
-      EVENTS_JWT_ACCESS_SECRET: 'test-secret',
-      GOOGLE_OAUTH_CLIENT_ID: 'test-id',
-      GOOGLE_OAUTH_CLIENT_SECRET: 'test-secret',
-      GITHUB_OAUTH_CLIENT_ID: 'test-id',
-      GITHUB_OAUTH_CLIENT_SECRET: 'test-secret',
-      STRIPE_SECRET_KEY: 'sk_test_mock',
-      STRIPE_WEBHOOK_SECRET: 'whsec_mock',
+    const mockEnvs = {
+      ...process.env,
+      NODE_ENV: process.env.NODE_ENV ?? 'test',
+      JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET ?? 'test-secret',
+      JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET ?? 'test-secret',
+      EVENTS_JWT_ACCESS_SECRET:
+        process.env.EVENTS_JWT_ACCESS_SECRET ?? 'test-secret',
+      GOOGLE_OAUTH_CLIENT_ID: process.env.GOOGLE_OAUTH_CLIENT_ID ?? 'test-id',
+      GOOGLE_OAUTH_CLIENT_SECRET:
+        process.env.GOOGLE_OAUTH_CLIENT_SECRET ?? 'test-secret',
+      GITHUB_OAUTH_CLIENT_ID: process.env.GITHUB_OAUTH_CLIENT_ID ?? 'test-id',
+      GITHUB_OAUTH_CLIENT_SECRET:
+        process.env.GITHUB_OAUTH_CLIENT_SECRET ?? 'test-secret',
+      STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ?? 'sk_test_mock',
+      STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET ?? 'whsec_mock',
     };
     // In test mode, parse leniently — treat the whole schema as optional
     // so tests don't need a full .env file.
-    return envSchema.parse({ ...mockRequiredEnvs, ...process.env });
+    return envSchema.parse(mockEnvs);
   }
 
   const result = envSchema.safeParse(process.env);
