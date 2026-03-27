@@ -4,6 +4,7 @@ import { Stripe } from 'stripe';
 import { PLAN_IDS } from '@altairgraphql/db';
 import { IPlanInfo } from '@altairgraphql/api-utils';
 import { Config } from 'src/common/config';
+import { env } from 'src/common/env';
 
 @Injectable()
 export class StripeService {
@@ -11,7 +12,7 @@ export class StripeService {
   private readonly logger = new Logger(StripeService.name);
 
   constructor(private readonly configService: ConfigService<Config>) {
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    this.stripe = new Stripe(env.STRIPE_SECRET_KEY, {
       apiVersion: '2024-06-20',
     });
   }
@@ -49,7 +50,7 @@ export class StripeService {
     return this.stripe.webhooks.constructEvent(
       payload,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      env.STRIPE_WEBHOOK_SECRET
     );
   }
 

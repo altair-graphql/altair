@@ -4,6 +4,7 @@ import type {
   recordMetric,
   incrementMetric,
 } from 'newrelic';
+import { env } from '../common/env';
 
 export interface Agent {
   startWebTransaction: typeof startWebTransaction;
@@ -13,7 +14,7 @@ export interface Agent {
 }
 
 export const getAgent = (): Agent | undefined => {
-  if (process.env.NEW_RELIC_APP_NAME && process.env.NODE_ENV === 'production') {
+  if (env.NEW_RELIC_APP_NAME && env.NODE_ENV === 'production') {
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const newrelic = require('newrelic');
     return {

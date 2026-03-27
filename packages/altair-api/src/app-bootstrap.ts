@@ -4,12 +4,13 @@ import { HttpAdapterHost } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { CorsConfig, SwaggerConfig } from './common/config';
+import { env } from './common/env';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { LoggingInterceptor } from './logging/logging.interceptor';
 
 export const bootstrapApp = async (app: INestApplication) => {
   // Logger
-  if (process.env.NODE_ENV === 'production') {
+  if (env.NODE_ENV === 'production') {
     app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   }
 

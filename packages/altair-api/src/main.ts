@@ -1,4 +1,6 @@
-if (process.env.NEW_RELIC_APP_NAME && process.env.NODE_ENV === 'production') {
+import { env } from './common/env';
+
+if (env.NEW_RELIC_APP_NAME && env.NODE_ENV === 'production') {
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   require('newrelic');
 }
@@ -19,7 +21,7 @@ async function bootstrap() {
 
   const configService = app.get(ConfigService);
   const nestConfig = configService.get<NestConfig>('nest');
-  const port = process.env.PORT ?? nestConfig?.port ?? 3000;
+  const port = env.PORT ?? nestConfig?.port ?? 3000;
   console.log('Listening on port', port);
   await app.listen(port);
 }

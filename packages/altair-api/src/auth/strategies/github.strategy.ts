@@ -6,6 +6,7 @@ import { Request } from 'express';
 import { Profile, Strategy } from 'passport-github2';
 import { AuthService } from '../auth.service';
 import { UserService } from '../user/user.service';
+import { Config } from 'src/common/config';
 
 @Injectable()
 export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
@@ -14,18 +15,13 @@ export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
-    readonly configService: ConfigService
+    readonly configService: ConfigService<Config>
   ) {
-    const clientID = configService.get('GITHUB_OAUTH_CLIENT_ID');
-    const clientSecret = configService.get('GITHUB_OAUTH_CLIENT_SECRET');
-    if (!clientID || !clientSecret) {
-      throw new Error(
-        'GITHUB_OAUTH_CLIENT_ID and GITHUB_OAUTH_CLIENT_SECRET environment variables must be set'
-      );
-    }
     super({
-      clientID,
-      clientSecret,
+      clientID: configService.get('GITHUB_OAUTH_CLIENT_ID', { infer: true }),
+      clientSecret: configService.get('GITHUB_OAUTH_CLIENT_SECRET', {
+        infer: true,
+      }),
       callbackURL: '/auth/github/callback',
       scope: ['user:email'],
     });

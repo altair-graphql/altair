@@ -5,6 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { User } from '@altairgraphql/db';
 import { AuthService } from '../auth.service';
 import { JwtDto } from '../models/jwt.dto';
+import { Config } from 'src/common/config';
 
 @Injectable()
 export class EventsJwtStrategy extends PassportStrategy(
@@ -13,17 +14,13 @@ export class EventsJwtStrategy extends PassportStrategy(
 ) {
   constructor(
     private readonly authService: AuthService,
-    readonly configService: ConfigService
+    readonly configService: ConfigService<Config>
   ) {
-    const secret = configService.get('EVENTS_JWT_ACCESS_SECRET');
-    if (!secret) {
-      throw new Error(
-        'EVENTS_JWT_ACCESS_SECRET environment variable is not set'
-      );
-    }
     super({
       jwtFromRequest: ExtractJwt.fromUrlQueryParameter('slt'),
-      secretOrKey: secret,
+      secretOrKey: configService.get('EVENTS_JWT_ACCESS_SECRET', {
+        infer: true,
+      }),
     });
   }
 

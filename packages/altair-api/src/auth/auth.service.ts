@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { User, IdentityProvider } from '@altairgraphql/db';
 import { PrismaService } from 'nestjs-prisma';
-import { SecurityConfig } from 'src/common/config';
+import { Config } from 'src/common/config';
 import { ChangePasswordInput } from './models/change-password.input';
 import { PasswordService } from './password/password.service';
 import { IToken } from '@altairgraphql/api-utils';
@@ -21,7 +21,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
     private readonly passwordService: PasswordService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService<Config>
   ) {}
 
   async passwordLogin(email: string, password: string) {
@@ -146,12 +146,14 @@ export class AuthService {
    * Generates a short-lived events token for the purpose of event connection
    */
   getShortLivedEventsToken(userId: string): string {
-    const securityConfig = this.configService.get<SecurityConfig>('security');
+    const securityConfig = this.configService.get('security', { infer: true });
     this.agent?.incrementMetric('auth.events_token.generate');
     return this.jwtService.sign(
       { userId },
       {
-        secret: this.configService.get<string>('EVENTS_JWT_ACCESS_SECRET'),
+        secret: this.configService.get('EVENTS_JWT_ACCESS_SECRET', {
+          infer: true,
+        }),
         expiresIn: securityConfig?.shortExpiresIn,
       }
     );
@@ -162,9 +164,9 @@ export class AuthService {
   }
 
   private generateRefreshToken(payload: { userId: string }): string {
-    const securityConfig = this.configService.get<SecurityConfig>('security');
+    const securityConfig = this.configService.get('security', { infer: true });
     return this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_REFRESH_SECRET'),
+      secret: this.configService.get('JWT_REFRESH_SECRET', { infer: true }),
       expiresIn: securityConfig?.refreshIn,
     });
   }
@@ -172,7 +174,7 @@ export class AuthService {
   refreshToken(token: string) {
     try {
       const { userId } = this.jwtService.verify(token, {
-        secret: this.configService.get('JWT_REFRESH_SECRET'),
+        secret: this.configService.get('JWT_REFRESH_SECRET', { infer: true }),
       });
 
       return this.generateTokens({
