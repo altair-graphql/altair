@@ -41,12 +41,7 @@ const envSchema = z.object({
 
   // ── AI / LLM ──────────────────────────────────────────────────────
   AI_MODEL_PROVIDER: aiModelProviderSchema.optional(),
-  AI_MAX_CONTEXT_MESSAGES: z.coerce
-    .number()
-    .int()
-    .positive()
-    .optional()
-    .default(40),
+  AI_MAX_CONTEXT_MESSAGES: z.coerce.number().int().positive().optional().default(40),
 
   // Cloudflare AI Gateway
   CF_AI_GATEWAY_ACCOUNT_ID: z.string().optional(),
@@ -62,10 +57,7 @@ const envSchema = z.object({
 
   // Anthropic
   ANTHROPIC_API_KEY: z.string().optional(),
-  ANTHROPIC_MODEL_NAME: z
-    .string()
-    .optional()
-    .default('claude-3-haiku-20240307'),
+  ANTHROPIC_MODEL_NAME: z.string().optional().default('claude-3-haiku-20240307'),
 
   // Google Generative AI
   GOOGLE_GEN_API_KEY: z.string().optional(),
@@ -79,12 +71,7 @@ const envSchema = z.object({
   RESEND_AUDIENCE_ID: z.string().optional(),
 
   // ── Rate limiting ─────────────────────────────────────────────────
-  RATE_LIMIT_TTL: z.coerce
-    .number()
-    .int()
-    .positive()
-    .optional()
-    .default(60_000),
+  RATE_LIMIT_TTL: z.coerce.number().int().positive().optional().default(60_000),
   RATE_LIMIT_MAX: z.coerce.number().int().positive().optional().default(60),
 
   // ── Stripe (required) ─────────────────────────────────────────────
@@ -125,9 +112,23 @@ function parseEnv(): EnvSchema {
   const skipValidation = process.env.NODE_ENV === 'test';
 
   if (skipValidation) {
+    // In test mode, we use mock values for required envs to ensure type safety
+    // and allow tests to run without a full .env file.
+    const mockRequiredEnvs = {
+      NODE_ENV: 'test',
+      JWT_ACCESS_SECRET: 'test-secret',
+      JWT_REFRESH_SECRET: 'test-secret',
+      EVENTS_JWT_ACCESS_SECRET: 'test-secret',
+      GOOGLE_OAUTH_CLIENT_ID: 'test-id',
+      GOOGLE_OAUTH_CLIENT_SECRET: 'test-secret',
+      GITHUB_OAUTH_CLIENT_ID: 'test-id',
+      GITHUB_OAUTH_CLIENT_SECRET: 'test-secret',
+      STRIPE_SECRET_KEY: 'sk_test_mock',
+      STRIPE_WEBHOOK_SECRET: 'whsec_mock',
+    };
     // In test mode, parse leniently — treat the whole schema as optional
     // so tests don't need a full .env file.
-    return envSchema.partial().parse(process.env) as EnvSchema;
+    return envSchema.parse({ ...mockRequiredEnvs, ...process.env });
   }
 
   const result = envSchema.safeParse(process.env);

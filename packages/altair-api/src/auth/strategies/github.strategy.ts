@@ -18,8 +18,8 @@ export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
     readonly configService: ConfigService<Config>
   ) {
     super({
-      clientID: configService.get('GITHUB_OAUTH_CLIENT_ID', { infer: true }),
-      clientSecret: configService.get('GITHUB_OAUTH_CLIENT_SECRET', {
+      clientID: configService.getOrThrow('GITHUB_OAUTH_CLIENT_ID', { infer: true }),
+      clientSecret: configService.getOrThrow('GITHUB_OAUTH_CLIENT_SECRET', {
         infer: true,
       }),
       callbackURL: '/auth/github/callback',
