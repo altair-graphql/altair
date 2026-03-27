@@ -3,7 +3,7 @@ import {
   IQuery,
   IQueryCollection,
 } from 'altair-graphql-core/build/types/state/collection.interfaces';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { FullQueryCollection, initializeClient } from '@altairgraphql/api-utils';
 import { AccountService } from '../account/account.service';
 import { CreateDTO } from 'altair-graphql-core/build/types/shared';
@@ -181,8 +181,8 @@ export class ApiService {
     return apiClient.listenForEvents().pipe(
       map((x) => {
         return x;
-      })
-      // takeUntil(this.accountService.observeSignout())
+      }),
+      takeUntil(this.accountService.observeSignout())
     );
   }
 

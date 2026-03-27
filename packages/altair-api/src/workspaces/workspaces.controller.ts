@@ -16,6 +16,7 @@ import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { Request } from 'express';
 import { ApiTags } from '@nestjs/swagger';
+import { getUserId } from 'src/common/request';
 
 @Controller('workspaces')
 @ApiTags('Workspaces')
@@ -25,19 +26,19 @@ export class WorkspacesController {
 
   @Post()
   create(@Req() req: Request, @Body() createWorkspaceDto: CreateWorkspaceDto) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.workspacesService.create(userId, createWorkspaceDto);
   }
 
   @Get()
   findAll(@Req() req: Request) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.workspacesService.findAll(userId);
   }
 
   @Get(':id')
   async findOne(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const res = await this.workspacesService.findOne(userId, id);
     if (!res) {
       throw new NotFoundException();
@@ -47,18 +48,30 @@ export class WorkspacesController {
   }
 
   @Patch(':id')
-  update(
+  async update(
     @Req() req: Request,
     @Param('id') id: string,
     @Body() updateWorkspaceDto: UpdateWorkspaceDto
   ) {
-    const userId = req?.user?.id ?? '';
-    return this.workspacesService.update(userId, id, updateWorkspaceDto);
+    const userId = getUserId(req);
+    const res = await this.workspacesService.update(userId, id, updateWorkspaceDto);
+
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 
   @Delete(':id')
-  remove(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
-    return this.workspacesService.remove(userId, id);
+  async remove(@Req() req: Request, @Param('id') id: string) {
+    const userId = getUserId(req);
+    const res = await this.workspacesService.remove(userId, id);
+
+    if (!res.count) {
+      throw new NotFoundException();
+    }
+
+    return res;
   }
 }

@@ -1,7 +1,6 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -29,7 +28,7 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (!user) {
-      throw new NotFoundException(`No user found for email: ${email}`);
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     const passwordValid = await this.passwordService.validatePassword(
@@ -38,7 +37,7 @@ export class AuthService {
     );
 
     if (!passwordValid) {
-      throw new BadRequestException('Invalid password');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     return this.getLoginResponse(user);
@@ -60,6 +59,20 @@ export class AuthService {
     return this.getLoginResponse(user);
   }
 
+  getUserProfile(user?: User) {
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      picture: user.picture,
+    };
+  }
+
   getUserCredential(providerUserId: string, provider: IdentityProvider) {
     return this.prisma.userCredential.findFirst({
       where: {
@@ -74,13 +87,16 @@ export class AuthService {
   }
 
   getUserFromToken(token: string): Promise<User | null> {
-    const decoded = this.jwtService.decode(token);
-    if (typeof decoded === 'string') {
-      throw new Error('Invalid JWT token');
+    try {
+      const decoded = this.jwtService.verify(token);
+      const id = decoded?.['userId'];
+      if (!id) {
+        throw new UnauthorizedException('Invalid JWT token');
+      }
+      return this.prisma.user.findUnique({ where: { id } });
+    } catch {
+      throw new UnauthorizedException('Invalid or expired JWT token');
     }
-
-    const id = decoded?.['userId'];
-    return this.prisma.user.findUnique({ where: { id } });
   }
 
   async changePassword(
@@ -113,11 +129,7 @@ export class AuthService {
     this.agent?.incrementMetric('auth.login.success');
 
     return {
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      picture: user.picture,
+      ...this.getUserProfile(user),
       isNewUser: Date.now() - user.createdAt.getTime() < NEW_USER_TIME,
       tokens: this.generateTokens({ userId: user.id }),
     };
@@ -168,6 +180,51 @@ export class AuthService {
       });
     } catch (e) {
       throw new UnauthorizedException();
+    }
+  }
+
+  /**
+   * Generate a short-lived JWT for email verification (24h expiry).
+   */
+  generateEmailVerificationToken(userId: string): string {
+    return this.jwtService.sign(
+      { userId, purpose: 'email-verification' },
+      { expiresIn: '24h' }
+    );
+  }
+
+  /**
+   * Verify an email verification token and mark the user's email as verified.
+   */
+  async verifyEmail(token: string): Promise<{ verified: boolean }> {
+    try {
+      const payload = this.jwtService.verify(token);
+      if (payload?.purpose !== 'email-verification' || !payload?.userId) {
+        throw new BadRequestException('Invalid verification token');
+      }
+
+      const user = await this.prisma.user.findUnique({
+        where: { id: payload.userId },
+      });
+      if (!user) {
+        throw new BadRequestException('User not found');
+      }
+      if (user.emailVerified) {
+        return { verified: true };
+      }
+
+      await this.prisma.user.update({
+        where: { id: payload.userId },
+        data: { emailVerified: new Date() },
+      });
+
+      this.agent?.incrementMetric('auth.email_verified');
+      return { verified: true };
+    } catch (e) {
+      if (e instanceof BadRequestException) {
+        throw e;
+      }
+      throw new BadRequestException('Invalid or expired verification token');
     }
   }
 }

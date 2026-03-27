@@ -8,12 +8,15 @@ const config = {
     enabled: true,
   },
   swagger: {
-    enabled: true,
+    enabled: process.env.NODE_ENV !== 'production',
     title: 'Altair API',
     description: 'The Altair API description',
     version: '1.0',
     path: 'swagger',
   },
+  allowedRedirectOrigins: (
+    process.env.ALLOWED_REDIRECT_ORIGINS ?? 'https://altairgraphql.dev'
+  ).split(','),
   security: {
     shortExpiresIn: '30s',
     expiresIn: '2d',
@@ -22,6 +25,11 @@ const config = {
   },
   ai: {
     modelProvider: process.env.AI_MODEL_PROVIDER as AiModelProvider | undefined,
+    /** Max number of previous messages to include in the LLM context (default 40 ≈ 20 exchanges) */
+    maxContextMessages: Number.parseInt(
+      process.env.AI_MAX_CONTEXT_MESSAGES ?? '40',
+      10
+    ),
     aiGateway: {
       accountId: process.env.CF_AI_GATEWAY_ACCOUNT_ID,
       name: process.env.CF_AI_GATEWAY_NAME,
@@ -53,6 +61,19 @@ const config = {
     defaultFrom: 'Altair GraphQL <mail@mail.altairgraphql.dev>',
     replyTo: 'info@altairgraphql.dev',
   },
+  rateLimit: {
+    // Default: 60 requests per 60 seconds per IP
+    ttl: Number.parseInt(process.env.RATE_LIMIT_TTL ?? '60000', 10),
+    limit: Number.parseInt(process.env.RATE_LIMIT_MAX ?? '60', 10),
+  },
+  stripe: {
+    checkoutSuccessUrl:
+      process.env.STRIPE_CHECKOUT_SUCCESS_URL ??
+      'https://altairgraphql.dev/checkout_success?session_id={CHECKOUT_SESSION_ID}',
+    checkoutCancelUrl:
+      process.env.STRIPE_CHECKOUT_CANCEL_URL ??
+      'https://altairgraphql.dev/checkout_cancel?session_id={CHECKOUT_SESSION_ID}',
+  },
 };
 
 export type Config = typeof config;
@@ -60,5 +81,6 @@ export type NestConfig = Config['nest'];
 export type SwaggerConfig = Config['swagger'];
 export type SecurityConfig = Config['security'];
 export type CorsConfig = Config['cors'];
+export type RateLimitConfig = Config['rateLimit'];
 
 export default () => config;

@@ -95,7 +95,7 @@ describe('TeamsController', () => {
 
   it('/teams/:id (PATCH) should return 404 when team does not exist', () => {
     mockUserFn.mockReturnValue({ id: testUser.id });
-    return request(app.getHttpServer()).patch('/teams/100').expect(404);
+    return request(app.getHttpServer()).patch('/teams/100').expect(403);
   });
 
   it('/teams/:id (PATCH) should return 400 when body is invalid', async () => {
@@ -129,7 +129,7 @@ describe('TeamsController', () => {
     return request(app.getHttpServer())
       .patch(`/teams/${team.id}`)
       .send({ name: 'new name' })
-      .expect(404);
+      .expect(403);
   });
 
   it('/teams/:id (DELETE) should return 401 when not authenticated', () => {
@@ -138,7 +138,7 @@ describe('TeamsController', () => {
 
   it('/teams/:id (DELETE) should return 404 when team does not exist', () => {
     mockUserFn.mockReturnValue({ id: testUser.id });
-    return request(app.getHttpServer()).delete('/teams/100').expect(404);
+    return request(app.getHttpServer()).delete('/teams/100').expect(403);
   });
 
   it('/teams/:id (DELETE) should return 200 when authenticated and team exists', async () => {
@@ -158,6 +158,6 @@ describe('TeamsController', () => {
     const team = await createTeam(app);
 
     mockUserFn.mockReturnValue({ id: testUser2.id });
-    return request(app.getHttpServer()).delete(`/teams/${team.id}`).expect(404);
+    return request(app.getHttpServer()).delete(`/teams/${team.id}`).expect(403);
   });
 });

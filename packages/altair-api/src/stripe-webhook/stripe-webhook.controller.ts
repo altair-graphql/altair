@@ -5,20 +5,25 @@ import {
 } from '@altairgraphql/db';
 import { Headers, RawBodyRequest } from '@nestjs/common';
 import { BadRequestException, Controller, Header, Post, Req } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Request } from 'express';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
+import { EVENTS } from 'src/common/events';
 import { EmailService } from 'src/email/email.service';
 import { StripeService } from 'src/stripe/stripe.service';
 import { Stripe } from 'stripe';
+import { SkipThrottle } from '@nestjs/throttler';
 
 @Controller('stripe-webhook')
+@SkipThrottle()
 export class StripeWebhookController {
   constructor(
     private readonly stripeService: StripeService,
     private readonly userService: UserService,
     private readonly prisma: PrismaService,
-    private readonly emailService: EmailService
+    private readonly emailService: EmailService,
+    private readonly eventEmitter: EventEmitter2
   ) {
     // TODO: Synchronise with Stripe on startup
   }
@@ -126,39 +131,46 @@ export class StripeWebhookController {
             }
             const quantity = purchasedCreditsItem.quantity ?? 0;
 
-            // Update user credit balance
-            await this.prisma.creditBalance.update({
-              where: {
-                userId: user.id,
-              },
-              data: {
-                fixedCredits: {
-                  increment: quantity,
+            // Update balance, create transaction and purchase record atomically
+            await this.prisma.$transaction(async (tx) => {
+              // Update user credit balance
+              await tx.creditBalance.update({
+                where: {
+                  userId: user.id,
                 },
-              },
+                data: {
+                  fixedCredits: {
+                    increment: quantity,
+                  },
+                },
+              });
+
+              // Create credit transaction
+              const transaction = await tx.creditTransaction.create({
+                data: {
+                  userId: user.id,
+                  fixedAmount: quantity,
+                  monthlyAmount: 0,
+                  description: 'Purchased credits',
+                  type: CreditTransactionType.PURCHASED,
+                },
+              });
+
+              // Create purchase record
+              await tx.creditPurchase.create({
+                data: {
+                  userId: user.id,
+                  transactionId: transaction.id,
+                  stripeSessionId: checkoutSession.id,
+                  amount: quantity,
+                  cost: creditInfo.price,
+                  currency: creditInfo.currency,
+                },
+              });
             });
 
-            // Create credit transaction
-            const transaction = await this.prisma.creditTransaction.create({
-              data: {
-                userId: user.id,
-                fixedAmount: quantity,
-                monthlyAmount: 0,
-                description: 'Purchased credits',
-                type: CreditTransactionType.PURCHASED,
-              },
-            });
-
-            // Create purchase record
-            await this.prisma.creditPurchase.create({
-              data: {
-                userId: user.id,
-                transactionId: transaction.id,
-                stripeSessionId: checkoutSession.id,
-                amount: quantity,
-                cost: creditInfo.price,
-                currency: creditInfo.currency,
-              },
+            this.eventEmitter.emit(EVENTS.CREDIT_UPDATE, {
+              userId: user.id,
             });
           } else {
             throw new BadRequestException('Unknown checkout session');

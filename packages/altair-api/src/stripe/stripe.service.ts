@@ -1,14 +1,16 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Stripe } from 'stripe';
 import { PLAN_IDS } from '@altairgraphql/db';
 import { IPlanInfo } from '@altairgraphql/api-utils';
+import { Config } from 'src/common/config';
 
 @Injectable()
 export class StripeService {
   private stripe: Stripe;
   private readonly logger = new Logger(StripeService.name);
 
-  constructor() {
+  constructor(private readonly configService: ConfigService<Config>) {
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
       apiVersion: '2024-06-20',
     });
@@ -99,8 +101,12 @@ export class StripeService {
         },
       },
       mode: 'subscription',
-      success_url: `https://altairgraphql.dev/checkout_success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://altairgraphql.dev/checkout_cancel?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: this.configService.get('stripe.checkoutSuccessUrl', {
+        infer: true,
+      }),
+      cancel_url: this.configService.get('stripe.checkoutCancelUrl', {
+        infer: true,
+      }),
     });
   }
 
@@ -112,8 +118,12 @@ export class StripeService {
     return this.stripe.checkout.sessions.create({
       ...this.commonCheckoutSessionParams(stripeCustomerId, priceId, quantity),
       mode: 'payment',
-      success_url: `https://altairgraphql.dev/checkout_success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `https://altairgraphql.dev/checkout_cancel?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: this.configService.get('stripe.checkoutSuccessUrl', {
+        infer: true,
+      }),
+      cancel_url: this.configService.get('stripe.checkoutCancelUrl', {
+        infer: true,
+      }),
     });
   }
 
@@ -210,7 +220,7 @@ export class StripeService {
     }
 
     if (res.data.length === 0) {
-      console.error('Customer does not have an active subscription. Exiting.');
+      this.logger.error('Customer does not have an active subscription. Exiting.');
       return;
     }
 

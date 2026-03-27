@@ -16,6 +16,8 @@ import { UserController } from './user/user.controller';
 import { TeamsService } from 'src/teams/teams.service';
 import { QueriesService } from 'src/queries/queries.service';
 import { QueryCollectionsService } from 'src/query-collections/query-collections.service';
+import { TeamMembershipsService } from 'src/team-memberships/team-memberships.service';
+import { EmailService } from 'src/email/email.service';
 
 @Module({
   imports: [
@@ -39,12 +41,14 @@ import { QueryCollectionsService } from 'src/query-collections/query-collections
     EventsJwtStrategy,
     GoogleStrategy,
     GitHubStrategy,
+    EmailService,
     PasswordService,
     StripeService,
-    UserService,
     TeamsService,
+    TeamMembershipsService,
     QueriesService,
     QueryCollectionsService,
+    UserService,
   ],
   controllers: [AuthController, UserController],
   exports: [UserService],

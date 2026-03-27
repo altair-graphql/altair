@@ -15,9 +15,15 @@ export class EventsJwtStrategy extends PassportStrategy(
     private readonly authService: AuthService,
     readonly configService: ConfigService
   ) {
+    const secret = configService.get('EVENTS_JWT_ACCESS_SECRET');
+    if (!secret) {
+      throw new Error(
+        'EVENTS_JWT_ACCESS_SECRET environment variable is not set'
+      );
+    }
     super({
       jwtFromRequest: ExtractJwt.fromUrlQueryParameter('slt'),
-      secretOrKey: configService.get('EVENTS_JWT_ACCESS_SECRET'),
+      secretOrKey: secret,
     });
   }
 

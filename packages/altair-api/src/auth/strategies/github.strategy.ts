@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { IdentityProvider, User } from '@altairgraphql/db';
@@ -9,14 +9,23 @@ import { UserService } from '../user/user.service';
 
 @Injectable()
 export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
+  private readonly logger = new Logger(GitHubStrategy.name);
+
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
     readonly configService: ConfigService
   ) {
+    const clientID = configService.get('GITHUB_OAUTH_CLIENT_ID');
+    const clientSecret = configService.get('GITHUB_OAUTH_CLIENT_SECRET');
+    if (!clientID || !clientSecret) {
+      throw new Error(
+        'GITHUB_OAUTH_CLIENT_ID and GITHUB_OAUTH_CLIENT_SECRET environment variables must be set'
+      );
+    }
     super({
-      clientID: configService.get('GITHUB_OAUTH_CLIENT_ID'),
-      clientSecret: configService.get('GITHUB_OAUTH_CLIENT_SECRET'),
+      clientID,
+      clientSecret,
       callbackURL: '/auth/github/callback',
       scope: ['user:email'],
     });
@@ -70,7 +79,7 @@ export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
       }
       return user;
     } catch (err) {
-      console.error(err);
+      this.logger.error('GitHub OAuth validation failed', err);
       throw err;
     }
   }

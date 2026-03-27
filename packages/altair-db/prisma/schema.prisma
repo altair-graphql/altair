@@ -23,6 +23,7 @@ model QueryItem {
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   QueryItemRevision QueryItemRevision[]
+  SharedQuery       SharedQuery[]
 }
 
 /// QueryItemRevision is a revision of a QueryItem. It is created when a QueryItem is updated.
@@ -95,6 +96,8 @@ model User {
   CreditTransaction CreditTransaction[]
   CreditPurchase    CreditPurchase[]
   AiChatSession     AiChatSession[]
+  SharedQuery       SharedQuery[]
+  TeamInvitation    TeamInvitation[]
 }
 
 enum IdentityProvider {
@@ -124,6 +127,7 @@ model Team {
   updatedAt       DateTime         @updatedAt
   TeamMemberships TeamMembership[]
   Workspace       Workspace[]
+  TeamInvitation  TeamInvitation[]
 }
 
 enum TeamMemberRole {
@@ -250,6 +254,40 @@ enum AiChatRating {
 enum AiChatRole {
   USER
   ASSISTANT
+}
+
+model SharedQuery {
+  id        String    @id @default(cuid())
+  shareId   String    @unique @default(cuid()) /// public share identifier used in URLs
+  queryId   String
+  query     QueryItem @relation(fields: [queryId], references: [id], onDelete: Cascade)
+  sharedBy  String
+  user      User      @relation(fields: [sharedBy], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+enum TeamInvitationStatus {
+  PENDING
+  ACCEPTED
+  EXPIRED
+}
+
+model TeamInvitation {
+  id        String               @id @default(cuid())
+  token     String               @unique @default(cuid()) /// unique token used in invitation link
+  teamId    String
+  team      Team                 @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  email     String /// email of the person being invited
+  role      TeamMemberRole       @default(MEMBER)
+  invitedBy String
+  inviter   User                 @relation(fields: [invitedBy], references: [id])
+  status    TeamInvitationStatus @default(PENDING)
+  expiresAt DateTime /// invitation expiry time
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@unique([teamId, email]) /// only one pending invitation per email per team
 }
 
 // QueryItems belong to a QueryCollection
