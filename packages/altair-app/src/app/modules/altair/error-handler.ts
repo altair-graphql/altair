@@ -20,7 +20,7 @@ export class GlobalErrorHandler implements ErrorHandler {
 
       const issueUrl = getIssueUrl(error);
       debug.error('Application error:', error);
-      notifyService.error(`An error occured: ${this.getErrorMessage(error)}`);
+      notifyService.error(`An error occurred: ${this.getErrorMessage(error)}`);
       notifyService.warning(
         `If this happens multiple times, please click here to report this issue.`,
         'Altair',
