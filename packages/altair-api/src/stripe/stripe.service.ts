@@ -11,9 +11,10 @@ export class StripeService {
   private readonly logger = new Logger(StripeService.name);
 
   constructor(private readonly configService: ConfigService<Config>) {
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: '2024-06-20',
-    });
+    this.stripe = new Stripe(
+      this.configService.get('stripe.secretKey', { infer: true })!,
+      { apiVersion: '2024-06-20' },
+    );
   }
 
   async createCustomer(email: string) {
@@ -49,7 +50,7 @@ export class StripeService {
     return this.stripe.webhooks.constructEvent(
       payload,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      this.configService.get('stripe.webhookSecret', { infer: true })!,
     );
   }
 

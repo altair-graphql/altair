@@ -11,6 +11,7 @@ import { Request } from 'express';
 import { Profile, Strategy } from 'passport-google-oauth20';
 import { AuthService } from '../auth.service';
 import { UserService } from '../user/user.service';
+import { Config } from 'src/common/config';
 
 // https://www.jeansnyman.com/posts/authentication-in-express-with-google-and-facebook-using-passport-and-jwt/
 // https://www.passportjs.org/concepts/authentication/google/
@@ -23,18 +24,13 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
-    readonly configService: ConfigService
+    readonly configService: ConfigService<Config>
   ) {
-    const clientID = configService.get('GOOGLE_OAUTH_CLIENT_ID');
-    const clientSecret = configService.get('GOOGLE_OAUTH_CLIENT_SECRET');
-    if (!clientID || !clientSecret) {
-      throw new Error(
-        'GOOGLE_OAUTH_CLIENT_ID and GOOGLE_OAUTH_CLIENT_SECRET environment variables must be set'
-      );
-    }
     super({
-      clientID,
-      clientSecret,
+      clientID: configService.getOrThrow('GOOGLE_OAUTH_CLIENT_ID', { infer: true }),
+      clientSecret: configService.getOrThrow('GOOGLE_OAUTH_CLIENT_SECRET', {
+        infer: true,
+      }),
       callbackURL: '/auth/google/callback',
       scope: ['email', 'profile'],
     });

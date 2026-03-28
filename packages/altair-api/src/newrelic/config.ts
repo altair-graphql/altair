@@ -1,4 +1,5 @@
 // import {} from 'newrelic';
+import { env } from '../common/env';
 /**
  * New Relic agent configuration.
  *
@@ -9,11 +10,11 @@ export const config = {
   /**
    * Array of application names.
    */
-  app_name: [process.env.NEW_RELIC_APP_NAME],
+  app_name: [env.NEW_RELIC_APP_NAME],
   /**
    * Your New Relic license key.
    */
-  license_key: process.env.NEW_RELIC_LICENSE_KEY,
+  license_key: env.NEW_RELIC_LICENSE_KEY,
   /**
    * This setting controls distributed tracing.
    * Distributed tracing lets you see the path that a request takes through your

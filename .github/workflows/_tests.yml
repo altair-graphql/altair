@@ -124,6 +124,8 @@ jobs:
   api-e2e-test:
     # Containers must run in Linux based operating systems
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: test
 
     # Service containers to run with `container-job`
     services:
