@@ -1,7 +1,12 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
-import { renderWelcomeEmail } from '@altairgraphql/emails';
+import {
+  renderWelcomeEmail,
+  renderTeamInvitationEmail,
+  renderEmailVerificationEmail,
+  renderGoodbyeEmail,
+} from '@altairgraphql/emails';
 import { UserService } from 'src/auth/user/user.service';
 import { Config } from 'src/common/config';
 import { User } from '@altairgraphql/db';
@@ -82,19 +87,7 @@ export class EmailService {
     const { data, error } = await this.sendEmail({
       to: email,
       subject: `You've been invited to join "${teamName}" on Altair GraphQL`,
-      html: `Hi,
-      <br><br>
-      ${inviterName} has invited you to join the team <strong>${teamName}</strong> on Altair GraphQL Cloud.
-      <br><br>
-      <a href="${acceptUrl}" style="display:inline-block;padding:12px 24px;background:#6b4fbb;color:#fff;text-decoration:none;border-radius:6px;">Accept Invitation</a>
-      <br><br>
-      Or copy this link: ${acceptUrl}
-      <br><br>
-      This invitation expires in 7 days.
-      <br><br>
-      If you didn't expect this email, you can safely ignore it.
-      <br><br>
-      — The Altair GraphQL Team`,
+      html: await renderTeamInvitationEmail({ teamName, inviterName, acceptUrl }),
     });
     if (error) {
       this.logger.error('Error sending invitation email', error);
@@ -109,19 +102,7 @@ export class EmailService {
     const { data, error } = await this.sendEmail({
       to: user.email,
       subject: 'Verify your email — Altair GraphQL Cloud',
-      html: `Hi ${firstName},
-      <br><br>
-      Thanks for signing up for Altair GraphQL Cloud! Please verify your email address by clicking the button below:
-      <br><br>
-      <a href="${verificationUrl}" style="display:inline-block;padding:12px 24px;background:#6b4fbb;color:#fff;text-decoration:none;border-radius:6px;">Verify Email</a>
-      <br><br>
-      Or copy this link: ${verificationUrl}
-      <br><br>
-      This link expires in 24 hours.
-      <br><br>
-      If you didn't create an account, you can safely ignore this email.
-      <br><br>
-      — The Altair GraphQL Team`,
+      html: await renderEmailVerificationEmail({ firstName, verificationUrl }),
     });
     if (error) {
       this.logger.error('Error sending verification email', error);
@@ -134,22 +115,8 @@ export class EmailService {
 
     const { data, error } = await this.sendEmail({
       to: user.email,
-      subject: 'Sorry to see you go 👋🏾',
-      html: `Hey ${this.getFirstName(user)},
-      <br><br>
-      Samuel here. I noticed you've cancelled your Altair GraphQL pro subscription and wanted to check in.
-      <br><br>
-      Would you mind sharing what led to your decision? Your feedback helps us make Altair better for everyone. Just hit reply to let me know.
-      <br><br>
-      If you ever want to come back, we'll be here! And of course, you can keep using Altair's free version as long as you like.
-      <br><br>
-      Thanks for giving the pro version a try!
-      <br><br>
-      Best wishes,
-      <br>
-      Samuel
-      <br><br>
-      P.S. If you cancelled because of a technical issue or need help with something, just let me know -- I'm happy to help!`,
+      subject: 'Sorry to see you go',
+      html: await renderGoodbyeEmail({ firstName: this.getFirstName(user) }),
     });
     if (error) {
       this.logger.error('Error sending goodbye email', error);
