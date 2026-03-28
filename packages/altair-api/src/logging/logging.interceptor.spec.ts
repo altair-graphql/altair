@@ -1,8 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { LoggingInterceptor } from './logging.interceptor';
+import { loggingMiddleware } from './logging.middleware';
 
-describe('LoggingInterceptor', () => {
+describe('loggingMiddleware', () => {
   it('should be defined', () => {
-    expect(new LoggingInterceptor()).toBeDefined();
+    expect(loggingMiddleware).toBeDefined();
+    expect(typeof loggingMiddleware).toBe('function');
   });
 });

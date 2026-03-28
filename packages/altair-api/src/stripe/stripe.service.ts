@@ -221,7 +221,9 @@ export class StripeService {
     }
 
     if (res.data.length === 0) {
-      this.logger.error('Customer does not have an active subscription. Exiting.');
+      this.logger.error(
+        'Customer does not have an active subscription. Exiting.'
+      );
       return;
     }
 

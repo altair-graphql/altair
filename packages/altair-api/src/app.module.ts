@@ -17,29 +17,12 @@ import { StripeWebhookController } from './stripe-webhook/stripe-webhook.control
 import { WorkspacesModule } from './workspaces/workspaces.module';
 import { CreditModule } from './credit/credit.module';
 import { ScheduleModule } from '@nestjs/schedule';
-import { WinstonModule, utilities } from 'nest-winston';
-import { format, transports } from 'winston';
 import { AiModule } from './ai/ai.module';
 import { EmailService } from './email/email.service';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 
 @Module({
   imports: [
-    WinstonModule.forRoot({
-      level: 'debug',
-      transports: [
-        new transports.Console({
-          format: format.combine(
-            format.timestamp(),
-            format.ms(),
-            utilities.format.nestLike('AltairGraphQLApi', {
-              colors: true,
-              prettyPrint: true,
-            })
-          ),
-        }),
-      ],
-    }),
     ConfigModule.forRoot({ isGlobal: true, load: [config] }),
     ThrottlerModule.forRootAsync({
       inject: [ConfigService],

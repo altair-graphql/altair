@@ -4,7 +4,7 @@ import {
   PRO_PLAN_ID,
 } from '@altairgraphql/db';
 import { Headers, RawBodyRequest } from '@nestjs/common';
-import { BadRequestException, Controller, Header, Post, Req } from '@nestjs/common';
+import { BadRequestException, Controller, Header, Logger, Post, Req } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Request } from 'express';
 import { PrismaService } from 'nestjs-prisma';
@@ -18,6 +18,7 @@ import { SkipThrottle } from '@nestjs/throttler';
 @Controller('stripe-webhook')
 @SkipThrottle()
 export class StripeWebhookController {
+  private readonly logger = new Logger(StripeWebhookController.name);
   constructor(
     private readonly stripeService: StripeService,
     private readonly userService: UserService,
@@ -77,17 +78,17 @@ export class StripeWebhookController {
           await this.userService.toBasicPlan(user.id);
           if (shouldCancelPlan) {
             // Send goodbye email
-            console.log('Sending goodbye email');
+            this.logger.log('Sending goodbye email');
             await this.emailService.sendGoodbyeEmail(user.id);
           }
         } else if (planRole === PRO_PLAN_ID) {
           await this.userService.toProPlan(user.id, quantity);
           if (event.type === 'customer.subscription.created') {
             // Send welcome email
-            console.log('Sending welcome email');
+            this.logger.log('Sending welcome email');
             await this.emailService.sendWelcomeEmail(user.id);
             // Subscribe user
-            console.log('Subscribing user');
+            this.logger.log('Subscribing user');
             await this.emailService.subscribeUser(user.id);
           }
         }

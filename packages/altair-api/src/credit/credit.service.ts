@@ -193,7 +193,7 @@ export class CreditService {
       } catch (err) {
         this.logger.error(
           `Failed to refill credits for user ${user.id}`,
-          err instanceof Error ? err.stack : undefined
+          err instanceof Error ? err.stack : err
         );
       }
     });
