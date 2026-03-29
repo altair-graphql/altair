@@ -313,7 +313,7 @@ export class TeamMembershipsService {
       action: 'removed',
     });
 
-    this.agent?.incrementMetric('team.member.removed');
+    this.agent?.incrementMetric('team.membership.removed');
 
     return res;
   }

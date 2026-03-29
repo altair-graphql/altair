@@ -221,8 +221,6 @@ export class AiService {
       // Send message (+ all previous messages in session) to AI
       const response = await this.sendToAI(messageInput, messages);
 
-      const duration = Date.now() - startTime;
-      this.agent?.recordMetric('ai.message.latency', duration);
       this.agent?.incrementMetric('ai.session.message.send');
 
       if (response.usage_metadata) {
@@ -258,6 +256,9 @@ export class AiService {
     } catch (error) {
       this.agent?.incrementMetric('ai.message.error');
       throw error;
+    } finally {
+      const duration = Date.now() - startTime;
+      this.agent?.recordMetric('ai.message.latency', duration);
     }
   }
 
@@ -290,8 +291,6 @@ export class AiService {
         yield { type: 'chunk', content: chunk };
       }
 
-      const duration = Date.now() - startTime;
-      this.agent?.recordMetric('ai.message.latency', duration);
       this.agent?.incrementMetric('ai.session.message.send');
 
       // Track provider used
@@ -315,6 +314,9 @@ export class AiService {
         type: 'error',
         content: err instanceof Error ? err.message : 'Unknown error',
       };
+    } finally {
+      const duration = Date.now() - startTime;
+      this.agent?.recordMetric('ai.message.latency', duration);
     }
   }
 
