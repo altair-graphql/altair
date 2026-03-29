@@ -1,7 +1,8 @@
 import { ICreateTeamDto, ICreateTeamMembershipDto } from '@altairgraphql/api-utils';
 import { Injectable, inject } from '@angular/core';
 import { environment } from 'environments/environment';
-import { EMPTY, from } from 'rxjs';
+import { EMPTY, from, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map, skip } from 'rxjs/operators';
 import { isElectronApp } from '../../utils';
 import { apiClient } from '../api/api.service';
 import { ElectronAppService } from '../electron-app/electron-app.service';
@@ -13,10 +14,9 @@ import { IdentityProvider } from '@altairgraphql/db';
 export class AccountService {
   private electronApp = inject(ElectronAppService);
 
-
   private async signin(provider: IdentityProvider = IdentityProvider.GOOGLE) {
     if (isElectronApp()) {
-      const authToken = await this.electronApp.getAuthToken();
+      const authToken = await this.electronApp.getAuthToken(provider);
       return apiClient.signInWithCustomToken(authToken);
     }
 
@@ -59,6 +59,22 @@ export class AccountService {
 
   async logout() {
     return await apiClient.signOut();
+  }
+
+  /**
+   * Returns an Observable that emits once each time the user signs out
+   * (i.e. the user transitions from a defined value to undefined).
+   * Useful as a `takeUntil` notifier for tearing down SSE connections.
+   */
+  observeSignout(): Observable<void> {
+    return apiClient.user$.pipe(
+      map((user) => !!user),
+      distinctUntilChanged(),
+      // skip the initial emission so we only react to transitions
+      skip(1),
+      filter((isLoggedIn) => !isLoggedIn),
+      map(() => undefined)
+    );
   }
 
   async isUserSignedIn() {

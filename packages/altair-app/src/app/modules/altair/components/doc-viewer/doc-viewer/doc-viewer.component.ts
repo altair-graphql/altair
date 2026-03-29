@@ -15,13 +15,19 @@ import { debug } from '../../../utils/logger';
 
 import { UntilDestroy } from '@ngneat/until-destroy';
 import { GraphQLSchema, GraphQLObjectType, GraphQLDirective } from 'graphql';
-import { DocumentIndexEntry } from '../models';
+import {
+  DocumentIndexEntry,
+  RelatedOperation,
+  ParentTypeInfo,
+  DocSearchFilterKey,
+  DOC_SEARCH_FILTERS,
+} from '../models';
 import { GqlService } from '../../../services';
 import getRootTypes from '../../../utils/get-root-types';
 import { DocView } from 'altair-graphql-core/build/types/state/docs.interfaces';
-import { AltairConfig } from 'altair-graphql-core/build/config';
 import { getDocUtilsWorkerAsyncClass } from './worker-helper';
 import { SortByOptions } from 'altair-graphql-core/build/types/state/collection.interfaces';
+import { DEFAULT_OPTIONS } from 'altair-graphql-core/build/config/defaults';
 import { debounce } from 'lodash-es';
 
 @UntilDestroy()
@@ -32,14 +38,13 @@ import { debounce } from 'lodash-es';
 })
 export class DocViewerComponent {
   private gqlService = inject(GqlService);
-  private altairConfig = inject(AltairConfig);
 
   readonly gqlSchema = input<GraphQLSchema>();
   readonly allowIntrospection = input(true);
   readonly hideDeprecatedDocItems = input(false);
   readonly isLoading = input(false);
-  readonly addQueryDepthLimit = input(this.altairConfig.add_query_depth_limit);
-  readonly tabSize = input(this.altairConfig.tab_size);
+  readonly addQueryDepthLimit = input<number>(DEFAULT_OPTIONS.ADD_QUERY_DEPTH_LIMIT);
+  readonly tabSize = input<number>(DEFAULT_OPTIONS.TAB_SIZE);
   readonly docView = input<DocView>({ view: 'root' });
   readonly lastUpdatedAt = input<number>();
 
@@ -84,6 +89,11 @@ export class DocViewerComponent {
   readonly searchResult = signal<DocumentIndexEntry[]>([]);
   readonly searchTerm = signal('');
   readonly autocompleteOptions = signal<DocumentIndexEntry[]>([]);
+  readonly searchFilters = signal<Set<DocSearchFilterKey>>(
+    new Set<DocSearchFilterKey>(['types', 'fields', 'queries', 'mutations', 'subscriptions', 'directives'])
+  );
+
+  readonly availableSearchFilters = DOC_SEARCH_FILTERS;
 
   docUtilWorker: any;
 
@@ -97,6 +107,10 @@ export class DocViewerComponent {
     }
     return;
   });
+
+  readonly relatedOperations = signal<RelatedOperation[]>([]);
+
+  readonly parentTypes = signal<ParentTypeInfo[]>([]);
 
   constructor() {
     effect(async () => {
@@ -114,6 +128,30 @@ export class DocViewerComponent {
       } catch (err) {
         debug.log('Error while generating index.', err);
         this.hasSearchIndex.set(false);
+      }
+    });
+
+    // Effect to update related operations and parent types when viewing a type
+    effect(async () => {
+      const docView = this.docView();
+      const typeData = this.typeData();
+      
+      if (docView.view === 'type' && typeData && this.hasSearchIndex()) {
+        try {
+          const docUtilWorker = await this.getDocUtilsWorker();
+          const operations = await docUtilWorker.getRelatedOperations(typeData.name);
+          const parents = await docUtilWorker.getParentTypes(typeData.name);
+          
+          this.relatedOperations.set(operations);
+          this.parentTypes.set(parents);
+        } catch (err) {
+          debug.log('Error getting type relationships:', err);
+          this.relatedOperations.set([]);
+          this.parentTypes.set([]);
+        }
+      } else {
+        this.relatedOperations.set([]);
+        this.parentTypes.set([]);
       }
     });
   }
@@ -291,5 +329,96 @@ export class DocViewerComponent {
     if (docView.view === 'directive') {
       return this.directives().find((d) => d.name === docView.name);
     }
+  }
+
+  /**
+   * Navigate to a specific point in history
+   * @param index The index in history to navigate to
+   */
+  navigateToBreadcrumb(index: number) {
+    if (index === -1) {
+      // Navigate to home
+      this.goHome();
+      return;
+    }
+
+    const history = this.docHistory();
+    if (index >= 0 && index < history.length) {
+      // Get the view at the specified index
+      const targetView = history[index];
+      // Update history to only include items up to this point
+      this.docHistory.set(history.slice(0, index));
+      // Navigate to the target view
+      this.setDocView(targetView);
+    }
+  }
+
+  /**
+   * Get a readable label for a doc view for breadcrumb display
+   * @param docView The doc view to get label for
+   */
+  getBreadcrumbLabel(docView: DocView): string {
+    switch (docView.view) {
+      case 'root':
+        return 'Home';
+      case 'type':
+        return docView.name;
+      case 'field':
+        return `${docView.parentType}.${docView.name}`;
+      case 'directive':
+        return `@${docView.name}`;
+      case 'search':
+        return 'Search Results';
+      default:
+        return '';
+    }
+  }
+
+  /**
+   * Determine if ellipsis should be shown in breadcrumbs
+   * Show ellipsis when there are more than 2 items in history (excluding root views)
+   */
+  shouldShowEllipsis(): boolean {
+    const history = this.docHistory();
+    const nonRootHistory = history.filter(item => item.view !== 'root');
+    return nonRootHistory.length > 2;
+  }
+
+  /**
+   * Get the visible breadcrumb items (last 2 before current)
+   * Returns items with their original indices for navigation
+   */
+  getVisibleBreadcrumbs(): Array<{ view: DocView; index: number }> {
+    const history = this.docHistory();
+    const nonRootHistory: Array<{ view: DocView; index: number }> = [];
+    
+    // Build array with original indices
+    history.forEach((item, index) => {
+      if (item.view !== 'root') {
+        nonRootHistory.push({ view: item, index });
+      }
+    });
+
+    // If 2 or fewer items, show all
+    if (nonRootHistory.length <= 2) {
+      return nonRootHistory;
+    }
+
+    // Otherwise, show last 2
+    return nonRootHistory.slice(-2);
+  }
+
+  toggleSearchFilter(filter: DocSearchFilterKey) {
+    const filters = new Set(this.searchFilters());
+    if (filters.has(filter)) {
+      filters.delete(filter);
+    } else {
+      filters.add(filter);
+    }
+    this.searchFilters.set(filters);
+  }
+
+  isSearchFilterActive(filter: DocSearchFilterKey): boolean {
+    return this.searchFilters().has(filter);
   }
 }

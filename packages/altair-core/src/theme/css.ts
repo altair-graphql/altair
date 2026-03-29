@@ -4,74 +4,75 @@ import { ICustomTheme, ITheme, createTheme, hexToRgbStr } from './theme';
 
 const COLOR_VARS = {
   // Base colors
-  'black-color': (t: ITheme) => t.colors.black,
-  'dark-grey-color': (t: ITheme) => t.colors.darkGray,
-  'grey-color': (t: ITheme) => t.colors.gray,
-  'light-grey-color': (t: ITheme) => t.colors.lightGray,
-  'white-color': (t: ITheme) => t.colors.white,
-  'green-color': (t: ITheme) => t.colors.green,
-  'blue-color': (t: ITheme) => t.colors.blue,
-  'cerise-color': (t: ITheme) => t.colors.cerise,
-  'red-color': (t: ITheme) => t.colors.red,
-  'rose-color': (t: ITheme) => t.colors.rose,
-  'orange-color': (t: ITheme) => t.colors.orange,
-  'yellow-color': (t: ITheme) => t.colors.yellow,
-  'light-red-color': (t: ITheme) => t.colors.lightRed,
-  'dark-purple-color': (t: ITheme) => t.colors.darkPurple,
+  'black-color': (t: ITheme) => t['color.black'],
+  'dark-grey-color': (t: ITheme) => t['color.darkGray'],
+  'grey-color': (t: ITheme) => t['color.gray'],
+  'light-grey-color': (t: ITheme) => t['color.lightGray'],
+  'white-color': (t: ITheme) => t['color.white'],
+  'green-color': (t: ITheme) => t['color.green'],
+  'blue-color': (t: ITheme) => t['color.blue'],
+  'cerise-color': (t: ITheme) => t['color.cerise'],
+  'red-color': (t: ITheme) => t['color.red'],
+  'rose-color': (t: ITheme) => t['color.rose'],
+  'orange-color': (t: ITheme) => t['color.orange'],
+  'yellow-color': (t: ITheme) => t['color.yellow'],
+  'light-red-color': (t: ITheme) => t['color.lightRed'],
+  'dark-purple-color': (t: ITheme) => t['color.darkPurple'],
 
-  'primary-color': (t: ITheme) => t.colors.primary,
-  'secondary-color': (t: ITheme) => t.colors.secondary,
-  'tertiary-color': (t: ITheme) => t.colors.tertiary,
+  'primary-color': (t: ITheme) => t['color.primary'],
+  'secondary-color': (t: ITheme) => t['color.secondary'],
+  'tertiary-color': (t: ITheme) => t['color.tertiary'],
 
-  'theme-bg-color': (t: ITheme) => t.colors.bg,
-  'theme-off-bg-color': (t: ITheme) => t.colors.offBg,
-  'theme-font-color': (t: ITheme) => t.colors.font,
-  'theme-off-font-color': (t: ITheme) => t.colors.offFont,
-  'theme-border-color': (t: ITheme) => t.colors.border,
-  'theme-off-border-color': (t: ITheme) => t.colors.offBorder,
-  'header-bg-color': (t: ITheme) => t.colors.headerBg || t.colors.offBg,
+  'theme-bg-color': (t: ITheme) => t['color.bg'],
+  'theme-off-bg-color': (t: ITheme) => t['color.offBg'],
+  'theme-font-color': (t: ITheme) => t['color.font'],
+  'theme-off-font-color': (t: ITheme) => t['color.offFont'],
+  'theme-border-color': (t: ITheme) => t['color.border'],
+  'theme-off-border-color': (t: ITheme) => t['color.offBorder'],
+  'header-bg-color': (t: ITheme) => t['color.headerBg'] || t['color.offBg'],
 
-  'editor-comment-color': (t: ITheme) => t.editor.colors.comment,
-  'editor-string-color': (t: ITheme) => t.editor.colors.string,
-  'editor-number-color': (t: ITheme) => t.editor.colors.number,
-  'editor-variable-color': (t: ITheme) => t.editor.colors.variable,
-  'editor-attribute-color': (t: ITheme) => t.editor.colors.attribute,
-  'editor-keyword-color': (t: ITheme) => t.editor.colors.keyword,
-  'editor-atom-color': (t: ITheme) => t.editor.colors.atom,
-  'editor-property-color': (t: ITheme) => t.editor.colors.property,
-  'editor-punctuation-color': (t: ITheme) => t.editor.colors.punctuation,
-  'editor-cursor-color': (t: ITheme) => t.editor.colors.cursor,
-  'editor-def-color': (t: ITheme) => t.editor.colors.definition,
-  'editor-builtin-color': (t: ITheme) => t.editor.colors.builtin,
+  'editor-comment-color': (t: ITheme) => t['color.editor.comment'],
+  'editor-string-color': (t: ITheme) => t['color.editor.string'],
+  'editor-number-color': (t: ITheme) => t['color.editor.number'],
+  'editor-variable-color': (t: ITheme) => t['color.editor.variable'],
+  'editor-attribute-color': (t: ITheme) => t['color.editor.attribute'],
+  'editor-keyword-color': (t: ITheme) => t['color.editor.keyword'],
+  'editor-atom-color': (t: ITheme) => t['color.editor.atom'],
+  'editor-property-color': (t: ITheme) => t['color.editor.property'],
+  'editor-punctuation-color': (t: ITheme) => t['color.editor.punctuation'],
+  'editor-cursor-color': (t: ITheme) => t['color.editor.cursor'],
+  'editor-def-color': (t: ITheme) => t['color.editor.definition'],
+  'editor-builtin-color': (t: ITheme) => t['color.editor.builtin'],
 } as const;
 
 const RGB_VARS = {
-  'rgb-black': (t: ITheme) => hexToRgbStr(t.colors.black),
-  'rgb-dark-grey': (t: ITheme) => hexToRgbStr(t.colors.darkGray),
-  'rgb-grey': (t: ITheme) => hexToRgbStr(t.colors.gray),
-  'rgb-light-grey': (t: ITheme) => hexToRgbStr(t.colors.lightGray),
-  'rgb-white': (t: ITheme) => hexToRgbStr(t.colors.white),
-  'rgb-green': (t: ITheme) => hexToRgbStr(t.colors.green),
-  'rgb-blue': (t: ITheme) => hexToRgbStr(t.colors.blue),
-  'rgb-cerise': (t: ITheme) => hexToRgbStr(t.colors.cerise),
-  'rgb-red': (t: ITheme) => hexToRgbStr(t.colors.red),
-  'rgb-rose': (t: ITheme) => hexToRgbStr(t.colors.rose),
-  'rgb-orange': (t: ITheme) => hexToRgbStr(t.colors.orange),
-  'rgb-yellow': (t: ITheme) => hexToRgbStr(t.colors.yellow),
-  'rgb-light-red': (t: ITheme) => hexToRgbStr(t.colors.lightRed),
-  'rgb-dark-purple': (t: ITheme) => hexToRgbStr(t.colors.darkPurple),
+  'rgb-black': (t: ITheme) => hexToRgbStr(t['color.black']),
+  'rgb-dark-grey': (t: ITheme) => hexToRgbStr(t['color.darkGray']),
+  'rgb-grey': (t: ITheme) => hexToRgbStr(t['color.gray']),
+  'rgb-light-grey': (t: ITheme) => hexToRgbStr(t['color.lightGray']),
+  'rgb-white': (t: ITheme) => hexToRgbStr(t['color.white']),
+  'rgb-green': (t: ITheme) => hexToRgbStr(t['color.green']),
+  'rgb-blue': (t: ITheme) => hexToRgbStr(t['color.blue']),
+  'rgb-cerise': (t: ITheme) => hexToRgbStr(t['color.cerise']),
+  'rgb-red': (t: ITheme) => hexToRgbStr(t['color.red']),
+  'rgb-rose': (t: ITheme) => hexToRgbStr(t['color.rose']),
+  'rgb-orange': (t: ITheme) => hexToRgbStr(t['color.orange']),
+  'rgb-yellow': (t: ITheme) => hexToRgbStr(t['color.yellow']),
+  'rgb-light-red': (t: ITheme) => hexToRgbStr(t['color.lightRed']),
+  'rgb-dark-purple': (t: ITheme) => hexToRgbStr(t['color.darkPurple']),
 
-  'rgb-primary': (t: ITheme) => hexToRgbStr(t.colors.primary),
-  'rgb-secondary': (t: ITheme) => hexToRgbStr(t.colors.secondary),
-  'rgb-tertiary': (t: ITheme) => hexToRgbStr(t.colors.tertiary),
+  'rgb-primary': (t: ITheme) => hexToRgbStr(t['color.primary']),
+  'rgb-secondary': (t: ITheme) => hexToRgbStr(t['color.secondary']),
+  'rgb-tertiary': (t: ITheme) => hexToRgbStr(t['color.tertiary']),
 
-  'rgb-theme-bg': (t: ITheme) => hexToRgbStr(t.colors.bg),
-  'rgb-theme-off-bg': (t: ITheme) => hexToRgbStr(t.colors.offBg),
-  'rgb-theme-font': (t: ITheme) => hexToRgbStr(t.colors.font),
-  'rgb-theme-off-font': (t: ITheme) => hexToRgbStr(t.colors.offFont),
-  'rgb-theme-border': (t: ITheme) => hexToRgbStr(t.colors.border),
-  'rgb-theme-off-border': (t: ITheme) => hexToRgbStr(t.colors.offBorder),
-  'rgb-header-bg': (t: ITheme) => hexToRgbStr(t.colors.headerBg || t.colors.offBg),
+  'rgb-theme-bg': (t: ITheme) => hexToRgbStr(t['color.bg']),
+  'rgb-theme-off-bg': (t: ITheme) => hexToRgbStr(t['color.offBg']),
+  'rgb-theme-font': (t: ITheme) => hexToRgbStr(t['color.font']),
+  'rgb-theme-off-font': (t: ITheme) => hexToRgbStr(t['color.offFont']),
+  'rgb-theme-border': (t: ITheme) => hexToRgbStr(t['color.border']),
+  'rgb-theme-off-border': (t: ITheme) => hexToRgbStr(t['color.offBorder']),
+  'rgb-header-bg': (t: ITheme) =>
+    hexToRgbStr(t['color.headerBg'] || t['color.offBg']),
   // ... other rgb values
 } as const;
 
@@ -83,16 +84,16 @@ const createVars = (mapping: Record<string, (t: ITheme) => string>, theme: IThem
 const asCSSVariablesString = (theme: ITheme) => {
   return `
   :root {
-    --shadow-bg: rgba(${hexToRgbStr(theme.shadow.color)}, ${theme.shadow.opacity});
+    --shadow-bg: rgba(${hexToRgbStr(theme['shadow.color'])}, ${theme['shadow.opacity']});
 
     --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", 'Helvetica Neue', Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
-    --editor-font-family: ${theme.editor.fontFamily.default};
-    --editor-font-size: ${theme.editor.fontSize};
+    --editor-font-family: ${theme['fontFamily.code']};
+    --editor-font-size: ${theme['fontSize.code']};
 
-    --baseline-size: ${theme.type.fontSize.base};
-    --rem-base: ${theme.type.fontSize.remBase};
-    --body-font-size: ${theme.type.fontSize.body};
+    --baseline-size: ${theme['fontSize.base']};
+    --rem-base: ${theme['fontSize.remBase']};
+    --body-font-size: ${theme['fontSize.body']};
 
     --app-easing: ${theme.easing};
 
@@ -107,7 +108,11 @@ export const getCSS = (
   appDarkTheme?: ICustomTheme,
   accentColor?: string
 ) => {
-  const extraTheme = accentColor ? { colors: { primary: accentColor } } : {};
+  const extraTheme: ICustomTheme = accentColor
+    ? {
+        'color.primary': accentColor,
+      }
+    : {};
   if (appTheme && appDarkTheme) {
     return `
       ${asCSSVariablesString(createTheme(appTheme, extraTheme))}

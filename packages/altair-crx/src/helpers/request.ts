@@ -1,5 +1,5 @@
 import { Kind, OperationDefinitionNode, parse } from 'graphql';
-import { array, object, optional, string, union, unknown } from 'zod';
+import { array, object, optional, string, union, unknown } from 'zod/v4';
 import * as prettier from 'prettier/standalone';
 import prettierGraphql from 'prettier/plugins/graphql';
 import { parseJson } from './json';

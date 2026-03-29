@@ -1,3 +1,4 @@
+import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -43,9 +44,9 @@ describe('AuthService', () => {
     it(`should return a user object on successful login`, async () => {
       // GIVEN
       const userMock = mockUser();
-      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
-      jest.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(true);
-      jest.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
+      vi.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
+      vi.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(true);
+      vi.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
 
       // WHEN
       const user = await service.passwordLogin(userMock.email, passwordMock);
@@ -58,24 +59,24 @@ describe('AuthService', () => {
     it(`should throw an error if the user doesn't exist`, () => {
       // GIVEN
       const emailMock = mockUser().email;
-      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(null);
+      vi.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(null);
 
       // THEN
       expect(service.passwordLogin(emailMock, passwordMock)).rejects.toThrow(
-        `No user found for email: ${emailMock}`
+        `Invalid email or password`
       );
     });
 
-    it(`should throw an error if the provided password is invalid`, () => {
+    it(`should throw an error if the provided password is invalid`, async () => {
       // GIVEN
       const userMock = mockUser();
-      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
-      jest.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(false);
+      vi.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
+      vi.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(false);
 
       // THEN
-      expect(service.passwordLogin(userMock.email, passwordMock)).rejects.toThrow(
-        `Invalid password`
-      );
+      await expect(
+        service.passwordLogin(userMock.email, passwordMock)
+      ).rejects.toThrow(`Invalid email or password`);
     });
   });
 
@@ -83,7 +84,7 @@ describe('AuthService', () => {
     it(`should return a user object on successful login`, async () => {
       // GIVEN
       const userMock = mockUser();
-      jest.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
+      vi.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
 
       // WHEN
       const user = await service.googleLogin(userMock);
@@ -105,10 +106,10 @@ describe('AuthService', () => {
     it(`should return a user object`, async () => {
       // GIVEN
       const userMock = mockUser();
-      jest.spyOn(jwtService, 'decode').mockReturnValueOnce({
+      vi.spyOn(jwtService, 'verify').mockReturnValueOnce({
         userId: 'e23b7b34-8996-45d3-9097-b14b8f451dbd',
       });
-      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
+      vi.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
 
       // WHEN
       const user = await service.getUserFromToken(tokenMock);
@@ -119,10 +120,14 @@ describe('AuthService', () => {
 
     it(`should throw an error if the token is invalid`, () => {
       // GIVEN
-      jest.spyOn(jwtService, 'decode').mockReturnValueOnce(`Couldn't decode token.`);
+      vi.spyOn(jwtService, 'verify').mockImplementationOnce(() => {
+        throw new Error('Invalid token');
+      });
 
       // THEN
-      expect(() => service.getUserFromToken(tokenMock)).toThrow('Invalid JWT token');
+      expect(() => service.getUserFromToken(tokenMock)).toThrow(
+        'Invalid or expired JWT token'
+      );
     });
   });
 
@@ -139,13 +144,11 @@ describe('AuthService', () => {
     it(`should return a user object on successful password change`, async () => {
       // GIVEN
       const userMock = mockUser();
-      jest.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(true);
-      jest
-        .spyOn(passwordService, 'hashPassword')
-        .mockResolvedValue(
-          '6bfbaac71e1cb8876538505e5c8d9a6653eef56c592cc9691e9a70a427680136'
-        );
-      jest.spyOn(prismaService.user, 'update').mockResolvedValueOnce(userMock);
+      vi.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(true);
+      vi.spyOn(passwordService, 'hashPassword').mockResolvedValue(
+        '6bfbaac71e1cb8876538505e5c8d9a6653eef56c592cc9691e9a70a427680136'
+      );
+      vi.spyOn(prismaService.user, 'update').mockResolvedValueOnce(userMock);
 
       // WHEN
       const user = await service.changePassword(
@@ -160,7 +163,7 @@ describe('AuthService', () => {
 
     it(`should throw an error if the user password is invalid`, () => {
       // GIVEN
-      jest.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(false);
+      vi.spyOn(passwordService, 'validatePassword').mockResolvedValueOnce(false);
 
       // THEN
       expect(
@@ -172,7 +175,7 @@ describe('AuthService', () => {
   describe('getLoginResponse', () => {
     it(`should return a user object with tokens`, async () => {
       // GIVEN
-      jest.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
+      vi.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
 
       // WHEN
       const response = await service.getLoginResponse(mockUser());
@@ -187,7 +190,7 @@ describe('AuthService', () => {
   describe('generateTokens', () => {
     it(`should return authentication tokens`, async () => {
       // GIVEN
-      jest.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
+      vi.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
 
       // WHEN
       const tokens = await service.generateTokens({ userId: mockUser().id });
@@ -201,10 +204,8 @@ describe('AuthService', () => {
   describe('refreshToken', () => {
     it(`should return authentication tokens on successful refresh`, () => {
       // GIVEN
-      jest
-        .spyOn(jwtService, 'verify')
-        .mockReturnValueOnce({ userId: mockUser().id });
-      jest.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
+      vi.spyOn(jwtService, 'verify').mockReturnValueOnce({ userId: mockUser().id });
+      vi.spyOn(jwtService, 'sign').mockReturnValue(tokenMock);
 
       // WHEN
       const tokens = service.refreshToken(tokenMock);
@@ -216,7 +217,7 @@ describe('AuthService', () => {
 
     it(`should throw an error if the token input token is invalid`, () => {
       // GIVEN
-      jest.spyOn(jwtService, 'verify').mockImplementationOnce(() => {
+      vi.spyOn(jwtService, 'verify').mockImplementationOnce(() => {
         throw new Error('Invalid token');
       });
 

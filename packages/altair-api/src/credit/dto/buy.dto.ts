@@ -5,6 +5,6 @@ import { IsNumber, IsOptional } from 'class-validator';
 export class BuyDto implements IBuyCreditDto {
   @IsNumber()
   @IsOptional()
-  @ApiProperty({ required: false })
+  @ApiProperty({ type: Number, required: false })
   quantity = 1;
 }

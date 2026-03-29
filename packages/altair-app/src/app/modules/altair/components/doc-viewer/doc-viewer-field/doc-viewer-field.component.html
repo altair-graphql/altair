@@ -31,6 +31,24 @@
       </div>
     </div>
   </div>
+  <!--Parent type-->
+  @if (parentType()) {
+    <div class="doc-viewer-section doc-viewer-parent-type">
+      <div class="doc-viewer-section-title">
+        {{ 'DOCS_BELONGS_TO_TYPE_TEXT' | translate }}
+      </div>
+      <div class="doc-viewer-item doc-viewer-item-query">
+        <div class="doc-viewer-item-query-inner">
+          <span
+            class="doc-viewer-item-field doc-viewer-item-value no-link-link"
+            (click)="goToType(parentType())"
+          >
+            {{ parentType() }}
+          </span>
+        </div>
+      </div>
+    </div>
+  }
   <!--Field arguments-->
   @if (data.args && data.args.length) {
     <div class="doc-viewer-section doc-viewer-arguments">

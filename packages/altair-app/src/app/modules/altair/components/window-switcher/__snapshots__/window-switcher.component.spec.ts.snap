@@ -1,22 +1,24 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`WindowSwitcherComponent should render correctly 1`] = `
-<app-window-switcher
+exports[`WindowSwitcherComponent > should render correctly 1`] = `
+<div
   class="window-switcher__no-scrollbar"
+  id="root1"
+  ng-version="20.3.3"
 >
   <div
     cdkdroplist=""
     cdkdroplistorientation="horizontal"
     class="window-switcher__list window-switcher__no-scrollbar"
   >
-    
+    <!--container-->
     <div
       class="window-switcher__item"
     >
         
     </div>
-    
+    <!--container-->
   </div>
-  
-</app-window-switcher>
+  <!--container-->
+</div>
 `;

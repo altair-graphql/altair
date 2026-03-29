@@ -1,7 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
-<app-add-collection-query-dialog>
+exports[`AddCollectionQueryDialogComponent > should render correctly 1`] = `
+<div
+  id="root0"
+  ng-version="20.3.3"
+>
   <app-dialog>
     <div
       class="add-to-collection-wrapper"
@@ -25,29 +28,29 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
         >
           <label>
             SAVE_TO_COLLECTION_SELECT_COLLECTION
-            
+            <!--container-->
           </label>
         </nz-form-label>
         <nz-form-control
-          class="ant-form-item-control ant-col"
+          class="ant-form-item-control ng-tns-c1604109519-0 ant-col"
         >
           <div
-            class="ant-form-item-control-input"
+            class="ant-form-item-control-input ng-tns-c1604109519-0"
           >
             <div
-              class="ant-form-item-control-input-content"
+              class="ant-form-item-control-input-content ng-tns-c1604109519-0"
             >
               <nz-select
-                class="ant-select dialog-block ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                class="ant-select dialog-block ng-tns-c400074995-1 ng-tns-c1604109519-0 ng-star-inserted ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
                 name="collection"
                 nzplaceholder="Choose"
               >
                 <nz-select-top-control
                   cdkoverlayorigin=""
-                  class="ant-select-selector nz-animate-disabled"
+                  class="ant-select-selector ng-tns-c400074995-1 nz-animate-disabled"
                 >
                   <nz-select-search
-                    class="ant-select-selection-search"
+                    class="ant-select-selection-search ng-star-inserted"
                   >
                     <input
                       autocomplete="off"
@@ -55,27 +58,27 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                       readonly="readonly"
                       style="opacity: 0;"
                     />
-                    
+                    <!--container-->
                   </nz-select-search>
-                  
-                  
-                  
-                  
-                  
+                  <!--container-->
+                  <!--ng-container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--ng-container-->
                   <nz-select-placeholder
-                    class="ant-select-selection-placeholder"
+                    class="ant-select-selection-placeholder ng-star-inserted"
                   >
                      Choose 
-                    
-                    
+                    <!--ng-container-->
+                    <!--container-->
                   </nz-select-placeholder>
-                  
+                  <!--container-->
                 </nz-select-top-control>
                 <nz-select-arrow
-                  class="ant-select-arrow"
+                  class="ant-select-arrow ng-tns-c400074995-1 ng-star-inserted"
                 >
                   <span
-                    class="anticon anticon-down"
+                    class="anticon anticon-down ng-star-inserted"
                     nz-icon=""
                     nztype="down"
                   >
@@ -93,34 +96,37 @@ exports[`AddCollectionQueryDialogComponent should render correctly 1`] = `
                       />
                     </svg>
                   </span>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+                  <!--container-->
+                  <!--container-->
+                  <!--ng-container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
                 </nz-select-arrow>
-                
-                
-                
+                <!--container-->
+                <!--container-->
+                <!--container-->
               </nz-select>
             </div>
           </div>
-          
-          
+          <!--container-->
+          <!--container-->
         </nz-form-control>
       </div>
-      
+      <!--container-->
     </div>
   </app-dialog>
-</app-add-collection-query-dialog>
+</div>
 `;
 
-exports[`AddCollectionQueryDialogComponent should render correctly with [collections] 1`] = `
-<app-add-collection-query-dialog>
+exports[`AddCollectionQueryDialogComponent > should render correctly with [collections] 1`] = `
+<div
+  id="root4"
+  ng-version="20.3.3"
+>
   <app-dialog>
     <div
       class="add-to-collection-wrapper"
@@ -144,29 +150,29 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
         >
           <label>
             SAVE_TO_COLLECTION_SELECT_COLLECTION
-            
+            <!--container-->
           </label>
         </nz-form-label>
         <nz-form-control
-          class="ant-form-item-control ant-col"
+          class="ant-form-item-control ng-tns-c1604109519-0 ant-col"
         >
           <div
-            class="ant-form-item-control-input"
+            class="ant-form-item-control-input ng-tns-c1604109519-0"
           >
             <div
-              class="ant-form-item-control-input-content"
+              class="ant-form-item-control-input-content ng-tns-c1604109519-0"
             >
               <nz-select
-                class="ant-select dialog-block ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                class="ant-select dialog-block ng-tns-c400074995-1 ng-tns-c1604109519-0 ng-star-inserted ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
                 name="collection"
                 nzplaceholder="Choose"
               >
                 <nz-select-top-control
                   cdkoverlayorigin=""
-                  class="ant-select-selector nz-animate-disabled"
+                  class="ant-select-selector ng-tns-c400074995-1 nz-animate-disabled"
                 >
                   <nz-select-search
-                    class="ant-select-selection-search"
+                    class="ant-select-selection-search ng-star-inserted"
                   >
                     <input
                       autocomplete="off"
@@ -174,27 +180,27 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                       readonly="readonly"
                       style="opacity: 0;"
                     />
-                    
+                    <!--container-->
                   </nz-select-search>
-                  
-                  
-                  
-                  
-                  
+                  <!--container-->
+                  <!--ng-container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--ng-container-->
                   <nz-select-placeholder
-                    class="ant-select-selection-placeholder"
+                    class="ant-select-selection-placeholder ng-star-inserted"
                   >
                      Choose 
-                    
-                    
+                    <!--ng-container-->
+                    <!--container-->
                   </nz-select-placeholder>
-                  
+                  <!--container-->
                 </nz-select-top-control>
                 <nz-select-arrow
-                  class="ant-select-arrow"
+                  class="ant-select-arrow ng-tns-c400074995-1 ng-star-inserted"
                 >
                   <span
-                    class="anticon anticon-down"
+                    class="anticon anticon-down ng-star-inserted"
                     nz-icon=""
                     nztype="down"
                   >
@@ -212,34 +218,37 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [collect
                       />
                     </svg>
                   </span>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+                  <!--container-->
+                  <!--container-->
+                  <!--ng-container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
                 </nz-select-arrow>
-                
-                
-                
+                <!--container-->
+                <!--container-->
+                <!--container-->
               </nz-select>
             </div>
           </div>
-          
-          
+          <!--container-->
+          <!--container-->
         </nz-form-control>
       </div>
-      
+      <!--container-->
     </div>
   </app-dialog>
-</app-add-collection-query-dialog>
+</div>
 `;
 
-exports[`AddCollectionQueryDialogComponent should render correctly with [windowTitle] 1`] = `
-<app-add-collection-query-dialog>
+exports[`AddCollectionQueryDialogComponent > should render correctly with [windowTitle] 1`] = `
+<div
+  id="root2"
+  ng-version="20.3.3"
+>
   <app-dialog>
     <div
       class="add-to-collection-wrapper"
@@ -263,29 +272,29 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
         >
           <label>
             SAVE_TO_COLLECTION_SELECT_COLLECTION
-            
+            <!--container-->
           </label>
         </nz-form-label>
         <nz-form-control
-          class="ant-form-item-control ant-col"
+          class="ant-form-item-control ng-tns-c1604109519-0 ant-col"
         >
           <div
-            class="ant-form-item-control-input"
+            class="ant-form-item-control-input ng-tns-c1604109519-0"
           >
             <div
-              class="ant-form-item-control-input-content"
+              class="ant-form-item-control-input-content ng-tns-c1604109519-0"
             >
               <nz-select
-                class="ant-select dialog-block ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
+                class="ant-select dialog-block ng-tns-c400074995-1 ng-tns-c1604109519-0 ng-star-inserted ant-select-in-form-item ant-select-show-arrow ant-select-single ng-untouched ng-pristine ng-valid"
                 name="collection"
                 nzplaceholder="Choose"
               >
                 <nz-select-top-control
                   cdkoverlayorigin=""
-                  class="ant-select-selector nz-animate-disabled"
+                  class="ant-select-selector ng-tns-c400074995-1 nz-animate-disabled"
                 >
                   <nz-select-search
-                    class="ant-select-selection-search"
+                    class="ant-select-selection-search ng-star-inserted"
                   >
                     <input
                       autocomplete="off"
@@ -293,27 +302,27 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                       readonly="readonly"
                       style="opacity: 0;"
                     />
-                    
+                    <!--container-->
                   </nz-select-search>
-                  
-                  
-                  
-                  
-                  
+                  <!--container-->
+                  <!--ng-container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--ng-container-->
                   <nz-select-placeholder
-                    class="ant-select-selection-placeholder"
+                    class="ant-select-selection-placeholder ng-star-inserted"
                   >
                      Choose 
-                    
-                    
+                    <!--ng-container-->
+                    <!--container-->
                   </nz-select-placeholder>
-                  
+                  <!--container-->
                 </nz-select-top-control>
                 <nz-select-arrow
-                  class="ant-select-arrow"
+                  class="ant-select-arrow ng-tns-c400074995-1 ng-star-inserted"
                 >
                   <span
-                    class="anticon anticon-down"
+                    class="anticon anticon-down ng-star-inserted"
                     nz-icon=""
                     nztype="down"
                   >
@@ -331,28 +340,28 @@ exports[`AddCollectionQueryDialogComponent should render correctly with [windowT
                       />
                     </svg>
                   </span>
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
-                  
+                  <!--container-->
+                  <!--container-->
+                  <!--ng-container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
+                  <!--container-->
                 </nz-select-arrow>
-                
-                
-                
+                <!--container-->
+                <!--container-->
+                <!--container-->
               </nz-select>
             </div>
           </div>
-          
-          
+          <!--container-->
+          <!--container-->
         </nz-form-control>
       </div>
-      
+      <!--container-->
     </div>
   </app-dialog>
-</app-add-collection-query-dialog>
+</div>
 `;

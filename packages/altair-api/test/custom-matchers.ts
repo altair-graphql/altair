@@ -1,3 +1,5 @@
+import { expect } from 'vitest';
+
 function typeCheck(name: string, value: unknown, expectedType: string) {
   const type = typeof value;
   if (type != expectedType) {

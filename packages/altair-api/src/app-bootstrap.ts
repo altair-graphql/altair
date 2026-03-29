@@ -4,20 +4,19 @@ import { HttpAdapterHost } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
 import { CorsConfig, SwaggerConfig } from './common/config';
-import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import { LoggingInterceptor } from './logging/logging.interceptor';
+import { LogTapeLoggerService } from './logging/logtape-logger.service';
+import { loggingMiddleware } from './logging/logging.middleware';
 
 export const bootstrapApp = async (app: INestApplication) => {
-  // Logger
-  if (process.env.NODE_ENV === 'production') {
-    app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
-  }
+  // Logger — delegates all NestJS logging to LogTape
+  app.useLogger(new LogTapeLoggerService());
+
+  // Canonical log line — must be registered before anything else so it
+  // captures every request including 404s and guard rejections.
+  app.use(loggingMiddleware);
 
   // Validation
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-
-  // Interceptors
-  app.useGlobalInterceptors(new LoggingInterceptor());
 
   // enable shutdown hook
   const prismaService: PrismaService = app.get(PrismaService);

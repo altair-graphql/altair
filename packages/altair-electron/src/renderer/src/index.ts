@@ -1,0 +1,1 @@
+alert('Renderer process started');

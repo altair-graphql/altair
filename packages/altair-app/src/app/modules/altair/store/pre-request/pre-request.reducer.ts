@@ -6,9 +6,9 @@ import { AllActions } from '../action';
 export const getInitialState = (): PrerequestState => {
   const altairConfig = getAltairConfig();
   return {
-    enabled: !!altairConfig.initialData.preRequestScript,
-    script: altairConfig.initialData.preRequestScript
-      ? '' + altairConfig.initialData.preRequestScript
+    enabled: !!altairConfig.options.initialPreRequestScript,
+    script: altairConfig.options.initialPreRequestScript
+      ? '' + altairConfig.options.initialPreRequestScript
       : '',
   };
 };

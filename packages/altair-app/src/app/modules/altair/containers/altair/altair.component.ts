@@ -81,6 +81,7 @@ import { getWorkspaces, WorkspaceOption } from '../../store';
 import { CollectionsMetaState } from 'altair-graphql-core/build/types/state/collections-meta.interfaces';
 import { QueryItemRevision, IdentityProvider } from '@altairgraphql/db';
 import { consumeQueryParam } from '../../utils/url';
+import { languagesSchema } from 'altair-graphql-core/build/config/languages';
 
 @UntilDestroy({ checkProperties: true })
 @Component({
@@ -151,90 +152,19 @@ export class AltairComponent {
     const altairConfig = this.altairConfig;
 
     this.isWebApp = altairConfig.isWebApp;
-    this.authEnabled = !altairConfig.initialData.disableAccount;
+    this.authEnabled = !altairConfig.options.disableAccount;
     this.cspNonce = altairConfig.cspNonce;
     this.settings$ = this.store
       .pipe(select('settings'))
       .pipe(distinctUntilChanged());
     this.theme$ = this.settings$.pipe(
       map((settings) => {
-        // Get specified theme
-        // Add deprecated theme options
-        // Warn about deprecated theme options, with alternatives
-        // Add theme config object from settings
-
-        const selectedTheme = this.themeRegistry.getTheme(settings.theme) || {
-          isSystem: true,
-        };
-        const deperecatedThemeConfig: ICustomTheme = {
-          type: {
-            fontSize: {
-              ...(settings['theme.fontsize'] && {
-                remBase: settings['theme.fontsize'],
-              }),
-            },
-          },
-          editor: {
-            ...(settings['theme.editorFontSize'] && {
-              fontSize: settings['theme.editorFontSize'],
-            }),
-            ...(settings['theme.editorFontFamily'] && {
-              fontFamily: {
-                default: settings['theme.editorFontFamily'],
-              },
-            }),
-          },
-        };
-        const settingsThemeConfig = settings.themeConfig || {};
-
-        return this.themeRegistry.mergeThemes(
-          selectedTheme,
-          deperecatedThemeConfig,
-          settingsThemeConfig
-        );
+        return this.themeRegistry.getThemeFromSettings(settings);
       })
     );
     this.themeDark$ = this.settings$.pipe(
       map((settings) => {
-        // Get specified theme
-        // Add deprecated theme options
-        // Warn about deprecated theme options, with alternatives
-        // Add theme config object from settings
-
-        if (!settings['theme.dark']) {
-          return;
-        }
-
-        const selectedTheme = (settings['theme.dark'] &&
-          this.themeRegistry.getTheme(settings['theme.dark'])) || {
-          isSystem: true,
-        };
-        const deperecatedThemeConfig: ICustomTheme = {
-          type: {
-            fontSize: {
-              ...(settings['theme.fontsize'] && {
-                remBase: settings['theme.fontsize'],
-              }),
-            },
-          },
-          editor: {
-            ...(settings['theme.editorFontSize'] && {
-              fontSize: settings['theme.editorFontSize'],
-            }),
-            ...(settings['theme.editorFontFamily'] && {
-              fontFamily: {
-                default: settings['theme.editorFontFamily'],
-              },
-            }),
-          },
-        };
-        const settingsThemeConfig = settings['themeConfig.dark'] || {};
-
-        return this.themeRegistry.mergeThemes(
-          selectedTheme,
-          deperecatedThemeConfig,
-          settingsThemeConfig
-        );
+        return this.themeRegistry.getThemeFromSettings(settings, true);
       })
     );
     this.collection$ = this.store.select('collection');
@@ -390,8 +320,8 @@ export class AltairComponent {
     });
 
     if (!this.windowIds.length) {
-      if (altairConfig.initialData.windows.length) {
-        altairConfig.initialData.windows.forEach((windowOption) => {
+      if (altairConfig.options.initialWindows?.length) {
+        altairConfig.options.initialWindows.forEach((windowOption) => {
           windowService
             .importWindowData(
               {
@@ -456,7 +386,7 @@ export class AltairComponent {
    * Sets the available languages from config
    */
   setAvailableLanguages() {
-    const availableLanguages = Object.keys(this.altairConfig.languages);
+    const availableLanguages = Object.values(languagesSchema.enum);
     this.translate.addLangs(availableLanguages);
   }
 

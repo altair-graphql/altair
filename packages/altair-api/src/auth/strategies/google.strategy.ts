@@ -1,4 +1,9 @@
-import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  ExecutionContext,
+  Injectable,
+  Logger,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { IAuthModuleOptions, PassportStrategy } from '@nestjs/passport';
 import { IdentityProvider, User } from '@altairgraphql/db';
@@ -6,6 +11,7 @@ import { Request } from 'express';
 import { Profile, Strategy } from 'passport-google-oauth20';
 import { AuthService } from '../auth.service';
 import { UserService } from '../user/user.service';
+import { Config } from 'src/common/config';
 
 // https://www.jeansnyman.com/posts/authentication-in-express-with-google-and-facebook-using-passport-and-jwt/
 // https://www.passportjs.org/concepts/authentication/google/
@@ -13,14 +19,18 @@ import { UserService } from '../user/user.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
+  private readonly logger = new Logger(GoogleStrategy.name);
+
   constructor(
     private readonly userService: UserService,
     private readonly authService: AuthService,
-    readonly configService: ConfigService
+    readonly configService: ConfigService<Config>
   ) {
     super({
-      clientID: configService.get('GOOGLE_OAUTH_CLIENT_ID'),
-      clientSecret: configService.get('GOOGLE_OAUTH_CLIENT_SECRET'),
+      clientID: configService.getOrThrow('GOOGLE_OAUTH_CLIENT_ID', { infer: true }),
+      clientSecret: configService.getOrThrow('GOOGLE_OAUTH_CLIENT_SECRET', {
+        infer: true,
+      }),
       callbackURL: '/auth/google/callback',
       scope: ['email', 'profile'],
     });
@@ -74,7 +84,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       }
       return user;
     } catch (err) {
-      console.error(err);
+      this.logger.error('Google OAuth validation failed', err);
       throw err;
     }
   }

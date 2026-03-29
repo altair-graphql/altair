@@ -6,7 +6,7 @@ parent: Features
 
 Altair comes with a `light`, `dark` and `dracula` theme. It also allows you specify `system` which would automatically pick either `light` or `dark` theme based on your system color scheme preference. Customize this by specifying `theme` in your [settings](/docs/features/settings-pane). You can also optionally specify `theme.dark` if you want a different theme that will be used if your system color scheme is set to dark mode.
 
-You can also customize the theme and tweak the color scheme of Altair based on your preferences or to match with the look and feel of your product. To customize this, specify `themeConfig` in your [settings](/docs/features/settings-pane). The interface for the theme config can be found [here](/api/core/theme/theme/interfaces/ITheme).
+You can also customize the theme and tweak the color scheme of Altair based on your preferences or to match with the look and feel of your product. To customize this, specify `themeConfig` in your [settings](/docs/features/settings-pane). The interface for the theme config can be found [here](/api/core/theme/theme/type-aliases/ITheme).
 
 Here's an example theme config of a faded blue-green theme in Altair, with transparent comments (but why?!) in the editor:
 

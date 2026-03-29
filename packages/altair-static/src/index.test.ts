@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from 'vitest';
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { renderAltair, renderInitSnippet } from './index';
@@ -41,7 +42,11 @@ describe('renderInitSnippet', () => {
         'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4',
       },
       initialSettings: {
+        addQueryDepthLimit: 3,
+        language: 'en-US',
+        tabSize: 2,
         theme: 'dark',
+        'theme.fontsize': 24,
       },
       persistedSettings: {
         theme: 'light',
@@ -97,7 +102,11 @@ describe('renderInitSnippet', () => {
         'X-GraphQL-Token': 'asd7-237s-2bdk-nsdk4',
       },
       initialSettings: {
+        addQueryDepthLimit: 3,
+        language: 'en-US',
+        tabSize: 2,
         theme: 'dark',
+        'theme.fontsize': 24,
       },
       persistedSettings: {
         theme: 'light',
@@ -119,10 +128,9 @@ describe('renderInitSnippet', () => {
 
 describe('renderAltair', () => {
   it('should return expected string', () => {
-    (getAltairHtml as any).default = jest.fn();
-    (getAltairHtml as any).default.mockReturnValue(
-      readFileSync(resolve(__dirname, 'index.html'), 'utf8')
-    );
+    const spy = vi
+      .spyOn(getAltairHtml, 'default')
+      .mockReturnValue(readFileSync(resolve(__dirname, 'index.html'), 'utf8'));
     expect(
       renderAltair({
         baseURL: '/',
@@ -135,10 +143,9 @@ describe('renderAltair', () => {
     ).toMatchSnapshot();
   });
   it('should return expected string with $$', () => {
-    (getAltairHtml as any).default = jest.fn();
-    (getAltairHtml as any).default.mockReturnValue(
-      readFileSync(resolve(__dirname, 'index.html'), 'utf8')
-    );
+    const spy = vi
+      .spyOn(getAltairHtml, 'default')
+      .mockReturnValue(readFileSync(resolve(__dirname, 'index.html'), 'utf8'));
     expect(
       renderAltair({
         baseURL: '/',

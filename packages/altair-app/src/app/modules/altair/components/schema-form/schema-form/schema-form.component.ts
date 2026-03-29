@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   input,
   effect,
-  output
+  output,
 } from '@angular/core';
 import {
   getSchemaFormProperty,

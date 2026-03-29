@@ -1,4 +1,3 @@
-import { expect, describe, it, beforeEach } from '@jest/globals';
 import { TestBed } from '@angular/core/testing';
 
 import { PluginContextService } from './plugin-context.service';
@@ -13,6 +12,8 @@ import { NotifyService } from '../../../services/notify/notify.service';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { AltairV1Plugin } from 'altair-graphql-core/build/plugin/plugin.interfaces';
 import { RequestHandlerRegistryService } from '../../request/request-handler-registry.service';
+import { ThemeRegistryService } from '../../../services/theme/theme-registry.service';
+import { ICustomTheme } from 'altair-graphql-core/build/theme';
 
 const createContext = () => {
   const service: PluginContextService = TestBed.inject(PluginContextService);
@@ -34,7 +35,9 @@ const createContext = () => {
 
 describe('PluginContextService', () => {
   let mockStore: Store<RootState>;
+  let mockEventBus: { on: vi.Mock; unsubscribe: vi.Mock };
   beforeEach(() => {
+    mockEventBus = { on: vi.fn(), unsubscribe: vi.fn() };
     mockStore = mockStoreFactory<RootState>({
       windows: {
         'abc-123': getInitWindowState(combineReducers(getPerWindowReducer())),
@@ -59,18 +62,27 @@ describe('PluginContextService', () => {
         },
         {
           provide: NotifyService,
-          useFactory: () => mock(),
+          useFactory: () => mock<NotifyService>({ info: vi.fn() }),
         },
         {
           provide: PluginEventService,
           useFactory: () =>
             mock<PluginEventService>({
-              group: () => ({}) as unknown as any,
+              group: () => mockEventBus as any,
             }),
         },
         {
           provide: RequestHandlerRegistryService,
           useFactory: () => mock(),
+        },
+        {
+          provide: ThemeRegistryService,
+          useFactory: () =>
+            mock<ThemeRegistryService>({
+              addTheme: vi.fn(),
+              getTheme: vi.fn(),
+              mergeThemes: vi.fn().mockReturnValue({}),
+            }),
         },
       ],
       teardown: { destroyAfterEach: false },
@@ -233,6 +245,85 @@ describe('PluginContextService', () => {
             },
             type: 'REMOVE_UI_ACTION',
           })
+        );
+      });
+    });
+
+    describe('setQuery', () => {
+      it('should dispatch SetQueryAction with the given query', () => {
+        const ctx = createContext();
+        ctx.app.setQuery('abc-123', 'query { user { id } }');
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: 'SET_QUERY',
+            windowId: 'abc-123',
+          })
+        );
+      });
+    });
+
+    describe('setVariables', () => {
+      it('should dispatch UpdateVariablesAction with the given variables', () => {
+        const ctx = createContext();
+        ctx.app.setVariables('abc-123', '{"id": "1"}');
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: 'UPDATE_VARIABLES',
+            windowId: 'abc-123',
+          })
+        );
+      });
+    });
+
+    describe('setEndpoint', () => {
+      it('should dispatch SetUrlAction and SendIntrospectionQueryRequestAction', () => {
+        const ctx = createContext();
+        ctx.app.setEndpoint('abc-123', 'http://example.com/graphql');
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: 'SET_URL',
+            windowId: 'abc-123',
+          })
+        );
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: 'SEND_INTROSPECTION_QUERY_REQUEST',
+            windowId: 'abc-123',
+          })
+        );
+      });
+    });
+
+    describe('createWindow', () => {
+      it('should call windowService.importWindowData', () => {
+        const ctx = createContext();
+        const windowService = TestBed.inject(WindowService) as any;
+        windowService.importWindowData = vi.fn();
+        ctx.app.createWindow({ version: 1, type: 'window' } as any);
+        expect(windowService.importWindowData).toHaveBeenCalled();
+      });
+    });
+
+    describe('isElectron', () => {
+      it('should return a boolean', () => {
+        const ctx = createContext();
+        const result = ctx.app.isElectron();
+        expect(typeof result).toBe('boolean');
+      });
+    });
+
+    describe('addSubscriptionProvider', () => {
+      it('should call requestHandlerRegistryService.addHandlerData', () => {
+        const ctx = createContext();
+        const registryService = TestBed.inject(RequestHandlerRegistryService) as any;
+        registryService.addHandlerData = vi.fn();
+        ctx.app.addSubscriptionProvider({
+          id: 'test-provider',
+          getProviderClass: vi.fn().mockResolvedValue(class {}),
+          copyTag: 'TEST',
+        } as any);
+        expect(registryService.addHandlerData).toHaveBeenCalledWith(
+          expect.objectContaining({ id: 'test-provider' })
         );
       });
     });

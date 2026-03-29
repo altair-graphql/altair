@@ -1,12 +1,15 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`VariablesEditorComponent should render correctly 1`] = `
-<app-variables-editor>
+exports[`VariablesEditorComponent > should render correctly 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <div
     class="variables-editor"
   >
     <app-codemirror />
-    
+    <!--container-->
   </div>
-</app-variables-editor>
+</div>
 `;

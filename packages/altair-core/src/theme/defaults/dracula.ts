@@ -1,29 +1,23 @@
-import { ICustomTheme, createTheme } from '../theme';
+import { ICustomTheme } from '../theme';
 
 const theme: ICustomTheme = {
-  colors: {
-    bg: '#282a36',
-    offBg: '#303240',
-    font: '#f8f8f2',
-    offFont: '#f8f8f2',
-    border: '#40414d',
-    offBorder: '#383942',
-    headerBg: '#303240',
-  },
-  editor: {
-    colors: {
-      comment: '#6272a4',
-      string: '#f1fa8c',
-      number: '#bd93f9',
-      variable: '#50fa7b',
-      attribute: '#ff79c6',
-      keyword: '#ff79c6',
-      atom: '#bd93f9',
-      property: '#bd93f9',
-      punctuation: '#f8f8f2',
-      cursor: '#f8f8f2',
-    },
-  },
+  'color.bg': '#282a36',
+  'color.offBg': '#303240',
+  'color.font': '#f8f8f2',
+  'color.offFont': '#f8f8f2',
+  'color.border': '#40414d',
+  'color.offBorder': '#383942',
+  'color.headerBg': '#303240',
+  'color.editor.comment': '#6272a4',
+  'color.editor.string': '#f1fa8c',
+  'color.editor.number': '#bd93f9',
+  'color.editor.variable': '#50fa7b',
+  'color.editor.attribute': '#ff79c6',
+  'color.editor.keyword': '#ff79c6',
+  'color.editor.atom': '#bd93f9',
+  'color.editor.property': '#bd93f9',
+  'color.editor.punctuation': '#f8f8f2',
+  'color.editor.cursor': '#f8f8f2',
 };
 
 export default theme;

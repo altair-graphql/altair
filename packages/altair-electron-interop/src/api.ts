@@ -1,4 +1,5 @@
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { IdentityProvider } from 'altair-graphql-core/build/identity/providers';
 import { ipcRenderer } from 'electron';
 import { IPC_EVENT_NAMES, STORE_EVENTS } from './constants';
 import { SETTINGS_STORE_EVENTS } from './settings';
@@ -117,8 +118,11 @@ export const electronApi = {
     restartApp() {
       return ipcRenderer.send(IPC_EVENT_NAMES.RENDERER_RESTART_APP);
     },
-    getAuthToken() {
-      return invokeWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN);
+    getAuthToken(provider: IdentityProvider) {
+      return invokeWithCustomErrors(
+        IPC_EVENT_NAMES.RENDERER_GET_AUTH_TOKEN,
+        provider
+      );
     },
     getAutobackupData() {
       return invokeWithCustomErrors(IPC_EVENT_NAMES.RENDERER_GET_AUTOBACKUP_DATA);

@@ -1,29 +1,23 @@
 import * as settings from './settings.action';
 import { jsonc } from '../../utils';
-import {
-  SettingsLanguage,
-  SettingsState,
-} from 'altair-graphql-core/build/types/state/settings.interfaces';
+import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { AllActions } from '../action';
+import { settingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
 
 export const getInitialState = (): SettingsState => {
   const altairConfig = getAltairConfig();
-  const initialSettings = altairConfig.initialData.settings ?? {};
-  return {
-    theme: altairConfig.defaultTheme,
-    language: <SettingsLanguage>altairConfig.default_language,
-    addQueryDepthLimit: altairConfig.add_query_depth_limit,
-    tabSize: altairConfig.tab_size,
-    ...initialSettings,
-  };
+  const initialSettings = settingsSchema.parse(
+    altairConfig.options.initialSettings ?? {}
+  );
+  return initialSettings;
 };
 
 export function settingsReducer(
   state = getInitialState(),
   action: AllActions
 ): SettingsState {
-  const persistedSettings = getAltairConfig().initialData.persistedSettings ?? {};
+  const persistedSettings = getAltairConfig().options.persistedSettings ?? {};
   switch (action.type) {
     case settings.SET_SETTINGS_JSON: {
       const newState = {

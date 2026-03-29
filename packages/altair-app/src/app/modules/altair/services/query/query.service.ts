@@ -17,7 +17,7 @@ import {
 import {
   HTTP_HANDLER_ID,
   WEBSOCKET_HANDLER_ID,
-} from 'altair-graphql-core/build/request/types';
+} from 'altair-graphql-core/build/request/ids';
 import { RequestHandlerRegistryService } from '../request/request-handler-registry.service';
 import { IQueryCollection } from 'altair-graphql-core/build/types/state/collection.interfaces';
 import { firstValueFrom } from 'rxjs';

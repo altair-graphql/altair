@@ -6,9 +6,9 @@ import * as postRequest from '../post-request/post-request.action';
 export const getInitialState = (): PostrequestState => {
   const altairConfig = getAltairConfig();
   return {
-    enabled: !!altairConfig.initialData.postRequestScript,
-    script: altairConfig.initialData.postRequestScript
-      ? '' + altairConfig.initialData.postRequestScript
+    enabled: !!altairConfig.options.initialPostRequestScript,
+    script: altairConfig.options.initialPostRequestScript
+      ? '' + altairConfig.options.initialPostRequestScript
       : '',
   };
 };

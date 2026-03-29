@@ -1,33 +1,25 @@
-import { ICustomTheme, createTheme, foundations } from '../theme';
+import { ICustomTheme, foundationColors } from '../theme';
 
 const theme: ICustomTheme = {
-  colors: {
-    bg: foundations.colors.black,
-    offBg: '#343233',
-    font: foundations.colors.white,
-    offFont: foundations.colors.lightGray,
-    border: '#565c64',
-    offBorder: '#565656',
-    headerBg: '#343233',
-  },
-  shadow: {
-    opacity: 0.3,
-  },
-  editor: {
-    colors: {
-      comment: foundations.colors.darkGray,
-      string: foundations.colors.orange,
-      number: foundations.colors.orange,
-      variable: foundations.colors.white,
-      attribute: foundations.colors.green,
-      keyword: foundations.colors.blue,
-      atom: foundations.colors.white,
-      property: foundations.colors.blue,
-      definition: foundations.colors.orange,
-      punctuation: foundations.colors.blue,
-      cursor: foundations.colors.blue,
-    },
-  },
+  'color.bg': foundationColors.black,
+  'color.offBg': '#343233',
+  'color.font': foundationColors.white,
+  'color.offFont': foundationColors.lightGray,
+  'color.border': '#565c64',
+  'color.offBorder': '#565656',
+  'color.headerBg': '#343233',
+  'shadow.opacity': 0.3,
+  'color.editor.comment': foundationColors.darkGray,
+  'color.editor.string': foundationColors.orange,
+  'color.editor.number': foundationColors.orange,
+  'color.editor.variable': foundationColors.white,
+  'color.editor.attribute': foundationColors.green,
+  'color.editor.keyword': foundationColors.blue,
+  'color.editor.atom': foundationColors.white,
+  'color.editor.property': foundationColors.blue,
+  'color.editor.definition': foundationColors.orange,
+  'color.editor.punctuation': foundationColors.blue,
+  'color.editor.cursor': foundationColors.blue,
 };
 
 export default theme;

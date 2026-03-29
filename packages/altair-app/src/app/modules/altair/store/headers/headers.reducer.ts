@@ -7,8 +7,8 @@ import * as headers from './headers.action';
 export const getInitialHeadersState = () => {
   const altairConfig = getAltairConfig();
   let initialHeaders: HeaderState = [];
-  if (altairConfig.initialData.headers) {
-    initialHeaders = headerMapToList(altairConfig.initialData.headers);
+  if (altairConfig.options.initialHeaders) {
+    initialHeaders = headerMapToList(altairConfig.options.initialHeaders);
   }
   initialHeaders = [...initialHeaders, { key: '', value: '', enabled: true }];
 

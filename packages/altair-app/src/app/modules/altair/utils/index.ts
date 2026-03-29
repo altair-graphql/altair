@@ -270,10 +270,10 @@ export function setByDotNotation<TResult = any>(
   return setByDotNotation(obj[currentPath], path.slice(1), value);
 }
 
-export const mapToKeyValueList = (obj: Record<string, string>) => {
-  return Object.keys(obj)
-    .filter((key) => !!key)
-    .map((key) => ({ key, value: obj[key] || '' }));
+export const mapToKeyValueList = (obj: Record<string, unknown>) => {
+  return Object.entries(obj)
+    .filter(([key, value]) => !!key && typeof value === 'string')
+    .map(([key, value]) => ({ key, value: value as string }));
 };
 
 export function truncateText(text: string, maxLength = 70, symbol = '...') {

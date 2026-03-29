@@ -1,10 +1,13 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`EditCollectionDialogComponent should render correctly 1`] = `
-<app-edit-collection-dialog>
+exports[`EditCollectionDialogComponent > should render correctly 1`] = `
+<div
+  id="root0"
+  ng-version="20.3.3"
+>
   <nz-modal
     nzcloseicon="close-circle"
   />
-  
-</app-edit-collection-dialog>
+  <!--container-->
+</div>
 `;

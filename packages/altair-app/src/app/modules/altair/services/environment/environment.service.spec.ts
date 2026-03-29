@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import * as fromRoot from '../../store';
 
 import { EnvironmentService } from './environment.service';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { firstValueFrom, Subscription } from 'rxjs';
 import { mock } from '../../../../../testing';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { NotifyService } from '../notify/notify.service';
@@ -48,6 +48,7 @@ describe('EnvironmentService', () => {
     });
     mockStore = mock();
     mockStore.subscribe = createStoreSubscribeFn(environments);
+    mockStore.dispatch = vi.fn();
     TestBed.configureTestingModule({
       providers: [
         EnvironmentService,
@@ -406,6 +407,91 @@ describe('EnvironmentService', () => {
           enabled: true,
         },
       ]);
+    });
+  });
+
+  describe('.importEnvironmentData()', () => {
+    it('should import valid environment data', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+
+      const envData = {
+        version: 1 as const,
+        type: 'environment' as const,
+        title: 'Test Environment',
+        variables: { key: 'value' },
+      };
+
+      service.importEnvironmentData(envData);
+
+      expect(mockStore.dispatch).toHaveBeenCalled();
+    });
+
+    it('should throw error for invalid environment data - missing version', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+
+      const envData = {
+        type: 'environment',
+        title: 'Test Environment',
+        variables: {},
+      } as any;
+
+      expect(() => service.importEnvironmentData(envData)).toThrow(
+        'File is not a valid Altair environment file.'
+      );
+    });
+
+    it('should throw error for invalid environment data - wrong type', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+
+      const envData = {
+        version: 1,
+        type: 'window',
+        title: 'Test Environment',
+        variables: {},
+      } as any;
+
+      expect(() => service.importEnvironmentData(envData)).toThrow(
+        'File is not a valid Altair environment file.'
+      );
+    });
+  });
+
+  describe('.getExportEnvironmentData()', () => {
+    it('should return exportable environment data', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+
+      const environment = {
+        id: 'env-1',
+        title: 'Test Environment',
+        variablesJson: JSON.stringify({ key: 'value' }),
+      };
+
+      const result = service.getExportEnvironmentData(environment);
+
+      expect(result).toEqual({
+        version: 1,
+        type: 'environment',
+        id: 'env-1',
+        title: 'Test Environment',
+        variables: { key: 'value' },
+      });
+    });
+  });
+
+  describe('.mergeEnvironments()', () => {
+    it('should merge two environments', () => {
+      const service: EnvironmentService = TestBed.inject(EnvironmentService);
+
+      const env1 = { baseUrl: 'https://api1.com', key1: 'value1' };
+      const env2 = { baseUrl: 'https://api2.com', key2: 'value2' };
+
+      const result = service.mergeEnvironments(env1, env2);
+
+      expect(result).toEqual({
+        baseUrl: 'https://api2.com',
+        key1: 'value1',
+        key2: 'value2',
+      });
     });
   });
 });

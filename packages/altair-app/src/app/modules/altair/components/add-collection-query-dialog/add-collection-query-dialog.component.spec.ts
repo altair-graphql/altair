@@ -1,4 +1,3 @@
-import { expect } from '@jest/globals';
 
 import { AddCollectionQueryDialogComponent } from './add-collection-query-dialog.component';
 import {
@@ -198,6 +197,137 @@ describe('AddCollectionQueryDialogComponent', () => {
     expect(wrapper.emitted('saveQueryToCollectionChange')![0][0]).toEqual({
       queryName: 'my query name',
       collectionId: '2',
+    });
+  });
+
+  describe('createCollectionAndSaveQueryToCollection', () => {
+    it('should emit createCollectionAndSaveQueryToCollectionChange with correct data', () => {
+      wrapper.componentInstance.newCollectionQueryTitle.set('Test Query');
+      wrapper.componentInstance.newCollectionTitle.set('Test Collection');
+      wrapper.componentInstance.newCollectionParentCollectionId.set('0'); // root collection
+      wrapper.componentInstance.workspaceId.set('local');
+
+      wrapper.componentInstance.createCollectionAndSaveQueryToCollection();
+
+      expect(
+        wrapper.emitted('createCollectionAndSaveQueryToCollectionChange')
+      ).toBeTruthy();
+      expect(
+        wrapper.emitted('createCollectionAndSaveQueryToCollectionChange')![0][0]
+      ).toEqual({
+        queryName: 'Test Query',
+        collectionName: 'Test Collection',
+        parentCollectionId: '',
+        workspaceId: 'local',
+      });
+    });
+
+    it('should use parentCollectionId when not root', () => {
+      wrapper.componentInstance.newCollectionQueryTitle.set('Test Query');
+      wrapper.componentInstance.newCollectionTitle.set('Test Collection');
+      wrapper.componentInstance.newCollectionParentCollectionId.set('123');
+
+      wrapper.componentInstance.createCollectionAndSaveQueryToCollection();
+
+      expect(
+        wrapper.emitted('createCollectionAndSaveQueryToCollectionChange')![0][0]
+      ).toEqual({
+        queryName: 'Test Query',
+        collectionName: 'Test Collection',
+        parentCollectionId: '123',
+        workspaceId: 'local',
+      });
+    });
+  });
+
+  describe('saveQueryToCollection', () => {
+    it('should emit saveQueryToCollectionChange with correct data', () => {
+      wrapper.componentInstance.newCollectionQueryTitle.set('Test Query');
+      wrapper.componentInstance.collectionId.set('collection-123');
+
+      wrapper.componentInstance.saveQueryToCollection();
+
+      expect(wrapper.emitted('saveQueryToCollectionChange')).toBeTruthy();
+      expect(wrapper.emitted('saveQueryToCollectionChange')![0][0]).toEqual({
+        queryName: 'Test Query',
+        collectionId: 'collection-123',
+      });
+    });
+  });
+
+  describe('onSaveChange', () => {
+    it('should call createCollectionAndSaveQueryToCollection when isNewCollection is true', () => {
+      wrapper.componentInstance.collectionId.set('-1'); // new collection
+
+      wrapper.componentInstance.onSaveChange();
+
+      expect(
+        wrapper.emitted('createCollectionAndSaveQueryToCollectionChange')
+      ).toBeTruthy();
+    });
+
+    it('should call saveQueryToCollection when collectionId is set', () => {
+      wrapper.componentInstance.collectionId.set('123');
+
+      wrapper.componentInstance.onSaveChange();
+
+      expect(wrapper.emitted('saveQueryToCollectionChange')).toBeTruthy();
+    });
+  });
+
+  describe('reset', () => {
+    it('should reset newCollectionQueryTitle and newCollectionTitle', () => {
+      wrapper.componentInstance.newCollectionQueryTitle.set('Changed Title');
+      wrapper.componentInstance.newCollectionTitle.set('Changed Collection');
+
+      wrapper.componentInstance.reset();
+
+      expect(wrapper.componentInstance.newCollectionQueryTitle()).toBe('');
+      expect(wrapper.componentInstance.newCollectionTitle()).toBe('');
+    });
+  });
+
+  describe('collectionTreeToNzTreeNode', () => {
+    it('should convert collection tree to nz tree node', () => {
+      const tree = {
+        id: '1',
+        title: 'Collection 1',
+        queries: [],
+        collections: [],
+      };
+
+      const result = wrapper.componentInstance.collectionTreeToNzTreeNode(
+        tree as any
+      );
+
+      expect(result).toEqual({
+        title: 'Collection 1',
+        key: '1',
+        children: [],
+      });
+    });
+
+    it('should handle nested collections', () => {
+      const tree = {
+        id: '1',
+        title: 'Collection 1',
+        queries: [],
+        collections: [
+          {
+            id: '2',
+            title: 'Nested Collection',
+            queries: [],
+            collections: [],
+          },
+        ],
+      };
+
+      const result = wrapper.componentInstance.collectionTreeToNzTreeNode(
+        tree as any
+      );
+
+      expect(result.children).toHaveLength(1);
+      expect(result.children![0]!.key).toBe('2');
     });
   });
 });

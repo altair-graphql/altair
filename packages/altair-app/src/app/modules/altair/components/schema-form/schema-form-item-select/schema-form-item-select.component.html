@@ -1,0 +1,15 @@
+@if (item(); as it) {
+  <nz-form-label>{{ it.description }}</nz-form-label>
+  <nz-form-control>
+    <nz-select
+      [ngModel]="data()"
+      (ngModelChange)="dataChange.emit($event)"
+      name="item.key"
+      nzPlaceHolder="Choose"
+    >
+      @for (option of selectOptions(); track option) {
+        <nz-option [nzValue]="option.value" [nzLabel]="option.label" />
+      }
+    </nz-select>
+  </nz-form-control>
+}

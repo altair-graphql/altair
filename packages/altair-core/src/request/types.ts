@@ -1,6 +1,8 @@
 import { Observable } from 'rxjs';
 import { HeaderState } from '../types/state/header.interfaces';
 import { SelectedOperation } from '../types/state/query.interfaces';
+import { requestHandlerIdsSchema } from './schemas';
+import { z } from 'zod/v4';
 
 interface ResolvedFileVariable {
   name: string;
@@ -71,24 +73,7 @@ export enum MultiResponseStrategy {
   PATCH = 'patch',
 }
 
-export const HTTP_HANDLER_ID = 'http';
-export const WEBSOCKET_HANDLER_ID = 'websocket';
-export const GRAPHQL_WS_HANDLER_ID = 'graphql-ws';
-export const APP_SYNC_HANDLER_ID = 'app-sync';
-export const ACTION_CABLE_HANDLER_ID = 'action-cable';
-export const GRAPHQL_SSE_HANDLER_ID = 'graphql-sse';
-
-export const REQUEST_HANDLER_IDS = {
-  HTTP: HTTP_HANDLER_ID,
-  WEBSOCKET: WEBSOCKET_HANDLER_ID,
-  GRAPHQL_WS: GRAPHQL_WS_HANDLER_ID,
-  APP_SYNC: APP_SYNC_HANDLER_ID,
-  ACTION_CABLE: ACTION_CABLE_HANDLER_ID,
-  GRAPHQL_SSE: GRAPHQL_SSE_HANDLER_ID,
-} as const;
-
-export type RequestHandlerIds =
-  (typeof REQUEST_HANDLER_IDS)[keyof typeof REQUEST_HANDLER_IDS];
+export type RequestHandlerIds = z.infer<typeof requestHandlerIdsSchema>;
 
 export interface RequestHandlerData {
   /**

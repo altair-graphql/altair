@@ -27,7 +27,12 @@ export const getErrorResponse = async (err: unknown) => {
   if (err && typeof err === 'object') {
     // ky HTTP error: https://github.com/sindresorhus/ky#httperror
     if ('name' in err && err.name === 'HTTPError' && 'response' in err) {
-      return (err.response as Response).json();
+      try {
+        return await (err.response as Response).json();
+      } catch {
+        // Response body is not valid JSON — return the raw text instead
+        return { message: await (err.response as Response).text() };
+      }
     }
   }
 

@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
@@ -9,7 +10,8 @@ import { mockRequest, mockResponse } from './mocks/express.mock';
 import { mockUser } from './mocks/prisma-service.mock';
 import { User } from '@altairgraphql/db';
 import { IToken } from '@altairgraphql/api-utils';
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, UnauthorizedException } from '@nestjs/common';
+import { testProviders } from 'test/providers';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -25,6 +27,7 @@ describe('AuthController', () => {
       providers: [
         AuthService,
         JwtService,
+        ...testProviders,
         PrismaService,
         PasswordService,
         ConfigService,
@@ -58,11 +61,11 @@ describe('AuthController', () => {
         },
       });
       const responseMock = mockResponse({
-        redirect: jest.fn(),
+        redirect: vi.fn(),
       });
-      jest
-        .spyOn(authService, 'googleLogin')
-        .mockReturnValueOnce(authServiceReturnMock);
+      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(
+        authServiceReturnMock
+      );
 
       // WHEN
       controller.googleSigninCallback(requestMock, responseMock);
@@ -82,11 +85,11 @@ describe('AuthController', () => {
         },
       });
       const responseMock = mockResponse({
-        redirect: jest.fn(),
+        redirect: vi.fn(),
       });
-      jest
-        .spyOn(authService, 'googleLogin')
-        .mockReturnValueOnce(authServiceReturnMock);
+      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(
+        authServiceReturnMock
+      );
 
       // THEN
       expect(() =>
@@ -101,11 +104,11 @@ describe('AuthController', () => {
         query: {},
       });
       const responseMock = mockResponse({
-        redirect: jest.fn(),
+        redirect: vi.fn(),
       });
-      jest
-        .spyOn(authService, 'googleLogin')
-        .mockReturnValueOnce(authServiceReturnMock);
+      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(
+        authServiceReturnMock
+      );
 
       // WHEN
       controller.googleSigninCallback(requestMock, responseMock);
@@ -119,9 +122,9 @@ describe('AuthController', () => {
     it(`should return the user object from the service`, () => {
       // GIVEN
       const requestMock = mockRequest({ user: mockUser() });
-      jest
-        .spyOn(authService, 'googleLogin')
-        .mockReturnValueOnce(authServiceReturnMock);
+      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(
+        authServiceReturnMock
+      );
 
       // WHEN
       const user = controller.getUserProfile(requestMock);
@@ -135,9 +138,9 @@ describe('AuthController', () => {
     it(`should return a short lived token for the current user`, () => {
       // GIVEN
       const requestMock = mockRequest({ user: mockUser() });
-      jest
-        .spyOn(authService, 'getShortLivedEventsToken')
-        .mockReturnValueOnce(tokenMock);
+      vi.spyOn(authService, 'getShortLivedEventsToken').mockReturnValueOnce(
+        tokenMock
+      );
 
       // WHEN
       const token = controller.getShortlivedEventsToken(requestMock);
@@ -152,7 +155,7 @@ describe('AuthController', () => {
 
       // THEN
       expect(() => controller.getShortlivedEventsToken(requestMock)).toThrow(
-        BadRequestException
+        UnauthorizedException
       );
     });
   });

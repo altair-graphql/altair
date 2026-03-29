@@ -1,3 +1,6 @@
+import { output } from 'zod/v4';
+import { accessTokenErrorResponseSchema, accessTokenResponseSchema } from './schema';
+
 export enum OAuth2Type {
   AUTHORIZATION_CODE = 'auth_code',
   AUTHORIZATION_CODE_PKCE = 'auth_code_pkce',
@@ -92,31 +95,5 @@ export type AccessTokenRequest =
   | AuthorizationCodePKCE_AccessTokenRequest
   | ClientCredentials_AccessTokenRequest;
 
-export interface AccessTokenResponse {
-  /**
-   * The access token issued by the authorization server
-   */
-  access_token: string;
-  /**
-   * The type of the token issued
-   */
-  token_type: string;
-  /**
-   * The exact value of the state parameter passed by the client in the authorization request
-   */
-  state: string;
-  /**
-   * The lifetime in seconds of the access token
-   */
-  expires_in?: number;
-  refresh_token?: string;
-  id_token?: string;
-  scope?: string;
-}
-
-export interface AccessTokenErrorResponse {
-  error: string;
-  state: string;
-  error_description?: string;
-  error_uri?: string;
-}
+export type AccessTokenResponse = output<typeof accessTokenResponseSchema>;
+export type AccessTokenErrorResponse = output<typeof accessTokenErrorResponseSchema>;

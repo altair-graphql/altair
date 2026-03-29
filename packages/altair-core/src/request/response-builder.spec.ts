@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it } from 'vitest';
 import { buildResponse } from './response-builder';
 import { QueryResponse } from '../types/state/query.interfaces';
 import { MultiResponseStrategy } from './types';

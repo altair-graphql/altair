@@ -1,7 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`QueryCollectionsComponent should render passed collections correctly 1`] = `
-<app-query-collections>
+exports[`QueryCollectionsComponent > should render passed collections correctly 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <div
     class="query-collections-wrapper"
   >
@@ -27,8 +30,8 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
             name="log-in"
           />
         </button>
-        
-        
+        <!--container-->
+        <!--container-->
         <button
           class="btn btn--small"
           data-test-id="search-collection"
@@ -39,7 +42,7 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
             name="search"
           />
         </button>
-        
+        <!--container-->
         <div
           class="query-collections__actions--right"
         >
@@ -49,13 +52,13 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
             nztrigger="click"
             type="button"
           >
-            
-            
+            <!--container-->
+            <!--container-->
               
-            
-            
+            <!--container-->
+            <!--container-->
           </button>
-          
+          <!--container-->
           <nz-dropdown-menu>
             <ul
               nz-menu=""
@@ -65,38 +68,38 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
               >
                   
               </li>
-              
+              <!--container-->
               <li
                 nz-menu-item=""
               >
                   
               </li>
-              
+              <!--container-->
               <li
                 nz-menu-item=""
               >
                   
               </li>
-              
+              <!--container-->
               <li
                 nz-menu-item=""
               >
                   
               </li>
-              
+              <!--container-->
             </ul>
-            
+            <!--container-->
           </nz-dropdown-menu>
         </div>
       </div>
-      
+      <!--container-->
       <div
         class="query-collections__workspace-select-wrapper"
       >
         <nz-form-label>
           
         </nz-form-label>
-        
+        <!--container-->
         <nz-form-control>
           <nz-select
             class="dialog-block"
@@ -106,12 +109,12 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
             <nz-option
               nzvalue=""
             />
-            
-            
+            <!--container-->
+            <!--container-->
           </nz-select>
-          
+          <!--container-->
         </nz-form-control>
-        
+        <!--container-->
       </div>
       <div
         class="query-collections__items-wrapper"
@@ -119,11 +122,11 @@ exports[`QueryCollectionsComponent should render passed collections correctly 1`
         <app-query-collection-item />
         <app-query-collection-item />
         <app-query-collection-item />
-        
-        
+        <!--container-->
+        <!--container-->
       </div>
     </div>
-    
+    <!--container-->
   </div>
-</app-query-collections>
+</div>
 `;

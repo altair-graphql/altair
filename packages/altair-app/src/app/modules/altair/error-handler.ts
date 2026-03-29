@@ -1,4 +1,10 @@
-import { ErrorHandler, Injector, ApplicationRef, Injectable, inject } from '@angular/core';
+import {
+  ErrorHandler,
+  Injector,
+  ApplicationRef,
+  Injectable,
+  inject,
+} from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { debug } from './utils/logger';
 import { NotifyService } from './services';

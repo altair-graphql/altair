@@ -1,4 +1,3 @@
-import { expect, describe, it, beforeEach } from '@jest/globals';
 import { TestBed } from '@angular/core/testing';
 
 import { PluginEventService } from './plugin-event.service';
@@ -19,7 +18,7 @@ describe('PluginEventService', () => {
   it('should call subscriber with data when new event is emitted', () => {
     const service: PluginEventService = TestBed.inject(PluginEventService);
 
-    const cb = jest.fn();
+    const cb = vi.fn();
     service.on('query-result.change', cb);
 
     service.emit('query-result.change', {
@@ -36,7 +35,7 @@ describe('PluginEventService', () => {
   it('should not call subscriber after unsubscribed', () => {
     const service: PluginEventService = TestBed.inject(PluginEventService);
 
-    const cb = jest.fn();
+    const cb = vi.fn();
     const sub = service.on('query-result.change', cb);
 
     service.emit('query-result.change', {
@@ -66,7 +65,7 @@ describe('PluginEventService', () => {
       const service: PluginEventService = TestBed.inject(PluginEventService);
 
       const grp = service.group();
-      const cb = jest.fn();
+      const cb = vi.fn();
       grp.on('query-result.change', cb);
 
       service.emit('query-result.change', {
@@ -84,7 +83,7 @@ describe('PluginEventService', () => {
       const service: PluginEventService = TestBed.inject(PluginEventService);
 
       const grp = service.group();
-      const cb = jest.fn();
+      const cb = vi.fn();
       grp.on('query-result.change', cb).unsubscribe();
 
       service.emit('query-result.change', {
@@ -102,7 +101,7 @@ describe('PluginEventService', () => {
       const service: PluginEventService = TestBed.inject(PluginEventService);
 
       const grp = service.group();
-      const cb = jest.fn();
+      const cb = vi.fn();
       grp.on('query-result.change', cb);
 
       grp.emit('query-result.change', {
@@ -120,8 +119,8 @@ describe('PluginEventService', () => {
       const service: PluginEventService = TestBed.inject(PluginEventService);
 
       const grp = service.group();
-      const cb = jest.fn();
-      const cb2 = jest.fn();
+      const cb = vi.fn();
+      const cb2 = vi.fn();
       grp.on('query-result.change', cb);
       grp.on('current-window.change', cb2);
 

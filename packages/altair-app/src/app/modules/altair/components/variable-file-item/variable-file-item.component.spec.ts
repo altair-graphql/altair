@@ -1,4 +1,3 @@
-import { describe, expect, it } from '@jest/globals';
 
 import { VariableFileItemComponent } from './variable-file-item.component';
 import { NgxTestWrapper, mount, mock } from '../../../../../testing';

@@ -1,7 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`QueryCollectionItemComponent should render collapsed collection correctly 1`] = `
-<app-query-collection-item>
+exports[`QueryCollectionItemComponent > should render collapsed collection correctly 1`] = `
+<div
+  id="root8"
+  ng-version="20.3.3"
+>
   <div
     class="query-collections__item"
   >
@@ -15,7 +18,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
         <div
           class="query-collections__item-title"
         >
-          
+          <!--container-->
           <span
             class="query-title-icon"
           >
@@ -23,7 +26,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               name="folder-plus"
             />
           </span>
-          
+          <!--container-->
           <span>
             collection-1
           </span>
@@ -34,7 +37,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
             3 
         </div>
       </div>
-      
+      <!--container-->
       <div
         class="query-collections__item-right"
       >
@@ -51,34 +54,34 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               name="more-horizontal"
             />
           </button>
-          
+          <!--container-->
         </span>
         <nz-dropdown-menu>
           <ul
             nz-menu=""
           >
-            
+            <!--container-->
             <li
               data-test-id="edit-collection"
               nz-menu-item=""
             >
                 
             </li>
-            
+            <!--container-->
             <li
               data-test-id="delete-collection"
               nz-menu-item=""
             >
                 
             </li>
-            
+            <!--container-->
             <li
               data-test-id="export-collection"
               nz-menu-item=""
             >
                 
             </li>
-            
+            <!--container-->
             <li
               nz-submenu=""
             >
@@ -89,33 +92,33 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                 >
                     
                 </li>
-                
+                <!--container-->
                 <li
                   data-test-id="sort-queries-z-a"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
                 <li
                   data-test-id="sort-queries-newest"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
                 <li
                   data-test-id="sort-queries-oldest"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
               </ul>
             </li>
-            
+            <!--container-->
           </ul>
-          
+          <!--container-->
         </nz-dropdown-menu>
       </div>
     </div>
@@ -125,7 +128,7 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
       <div
         class="query-collections__item-nested"
       >
-        
+        <!--container-->
       </div>
       <div
         class="query-collections__item-queries"
@@ -145,10 +148,10 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               />
             </span>
              Another Query 
-            
-            
+            <!--container-->
+            <!--container-->
           </span>
-          
+          <!--container-->
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -165,22 +168,22 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                   name="more-horizontal"
                 />
               </button>
-              
+              <!--container-->
             </span>
             <nz-dropdown-menu>
               <ul
                 nz-menu=""
               >
-                
+                <!--container-->
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
               </ul>
-              
+              <!--container-->
             </nz-dropdown-menu>
           </span>
         </div>
@@ -199,10 +202,10 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               />
             </span>
              Zap Query 
-            
-            
+            <!--container-->
+            <!--container-->
           </span>
-          
+          <!--container-->
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -219,22 +222,22 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                   name="more-horizontal"
                 />
               </button>
-              
+              <!--container-->
             </span>
             <nz-dropdown-menu>
               <ul
                 nz-menu=""
               >
-                
+                <!--container-->
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
               </ul>
-              
+              <!--container-->
             </nz-dropdown-menu>
           </span>
         </div>
@@ -253,10 +256,10 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
               />
             </span>
              Query 1 
-            
-            
+            <!--container-->
+            <!--container-->
           </span>
-          
+          <!--container-->
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -273,35 +276,38 @@ exports[`QueryCollectionItemComponent should render collapsed collection correct
                   name="more-horizontal"
                 />
               </button>
-              
+              <!--container-->
             </span>
             <nz-dropdown-menu>
               <ul
                 nz-menu=""
               >
-                
+                <!--container-->
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
               </ul>
-              
+              <!--container-->
             </nz-dropdown-menu>
           </span>
         </div>
-        
+        <!--container-->
       </div>
     </div>
   </div>
-  
-</app-query-collection-item>
+  <!--container-->
+</div>
 `;
 
-exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
-<app-query-collection-item>
+exports[`QueryCollectionItemComponent > should render queries correctly 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <div
     class="query-collections__item"
   >
@@ -322,8 +328,8 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               name="folder-minus"
             />
           </span>
-          
-          
+          <!--container-->
+          <!--container-->
           <span>
             collection-1
           </span>
@@ -334,7 +340,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
             3 
         </div>
       </div>
-      
+      <!--container-->
       <div
         class="query-collections__item-right"
       >
@@ -351,34 +357,34 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               name="more-horizontal"
             />
           </button>
-          
+          <!--container-->
         </span>
         <nz-dropdown-menu>
           <ul
             nz-menu=""
           >
-            
+            <!--container-->
             <li
               data-test-id="edit-collection"
               nz-menu-item=""
             >
                 
             </li>
-            
+            <!--container-->
             <li
               data-test-id="delete-collection"
               nz-menu-item=""
             >
                 
             </li>
-            
+            <!--container-->
             <li
               data-test-id="export-collection"
               nz-menu-item=""
             >
                 
             </li>
-            
+            <!--container-->
             <li
               nz-submenu=""
             >
@@ -389,33 +395,33 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                 >
                     
                 </li>
-                
+                <!--container-->
                 <li
                   data-test-id="sort-queries-z-a"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
                 <li
                   data-test-id="sort-queries-newest"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
                 <li
                   data-test-id="sort-queries-oldest"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
               </ul>
             </li>
-            
+            <!--container-->
           </ul>
-          
+          <!--container-->
         </nz-dropdown-menu>
       </div>
     </div>
@@ -425,7 +431,7 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
       <div
         class="query-collections__item-nested"
       >
-        
+        <!--container-->
       </div>
       <div
         class="query-collections__item-queries"
@@ -445,10 +451,10 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               />
             </span>
              Another Query 
-            
-            
+            <!--container-->
+            <!--container-->
           </span>
-          
+          <!--container-->
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -465,22 +471,22 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                   name="more-horizontal"
                 />
               </button>
-              
+              <!--container-->
             </span>
             <nz-dropdown-menu>
               <ul
                 nz-menu=""
               >
-                
+                <!--container-->
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
               </ul>
-              
+              <!--container-->
             </nz-dropdown-menu>
           </span>
         </div>
@@ -499,10 +505,10 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               />
             </span>
              Zap Query 
-            
-            
+            <!--container-->
+            <!--container-->
           </span>
-          
+          <!--container-->
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -519,22 +525,22 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                   name="more-horizontal"
                 />
               </button>
-              
+              <!--container-->
             </span>
             <nz-dropdown-menu>
               <ul
                 nz-menu=""
               >
-                
+                <!--container-->
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
               </ul>
-              
+              <!--container-->
             </nz-dropdown-menu>
           </span>
         </div>
@@ -553,10 +559,10 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
               />
             </span>
              Query 1 
-            
-            
+            <!--container-->
+            <!--container-->
           </span>
-          
+          <!--container-->
           <span
             class="query-collections__item-queries-item-right"
           >
@@ -573,29 +579,29 @@ exports[`QueryCollectionItemComponent should render queries correctly 1`] = `
                   name="more-horizontal"
                 />
               </button>
-              
+              <!--container-->
             </span>
             <nz-dropdown-menu>
               <ul
                 nz-menu=""
               >
-                
+                <!--container-->
                 <li
                   data-test-id="delete-query"
                   nz-menu-item=""
                 >
                     
                 </li>
-                
+                <!--container-->
               </ul>
-              
+              <!--container-->
             </nz-dropdown-menu>
           </span>
         </div>
-        
+        <!--container-->
       </div>
     </div>
   </div>
-  
-</app-query-collection-item>
+  <!--container-->
+</div>
 `;

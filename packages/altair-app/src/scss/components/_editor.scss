@@ -1,3 +1,6 @@
+@use '../functions' as *;
+@use '../globals' as *;
+
 app-query-editor {
   transition: all 0.3s ease;
   display: flex;
@@ -372,7 +375,7 @@ app-variables-editor {
 }
 .query-result__list-item {
   @include debug();
-  @extend .glassy-border;
+  @include glassy-border;
   position: relative;
   flex: 1;
   min-height: fit-content;

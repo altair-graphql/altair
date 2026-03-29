@@ -8,6 +8,7 @@ import { SchemaFormComponent } from './schema-form/schema-form.component';
 import { SchemaFormItemComponent } from './schema-form-item/schema-form-item.component';
 import { SchemaFormItemInputComponent } from './schema-form-item-input/schema-form-item-input.component';
 import { SchemaFormItemListComponent } from './schema-form-item-list/schema-form-item-list.component';
+import { SchemaFormItemSelectComponent } from './schema-form-item-select/schema-form-item-select.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, SharedModule],
@@ -16,6 +17,7 @@ import { SchemaFormItemListComponent } from './schema-form-item-list/schema-form
     SchemaFormItemComponent,
     SchemaFormItemInputComponent,
     SchemaFormItemListComponent,
+    SchemaFormItemSelectComponent,
   ],
   exports: [SchemaFormComponent],
 })

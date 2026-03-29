@@ -1,7 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Resend } from 'resend';
-import { renderWelcomeEmail } from '@altairgraphql/emails';
+import {
+  renderWelcomeEmail,
+  renderTeamInvitationEmail,
+  renderEmailVerificationEmail,
+  renderGoodbyeEmail,
+} from '@altairgraphql/emails';
 import { UserService } from 'src/auth/user/user.service';
 import { Config } from 'src/common/config';
 import { User } from '@altairgraphql/db';
@@ -11,6 +16,7 @@ import { Agent, getAgent } from 'src/newrelic/newrelic';
 export class EmailService {
   private resend: Resend;
   private agent = getAgent();
+  private readonly logger = new Logger(EmailService.name);
 
   constructor(
     private configService: ConfigService<Config>,
@@ -29,7 +35,7 @@ export class EmailService {
     const audienceId = this.configService.get('email.audienceId', { infer: true });
 
     if (!audienceId) {
-      console.error('No audience ID found');
+      this.logger.error('No audience ID found');
       return;
     }
 
@@ -41,12 +47,12 @@ export class EmailService {
     });
 
     if (error) {
-      console.error('Error subscribing user', error);
+      this.logger.error('Error subscribing user', error);
       return;
     }
 
     if (!data?.id) {
-      console.error('No contact ID found');
+      this.logger.error('No contact ID found');
       return;
     }
 
@@ -61,9 +67,46 @@ export class EmailService {
       html: await renderWelcomeEmail({ username: this.getFirstName(user) }),
     });
     if (error) {
-      console.error('Error sending welcome email', error);
+      this.logger.error('Error sending welcome email', error);
     }
 
+    return { data, error };
+  }
+
+  async sendTeamInvitationEmail({
+    email,
+    teamName,
+    inviterName,
+    acceptUrl,
+  }: {
+    email: string;
+    teamName: string;
+    inviterName: string;
+    acceptUrl: string;
+  }) {
+    const { data, error } = await this.sendEmail({
+      to: email,
+      subject: `You've been invited to join "${teamName}" on Altair GraphQL`,
+      html: await renderTeamInvitationEmail({ teamName, inviterName, acceptUrl }),
+    });
+    if (error) {
+      this.logger.error('Error sending invitation email', error);
+    }
+    return { data, error };
+  }
+
+  async sendVerificationEmail(userId: string, verificationUrl: string) {
+    const user = await this.userService.mustGetUser(userId);
+    const firstName = this.getFirstName(user);
+
+    const { data, error } = await this.sendEmail({
+      to: user.email,
+      subject: 'Verify your email — Altair GraphQL Cloud',
+      html: await renderEmailVerificationEmail({ firstName, verificationUrl }),
+    });
+    if (error) {
+      this.logger.error('Error sending verification email', error);
+    }
     return { data, error };
   }
 
@@ -72,25 +115,11 @@ export class EmailService {
 
     const { data, error } = await this.sendEmail({
       to: user.email,
-      subject: 'Sorry to see you go 👋🏾',
-      html: `Hey ${this.getFirstName(user)},
-      <br><br>
-      Samuel here. I noticed you've cancelled your Altair GraphQL pro subscription and wanted to check in.
-      <br><br>
-      Would you mind sharing what led to your decision? Your feedback helps us make Altair better for everyone. Just hit reply to let me know.
-      <br><br>
-      If you ever want to come back, we'll be here! And of course, you can keep using Altair's free version as long as you like.
-      <br><br>
-      Thanks for giving the pro version a try!
-      <br><br>
-      Best wishes,
-      <br>
-      Samuel
-      <br><br>
-      P.S. If you cancelled because of a technical issue or need help with something, just let me know -- I'm happy to help!`,
+      subject: 'Sorry to see you go',
+      html: await renderGoodbyeEmail({ firstName: this.getFirstName(user) }),
     });
     if (error) {
-      console.error('Error sending goodbye email', error);
+      this.logger.error('Error sending goodbye email', error);
     }
 
     return { data, error };
@@ -116,9 +145,9 @@ export class EmailService {
     });
     if (error) {
       this.agent?.incrementMetric('email.send.error');
+    } else {
+      this.agent?.incrementMetric('email.send.success');
     }
-
-    this.agent?.incrementMetric('email.send.success');
     return { data, error };
   }
 

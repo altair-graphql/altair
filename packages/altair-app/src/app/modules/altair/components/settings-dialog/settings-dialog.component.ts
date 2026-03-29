@@ -6,12 +6,13 @@ import { validateSettings } from '../../utils/settings_addons';
 import { NotifyService, KeybinderService, StorageService } from '../../services';
 import { KeyboardShortcutCategory } from '../../services/keybinder/keybinder.service';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
-import { AltairConfig } from 'altair-graphql-core/build/config';
 import { Extension } from '@codemirror/state';
-import settingsSchema from 'altair-graphql-core/build/typegen/settings.schema.json';
 import { getEditorExtensions } from './extensions';
 import { IDictionary } from 'altair-graphql-core/build/types/shared';
 import { JSONSchema6 } from 'json-schema';
+import { DEFAULT_OPTIONS } from 'altair-graphql-core/build/config/defaults';
+import { settingsSchema } from 'altair-graphql-core/build/types/state/settings.schema';
+import { z } from 'zod/v4';
 
 @Component({
   selector: 'app-settings-dialog',
@@ -23,7 +24,6 @@ export class SettingsDialogComponent {
   private notifyService = inject(NotifyService);
   private keybinderService = inject(KeybinderService);
   private storageService = inject(StorageService);
-  private altairConfig = inject(AltairConfig);
 
   readonly settings = input<SettingsState>();
   readonly appVersion = input('');
@@ -31,10 +31,9 @@ export class SettingsDialogComponent {
   readonly toggleDialogChange = output<boolean>();
   readonly settingsJsonChange = output<string>();
 
-  themes = this.altairConfig.themes;
-  languages = Object.entries(this.altairConfig.languages);
+  themes = DEFAULT_OPTIONS.THEMES;
   shortcutCategories: KeyboardShortcutCategory[] = [];
-  settingsSchema = settingsSchema as JSONSchema6;
+  settingsSchema = z.toJSONSchema(settingsSchema) as JSONSchema6;
   showForm = true;
 
   jsonSettings = '';

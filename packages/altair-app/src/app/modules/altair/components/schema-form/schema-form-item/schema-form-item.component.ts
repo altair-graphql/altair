@@ -3,11 +3,8 @@ import {
   ChangeDetectionStrategy,
   input,
   model,
-  effect,
-  inject,
   output,
 } from '@angular/core';
-import { AltairConfig } from 'altair-graphql-core/build/config';
 import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
 
 @Component({
@@ -18,8 +15,6 @@ import { SchemaFormProperty } from 'app/modules/altair/utils/settings_addons';
   standalone: false,
 })
 export class SchemaFormItemComponent {
-  private altairConfig = inject(AltairConfig);
-
   readonly item = input<SchemaFormProperty>();
   readonly data = model<unknown>();
 
@@ -29,40 +24,6 @@ export class SchemaFormItemComponent {
     // effect(() => {
     //   this.dataChange.emit(this.data());
     // });
-  }
-
-  getOptionLabel(item: SchemaFormProperty, option: string) {
-    switch (item?.key) {
-      case 'language':
-        return (this.altairConfig.languages as any)[option] || option;
-    }
-  }
-  getSelectOptions(item: SchemaFormProperty): { label: string; value: string }[] {
-    const itemRef = item.ref;
-    if (itemRef) {
-      const itemEnum = itemRef.enum ?? [];
-      switch (item?.key) {
-        case 'language':
-          return itemEnum
-            .filter((content): content is string => typeof content === 'string')
-            .map((content) => {
-              return {
-                label: (this.altairConfig.languages as any)[content] || content,
-                value: content,
-              };
-            });
-      }
-      return itemEnum
-        .filter((content): content is string => typeof content === 'string')
-        .map((content: string) => {
-          return {
-            label: content,
-            value: content,
-          };
-        });
-    }
-
-    return [];
   }
 
   isString(data: unknown): data is string {

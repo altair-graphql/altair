@@ -3,7 +3,7 @@ import { RootState } from 'altair-graphql-core/build/types/state/state.interface
 import performantLocalStorage from '../utils/performant-local-storage';
 
 const getAltairInstanceStorageNamespace = () =>
-  getAltairConfig().initialData.instanceStorageNamespace || 'altair_';
+  getAltairConfig().options.instanceStorageNamespace || 'altair_';
 export const keySerializer = (key: string) =>
   `${getAltairInstanceStorageNamespace()}${key}`;
 export const storageKeys: (keyof RootState)[] = [

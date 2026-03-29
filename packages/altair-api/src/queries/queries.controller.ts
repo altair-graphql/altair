@@ -17,6 +17,7 @@ import { CreateQueryDto } from './dto/create-query.dto';
 import { UpdateQueryDto } from './dto/update-query.dto';
 import { QueryItem } from '@altairgraphql/db';
 import { ApiTags } from '@nestjs/swagger';
+import { getUserId } from 'src/common/request';
 
 @Controller('queries')
 @ApiTags('Queries')
@@ -26,19 +27,19 @@ export class QueriesController {
 
   @Post()
   create(@Req() req: Request, @Body() createQueryDto: CreateQueryDto) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.queriesService.create(userId, createQueryDto);
   }
 
   @Get()
   findAll(@Req() req: Request) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.queriesService.findAll(userId);
   }
 
   @Get(':id')
   findOne(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.queriesService.findOne(userId, id);
   }
 
@@ -48,7 +49,7 @@ export class QueriesController {
     @Param('id') id: string,
     @Body() updateQueryDto: UpdateQueryDto
   ) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const res = await this.queriesService.update(userId, id, updateQueryDto);
 
     if (!res.count) {
@@ -60,7 +61,7 @@ export class QueriesController {
 
   @Delete(':id')
   async remove(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     const res = await this.queriesService.remove(userId, id);
 
     if (!res.count) {
@@ -72,7 +73,7 @@ export class QueriesController {
 
   @Get(':id/revisions')
   async getRevisions(@Req() req: Request, @Param('id') id: string) {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.queriesService.listRevisions(userId, id);
   }
 
@@ -82,7 +83,19 @@ export class QueriesController {
     @Param('id') id: string,
     @Param('revisionId') revisionId: string
   ): Promise<QueryItem> {
-    const userId = req?.user?.id ?? '';
+    const userId = getUserId(req);
     return this.queriesService.restoreRevision(userId, revisionId);
+  }
+
+  @Post(':id/share')
+  async sharePublicQuery(@Req() req: Request, @Param('id') id: string) {
+    const userId = getUserId(req);
+    return this.queriesService.sharePublicQuery(userId, id);
+  }
+
+  @Delete(':id/share')
+  async unsharePublicQuery(@Req() req: Request, @Param('id') id: string) {
+    const userId = getUserId(req);
+    return this.queriesService.unsharePublicQuery(userId, id);
   }
 }

@@ -1,18 +1,26 @@
+import { literal, object, output, string } from 'zod/v4';
 import { AuthorizationResult } from '../../types/state/authorization.interface';
 import {
   AuthorizationProvider,
   AuthorizationProviderExecuteOptions,
-  BaseAuthorizationProviderInput,
+  baseAuthorizationProviderInputSchema,
 } from '../authorization-provider';
 
-export interface ApiKeyAuthorizationProviderInput
-  extends BaseAuthorizationProviderInput {
-  type: 'api-key';
-  data: {
-    headerName: string;
-    headerValue: string;
-  };
-}
+export const apiKeyAuthorizationProviderInputSchema =
+  baseAuthorizationProviderInputSchema.extend({
+    type: literal('api-key'),
+    data: object({
+      headerName: string().meta({
+        description: 'Name of the header to set the API key in',
+      }),
+      headerValue: string().meta({
+        description: 'Value of the API key to set in the header',
+      }),
+    }),
+  });
+export type ApiKeyAuthorizationProviderInput = output<
+  typeof apiKeyAuthorizationProviderInputSchema
+>;
 export default class ApiKeyAuthorizationProvider extends AuthorizationProvider<ApiKeyAuthorizationProviderInput> {
   async execute(
     options: AuthorizationProviderExecuteOptions<ApiKeyAuthorizationProviderInput>

@@ -1,7 +1,10 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`UrlBoxComponent should render correctly 1`] = `
-<app-url-box>
+exports[`UrlBoxComponent > should render correctly 1`] = `
+<div
+  id="root1"
+  ng-version="20.3.3"
+>
   <div
     class="url-box"
   >
@@ -18,7 +21,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
       >
          POST 
       </button>
-      
+      <!--container-->
       <nz-dropdown-menu>
         <ul
           nz-menu=""
@@ -29,49 +32,49 @@ exports[`UrlBoxComponent should render correctly 1`] = `
           >
              POST 
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
             value="0"
           >
              GET 
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
             value="0"
           >
              PUT 
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
             value="0"
           >
              DELETE 
           </li>
-          
-          
+          <!--container-->
+          <!--container-->
         </ul>
-        
+        <!--container-->
       </nz-dropdown-menu>
     </div>
     <div
       class="url-box__input-container"
     >
-      
+      <!--container-->
       <app-x-input
         class="url-box__input"
         placeholder="Enter URL"
         track-id="set_url"
       />
-      
+      <!--container-->
       <app-request-loader />
     </div>
     <div
       class="url-box__input-actions"
     >
-      
+      <!--container-->
       <button
         class="url-box__button"
         nz-tooltip=""
@@ -83,7 +86,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
           name="plus-circle"
         />
       </button>
-      
+      <!--container-->
       <button
         class="url-box__button"
         nz-tooltip=""
@@ -95,7 +98,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
           name="file-down"
         />
       </button>
-      
+      <!--container-->
       <button
         class="url-box__button"
         nz-tooltip=""
@@ -107,7 +110,7 @@ exports[`UrlBoxComponent should render correctly 1`] = `
           name="refresh-ccw"
         />
       </button>
-      
+      <!--container-->
       <button
         class="url-box__button"
         track-id="show_docs"
@@ -124,36 +127,39 @@ exports[`UrlBoxComponent should render correctly 1`] = `
         track-id="set_request"
         type="button"
       >
-        
+        <!--container-->
         <span>
           
         </span>
-        
+        <!--container-->
       </button>
-      
-      
+      <!--container-->
+      <!--container-->
       <nz-dropdown-menu>
         <ul
           nz-menu=""
         >
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
               
           </li>
-          
+          <!--container-->
         </ul>
-        
+        <!--container-->
       </nz-dropdown-menu>
     </div>
   </div>
-  
-</app-url-box>
+  <!--container-->
+</div>
 `;
 
-exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = `
-<app-url-box>
+exports[`UrlBoxComponent > should render correctly with queryOperations > 1 1`] = `
+<div
+  id="root2"
+  ng-version="20.3.3"
+>
   <div
     class="url-box"
   >
@@ -170,7 +176,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
       >
          POST 
       </button>
-      
+      <!--container-->
       <nz-dropdown-menu>
         <ul
           nz-menu=""
@@ -181,49 +187,49 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
           >
              POST 
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
             value="0"
           >
              GET 
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
             value="0"
           >
              PUT 
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
             value="0"
           >
              DELETE 
           </li>
-          
-          
+          <!--container-->
+          <!--container-->
         </ul>
-        
+        <!--container-->
       </nz-dropdown-menu>
     </div>
     <div
       class="url-box__input-container"
     >
-      
+      <!--container-->
       <app-x-input
         class="url-box__input"
         placeholder="Enter URL"
         track-id="set_url"
       />
-      
+      <!--container-->
       <app-request-loader />
     </div>
     <div
       class="url-box__input-actions"
     >
-      
+      <!--container-->
       <button
         class="url-box__button"
         nz-tooltip=""
@@ -235,7 +241,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
           name="plus-circle"
         />
       </button>
-      
+      <!--container-->
       <button
         class="url-box__button"
         nz-tooltip=""
@@ -247,7 +253,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
           name="file-down"
         />
       </button>
-      
+      <!--container-->
       <button
         class="url-box__button"
         nz-tooltip=""
@@ -259,7 +265,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
           name="refresh-ccw"
         />
       </button>
-      
+      <!--container-->
       <button
         class="url-box__button"
         track-id="show_docs"
@@ -271,7 +277,7 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
     <div
       class="send-request__wrapper"
     >
-      
+      <!--container-->
       <button
         class="app-button active-primary send-request__button"
         nz-dropdown=""
@@ -280,21 +286,21 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
         track-id="send_request"
         type="button"
       >
-        
-        
+        <!--container-->
+        <!--container-->
         <span>
           
         </span>
-        
-        
-        
-        
+        <!--container-->
+        <!--container-->
+        <!--container-->
+        <!--container-->
         <app-icon
           name="chevron-down"
         />
       </button>
-      
-      
+      <!--container-->
+      <!--container-->
       <nz-dropdown-menu>
         <ul
           nz-menu=""
@@ -304,25 +310,25 @@ exports[`UrlBoxComponent should render correctly with queryOperations > 1 1`] = 
           >
              operation 1 
           </li>
-          
+          <!--container-->
           <li
             nz-menu-item=""
           >
              operation 2 
           </li>
-          
-          
+          <!--container-->
+          <!--container-->
           <li
             nz-menu-item=""
           >
               
           </li>
-          
+          <!--container-->
         </ul>
-        
+        <!--container-->
       </nz-dropdown-menu>
     </div>
   </div>
-  
-</app-url-box>
+  <!--container-->
+</div>
 `;

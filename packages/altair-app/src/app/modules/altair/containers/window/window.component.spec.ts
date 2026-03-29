@@ -33,6 +33,11 @@ describe('WindowComponent', () => {
         addQueryDepthLimit: 2,
         language: 'en-US',
         tabSize: 2,
+        'theme.fontsize': 14,
+        disablePushNotification: false,
+        'plugin.list': [],
+        'script.allowedCookies': [],
+        'script.allowedLocalStorageKeys': [],
       },
       local: {
         closedWindows: [],
@@ -80,8 +85,8 @@ describe('WindowComponent', () => {
         provide: services.RequestHandlerRegistryService,
         useFactory: () =>
           mock<services.RequestHandlerRegistryService>({
-            getAllHandlerData: jest.fn(),
-            getAllHandlerData$: jest.fn(),
+            getAllHandlerData: vi.fn(),
+            getAllHandlerData$: vi.fn(),
           }),
       },
     ];

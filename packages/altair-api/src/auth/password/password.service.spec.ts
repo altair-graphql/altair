@@ -1,3 +1,4 @@
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { ConfigService } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { PasswordService } from './password.service';
@@ -28,7 +29,7 @@ describe('PasswordService', () => {
   describe('bcryptSaltRounds', () => {
     it(`should return the salt rounds`, () => {
       // GIVEN
-      jest
+      vi
         .spyOn(configService, 'get')
         .mockReturnValueOnce({ bcryptSaltOrRound: 16 });
 

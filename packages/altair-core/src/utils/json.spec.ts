@@ -1,4 +1,4 @@
-import { describe, expect, it, jest } from '@jest/globals';
+import { describe, expect, it } from 'vitest';
 import { parseJson } from './json';
 
 describe('json utils', () => {
@@ -27,7 +27,7 @@ describe('json utils', () => {
       const obj = parseJson(
         '{"a": 1011111111111111111111111111111111111111111111111111111 }'
       );
-      expect((obj as any).a.toString()).toEqual(
+      expect((obj as { a: bigint }).a.toString()).toEqual(
         '1.011111111111111111111111111111111111111111111111111111e+54'
       );
     });

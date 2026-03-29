@@ -66,10 +66,8 @@ import {
   AuthorizationState,
   AuthorizationTypes,
 } from 'altair-graphql-core/build/types/state/authorization.interface';
-import {
-  RequestHandlerIds,
-  WEBSOCKET_HANDLER_ID,
-} from 'altair-graphql-core/build/request/types';
+import { WEBSOCKET_HANDLER_ID } from 'altair-graphql-core/build/request/ids';
+import { RequestHandlerIds } from 'altair-graphql-core/build/request/types';
 import { SettingsState } from 'altair-graphql-core/build/types/state/settings.interfaces';
 import { LoadingRequestStateEntry } from 'altair-graphql-core/build/types/state/local.interfaces';
 

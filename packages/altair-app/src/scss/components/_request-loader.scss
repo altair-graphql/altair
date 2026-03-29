@@ -1,3 +1,6 @@
+@use '../functions' as *;
+@use '../globals' as *;
+
 .request-loader {
   position: absolute;
   top: 0;
@@ -41,7 +44,7 @@
   }
 
   &--active {
-    @extend .glassy-border;
+    @include glassy-border;
     background: rgba(var(--rgb-theme-bg), 0.5);
     backdrop-filter: blur(4px);
   }

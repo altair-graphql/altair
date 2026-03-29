@@ -1,11 +1,11 @@
 {
   "name": "@altairgraphql/electron-interop",
-  "version": "8.4.1",
+  "version": "8.5.2",
   "dependencies": {
     "altair-graphql-core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^22.7.4",
+    "@types/node": "catalog:",
     "electron": "catalog:",
     "typescript": "catalog:"
   },

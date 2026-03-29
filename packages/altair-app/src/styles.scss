@@ -1,12 +1,10 @@
-@import 'scss/variables';
-@import 'scss/functions';
+@use 'scss/variables';
+@use 'scss/functions';
+@use 'ngx-toastr/toastr';
+@use 'scss/globals';
+@use 'scss/animations';
+@use 'scss/framework';
+@use 'scss/all';
 
 @import '../node_modules/ng-zorro-antd/ng-zorro-antd.variable.min.css';
 @import '@fontsource/jetbrains-mono/index.css';
-
-@import 'ngx-toastr/toastr';
-
-@import 'scss/globals';
-@import 'scss/animations';
-@import 'scss/framework';
-@import 'scss/all';

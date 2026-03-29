@@ -1,7 +1,7 @@
 {
   "name": "@altairgraphql/root",
   "description": "The best graphQL client you will ever need",
-  "version": "8.4.1",
+  "version": "8.5.2",
   "author": "Samuel Imolorhe <altair@sirmuel.design> (https://sirmuel.design/)",
   "bugs": "https://github.com/altair-graphql/altair/issues",
   "collective": {
@@ -37,8 +37,11 @@
     "turbo": "^2.0.6",
     "typedoc": "^0.25.13",
     "typedoc-plugin-markdown": "^4.0.3",
+    "typedoc-plugin-zod": "^1.4.3",
     "typedoc-vitepress-theme": "^1.0.0",
     "typescript": "catalog:",
+    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
     "web-ext": "^6.5.0",
     "wrangler": "^2.0.27"
   },
@@ -83,6 +86,7 @@
     "start:tauri": "pnpm --F @altairgraphql/tauri dev",
     "start:stripe:listen": "stripe listen --forward-to http://localhost:3000/stripe-webhook",
     "test": "pnpm -r test",
+    "test:coverage": "vitest run --coverage",
     "test:ci": "start-server-and-test start-test-server http://localhost:5400/test test:ci-test-only",
     "test:ci-test-only": "turbo run test --filter=[HEAD^1] --parallel",
     "test:ci:retries": "pnpm test:ci || pnpm test:ci || pnpm test:ci",

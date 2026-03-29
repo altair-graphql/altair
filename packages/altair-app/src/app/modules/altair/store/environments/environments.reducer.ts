@@ -10,34 +10,30 @@ import { AllActions } from '../action';
 
 export const getInitialBaseEnvironmentState = (): BaseEnvironmentState => {
   const {
-    initialData: { environments },
+    options: { initialEnvironments },
   } = getAltairConfig();
 
   return {
-    variablesJson: JSON.stringify(
-      (environments.base && environments.base.variables) || {}
-    ),
+    variablesJson: JSON.stringify(initialEnvironments?.base?.variables || {}),
   };
 };
 export const getInitialEnvironmentState = (): EnvironmentState => {
   const {
-    initialData: { environments },
+    options: { initialEnvironments },
   } = getAltairConfig();
 
   return {
-    title: (environments.base && environments.base.title) || 'Environment',
-    variablesJson: JSON.stringify(
-      (environments.base && environments.base.variables) || {}
-    ),
+    title: initialEnvironments?.base?.title || 'Environment',
+    variablesJson: JSON.stringify(initialEnvironments?.base?.variables || {}),
   };
 };
 
 const getInitialSubEnvironmentState = (): EnvironmentState[] => {
   const {
-    initialData: { environments },
+    options: { initialEnvironments },
   } = getAltairConfig();
 
-  return (environments.subEnvironments || []).map((env, idx) => {
+  return (initialEnvironments?.subEnvironments || []).map((env, idx) => {
     return {
       id: env.id || uuid(),
       title: env.title || `Environment ${idx + 1}`,
@@ -48,9 +44,9 @@ const getInitialSubEnvironmentState = (): EnvironmentState[] => {
 
 const getInitialActiveSubEnvironment = (): string | undefined => {
   const {
-    initialData: { environments },
+    options: { initialEnvironments },
   } = getAltairConfig();
-  return environments.activeSubEnvironment;
+  return initialEnvironments?.activeSubEnvironment;
 };
 
 export const getInitialState = (): EnvironmentsState => {

@@ -1,3 +1,4 @@
+import { object, output, string, unknown } from 'zod/v4';
 import { AuthorizationResult } from '../types/state/authorization.interface';
 
 export interface AuthorizationProviderExecuteOptions<
@@ -7,10 +8,13 @@ export interface AuthorizationProviderExecuteOptions<
   data: T['data'] | undefined;
 }
 
-export interface BaseAuthorizationProviderInput {
-  type: string;
-  data: unknown;
-}
+export const baseAuthorizationProviderInputSchema = object({
+  type: string().meta({ description: 'Type of authorization provider' }),
+  data: unknown().meta({ description: 'Data for the authorization provider' }),
+});
+export type BaseAuthorizationProviderInput = output<
+  typeof baseAuthorizationProviderInputSchema
+>;
 
 export abstract class AuthorizationProvider<
   T extends BaseAuthorizationProviderInput = BaseAuthorizationProviderInput,

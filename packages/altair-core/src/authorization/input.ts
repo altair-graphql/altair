@@ -1,16 +1,24 @@
-import { ApiKeyAuthorizationProviderInput } from './providers/api-key';
-import { BasicAuthorizationProviderInput } from './providers/basic';
-import { BearerAuthorizationProviderInput } from './providers/bearer';
-import { OAuth2AuthorizationProviderInput } from './providers/oauth2';
+import { discriminatedUnion, literal, output, undefined } from 'zod/v4';
+import { baseAuthorizationProviderInputSchema } from './authorization-provider';
+import { apiKeyAuthorizationProviderInputSchema } from './providers/api-key';
+import { basicAuthorizationProviderInputSchema } from './providers/basic';
+import { bearerAuthorizationProviderInputSchema } from './providers/bearer';
+import { oAuth2AuthorizationProviderInputSchema } from './providers/oauth2';
 
-interface NoneAuthorizationProviderInput {
-  type: 'none';
-  data?: undefined;
-}
+const noneAuthorizationProviderInputSchema =
+  baseAuthorizationProviderInputSchema.extend({
+    type: literal('none'),
+    data: undefined(),
+  });
 
-export type AuthorizationProviderInput =
-  | NoneAuthorizationProviderInput
-  | ApiKeyAuthorizationProviderInput
-  | BasicAuthorizationProviderInput
-  | BearerAuthorizationProviderInput
-  | OAuth2AuthorizationProviderInput;
+export const authorizationProviderInputSchemas = discriminatedUnion('type', [
+  noneAuthorizationProviderInputSchema,
+  apiKeyAuthorizationProviderInputSchema,
+  basicAuthorizationProviderInputSchema,
+  bearerAuthorizationProviderInputSchema,
+  oAuth2AuthorizationProviderInputSchema,
+]);
+
+export type AuthorizationProviderInput = output<
+  typeof authorizationProviderInputSchemas
+>;

@@ -1,23 +1,26 @@
 import { resolve } from 'path';
 import { readFileSync } from 'fs';
 import { parse } from 'yaml';
-import validateYamlManifest from 'altair-graphql-core/build/typegen/validate-plugins-yaml-manifest';
 import { getViteDynamicFilesPlugin } from './vite-dynamic-files';
-import { APSPluginListResponse } from 'altair-graphql-core/build/plugin/server/types';
+import {
+  altairPluginServerApprovedPluginsYamlManifestSchema,
+  altairPluginServerPluginListResponseSchema,
+  APSPluginListResponse,
+} from 'altair-graphql-core/build/plugin/server/schema';
 export const dynamicFiles = async () => {
   const pluginsYamlPath = resolve(__dirname, '../../.data/plugins.yaml');
-  const data = parse(readFileSync(pluginsYamlPath, 'utf-8'));
-  if (!validateYamlManifest(data)) {
-    console.error(
-      'Invalid plugins.yaml file',
-      pluginsYamlPath,
-      validateYamlManifest.errors
+  const parsed = altairPluginServerApprovedPluginsYamlManifestSchema.safeParse(
+    parse(readFileSync(pluginsYamlPath, 'utf-8'))
+  );
+  if (!parsed.success) {
+    console.error('Invalid plugins.yaml file', pluginsYamlPath, parsed.error);
+    throw new Error(
+      `Invalid plugins.yaml file. Errors: ${JSON.stringify(parsed.error)}`
     );
-    throw new Error('Invalid plugins.yaml file');
   }
 
   const validatedPlugins = await Promise.all(
-    Object.entries(data.plugins)
+    Object.entries(parsed.data.plugins)
       .filter(([pluginName, pluginData]) => {
         if (pluginData.id !== pluginName) {
           console.error(
@@ -33,9 +36,9 @@ export const dynamicFiles = async () => {
       })
   );
 
-  const res: APSPluginListResponse = {
+  const res = altairPluginServerPluginListResponseSchema.parse({
     plugins: validatedPlugins,
-  };
+  });
 
   return getViteDynamicFilesPlugin({
     fileName: 'data/v1/plugins.json',

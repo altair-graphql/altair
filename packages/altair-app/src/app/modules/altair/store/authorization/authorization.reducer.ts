@@ -10,13 +10,12 @@ import { AllActions } from '../action';
 export const getInitialState = (): AuthorizationState => {
   const altairConfig = getAltairConfig();
   return {
-    data: altairConfig.initialData.initialAuthorization?.data ?? undefined,
+    data: altairConfig.options.initialAuthorization?.data ?? undefined,
     result: {
       headers: {},
     },
     type:
-      altairConfig.initialData.initialAuthorization?.type ??
-      DEFAULT_AUTHORIZATION_TYPE,
+      altairConfig.options.initialAuthorization?.type ?? DEFAULT_AUTHORIZATION_TYPE,
   };
 };
 

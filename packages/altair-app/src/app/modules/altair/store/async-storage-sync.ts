@@ -304,7 +304,7 @@ export const getAppStateFromStorage = async ({
   storage = undefined as unknown as Storage,
 }) => {
   let stateList = await asyncStorage.appState.toArray();
-  const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
+  const storageNamespace = getAltairConfig().options.instanceStorageNamespace;
   const reducedState: Partial<RootState> = {};
 
   if (forceUpdateFromProvidedData || !stateList.length) {
@@ -404,8 +404,13 @@ export const importIndexedRecords = (records: { key: string; value: any }[]) => 
   });
 };
 
+/**
+ * Meta-reducer to sync specified parts of the state to storage asynchronously.
+ * It listens to state changes and queues the changes to be synced, then performs the sync after a debounce period.
+ * It also handles rehydrating the state from storage on app initialization.
+ */
 export const asyncStorageSync = (opts: LocalStorageConfig) => (reducer: any) => {
-  const storageNamespace = getAltairConfig().initialData.instanceStorageNamespace;
+  const storageNamespace = getAltairConfig().options.instanceStorageNamespace;
 
   return function (state: any, action: AllActions) {
     let nextState: any;

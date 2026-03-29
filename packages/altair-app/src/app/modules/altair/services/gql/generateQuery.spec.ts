@@ -1,6 +1,5 @@
 import fs from 'fs';
 import path from 'path';
-import { describe, it, expect } from '@jest/globals';
 import { buildSchema } from 'graphql';
 import { generateQuery } from './generateQuery';
 
