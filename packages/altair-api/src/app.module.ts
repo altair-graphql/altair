@@ -19,7 +19,8 @@ import { CreditModule } from './credit/credit.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { AiModule } from './ai/ai.module';
 import { EmailService } from './email/email.service';
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ThrottlerModule } from '@nestjs/throttler';
+import { RateLimitMetricsGuard } from './auth/guards/rate-limit-metrics.guard';
 
 @Module({
   imports: [
@@ -42,8 +43,11 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {
-        middlewares: [], // configure your prisma middleware
+        // Use client extension for query metrics (Prisma middleware is deprecated)
+        // middlewares: [new PrismaMetricsMiddleware()],
       },
+      // Enable query logging for metrics capture
+      // explicitConnect: false,
     }),
     EventEmitterModule.forRoot({
       verboseMemoryLeak: true,
@@ -64,9 +68,10 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
     AppService,
     PasswordService,
     EmailService,
+    RateLimitMetricsGuard,
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: RateLimitMetricsGuard,
     },
   ],
 })
