@@ -73,10 +73,7 @@ const envSchema = z.object({
   // prod: smtp.resend.com
   SMTP_HOST: z.string(),
   // prod: 465
-  SMTP_PORT: z
-    .string()
-    .default('465')
-    .transform((val) => parseInt(val, 10)),
+  SMTP_PORT: z.coerce.number().int().positive().default(465),
   // prod: true
   SMTP_SECURE: z
     .string()

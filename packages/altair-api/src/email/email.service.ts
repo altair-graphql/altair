@@ -19,6 +19,15 @@ export class EmailService {
   private resend: Resend;
   private agent = getAgent();
   private readonly logger = new Logger(EmailService.name);
+  private readonly transporter = nodemailer.createTransport({
+    host: env.SMTP_HOST,
+    port: env.SMTP_PORT,
+    secure: env.SMTP_SECURE,
+    auth: {
+      user: env.SMTP_USER,
+      pass: env.SMTP_PASS,
+    },
+  });
 
   constructor(
     private configService: ConfigService<Config>,
@@ -136,16 +145,6 @@ export class EmailService {
     subject: string;
     html: string;
   }) {
-    const transporter = nodemailer.createTransport({
-      host: env.SMTP_HOST,
-      port: env.SMTP_PORT,
-      secure: env.SMTP_SECURE,
-      auth: {
-        user: env.SMTP_USER,
-        pass: env.SMTP_PASS,
-      },
-    });
-
     const options = {
       from:
         this.configService.get('email.defaultFrom', { infer: true }) ??
@@ -157,7 +156,7 @@ export class EmailService {
     };
 
     try {
-      const info = await transporter.sendMail(options);
+      const info = await this.transporter.sendMail(options);
       this.agent?.incrementMetric('email.send.success');
 
       return { data: info, error: null };
