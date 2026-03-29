@@ -11,6 +11,8 @@ import { UserService } from 'src/auth/user/user.service';
 import { Config } from 'src/common/config';
 import { User } from '@altairgraphql/db';
 import { Agent, getAgent } from 'src/newrelic/newrelic';
+import nodemailer from 'nodemailer';
+import { env } from 'src/common/env';
 
 @Injectable()
 export class EmailService {
@@ -134,21 +136,36 @@ export class EmailService {
     subject: string;
     html: string;
   }) {
-    const { data, error } = await this.resend.emails.send({
+    const transporter = nodemailer.createTransport({
+      host: env.SMTP_HOST,
+      port: env.SMTP_PORT,
+      secure: env.SMTP_SECURE,
+      auth: {
+        user: env.SMTP_USER,
+        pass: env.SMTP_PASS,
+      },
+    });
+
+    const options = {
       from:
         this.configService.get('email.defaultFrom', { infer: true }) ??
         'info@mail.altairgraphql.dev',
       to,
-      replyTo: this.configService.get('email.replyTo', { infer: true }),
       subject,
+      replyTo: this.configService.get('email.replyTo', { infer: true }),
       html,
-    });
-    if (error) {
-      this.agent?.incrementMetric('email.send.error');
-    } else {
+    };
+
+    try {
+      const info = await transporter.sendMail(options);
       this.agent?.incrementMetric('email.send.success');
+
+      return { data: info, error: null };
+    } catch (error) {
+      this.agent?.incrementMetric('email.send.error');
+      this.logger.error('Error sending email', error);
+      return { data: null, error };
     }
-    return { data, error };
   }
 
   private getFirstName(user: User) {

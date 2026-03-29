@@ -7,7 +7,7 @@ services:
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
-      - '7233:5432'
+      - "7233:5432"
 
   postgres-shadow:
     image: postgres:13.5
@@ -17,7 +17,7 @@ services:
       - POSTGRES_USER=my_db_user
       - POSTGRES_PASSWORD=db_password
     ports:
-      - '8729:5432'
+      - "8729:5432"
 
   ollama:
     image: ollama/ollama:latest
@@ -31,7 +31,14 @@ services:
     tty: true
     restart: no
     env_file: .env
-    entrypoint: ['/usr/bin/bash', '/entrypoint.sh']
+    entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
+
+  smtp:
+    image: axllent/mailpit:latest
+    ports:
+      - 1027:1025 # SMTP port
+      - 8027:8025 # Web interface port
+    restart: unless-stopped
 
 volumes:
   postgres:

@@ -70,6 +70,23 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
   RESEND_AUDIENCE_ID: z.string().optional(),
 
+  // prod: smtp.resend.com
+  SMTP_HOST: z.string(),
+  // prod: 465
+  SMTP_PORT: z
+    .string()
+    .default('465')
+    .transform((val) => parseInt(val, 10)),
+  // prod: true
+  SMTP_SECURE: z
+    .string()
+    .default('true')
+    .transform((val) => val === 'true'),
+  // prod: resend
+  SMTP_USER: z.string(),
+  // prod: re_xxxxxxxxx
+  SMTP_PASS: z.string(),
+
   // ── Rate limiting ─────────────────────────────────────────────────
   RATE_LIMIT_TTL: z.coerce.number().int().positive().optional().default(60_000),
   RATE_LIMIT_MAX: z.coerce.number().int().positive().optional().default(60),
