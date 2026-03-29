@@ -191,6 +191,7 @@ export class QueriesService {
 
     if (res.count) {
       this.eventService.emit(EVENTS.QUERY_UPDATE, { id });
+      this.agent?.incrementMetric('query.updated');
     }
 
     // add new revision
@@ -209,6 +210,7 @@ export class QueriesService {
 
     if (res.count) {
       this.eventService.emit(EVENTS.QUERY_UPDATE, { id });
+      this.agent?.incrementMetric('query.deleted');
     }
 
     return res;
@@ -265,6 +267,7 @@ export class QueriesService {
     if (!shared) {
       throw new NotFoundException('Shared query not found');
     }
+    this.agent?.incrementMetric('shared_query.accessed');
     return shared;
   }
 
@@ -329,7 +332,7 @@ export class QueriesService {
       throw new BadRequestException();
     }
 
-    return this.prisma.queryItem.update({
+    const result = await this.prisma.queryItem.update({
       where: {
         id: revision.queryItemId,
       },
@@ -339,6 +342,9 @@ export class QueriesService {
         collectionId: revision.collectionId,
       },
     });
+
+    this.agent?.incrementMetric('query.revision.restore');
+    return result;
   }
 
   private async getPlanConfig(userId: string) {

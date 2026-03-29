@@ -119,7 +119,10 @@ export class CreditService {
       // Deduct amount from user's MonthlyCredits if available
       usedMonthlyCredits = Math.min(creditBalance.monthlyCredits, amount);
       // Deduct amount from user's FixedCredits if available
-      usedFixedCredits = Math.min(creditBalance.fixedCredits, amount - usedMonthlyCredits);
+      usedFixedCredits = Math.min(
+        creditBalance.fixedCredits,
+        amount - usedMonthlyCredits
+      );
       // Create CreditTransaction record (type: used)
       const transaction = await tx.creditTransaction.create({
         data: {

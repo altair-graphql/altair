@@ -180,6 +180,7 @@ export class QueryCollectionsService {
 
     if (res.count) {
       this.eventService.emit(EVENTS.COLLECTION_UPDATE, { id });
+      this.agent?.incrementMetric('query_collection.deleted');
     }
 
     return res;
@@ -315,7 +316,9 @@ export class QueryCollectionsService {
       throw new NotFoundException('Collection not found');
     }
 
-    return this.buildExportTree(userId, collection);
+    const result = await this.buildExportTree(userId, collection);
+    this.agent?.incrementMetric('query_collection.export');
+    return result;
   }
 
   // TODO: Should export in the same format exported by the app
@@ -378,7 +381,9 @@ export class QueryCollectionsService {
       throw new NotFoundException('Workspace not found');
     }
 
-    return this.createImportTree(workspaceId, data, parentCollectionId);
+    const result = await this.createImportTree(workspaceId, data, parentCollectionId);
+    this.agent?.incrementMetric('query_collection.import');
+    return result;
   }
 
   private async createImportTree(

@@ -28,6 +28,7 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (!user) {
+      this.agent?.incrementMetric('auth.login.failure');
       throw new UnauthorizedException('Invalid email or password');
     }
 
@@ -37,6 +38,7 @@ export class AuthService {
     );
 
     if (!passwordValid) {
+      this.agent?.incrementMetric('auth.login.failure');
       throw new UnauthorizedException('Invalid email or password');
     }
 
@@ -48,6 +50,7 @@ export class AuthService {
       throw new BadRequestException('No user from google');
     }
 
+    this.agent?.incrementMetric('auth.oauth.google');
     return this.getLoginResponse(user);
   }
 
@@ -56,6 +59,7 @@ export class AuthService {
       throw new BadRequestException('No user from github');
     }
 
+    this.agent?.incrementMetric('auth.oauth.github');
     return this.getLoginResponse(user);
   }
 
@@ -177,10 +181,12 @@ export class AuthService {
         secret: this.configService.get('JWT_REFRESH_SECRET', { infer: true }),
       });
 
+      this.agent?.incrementMetric('auth.token.refresh.success');
       return this.generateTokens({
         userId,
       });
     } catch (e) {
+      this.agent?.incrementMetric('auth.token.refresh.failure');
       throw new UnauthorizedException();
     }
   }
@@ -189,6 +195,7 @@ export class AuthService {
    * Generate a short-lived JWT for email verification (24h expiry).
    */
   generateEmailVerificationToken(userId: string): string {
+    this.agent?.incrementMetric('auth.verification_email.send');
     return this.jwtService.sign(
       { userId, purpose: 'email-verification' },
       { expiresIn: '24h' }

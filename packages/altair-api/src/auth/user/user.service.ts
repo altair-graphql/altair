@@ -269,6 +269,8 @@ export class UserService {
   async toBasicPlan(userId: string) {
     await this.updateUserPlan(userId, BASIC_PLAN_ID, 1);
 
+    this.agent?.incrementMetric('user.plan.downgrade');
+
     // Deduct remaining monthly credits atomically
     await this.prisma.$transaction(async (tx) => {
       const creditBalance = await tx.creditBalance.findUnique({
@@ -310,6 +312,8 @@ export class UserService {
 
   async toProPlan(userId: string, quantity: number) {
     await this.updateUserPlan(userId, PRO_PLAN_ID, quantity);
+
+    this.agent?.incrementMetric('user.plan.upgrade');
 
     this.eventEmitter.emit(EVENTS.PLAN_UPDATE, {
       userId,

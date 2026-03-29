@@ -209,30 +209,56 @@ export class AiService {
     sessionId: string,
     messageInput: SendMessageDto
   ) {
-    const { messages, creditUse } = await this.prepareSendMessage(
-      userId,
-      sessionId,
-      messageInput
-    );
+    const startTime = Date.now();
 
-    // Send message (+ all previous messages in session) to AI
-    const response = await this.sendToAI(messageInput, messages);
+    try {
+      const { messages, creditUse } = await this.prepareSendMessage(
+        userId,
+        sessionId,
+        messageInput
+      );
 
-    // Save messages and update session atomically
-    await this.saveMessagePair(
-      sessionId,
-      messageInput,
-      response.content,
-      creditUse.transactionId,
-      response.usage_metadata
-    );
+      // Send message (+ all previous messages in session) to AI
+      const response = await this.sendToAI(messageInput, messages);
 
-    this.agent?.incrementMetric('ai.session.message.send');
+      const duration = Date.now() - startTime;
+      this.agent?.recordMetric('ai.message.latency', duration);
+      this.agent?.incrementMetric('ai.session.message.send');
 
-    // Return AI response
-    return {
-      response: response.content,
-    };
+      if (response.usage_metadata) {
+        const inputTokens = response.usage_metadata.input_tokens;
+        const outputTokens = response.usage_metadata.output_tokens;
+        if (inputTokens) {
+          this.agent?.recordMetric('ai.message.tokens.input', inputTokens);
+        }
+        if (outputTokens) {
+          this.agent?.recordMetric('ai.message.tokens.output', outputTokens);
+        }
+      }
+
+      // Track provider used
+      const modelProvider = this.configService.get('ai.modelProvider', {
+        infer: true,
+      });
+      this.agent?.incrementMetric(`ai.provider.${modelProvider || 'anthropic'}`);
+
+      // Save messages and update session atomically
+      await this.saveMessagePair(
+        sessionId,
+        messageInput,
+        response.content,
+        creditUse.transactionId,
+        response.usage_metadata
+      );
+
+      // Return AI response
+      return {
+        response: response.content,
+      };
+    } catch (error) {
+      this.agent?.incrementMetric('ai.message.error');
+      throw error;
+    }
   }
 
   /**
@@ -244,6 +270,7 @@ export class AiService {
     sessionId: string,
     messageInput: SendMessageDto
   ): AsyncGenerator<{ type: 'chunk' | 'done' | 'error'; content: string }> {
+    const startTime = Date.now();
     const { session, messages, creditUse } = await this.prepareSendMessage(
       userId,
       sessionId,
@@ -263,6 +290,16 @@ export class AiService {
         yield { type: 'chunk', content: chunk };
       }
 
+      const duration = Date.now() - startTime;
+      this.agent?.recordMetric('ai.message.latency', duration);
+      this.agent?.incrementMetric('ai.session.message.send');
+
+      // Track provider used
+      const modelProvider = this.configService.get('ai.modelProvider', {
+        infer: true,
+      });
+      this.agent?.incrementMetric(`ai.provider.${modelProvider || 'anthropic'}`);
+
       // Save messages and update session atomically
       await this.saveMessagePair(
         sessionId,
@@ -271,10 +308,9 @@ export class AiService {
         creditUse.transactionId
       );
 
-      this.agent?.incrementMetric('ai.session.message.send');
-
       yield { type: 'done', content: fullResponse };
     } catch (err) {
+      this.agent?.incrementMetric('ai.message.error');
       yield {
         type: 'error',
         content: err instanceof Error ? err.message : 'Unknown error',
