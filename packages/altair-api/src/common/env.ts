@@ -70,6 +70,20 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string().optional(),
   RESEND_AUDIENCE_ID: z.string().optional(),
 
+  // prod: smtp.resend.com
+  SMTP_HOST: z.string(),
+  // prod: 465
+  SMTP_PORT: z.coerce.number().int().positive().default(465),
+  // prod: true
+  SMTP_SECURE: z
+    .string()
+    .default('true')
+    .transform((val) => val === 'true'),
+  // prod: resend
+  SMTP_USER: z.string(),
+  // prod: re_xxxxxxxxx
+  SMTP_PASS: z.string(),
+
   // ── Rate limiting ─────────────────────────────────────────────────
   RATE_LIMIT_TTL: z.coerce.number().int().positive().optional().default(60_000),
   RATE_LIMIT_MAX: z.coerce.number().int().positive().optional().default(60),
@@ -129,6 +143,11 @@ function parseEnv(): EnvSchema {
         process.env.GITHUB_OAUTH_CLIENT_SECRET ?? 'test-secret',
       STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ?? 'sk_test_mock',
       STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET ?? 'whsec_mock',
+      SMTP_HOST: process.env.SMTP_HOST ?? 'localhost',
+      SMTP_PORT: process.env.SMTP_PORT ?? '1026',
+      SMTP_SECURE: process.env.SMTP_SECURE ?? 'false',
+      SMTP_USER: process.env.SMTP_USER ?? '',
+      SMTP_PASS: process.env.SMTP_PASS ?? '',
     };
     // In test mode, parse leniently — treat the whole schema as optional
     // so tests don't need a full .env file.
