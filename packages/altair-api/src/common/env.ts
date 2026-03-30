@@ -143,6 +143,11 @@ function parseEnv(): EnvSchema {
         process.env.GITHUB_OAUTH_CLIENT_SECRET ?? 'test-secret',
       STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY ?? 'sk_test_mock',
       STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET ?? 'whsec_mock',
+      SMTP_HOST: process.env.SMTP_HOST ?? 'localhost',
+      SMTP_PORT: process.env.SMTP_PORT ?? '1026',
+      SMTP_SECURE: process.env.SMTP_SECURE ?? 'false',
+      SMTP_USER: process.env.SMTP_USER ?? '',
+      SMTP_PASS: process.env.SMTP_PASS ?? '',
     };
     // In test mode, parse leniently — treat the whole schema as optional
     // so tests don't need a full .env file.
