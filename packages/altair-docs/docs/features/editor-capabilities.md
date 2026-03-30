@@ -42,7 +42,7 @@ Sometimes you want to get a named query so you can have multiple queries in the 
 This functionality goes one step further from the [named query](#convert-to-named-query) conversion. It applies a number of transformations to the query. At the moment it does the following:
 
 - transform query to a named query
-- moves any arguments into query variables with the original varibles moved to the query variables section
+- moves any arguments into query variables with the original variables moved to the query variables section
 
 ## Copy as cURL
 

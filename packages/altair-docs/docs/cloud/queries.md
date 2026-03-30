@@ -19,7 +19,7 @@ There is a special workspace called `Local` that is not tied to any user or team
 ## Collections
 
 Collections are used to organize queries. You can create collections to categorize your queries logically. This makes it easier to find what you need quickly and easily. Collections are `Local` by default unless you add them to a cloud-based workspace (user or team workspace).
-![Saving query to collecion in cloud workspace](/assets/img/docs/user-account-saving-query-collection-workspace.png)
+![Saving query to collection in cloud workspace](/assets/img/docs/user-account-saving-query-collection-workspace.png)
 
 Alternatively, you can sync a local collection to your cloud workspace after creating it by clicking the `Sync to remote` button in the collection list. This will move the collection from your local workspace to your cloud workspace.
 

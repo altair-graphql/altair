@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it } from 'vitest';
+import { after all, beforeEach, describe, expect, it } from 'vitest';
 import { ICreateTeamMembershipDto } from '@altairgraphql/api-utils';
 import { INestApplication } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
@@ -29,7 +29,7 @@ describe('TeamMembershipsController', () => {
     // reset mocks
     mockUserFn.mockReturnValue(undefined);
   });
-  afterAll(async () => {
+  after all(async () => {
     await afterAllCleanup(app, prismaService);
   });
 

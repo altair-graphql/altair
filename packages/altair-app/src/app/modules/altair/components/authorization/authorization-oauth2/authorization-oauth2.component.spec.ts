@@ -69,7 +69,7 @@ describe('AuthorizationOauth2Component', () => {
       );
     });
 
-    // TODO: Fix this test, the result isnt correct
+    // TODO: Fix this test, the result isn't correct
     it.skip('should return options with hydrated values', () => {
       wrapper.componentInstance.form.patchValue({
         type: OAuth2Type.AUTHORIZATION_CODE,

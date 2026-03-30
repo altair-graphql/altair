@@ -42,7 +42,7 @@ export function variableReducer(
       // TODO: Backward compatibility check:
       state.files = state.files || [];
 
-      // overwrite existing if it matches namme
+      // overwrite existing if it matches name
       if (
         action.payload?.name &&
         state.files.find((f) => f.name === action.payload?.name)

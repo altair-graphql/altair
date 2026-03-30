@@ -11,7 +11,7 @@ interface ISelectedFile {
 
 @Injectable()
 export class StorageService extends Dexie {
-  // (just to inform Typescript. Instanciated by Dexie in stores() method)
+  // (just to inform Typescript. Instantiated by Dexie in stores() method)
   queryCollections!: Dexie.Table<IQueryCollection, number | string>;
   appState!: Dexie.Table<{ key: string; value: unknown }, string>;
   selectedFiles!: Dexie.Table<ISelectedFile, string>;

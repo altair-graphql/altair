@@ -86,7 +86,7 @@ export function windows(reducer: ActionReducer<PerWindowState, AllActions>) {
 
         if (_action.type === INIT) {
           // Run normalizer at initialization to fix backward compatibility issues
-          // run compatibilty normalizer here
+          // run compatibility normalizer here
           return normalize(_state);
         }
 

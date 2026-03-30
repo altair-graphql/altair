@@ -1,7 +1,7 @@
 {
   "SEND_REQUEST_BUTTON": "Envoyer requête",
   "PRETTIFY_BUTTON": "Prettify",
-  "COMPRESS_QUERY_BUTTON": "Compresser",
+  "COMPRESS_QUERY_BUTTON": "Compressor",
   "CLEAR_BUTTON": "Nettoyer",
   "SET_HEADERS_BUTTON": "Configurer Headers",
   "SET_VARIABLES_BUTTON": "Configurer Variables",

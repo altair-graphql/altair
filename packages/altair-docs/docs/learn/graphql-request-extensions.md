@@ -51,7 +51,7 @@ One common use case for GraphQL request extensions is tracing and debugging. By 
 }
 ```
 
-This can be useful for debugging performance issues, understanding how the server processes your requests, or dentifying bottlenecks in your GraphQL resolvers. Many GraphQL servers and tools support tracing out of the box.
+This can be useful for debugging performance issues, understanding how the server processes your requests, or identifying bottlenecks in your GraphQL resolvers. Many GraphQL servers and tools support tracing out of the box.
 
 ### Custom logic and business rules
 

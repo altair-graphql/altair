@@ -39,7 +39,7 @@ Limiting query depth and complexity prevents attackers from crafting deeply nest
 - **Complexity analysis:** Assign a “cost” to fields and operations (using libraries like [`graphql-query-complexity`](https://www.npmjs.com/package/graphql-query-complexity)) to reject queries that exceed a safe threshold.
 - **Pagination:** Implement pagination for list fields to control the amount of data returned in a single request.
 
-<!-- TODO: cpde sectopm -->
+<!-- TODO: cpde section -->
 
 ### Authentication and authorization
 

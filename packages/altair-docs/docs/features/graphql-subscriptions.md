@@ -46,6 +46,6 @@ The connection parameters are in JSON format as following
 
 [Action Cable](https://guides.rubyonrails.org/action_cable_overview.html) seamlessly integrates WebSockets with the rest of your Rails application. It allows for real-time features to be written in Ruby in the same style and form as the rest of your Rails application, while still being performant and scalable.
 
-![Specifing action cable connection parameters](https://user-images.githubusercontent.com/3378171/99864870-e8afc980-2b73-11eb-8eb1-ff1334c4dc21.png)
+![Specifying action cable connection parameters](https://user-images.githubusercontent.com/3378171/99864870-e8afc980-2b73-11eb-8eb1-ff1334c4dc21.png)
 
 ![Action cable subscription](https://user-images.githubusercontent.com/3378171/99864871-ea798d00-2b73-11eb-835b-69fa6ae0726e.png)

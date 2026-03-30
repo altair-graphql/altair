@@ -9,7 +9,7 @@ export interface RenderOptions extends AltairConfigOptions {
   baseURL?: string;
 
   /**
-   * Whether to render the initial options in a seperate javascript file or not.
+   * Whether to render the initial options in a separate javascript file or not.
    * Use this to be able to enforce strict CSP rules.
    * @default false
    */

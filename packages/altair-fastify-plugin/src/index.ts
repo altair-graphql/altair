@@ -12,7 +12,7 @@ import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
 export interface AltairFastifyPluginOptions extends RenderOptions {
   /**
-   * Path in which Altair will be accesible.
+   * Path in which Altair will be accessible.
    *
    * By default is `/altair`
    */

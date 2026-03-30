@@ -1,4 +1,4 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { after all, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { delay } from 'msw';
 import { setupServer } from 'msw/node';
 import { GraphQLRequestHandler, GraphQLRequestOptions } from '../types';
@@ -10,7 +10,7 @@ const server = setupServer();
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+after all(() => server.close());
 
 const testObserver = (o: Observable<unknown>) => {
   const values: unknown[] = [];

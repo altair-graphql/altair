@@ -645,7 +645,7 @@ export class GqlService {
           ];
         }
 
-        // valiate variables
+        // validate variables
         if (variables) {
           try {
             JSON.parse(variables);

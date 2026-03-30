@@ -345,7 +345,7 @@ export class ElectronAppService {
       return location.reload();
     }
 
-    // notify invlaid file content
+    // notify invalid file content
     return this.notifyService.error('Invalid file content.');
   }
 
