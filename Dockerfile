@@ -25,7 +25,7 @@ RUN --mount=type=cache,target=/root/.npm \
     npm install -g pnpm@latest
 
 ################################################################################
-# Create a stage for installing production dependecies.
+# Create a stage for installing production dependencies.
 FROM base AS deps
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
