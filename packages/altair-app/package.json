@@ -116,7 +116,7 @@
     "@angular-eslint/schematics": "20.3.0",
     "@angular-eslint/template-parser": "20.3.0",
     "@angular/build": "^20.3.4",
-    "@angular/compiler": "20.3.3",
+    "@angular/compiler": "20.3.18",
     "@angular/compiler-cli": "20.3.3",
     "@ngrx/schematics": "12.4.0",
     "@playwright/test": "^1.31.2",
