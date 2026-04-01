@@ -14,3 +14,8 @@ export interface ICreateTeamMembershipDto {
 }
 
 export type IUpdateTeamMembershipDto = Partial<ICreateTeamMembershipDto>;
+
+export interface ICreateTeamInvitationDto {
+  email: string;
+  role?: string;
+}

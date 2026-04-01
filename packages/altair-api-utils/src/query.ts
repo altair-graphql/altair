@@ -32,3 +32,23 @@ export interface ICreateQueryDto {
 }
 
 export type IUpdateQueryDto = Partial<ICreateQueryDto>;
+
+export interface ExportedQuery {
+  name: string;
+  content: any;
+  queryVersion?: number;
+}
+
+// TODO: keeping this temporarily for now. We should use the export type used by altair-app instead of a different one here
+export interface ExportedCollection {
+  name: string;
+  description?: string | null;
+  preRequestScript?: string | null;
+  preRequestScriptEnabled?: boolean;
+  postRequestScript?: string | null;
+  postRequestScriptEnabled?: boolean;
+  headers?: any;
+  environmentVariables?: any;
+  queries?: ExportedQuery[];
+  collections?: ExportedCollection[];
+}

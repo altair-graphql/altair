@@ -10,6 +10,7 @@ import { QueriesService } from 'src/queries/queries.service';
 import { QueryCollectionsService } from 'src/query-collections/query-collections.service';
 import { StripeService } from 'src/stripe/stripe.service';
 import { TeamsService } from 'src/teams/teams.service';
+import { TeamMembershipsService } from 'src/team-memberships/team-memberships.service';
 
 export const testProviders = [
   QueriesService,
@@ -18,11 +19,17 @@ export const testProviders = [
   UserService,
   StripeService,
   TeamsService,
+  TeamMembershipsService,
   QueryCollectionsService,
   CreditService,
   AiService,
   ConfigService,
-  EmailService,
+  {
+    provide: EmailService,
+    useValue: {
+      sendEmail: vi.fn().mockResolvedValue(undefined),
+    },
+  },
   {
     provide: ConfigService,
     useValue: {

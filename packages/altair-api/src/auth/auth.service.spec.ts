@@ -63,7 +63,7 @@ describe('AuthService', () => {
 
       // THEN
       expect(service.passwordLogin(emailMock, passwordMock)).rejects.toThrow(
-        `No user found for email: ${emailMock}`
+        `Invalid email or password`
       );
     });
 
@@ -76,7 +76,7 @@ describe('AuthService', () => {
       // THEN
       await expect(
         service.passwordLogin(userMock.email, passwordMock)
-      ).rejects.toThrow(`Invalid password`);
+      ).rejects.toThrow(`Invalid email or password`);
     });
   });
 
@@ -106,7 +106,7 @@ describe('AuthService', () => {
     it(`should return a user object`, async () => {
       // GIVEN
       const userMock = mockUser();
-      vi.spyOn(jwtService, 'decode').mockReturnValueOnce({
+      vi.spyOn(jwtService, 'verify').mockReturnValueOnce({
         userId: 'e23b7b34-8996-45d3-9097-b14b8f451dbd',
       });
       vi.spyOn(prismaService.user, 'findUnique').mockResolvedValueOnce(userMock);
@@ -120,10 +120,14 @@ describe('AuthService', () => {
 
     it(`should throw an error if the token is invalid`, () => {
       // GIVEN
-      vi.spyOn(jwtService, 'decode').mockReturnValueOnce(`Couldn't decode token.`);
+      vi.spyOn(jwtService, 'verify').mockImplementationOnce(() => {
+        throw new Error('Invalid token');
+      });
 
       // THEN
-      expect(() => service.getUserFromToken(tokenMock)).toThrow('Invalid JWT token');
+      expect(() => service.getUserFromToken(tokenMock)).toThrow(
+        'Invalid or expired JWT token'
+      );
     });
   });
 

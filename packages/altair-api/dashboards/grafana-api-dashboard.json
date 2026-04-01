@@ -1,0 +1,550 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "links": [],
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "panels": [],
+      "title": "Business Health Overview",
+      "type": "row"
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 1 },
+      "id": 2,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Logins Success vs Failure",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'auth/login/success' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'auth/login/failure' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 1 },
+      "id": 3,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "OAuth Provider Breakdown",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'auth/oauth/google' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'auth/oauth/github' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 10 }, { "color": "green", "value": 50 }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 9 },
+      "id": 4,
+      "options": { "orientation": "auto", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true },
+      "title": "Pro Users Count",
+      "type": "gauge",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT latest(users/pro/count) FROM Metric SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 18, "y": 9 },
+      "id": 5,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Plan Upgrades vs Downgrades",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'user/plan/upgrade' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'user/plan/downgrade' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 14 },
+      "id": 6,
+      "panels": [],
+      "title": "API Performance & Reliability",
+      "type": "row"
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 15 },
+      "id": 7,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "HTTP Request Latency (P50/P95)",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT percentile(duration, 50) FROM Transaction TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT percentile(duration, 95) FROM Transaction TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 15 },
+      "id": 8,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "HTTP Errors (4xx vs 5xx)",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'http/error/4xx' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'http/error/5xx' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 23 },
+      "id": 9,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Database Query Duration",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT average(prisma/query/duration) FROM Metric TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 23 },
+      "id": 10,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Rate Limited Requests",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'http/rate_limited' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 31 },
+      "id": 11,
+      "panels": [],
+      "title": "AI/LLM Analytics",
+      "type": "row"
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 32 },
+      "id": 12,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "AI Sessions & Messages",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'ai/session/create' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'ai/session/message/send' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 32 },
+      "id": 13,
+      "options": { "legend": { "calcs": ["mean", "max"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "AI Message Latency",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT average(ai/message/latency) FROM Metric TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 40 },
+      "id": 14,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "AI Token Usage",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT sum(ai/message/tokens/input) FROM Metric TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT sum(ai/message/tokens/output) FROM Metric TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 40 },
+      "id": 15,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "AI Provider Usage",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'ai/provider/anthropic' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'ai/provider/openai' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'ai/provider/google' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 48 },
+      "id": 16,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "AI Message Ratings",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'ai/message/rate/good' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'ai/message/rate/bad' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 48 },
+      "id": 17,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "AI Errors",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'ai/message/error' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 56 },
+      "id": 18,
+      "panels": [],
+      "title": "Stripe & Billing",
+      "type": "row"
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 57 },
+      "id": 19,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Stripe Webhooks",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'stripe/webhook/received' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'stripe/webhook/processing_error' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 57 },
+      "id": 20,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Subscription Created vs Cancelled",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'stripe/subscription/created' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'stripe/subscription/cancelled' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 65 },
+      "id": 21,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Credit Purchases",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'stripe/checkout/completed' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 65 },
+      "id": 22,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Credit Usage",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT sum(credit/usage/amount) FROM Metric TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 73 },
+      "id": 23,
+      "panels": [],
+      "title": "Collaboration & Usage",
+      "type": "row"
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 74 },
+      "id": 24,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Teams & Memberships",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'team/created' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'team/membership/added' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'team/member/removed' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 74 },
+      "id": 25,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Queries & Collections",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'query/create' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'query_collection/create' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 82 },
+      "id": 26,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "Shared Queries Access",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'shared_query/accessed' TIMESERIES SINCE 24 hours ago" }
+      ]
+    },
+    {
+      "datasource": "New Relic",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": { "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "drawStyle": "line", "fillOpacity": 10, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "lineInterpolation": "linear", "lineWidth": 1, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": true },
+          "mappings": [],
+          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 82 },
+      "id": 27,
+      "options": { "legend": { "calcs": ["sum"], "displayMode": "list", "placement": "bottom" }, "tooltip": { "mode": "single" } },
+      "title": "SSE Connections",
+      "type": "timeseries",
+      "targets": [
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'sse/connections/active' TIMESERIES SINCE 24 hours ago" },
+        { "accountId": "medium", "nrql": "SELECT count(*) FROM Metric WHERE metricName = 'sse/connections/disconnected' TIMESERIES SINCE 24 hours ago" }
+      ]
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": ["altair", "api", "monitoring"],
+  "templating": { "list": [] },
+  "time": { "from": "now-24h", "to": "now" },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Altair API Dashboard",
+  "uid": "altair-api-dashboard",
+  "version": 1
+}

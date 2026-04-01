@@ -191,6 +191,7 @@ export class QueriesService {
 
     if (res.count) {
       this.eventService.emit(EVENTS.QUERY_UPDATE, { id });
+      this.agent?.incrementMetric('query.updated');
     }
 
     // add new revision
@@ -209,9 +210,65 @@ export class QueriesService {
 
     if (res.count) {
       this.eventService.emit(EVENTS.QUERY_UPDATE, { id });
+      this.agent?.incrementMetric('query.deleted');
     }
 
     return res;
+  }
+
+  /**
+   * Create (or return existing) share link for a query.
+   * Only the owner or team member may share.
+   */
+  async sharePublicQuery(userId: string, queryId: string) {
+    // Verify the user has access to the query
+    const query = await this.findOne(userId, queryId);
+
+    // Check if a share already exists
+    const existing = await this.prisma.sharedQuery.findFirst({
+      where: { queryId, sharedBy: userId },
+    });
+    if (existing) {
+      return existing;
+    }
+
+    const shared = await this.prisma.sharedQuery.create({
+      data: {
+        queryId,
+        sharedBy: userId,
+      },
+    });
+
+    this.agent?.incrementMetric('query.share.create');
+    return shared;
+  }
+
+  /**
+   * Revoke a shared link for a query.
+   */
+  async unsharePublicQuery(userId: string, queryId: string) {
+    const result = await this.prisma.sharedQuery.deleteMany({
+      where: { queryId, sharedBy: userId },
+    });
+    this.agent?.incrementMetric('query.share.revoke');
+    return result;
+  }
+
+  /**
+   * Fetch a shared query by its public shareId. No auth required.
+   */
+  async getSharedPublicQuery(shareId: string) {
+    const shared = await this.prisma.sharedQuery.findUnique({
+      where: { shareId },
+      include: {
+        query: true,
+      },
+    });
+    if (!shared) {
+      throw new NotFoundException('Shared query not found');
+    }
+    this.agent?.incrementMetric('shared_query.accessed');
+    return shared;
   }
 
   async count(userId: string, ownOnly = true) {
@@ -275,7 +332,7 @@ export class QueriesService {
       throw new BadRequestException();
     }
 
-    return this.prisma.queryItem.update({
+    const result = await this.prisma.queryItem.update({
       where: {
         id: revision.queryItemId,
       },
@@ -285,6 +342,9 @@ export class QueriesService {
         collectionId: revision.collectionId,
       },
     });
+
+    this.agent?.incrementMetric('query.revision.restore');
+    return result;
   }
 
   private async getPlanConfig(userId: string) {
