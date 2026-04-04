@@ -1,0 +1,84 @@
+# Jaeger v2 all-in-one configuration for local development.
+#
+# Extends the default all-in-one config with a metrics pipeline that
+# exposes a Prometheus scrape endpoint on port 8889.  This lets you
+# verify custom application metrics (counters, histograms) during dev:
+#
+#   curl http://localhost:8889/metrics
+#
+# Traces are stored in-memory and viewable at http://localhost:16686.
+
+service:
+  extensions: [jaeger_storage, jaeger_query, remote_sampling, healthcheckv2]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [jaeger_storage_exporter]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus]
+  telemetry:
+    resource:
+      service.name: jaeger
+    metrics:
+      level: detailed
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: 0.0.0.0
+                port: 8888
+    logs:
+      level: info
+
+extensions:
+  jaeger_query:
+    storage:
+      traces: some_storage
+    http:
+      endpoint: 0.0.0.0:16686
+    grpc:
+      endpoint: 0.0.0.0:16685
+
+  jaeger_storage:
+    backends:
+      some_storage:
+        memory:
+          max_traces: 100000
+
+  remote_sampling:
+    file:
+      path:
+      default_sampling_probability: 1
+      reload_interval: 1s
+    http:
+      endpoint: 0.0.0.0:5778
+    grpc:
+      endpoint: 0.0.0.0:5779
+
+  healthcheckv2:
+    use_v2: true
+    http:
+      endpoint: 0.0.0.0:13133
+
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+      http:
+        endpoint: 0.0.0.0:4318
+
+processors:
+  batch:
+
+exporters:
+  # Trace storage (in-memory)
+  jaeger_storage_exporter:
+    trace_storage: some_storage
+
+  # Application metrics exposed for Prometheus scraping
+  prometheus:
+    endpoint: 0.0.0.0:8889

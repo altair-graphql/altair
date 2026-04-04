@@ -6,11 +6,11 @@ import { User } from '@altairgraphql/db';
 import { AuthService } from '../auth.service';
 import { JwtDto } from '../models/jwt.dto';
 import { Config } from 'src/common/config';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
 
   constructor(
     private readonly authService: AuthService,
@@ -25,7 +25,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtDto): Promise<User> {
     const user = await this.authService.validateUser(payload.userId);
     if (!user) {
-      this.agent?.incrementMetric('auth.token.validation_failure');
+      this.telemetry.incrementMetric('auth.token.validation_failure');
       throw new UnauthorizedException();
     }
     return user;

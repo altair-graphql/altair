@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { z } from 'zod';
 
 const aiModelProviderSchema = z.enum([
@@ -104,9 +105,20 @@ const envSchema = z.object({
       'https://altairgraphql.dev/checkout_cancel?session_id={CHECKOUT_SESSION_ID}'
     ),
 
-  // ── New Relic ─────────────────────────────────────────────────────
-  NEW_RELIC_APP_NAME: z.string().optional(),
-  NEW_RELIC_LICENSE_KEY: z.string().optional(),
+  // ── OpenTelemetry ──────────────────────────────────────────────────
+  /** Logical service name reported in traces and metrics. */
+  OTEL_SERVICE_NAME: z.string().optional().default('altair-api'),
+  /** OTLP collector / backend URL (e.g. "https://otlp.eu01.nr-data.net"). */
+  OTEL_EXPORTER_OTLP_ENDPOINT: z.string().optional(),
+  /** Auth headers in "key=value,key2=value2" format (e.g. api-key=<your_license_key>). */
+  OTEL_EXPORTER_OTLP_HEADERS: z.string().optional(),
+  /** Metric export interval in milliseconds (default 60 000). */
+  OTEL_METRIC_EXPORT_INTERVAL: z.coerce
+    .number()
+    .int()
+    .positive()
+    .optional()
+    .default(60_000),
 });
 
 export type EnvSchema = z.infer<typeof envSchema>;
