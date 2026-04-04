@@ -144,7 +144,7 @@ export class TeamMembershipsService {
       },
     });
 
-    this.telemetry.recordMetric('team.membership.count_by_owner', res.length);
+    this.telemetry.setGauge('team.membership.count_by_owner', res.length);
 
     return res;
   }
@@ -186,7 +186,7 @@ export class TeamMembershipsService {
       },
     });
 
-    this.telemetry.recordMetric('team.membership.count', res.length);
+    this.telemetry.setGauge('team.membership.count', res.length);
 
     return res;
   }

@@ -28,7 +28,7 @@ export class RateLimitMetricsGuard extends ThrottlerGuard {
       const method = request.method;
 
       this.telemetry.incrementMetric('http.rate_limited');
-      this.telemetry.recordMetric('http.rate_limited.route', 1);
+      this.telemetry.incrementMetric(`http.rate_limited.${method}.${route}`);
 
       const logger = (this as any).logger;
       if (logger) {

@@ -61,7 +61,7 @@ export class WorkspacesService {
       },
     });
 
-    this.telemetry.recordMetric('workspace.list.count', res.length);
+    this.telemetry.setGauge('workspace.list.count', res.length);
 
     return res;
   }

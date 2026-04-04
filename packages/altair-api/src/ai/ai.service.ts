@@ -86,7 +86,7 @@ export class AiService {
       },
     });
 
-    this.telemetry.recordMetric('ai.session.count', res.length);
+    this.telemetry.setGauge('ai.session.count', res.length);
 
     return res;
   }
@@ -109,7 +109,7 @@ export class AiService {
         : {}),
     });
 
-    this.telemetry.recordMetric('ai.session.message.count', res.length);
+    this.telemetry.setGauge('ai.session.message.count', res.length);
 
     return res;
   }

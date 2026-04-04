@@ -89,10 +89,7 @@ sdk.start();
 
 // Graceful shutdown
 const shutdown = () => {
-  sdk
-    .shutdown()
-    .catch((err) => console.error('OpenTelemetry shutdown error', err))
-    .finally(() => process.exit(0));
+  sdk.shutdown().catch((err) => console.error('OpenTelemetry shutdown error', err));
 };
 
 process.on('SIGTERM', shutdown);

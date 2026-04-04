@@ -51,7 +51,7 @@ export class CreditService {
       this.telemetry.incrementMetric('credit.balance.not_found');
       throw new BadRequestException('User has no credits');
     }
-    this.telemetry.recordMetric(
+    this.telemetry.setGauge(
       'credit.balance.total',
       creditBalance.fixedCredits + creditBalance.monthlyCredits
     );
@@ -201,7 +201,7 @@ export class CreditService {
       }
     });
 
-    this.telemetry.recordMetric('credit.monthly.refill_count', proUsers.length);
+    this.telemetry.setGauge('credit.monthly.refill_count', proUsers.length);
 
     await Promise.allSettled(creditBalanceRecords);
   }

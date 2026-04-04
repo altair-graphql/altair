@@ -156,7 +156,7 @@ export class QueriesService {
       },
     });
 
-    this.telemetry.recordMetric('query.list.count', res.length);
+    this.telemetry.setGauge('query.list.count', res.length);
 
     return res;
   }
@@ -280,7 +280,7 @@ export class QueriesService {
       },
     });
 
-    this.telemetry.recordMetric('query.list.count', cnt);
+    this.telemetry.setGauge('query.list.count', cnt);
 
     return cnt;
   }
@@ -304,7 +304,7 @@ export class QueriesService {
       },
     });
 
-    this.telemetry.recordMetric('query.revision.list.count', res.length);
+    this.telemetry.setGauge('query.revision.list.count', res.length);
 
     return res;
   }

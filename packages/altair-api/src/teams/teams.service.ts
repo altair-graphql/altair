@@ -66,7 +66,7 @@ export class TeamsService {
       },
     });
 
-    this.telemetry.recordMetric('team.list.count', res.length);
+    this.telemetry.setGauge('team.list.count', res.length);
 
     return res;
   }

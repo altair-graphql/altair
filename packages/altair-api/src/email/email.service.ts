@@ -11,7 +11,7 @@ import { UserService } from 'src/auth/user/user.service';
 import { Config } from 'src/common/config';
 import { User } from '@altairgraphql/db';
 import { getTelemetry } from 'src/telemetry/telemetry';
-import {createTransport} from 'nodemailer';
+import { createTransport } from 'nodemailer';
 import { env } from 'src/common/env';
 
 @Injectable()

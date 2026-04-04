@@ -330,7 +330,7 @@ export class UserService {
       },
     });
 
-    this.telemetry.recordMetric('users.pro.count', proUsers.length);
+    this.telemetry.setGauge('users.pro.count', proUsers.length);
 
     return proUsers;
   }

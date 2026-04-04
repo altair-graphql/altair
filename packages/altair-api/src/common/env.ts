@@ -108,9 +108,9 @@ const envSchema = z.object({
   // ── OpenTelemetry ──────────────────────────────────────────────────
   /** Logical service name reported in traces and metrics. */
   OTEL_SERVICE_NAME: z.string().optional().default('altair-api'),
-  /** OTLP collector / backend URL (e.g. "https://otlp.nr-data.net"). */
+  /** OTLP collector / backend URL (e.g. "https://otlp.eu01.nr-data.net"). */
   OTEL_EXPORTER_OTLP_ENDPOINT: z.string().optional(),
-  /** Auth headers in "key=value,key2=value2" format. */
+  /** Auth headers in "key=value,key2=value2" format (e.g. api-key=<your_license_key>). */
   OTEL_EXPORTER_OTLP_HEADERS: z.string().optional(),
   /** Metric export interval in milliseconds (default 60 000). */
   OTEL_METRIC_EXPORT_INTERVAL: z.coerce
