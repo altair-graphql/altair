@@ -9,11 +9,11 @@ import { EventsJwtAuthGuard } from './auth/guards/events-jwt-auth.guard';
 import { EVENTS } from './common/events';
 import { StripeService } from './stripe/stripe.service';
 import { SkipThrottle } from '@nestjs/throttler';
-import { getAgent } from './newrelic/newrelic';
+import { getTelemetry } from './telemetry/telemetry';
 
 @Controller()
 export class AppController {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
 
   constructor(
     private readonly appService: AppService,
@@ -39,7 +39,7 @@ export class AppController {
     const subject$ = new Subject();
     const userId = req?.user?.id;
 
-    this.agent?.incrementMetric('sse.connections.active');
+    this.telemetry.incrementMetric('sse.connections.active');
 
     // TODO: Create events
     // TODO: Emit events from prisma middleware
@@ -74,7 +74,7 @@ export class AppController {
       });
       if (validUserCollection) {
         subject$.next({ uid: userId, collectionId: id });
-        this.agent?.incrementMetric('sse.events.emitted.collection-update');
+        this.telemetry.incrementMetric('sse.events.emitted.collection-update');
       }
     };
     this.eventService.on([EVENTS.COLLECTION_UPDATE], collectionUpdateListener);
@@ -112,7 +112,7 @@ export class AppController {
       });
       if (validQueryItem) {
         subject$.next({ uid: req?.user?.id, queryId: id });
-        this.agent?.incrementMetric('sse.events.emitted.query-update');
+        this.telemetry.incrementMetric('sse.events.emitted.query-update');
       }
     };
     this.eventService.on([EVENTS.QUERY_UPDATE], queryUpdateListener);
@@ -143,7 +143,7 @@ export class AppController {
           affectedUserId,
           action,
         });
-        this.agent?.incrementMetric('sse.events.emitted.team-membership-update');
+        this.telemetry.incrementMetric('sse.events.emitted.team-membership-update');
       }
     };
     this.eventService.on(
@@ -158,7 +158,7 @@ export class AppController {
           event: 'plan-update',
           planId,
         });
-        this.agent?.incrementMetric('sse.events.emitted.plan-update');
+        this.telemetry.incrementMetric('sse.events.emitted.plan-update');
       }
     };
     this.eventService.on([EVENTS.PLAN_UPDATE], planUpdateListener);
@@ -170,7 +170,7 @@ export class AppController {
           event: 'credit-update',
           ...rest,
         });
-        this.agent?.incrementMetric('sse.events.emitted.credit-update');
+        this.telemetry.incrementMetric('sse.events.emitted.credit-update');
       }
     };
     this.eventService.on([EVENTS.CREDIT_UPDATE], creditUpdateListener);
@@ -186,7 +186,7 @@ export class AppController {
       this.eventService.off([EVENTS.PLAN_UPDATE], planUpdateListener);
       this.eventService.off([EVENTS.CREDIT_UPDATE], creditUpdateListener);
       subject$.complete();
-      this.agent?.incrementMetric('sse.connections.disconnected');
+      this.telemetry.incrementMetric('sse.connections.disconnected');
     });
 
     return subject$.pipe(map((data) => ({ data })));

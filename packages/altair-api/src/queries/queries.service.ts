@@ -12,13 +12,13 @@ import {
   queryItemWhereOwnerOrMember,
   collectionWhereOwnerOrMember,
 } from 'src/common/where-clauses';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 const DEFAULT_QUERY_REVISION_LIMIT = 10;
 
 @Injectable()
 export class QueriesService {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
@@ -87,7 +87,7 @@ export class QueriesService {
 
     this.eventService.emit(EVENTS.QUERY_UPDATE, { id: res.id });
 
-    this.agent?.incrementMetric('query.create');
+    this.telemetry.incrementMetric('query.create');
 
     return res;
   }
@@ -144,7 +144,7 @@ export class QueriesService {
 
     this.eventService.emit(EVENTS.QUERY_UPDATE, { id: res.id });
 
-    this.agent?.incrementMetric('query.create');
+    this.telemetry.incrementMetric('query.create');
 
     return res;
   }
@@ -156,7 +156,7 @@ export class QueriesService {
       },
     });
 
-    this.agent?.recordMetric('query.list.count', res.length);
+    this.telemetry.recordMetric('query.list.count', res.length);
 
     return res;
   }
@@ -191,7 +191,7 @@ export class QueriesService {
 
     if (res.count) {
       this.eventService.emit(EVENTS.QUERY_UPDATE, { id });
-      this.agent?.incrementMetric('query.updated');
+      this.telemetry.incrementMetric('query.updated');
     }
 
     // add new revision
@@ -210,7 +210,7 @@ export class QueriesService {
 
     if (res.count) {
       this.eventService.emit(EVENTS.QUERY_UPDATE, { id });
-      this.agent?.incrementMetric('query.deleted');
+      this.telemetry.incrementMetric('query.deleted');
     }
 
     return res;
@@ -239,7 +239,7 @@ export class QueriesService {
       },
     });
 
-    this.agent?.incrementMetric('query.share.create');
+    this.telemetry.incrementMetric('query.share.create');
     return shared;
   }
 
@@ -250,7 +250,7 @@ export class QueriesService {
     const result = await this.prisma.sharedQuery.deleteMany({
       where: { queryId, sharedBy: userId },
     });
-    this.agent?.incrementMetric('query.share.revoke');
+    this.telemetry.incrementMetric('query.share.revoke');
     return result;
   }
 
@@ -267,7 +267,7 @@ export class QueriesService {
     if (!shared) {
       throw new NotFoundException('Shared query not found');
     }
-    this.agent?.incrementMetric('shared_query.accessed');
+    this.telemetry.incrementMetric('shared_query.accessed');
     return shared;
   }
 
@@ -280,7 +280,7 @@ export class QueriesService {
       },
     });
 
-    this.agent?.recordMetric('query.list.count', cnt);
+    this.telemetry.recordMetric('query.list.count', cnt);
 
     return cnt;
   }
@@ -304,7 +304,7 @@ export class QueriesService {
       },
     });
 
-    this.agent?.recordMetric('query.revision.list.count', res.length);
+    this.telemetry.recordMetric('query.revision.list.count', res.length);
 
     return res;
   }
@@ -343,7 +343,7 @@ export class QueriesService {
       },
     });
 
-    this.agent?.incrementMetric('query.revision.restore');
+    this.telemetry.incrementMetric('query.revision.restore');
     return result;
   }
 
@@ -436,7 +436,7 @@ export class QueriesService {
       });
     }
 
-    this.agent?.incrementMetric('query.revision.create');
+    this.telemetry.incrementMetric('query.revision.create');
 
     return res;
   }

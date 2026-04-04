@@ -14,12 +14,12 @@ import { EVENTS } from 'src/common/events';
 import { ProviderInfo } from '../models/provider-info.dto';
 import { SignupInput } from '../models/signup.input';
 import { UpdateUserInput } from '../models/update-user.input';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
   constructor(
     private readonly prisma: PrismaService,
     private readonly stripeService: StripeService,
@@ -269,7 +269,7 @@ export class UserService {
   async toBasicPlan(userId: string) {
     await this.updateUserPlan(userId, BASIC_PLAN_ID, 1);
 
-    this.agent?.incrementMetric('user.plan.downgrade');
+    this.telemetry.incrementMetric('user.plan.downgrade');
 
     // Deduct remaining monthly credits atomically
     await this.prisma.$transaction(async (tx) => {
@@ -313,7 +313,7 @@ export class UserService {
   async toProPlan(userId: string, quantity: number) {
     await this.updateUserPlan(userId, PRO_PLAN_ID, quantity);
 
-    this.agent?.incrementMetric('user.plan.upgrade');
+    this.telemetry.incrementMetric('user.plan.upgrade');
 
     this.eventEmitter.emit(EVENTS.PLAN_UPDATE, {
       userId,
@@ -330,7 +330,7 @@ export class UserService {
       },
     });
 
-    this.agent?.recordMetric('users.pro.count', proUsers.length);
+    this.telemetry.recordMetric('users.pro.count', proUsers.length);
 
     return proUsers;
   }

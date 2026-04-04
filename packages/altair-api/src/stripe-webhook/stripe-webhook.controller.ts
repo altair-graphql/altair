@@ -14,13 +14,13 @@ import { EmailService } from 'src/email/email.service';
 import { StripeService } from 'src/stripe/stripe.service';
 import { Stripe } from 'stripe';
 import { SkipThrottle } from '@nestjs/throttler';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 @Controller('stripe-webhook')
 @SkipThrottle()
 export class StripeWebhookController {
   private readonly logger = new Logger(StripeWebhookController.name);
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
 
   constructor(
     private readonly stripeService: StripeService,
@@ -46,8 +46,8 @@ export class StripeWebhookController {
       stripeSignature
     );
 
-    this.agent?.incrementMetric('stripe.webhook.received');
-    this.agent?.incrementMetric(`stripe.webhook.${event.type}`);
+    this.telemetry.incrementMetric('stripe.webhook.received');
+    this.telemetry.incrementMetric(`stripe.webhook.${event.type}`);
 
     try {
       switch (event.type) {
@@ -84,7 +84,7 @@ export class StripeWebhookController {
           if (planRole === BASIC_PLAN_ID) {
             await this.userService.toBasicPlan(user.id);
             if (shouldCancelPlan) {
-              this.agent?.incrementMetric('stripe.subscription.cancelled');
+              this.telemetry.incrementMetric('stripe.subscription.cancelled');
               // Send goodbye email
               this.logger.log('Sending goodbye email');
               await this.emailService.sendGoodbyeEmail(user.id);
@@ -92,7 +92,7 @@ export class StripeWebhookController {
           } else if (planRole === PRO_PLAN_ID) {
             await this.userService.toProPlan(user.id, quantity);
             if (event.type === 'customer.subscription.created') {
-              this.agent?.incrementMetric('stripe.subscription.created');
+              this.telemetry.incrementMetric('stripe.subscription.created');
               // Send welcome email
               this.logger.log('Sending welcome email');
               await this.emailService.sendWelcomeEmail(user.id);
@@ -179,8 +179,8 @@ export class StripeWebhookController {
                 });
               });
 
-              this.agent?.incrementMetric('stripe.checkout.completed');
-              this.agent?.recordMetric('credit.purchase.amount', quantity);
+              this.telemetry.incrementMetric('stripe.checkout.completed');
+              this.telemetry.recordMetric('credit.purchase.amount', quantity);
 
               this.eventEmitter.emit(EVENTS.CREDIT_UPDATE, {
                 userId: user.id,
@@ -194,7 +194,7 @@ export class StripeWebhookController {
         }
       }
     } catch (error) {
-      this.agent?.incrementMetric('stripe.webhook.processing_error');
+      this.telemetry.incrementMetric('stripe.webhook.processing_error');
       throw error;
     }
 

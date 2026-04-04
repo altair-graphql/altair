@@ -10,13 +10,13 @@ import { Cron, CronExpression } from '@nestjs/schedule';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
 import { EVENTS } from 'src/common/events';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 import { StripeService } from 'src/stripe/stripe.service';
 
 @Injectable()
 export class CreditService {
   private readonly logger = new Logger(CreditService.name);
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
 
   constructor(
     private readonly prisma: PrismaService,
@@ -48,10 +48,10 @@ export class CreditService {
       where: { userId },
     });
     if (!creditBalance) {
-      this.agent?.incrementMetric('credit.balance.not_found');
+      this.telemetry.incrementMetric('credit.balance.not_found');
       throw new BadRequestException('User has no credits');
     }
-    this.agent?.recordMetric(
+    this.telemetry.recordMetric(
       'credit.balance.total',
       creditBalance.fixedCredits + creditBalance.monthlyCredits
     );
@@ -104,7 +104,7 @@ export class CreditService {
         where: { userId },
       });
       if (!creditBalance) {
-        this.agent?.incrementMetric('credit.balance.not_found');
+        this.telemetry.incrementMetric('credit.balance.not_found');
         throw new BadRequestException('User has no credits');
       }
 
@@ -201,7 +201,7 @@ export class CreditService {
       }
     });
 
-    this.agent?.recordMetric('credit.monthly.refill_count', proUsers.length);
+    this.telemetry.recordMetric('credit.monthly.refill_count', proUsers.length);
 
     await Promise.allSettled(creditBalanceRecords);
   }

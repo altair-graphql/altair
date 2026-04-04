@@ -10,16 +10,16 @@ import {
 import { UserService } from 'src/auth/user/user.service';
 import { Config } from 'src/common/config';
 import { User } from '@altairgraphql/db';
-import { Agent, getAgent } from 'src/newrelic/newrelic';
-import nodemailer from 'nodemailer';
+import { getTelemetry } from 'src/telemetry/telemetry';
+import {createTransport} from 'nodemailer';
 import { env } from 'src/common/env';
 
 @Injectable()
 export class EmailService {
   private resend: Resend;
-  private agent = getAgent();
+  private telemetry = getTelemetry();
   private readonly logger = new Logger(EmailService.name);
-  private readonly transporter = nodemailer.createTransport({
+  private readonly transporter = createTransport({
     host: env.SMTP_HOST,
     port: env.SMTP_PORT,
     secure: env.SMTP_SECURE,
@@ -157,11 +157,11 @@ export class EmailService {
 
     try {
       const info = await this.transporter.sendMail(options);
-      this.agent?.incrementMetric('email.send.success');
+      this.telemetry.incrementMetric('email.send.success');
 
       return { data: info, error: null };
     } catch (error) {
-      this.agent?.incrementMetric('email.send.error');
+      this.telemetry.incrementMetric('email.send.error');
       this.logger.error('Error sending email', error);
       return { data: null, error };
     }

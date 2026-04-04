@@ -13,7 +13,7 @@ import { EVENTS } from 'src/common/events';
 import { CreateTeamMembershipDto } from './dto/create-team-membership.dto';
 import { UpdateTeamMembershipDto } from './dto/update-team-membership.dto';
 import { TeamInvitationStatus, TeamMemberRole } from '@altairgraphql/db';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 const INVITATION_EXPIRY_DAYS = 7;
 
@@ -25,7 +25,7 @@ export type EffectiveTeamRole = 'OWNER' | TeamMemberRole;
 
 @Injectable()
 export class TeamMembershipsService {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
   private readonly logger = new Logger(TeamMembershipsService.name);
   constructor(
     private readonly prisma: PrismaService,
@@ -125,7 +125,7 @@ export class TeamMembershipsService {
 
     await this.updateSubscriptionQuantity(team.ownerId);
 
-    this.agent?.incrementMetric('team.membership.added');
+    this.telemetry.incrementMetric('team.membership.added');
     this.eventEmitter.emit(EVENTS.TEAM_MEMBERSHIP_UPDATE, {
       teamId,
       userId: validMember.id,
@@ -144,7 +144,7 @@ export class TeamMembershipsService {
       },
     });
 
-    this.agent?.recordMetric('team.membership.count_by_owner', res.length);
+    this.telemetry.recordMetric('team.membership.count_by_owner', res.length);
 
     return res;
   }
@@ -186,7 +186,7 @@ export class TeamMembershipsService {
       },
     });
 
-    this.agent?.recordMetric('team.membership.count', res.length);
+    this.telemetry.recordMetric('team.membership.count', res.length);
 
     return res;
   }
@@ -313,7 +313,7 @@ export class TeamMembershipsService {
       action: 'removed',
     });
 
-    this.agent?.incrementMetric('team.membership.removed');
+    this.telemetry.incrementMetric('team.membership.removed');
 
     return res;
   }
@@ -402,7 +402,7 @@ export class TeamMembershipsService {
       },
     });
 
-    this.agent?.incrementMetric('team.invitation.create');
+    this.telemetry.incrementMetric('team.invitation.create');
     return invitation;
   }
 
@@ -489,7 +489,7 @@ export class TeamMembershipsService {
     // Update subscription quantity for team owner
     await this.updateSubscriptionQuantity(invitation.team.ownerId);
 
-    this.agent?.incrementMetric('team.invitation.accept');
+    this.telemetry.incrementMetric('team.invitation.accept');
     this.eventEmitter.emit(EVENTS.TEAM_MEMBERSHIP_UPDATE, {
       teamId: invitation.teamId,
       userId,
@@ -523,7 +523,7 @@ export class TeamMembershipsService {
       where: { id: invitationId },
     });
 
-    this.agent?.incrementMetric('team.invitation.revoke');
+    this.telemetry.incrementMetric('team.invitation.revoke');
     return result;
   }
 }

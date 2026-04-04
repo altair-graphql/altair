@@ -33,11 +33,29 @@ services:
     env_file: .env
     entrypoint: ["/usr/bin/bash", "/entrypoint.sh"]
 
+  # UI at http://localhost:8027
   smtp:
     image: axllent/mailpit:latest
     ports:
       - 1027:1025 # SMTP port
       - 8027:8025 # Web interface port
+    restart: unless-stopped
+
+  # ── OpenTelemetry (local dev) ──────────────────────────────────────
+  # Jaeger v2 all-in-one: built-in OTel Collector + trace storage + UI.
+  # Natively accepts OTLP on ports 4317 (gRPC) and 4318 (HTTP).
+  # Traces UI at http://localhost:16686
+  # Application metrics at http://localhost:8889/metrics
+  jaeger:
+    image: cr.jaegertracing.io/jaegertracing/jaeger:2.17.0
+    command: ["--config", "/jaeger/config.yaml"]
+    volumes:
+      - ./dev/jaeger-config.yaml:/jaeger/config.yaml:ro
+    ports:
+      - "4317:4317" # OTLP gRPC
+      - "4318:4318" # OTLP HTTP
+      - "16686:16686" # Jaeger UI
+      - "8889:8889" # Prometheus metrics (application metrics)
     restart: unless-stopped
 
 volumes:

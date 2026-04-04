@@ -11,12 +11,12 @@ import { Config } from 'src/common/config';
 import { ChangePasswordInput } from './models/change-password.input';
 import { PasswordService } from './password/password.service';
 import { IToken } from '@altairgraphql/api-utils';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 const NEW_USER_TIME = 1000 * 60 * 10; // 10 minutes
 @Injectable()
 export class AuthService {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
   constructor(
     private readonly jwtService: JwtService,
     private readonly prisma: PrismaService,
@@ -28,7 +28,7 @@ export class AuthService {
     const user = await this.prisma.user.findUnique({ where: { email } });
 
     if (!user) {
-      this.agent?.incrementMetric('auth.login.failure');
+      this.telemetry.incrementMetric('auth.login.failure');
       throw new UnauthorizedException('Invalid email or password');
     }
 
@@ -38,7 +38,7 @@ export class AuthService {
     );
 
     if (!passwordValid) {
-      this.agent?.incrementMetric('auth.login.failure');
+      this.telemetry.incrementMetric('auth.login.failure');
       throw new UnauthorizedException('Invalid email or password');
     }
 
@@ -50,7 +50,7 @@ export class AuthService {
       throw new BadRequestException('No user from google');
     }
 
-    this.agent?.incrementMetric('auth.oauth.google');
+    this.telemetry.incrementMetric('auth.oauth.google');
     return this.getLoginResponse(user);
   }
 
@@ -59,7 +59,7 @@ export class AuthService {
       throw new BadRequestException('No user from github');
     }
 
-    this.agent?.incrementMetric('auth.oauth.github');
+    this.telemetry.incrementMetric('auth.oauth.github');
     return this.getLoginResponse(user);
   }
 
@@ -130,7 +130,7 @@ export class AuthService {
   }
 
   getLoginResponse(user: User) {
-    this.agent?.incrementMetric('auth.login.success');
+    this.telemetry.incrementMetric('auth.login.success');
 
     return {
       ...this.getUserProfile(user),
@@ -151,7 +151,7 @@ export class AuthService {
    */
   getShortLivedEventsToken(userId: string): string {
     const securityConfig = this.configService.get('security', { infer: true });
-    this.agent?.incrementMetric('auth.events_token.generate');
+    this.telemetry.incrementMetric('auth.events_token.generate');
     return this.jwtService.sign(
       { userId },
       {
@@ -181,12 +181,12 @@ export class AuthService {
         secret: this.configService.get('JWT_REFRESH_SECRET', { infer: true }),
       });
 
-      this.agent?.incrementMetric('auth.token.refresh.success');
+      this.telemetry.incrementMetric('auth.token.refresh.success');
       return this.generateTokens({
         userId,
       });
     } catch (e) {
-      this.agent?.incrementMetric('auth.token.refresh.failure');
+      this.telemetry.incrementMetric('auth.token.refresh.failure');
       throw new UnauthorizedException();
     }
   }
@@ -195,7 +195,7 @@ export class AuthService {
    * Generate a short-lived JWT for email verification (24h expiry).
    */
   generateEmailVerificationToken(userId: string): string {
-    this.agent?.incrementMetric('auth.verification_email.send');
+    this.telemetry.incrementMetric('auth.verification_email.send');
     return this.jwtService.sign(
       { userId, purpose: 'email-verification' },
       { expiresIn: '24h' }
@@ -227,7 +227,7 @@ export class AuthService {
         data: { emailVerified: new Date() },
       });
 
-      this.agent?.incrementMetric('auth.email_verified');
+      this.telemetry.incrementMetric('auth.email_verified');
       return { verified: true };
     } catch (e) {
       if (e instanceof BadRequestException) {
