@@ -71,14 +71,15 @@ FROM base AS final
 # Use production node environment by default.
 ENV NODE_ENV=production
 
-# Run the application as a non-root user.
-USER node
 
 COPY --from=build /api-app /app
 
+WORKDIR /app
+
 RUN chown -R node:node /app
 
-WORKDIR /app
+# Run the application as a non-root user.
+USER node
 
 # Copy package.json so that package manager commands can be used.
 # COPY package.json .
