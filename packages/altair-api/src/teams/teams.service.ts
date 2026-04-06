@@ -1,5 +1,5 @@
 import { Prisma } from '@altairgraphql/db';
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable, Logger } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { UserService } from 'src/auth/user/user.service';
 import { InvalidRequestException } from 'src/exceptions/invalid-request.exception';
@@ -10,6 +10,7 @@ import { getTelemetry } from 'src/telemetry/telemetry';
 
 @Injectable()
 export class TeamsService {
+  private readonly logger = new Logger(TeamsService.name);
   private readonly telemetry = getTelemetry();
   constructor(
     private readonly prisma: PrismaService,

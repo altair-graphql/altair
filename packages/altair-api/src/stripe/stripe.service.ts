@@ -1,4 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Stripe } from 'stripe';
 import { PLAN_IDS } from '@altairgraphql/db';
@@ -189,13 +194,13 @@ export class StripeService {
     );
 
     if (!product) {
-      throw new Error('Credit product not found');
+      throw new InternalServerErrorException('Credit product not found');
     }
 
     const price = prices.data.find((price) => price.product === product.id);
 
     if (!price) {
-      throw new Error('Credit price not found');
+      throw new InternalServerErrorException('Credit price not found');
     }
 
     return {
@@ -231,7 +236,7 @@ export class StripeService {
     const itemId = res.data.at(0)?.items.data.at(0)?.id;
 
     if (!itemId) {
-      throw new Error(
+      throw new BadRequestException(
         `Cannot update subscription quantity since customer (${stripeCustomerId}) does not have a subscription item ID`
       );
     }

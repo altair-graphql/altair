@@ -5,7 +5,14 @@ import {
   PRO_PLAN_ID,
   User,
 } from '@altairgraphql/db';
-import { ConflictException, Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from 'nestjs-prisma';
 import { Prisma } from '@prisma/client';
@@ -108,7 +115,7 @@ export class UserService {
   async mustGetUser(userId: string) {
     const user = await this.getUser(userId);
     if (!user) {
-      throw new Error(`User not found for id: ${userId}`);
+      throw new NotFoundException(`User not found for id: ${userId}`);
     }
     return user;
   }
@@ -176,7 +183,7 @@ export class UserService {
 
     // update stripe subscription quantity
     if (!user.stripeCustomerId) {
-      throw new Error(
+      throw new BadRequestException(
         `Cannot update subscription quantity since user (${userId}) does not have a stripe customer ID`
       );
     }
@@ -235,7 +242,7 @@ export class UserService {
     const proPlanInfo = await this.stripeService.getPlanInfoByRole(PRO_PLAN_ID);
 
     if (!proPlanInfo) {
-      throw new Error(`No plan info found for id: ${PRO_PLAN_ID}`);
+      throw new InternalServerErrorException(`No plan info found for id: ${PRO_PLAN_ID}`);
     }
     const session = await this.stripeService.createSubscriptionCheckoutSession(
       customerId,
@@ -278,7 +285,7 @@ export class UserService {
       });
 
       if (!creditBalance) {
-        throw new Error('User has no credit balance');
+        throw new BadRequestException('User has no credit balance');
       }
 
       const remainingMonthlyCredits = creditBalance.monthlyCredits;

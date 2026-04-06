@@ -30,9 +30,7 @@ export async function setupLogTape(): Promise<void> {
     reset: true,
     sinks: {
       console: getConsoleSink({
-        formatter: isProduction
-          ? getJsonLinesFormatter()
-          : getAnsiColorFormatter(),
+        formatter: isProduction ? getJsonLinesFormatter() : getAnsiColorFormatter(),
       }),
       otel: getOpenTelemetrySink({ loggerProvider }),
     },

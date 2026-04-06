@@ -1,7 +1,12 @@
 import { expect, vi } from 'vitest';
 import request from 'supertest';
 import { PrismaClient } from '@altairgraphql/db';
-import { ConsoleLogger, INestApplication, Logger } from '@nestjs/common';
+import {
+  ConsoleLogger,
+  INestApplication,
+  Logger,
+  LoggerService,
+} from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from 'src/app.module';
 import { JwtStrategy } from 'src/auth/strategies/jwt.strategy';
@@ -18,6 +23,8 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { StripeService } from 'src/stripe/stripe.service';
 import { ConfigService } from '@nestjs/config';
+import { setupLogTape } from 'src/logging/logtape-config';
+import { LogTapeLoggerService } from 'src/logging/logtape-logger.service';
 
 const prisma = new PrismaClient();
 (prisma as any).enableShutdownHooks = () => {
@@ -276,6 +283,7 @@ export const createTestApp = async () => {
     }),
     updateSubscriptionQuantity: vi.fn().mockResolvedValue({}),
   };
+  await setupLogTape();
   const moduleFixture: TestingModule = await Test.createTestingModule({
     imports: [AppModule],
   })
@@ -293,7 +301,7 @@ export const createTestApp = async () => {
     .overrideProvider(StripeService)
     .useValue(stripeService)
     .overrideProvider(Logger)
-    .useValue(logger)
+    .useClass(LogTapeLoggerService)
     .overrideProvider(PrismaService)
     .useValue(prisma)
     .compile();
