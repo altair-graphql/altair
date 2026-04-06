@@ -75,6 +75,9 @@ ENV NODE_ENV=production
 USER node
 
 COPY --from=build /api-app /app
+
+RUN chown -R node:node /app
+
 WORKDIR /app
 
 # Copy package.json so that package manager commands can be used.
@@ -89,7 +92,6 @@ WORKDIR /app
 ENV NEW_RELIC_NO_CONFIG_FILE=true
 ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
 ENV NEW_RELIC_LOG=stdout
-ENV PRISMA_GENERATE_SKIP_AUTOINSTALL=1
 
 
 # Expose the port that the application listens on.
