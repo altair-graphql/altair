@@ -43,6 +43,7 @@ import { RateLimitMetricsGuard } from './auth/guards/rate-limit-metrics.guard';
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {
+        explicitConnect: true,
         prismaOptions: {
           log: [
             {
