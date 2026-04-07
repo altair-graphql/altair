@@ -71,11 +71,6 @@ RUN chown -R node:node /app
 
 USER node
 
-# New Relic configuration
-ENV NEW_RELIC_NO_CONFIG_FILE=true
-ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
-ENV NEW_RELIC_LOG=stdout
-
 ARG PORT=3000
 ENV PORT=${PORT}
 EXPOSE ${PORT}
