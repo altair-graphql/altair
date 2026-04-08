@@ -75,6 +75,6 @@ USER node
 
 ARG PORT=3000
 ENV PORT=${PORT}
-EXPOSE ${PORT}
+# EXPOSE ${PORT}
 
 CMD ["pnpm", "run", "start:prod:in-docker"]
