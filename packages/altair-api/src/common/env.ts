@@ -1,4 +1,4 @@
-// import 'dotenv/config';
+import 'dotenv/config';
 import { z } from 'zod';
 
 const aiModelProviderSchema = z.enum([
@@ -21,7 +21,7 @@ export type AiModelProvider = z.infer<typeof aiModelProviderSchema>;
  */
 const envSchema = z.object({
   NODE_ENV: z.string().optional().default('development'),
-  PORT: z.coerce.number().int().positive().default(3000),
+  PORT: z.coerce.number().int().positive().optional(),
 
   // Allowed redirect origins (comma-separated)
   ALLOWED_REDIRECT_ORIGINS: z
@@ -169,9 +169,17 @@ function parseEnv(): EnvSchema {
   const result = envSchema.safeParse(process.env);
 
   if (!result.success) {
+    const formattedErrors = result.error.flatten().fieldErrors;
+    console.error('Invalid environment variables:', formattedErrors);
     console.error(
-      'Invalid environment variables:',
-      result.error.flatten().fieldErrors
+      'Current environment variables:',
+      Object.keys(formattedErrors).reduce(
+        (acc, key) => {
+          acc[key] = process.env[key];
+          return acc;
+        },
+        {} as Record<string, string | undefined>
+      )
     );
     throw new Error('Invalid environment variables');
   }
