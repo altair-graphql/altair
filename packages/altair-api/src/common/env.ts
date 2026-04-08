@@ -21,7 +21,7 @@ export type AiModelProvider = z.infer<typeof aiModelProviderSchema>;
  */
 const envSchema = z.object({
   NODE_ENV: z.string().optional().default('development'),
-  PORT: z.coerce.number().int().positive().optional(),
+  PORT: z.coerce.number().int().positive().default(3000),
 
   // Allowed redirect origins (comma-separated)
   ALLOWED_REDIRECT_ORIGINS: z
