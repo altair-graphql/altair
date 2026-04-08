@@ -67,6 +67,8 @@ WORKDIR /app
 
 COPY --from=build /api-app .
 
+COPY CHECKS CHECKS
+
 RUN chown -R node:node /app
 
 USER node
