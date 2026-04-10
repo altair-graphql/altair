@@ -20,14 +20,14 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Config } from 'src/common/config';
 import dedent from 'dedent';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 import { ChatGoogleGenerativeAI } from '@langchain/google-genai';
 import { ChatOllama } from '@langchain/ollama';
 import { getPrompt } from './prompt';
 
 @Injectable()
 export class AiService {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
   constructor(
     private readonly creditService: CreditService,
     private readonly prisma: PrismaService,
@@ -46,7 +46,7 @@ export class AiService {
         },
       });
 
-      this.agent?.incrementMetric('ai.session.create');
+      this.telemetry.incrementMetric('ai.session.create');
 
       return tx.aiChatSession.create({
         data: {
@@ -86,7 +86,7 @@ export class AiService {
       },
     });
 
-    this.agent?.recordMetric('ai.session.count', res.length);
+    this.telemetry.setGauge('ai.session.count', res.length);
 
     return res;
   }
@@ -109,7 +109,7 @@ export class AiService {
         : {}),
     });
 
-    this.agent?.recordMetric('ai.session.message.count', res.length);
+    this.telemetry.setGauge('ai.session.message.count', res.length);
 
     return res;
   }
@@ -150,7 +150,7 @@ export class AiService {
       });
     });
 
-    this.agent?.incrementMetric('ai.session.delete');
+    this.telemetry.incrementMetric('ai.session.delete');
 
     return { deleted: true };
   }
@@ -186,8 +186,8 @@ export class AiService {
     rating: number;
   }) {
     rating > 0
-      ? this.agent?.incrementMetric('ai.message.rate.good')
-      : this.agent?.incrementMetric('ai.message.rate.bad');
+      ? this.telemetry.incrementMetric('ai.message.rate.good')
+      : this.telemetry.incrementMetric('ai.message.rate.bad');
 
     return this.prisma.aiChatMessage.update({
       where: {
@@ -221,16 +221,16 @@ export class AiService {
       // Send message (+ all previous messages in session) to AI
       const response = await this.sendToAI(messageInput, messages);
 
-      this.agent?.incrementMetric('ai.session.message.send');
+      this.telemetry.incrementMetric('ai.session.message.send');
 
       if (response.usage_metadata) {
         const inputTokens = response.usage_metadata.input_tokens;
         const outputTokens = response.usage_metadata.output_tokens;
         if (inputTokens) {
-          this.agent?.recordMetric('ai.message.tokens.input', inputTokens);
+          this.telemetry.recordMetric('ai.message.tokens.input', inputTokens);
         }
         if (outputTokens) {
-          this.agent?.recordMetric('ai.message.tokens.output', outputTokens);
+          this.telemetry.recordMetric('ai.message.tokens.output', outputTokens);
         }
       }
 
@@ -238,7 +238,7 @@ export class AiService {
       const modelProvider = this.configService.get('ai.modelProvider', {
         infer: true,
       });
-      this.agent?.incrementMetric(`ai.provider.${modelProvider || 'anthropic'}`);
+      this.telemetry.incrementMetric(`ai.provider.${modelProvider || 'anthropic'}`);
 
       // Save messages and update session atomically
       await this.saveMessagePair(
@@ -254,11 +254,11 @@ export class AiService {
         response: response.content,
       };
     } catch (error) {
-      this.agent?.incrementMetric('ai.message.error');
+      this.telemetry.incrementMetric('ai.message.error');
       throw error;
     } finally {
       const duration = Date.now() - startTime;
-      this.agent?.recordMetric('ai.message.latency', duration);
+      this.telemetry.recordMetric('ai.message.latency', duration);
     }
   }
 
@@ -291,13 +291,13 @@ export class AiService {
         yield { type: 'chunk', content: chunk };
       }
 
-      this.agent?.incrementMetric('ai.session.message.send');
+      this.telemetry.incrementMetric('ai.session.message.send');
 
       // Track provider used
       const modelProvider = this.configService.get('ai.modelProvider', {
         infer: true,
       });
-      this.agent?.incrementMetric(`ai.provider.${modelProvider || 'anthropic'}`);
+      this.telemetry.incrementMetric(`ai.provider.${modelProvider || 'anthropic'}`);
 
       // Save messages and update session atomically
       await this.saveMessagePair(
@@ -309,14 +309,14 @@ export class AiService {
 
       yield { type: 'done', content: fullResponse };
     } catch (err) {
-      this.agent?.incrementMetric('ai.message.error');
+      this.telemetry.incrementMetric('ai.message.error');
       yield {
         type: 'error',
         content: err instanceof Error ? err.message : 'Unknown error',
       };
     } finally {
       const duration = Date.now() - startTime;
-      this.agent?.recordMetric('ai.message.latency', duration);
+      this.telemetry.recordMetric('ai.message.latency', duration);
     }
   }
 

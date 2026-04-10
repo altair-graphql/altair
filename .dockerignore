@@ -35,3 +35,11 @@ README.md
 
 packages/altair-docs
 packages/altair-electron
+packages/altair-electron-interop
+packages/altair-electron-settings
+packages/altair-tauri
+packages/altair-app
+plugins
+test-server
+examples
+.github
