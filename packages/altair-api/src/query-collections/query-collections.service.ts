@@ -14,12 +14,12 @@ import {
   collectionWhereOwnerOrMember,
   workspaceWhereOwnerOrMember,
 } from 'src/common/where-clauses';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 import { ExportedCollection } from '@altairgraphql/api-utils';
 
 @Injectable()
 export class QueryCollectionsService {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
@@ -109,7 +109,7 @@ export class QueryCollectionsService {
     });
     this.eventService.emit(EVENTS.COLLECTION_UPDATE, { id: res.id });
 
-    this.agent?.incrementMetric('query_collection.create');
+    this.telemetry.incrementMetric('query_collection.create');
 
     return res;
   }
@@ -124,7 +124,7 @@ export class QueryCollectionsService {
       },
     });
 
-    this.agent?.recordMetric('query_collection.list.count', res.length);
+    this.telemetry.setGauge('query_collection.list.count', res.length);
 
     return res;
   }
@@ -180,7 +180,7 @@ export class QueryCollectionsService {
 
     if (res.count) {
       this.eventService.emit(EVENTS.COLLECTION_UPDATE, { id });
-      this.agent?.incrementMetric('query_collection.deleted');
+      this.telemetry.incrementMetric('query_collection.deleted');
     }
 
     return res;
@@ -274,7 +274,7 @@ export class QueryCollectionsService {
       },
     });
 
-    this.agent?.recordMetric('query_collection.list.count', cnt);
+    this.telemetry.setGauge('query_collection.list.count', cnt);
 
     return cnt;
   }
@@ -317,7 +317,7 @@ export class QueryCollectionsService {
     }
 
     const result = await this.buildExportTree(userId, collection);
-    this.agent?.incrementMetric('query_collection.export');
+    this.telemetry.incrementMetric('query_collection.export');
     return result;
   }
 
@@ -382,7 +382,7 @@ export class QueryCollectionsService {
     }
 
     const result = await this.createImportTree(workspaceId, data, parentCollectionId);
-    this.agent?.incrementMetric('query_collection.import');
+    this.telemetry.incrementMetric('query_collection.import');
     return result;
   }
 

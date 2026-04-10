@@ -1,10 +1,12 @@
-if (process.env.NEW_RELIC_APP_NAME && process.env.NODE_ENV === 'production') {
-  /**
-   * New Relic should be required as early as possible in the application lifecycle, ideally before any other modules are imported.
-   */
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  require('newrelic');
-}
+/**
+ * OpenTelemetry must be initialised before any other imports so the SDK
+ * can monkey-patch HTTP / Express / etc. modules.
+ *
+ * Configuration is read from the validated env config (see src/common/env.ts).
+ * Set OTEL_EXPORTER_OTLP_ENDPOINT and OTEL_EXPORTER_OTLP_HEADERS to
+ * point at any OTLP-compatible backend (New Relic, Datadog, Grafana, …).
+ */
+import './telemetry/instrumentation';
 
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';

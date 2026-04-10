@@ -13,11 +13,11 @@ import {
   workspaceWhereOwner,
   workspaceWhereOwnerOrMember,
 } from 'src/common/where-clauses';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 @Injectable()
 export class WorkspacesService {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
   private readonly logger = new Logger(WorkspacesService.name);
 
   constructor(private readonly prisma: PrismaService) {}
@@ -61,7 +61,7 @@ export class WorkspacesService {
       },
     });
 
-    this.agent?.recordMetric('workspace.list.count', res.length);
+    this.telemetry.setGauge('workspace.list.count', res.length);
 
     return res;
   }

@@ -6,11 +6,11 @@ import { InvalidRequestException } from 'src/exceptions/invalid-request.exceptio
 import { TeamMembershipsService } from 'src/team-memberships/team-memberships.service';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { UpdateTeamDto } from './dto/update-team.dto';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 @Injectable()
 export class TeamsService {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
   constructor(
     private readonly prisma: PrismaService,
     private readonly userService: UserService,
@@ -46,7 +46,7 @@ export class TeamsService {
       },
     });
 
-    this.agent?.incrementMetric('team.created');
+    this.telemetry.incrementMetric('team.created');
 
     return res;
   }
@@ -66,7 +66,7 @@ export class TeamsService {
       },
     });
 
-    this.agent?.recordMetric('team.list.count', res.length);
+    this.telemetry.setGauge('team.list.count', res.length);
 
     return res;
   }

@@ -5,11 +5,11 @@ import {
   ThrottlerModuleOptions,
   ThrottlerStorage,
 } from '@nestjs/throttler';
-import { getAgent } from 'src/newrelic/newrelic';
+import { getTelemetry } from 'src/telemetry/telemetry';
 
 @Injectable()
 export class RateLimitMetricsGuard extends ThrottlerGuard {
-  private readonly agent = getAgent();
+  private readonly telemetry = getTelemetry();
 
   constructor(
     options: ThrottlerModuleOptions,
@@ -27,8 +27,8 @@ export class RateLimitMetricsGuard extends ThrottlerGuard {
       const route = request.route?.path || request.path;
       const method = request.method;
 
-      this.agent?.incrementMetric('http.rate_limited');
-      this.agent?.recordMetric('http.rate_limited.route', 1);
+      this.telemetry.incrementMetric('http.rate_limited');
+      this.telemetry.incrementMetric(`http.rate_limited.${method}.${route}`);
 
       const logger = (this as any).logger;
       if (logger) {
