@@ -89,7 +89,7 @@ const res = await altair.helpers.request(
 
 ### Persisting data between requests
 
-Since altair pretty much lives in a browser environment, it does support the `LocalStorage` feature. This is useful when you need an authentication token before each request but only requesting the token when your authentication expired.
+Since altair pretty much lives in a browser environment, it does support the `LocalStorage` feature. This is useful when you need an authentication token beforeEach request but only requesting the token when your authentication expired.
 
 Assuming you have this header in the `Set Headers window`:
 

@@ -7,7 +7,7 @@ export default defineConfig({
       sourcemap: true,
     },
     plugins: [
-      // Put the Sentry vite plugin after all other plugins
+      // Put the Sentry vite plugin afterAll other plugins
       sentryVitePlugin({
         org: 'altair-graphql',
         project: 'electron',

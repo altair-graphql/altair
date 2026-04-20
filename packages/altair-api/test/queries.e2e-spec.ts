@@ -1,4 +1,4 @@
-import { after all, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeEach, describe, expect, it } from 'vitest';
 import { IUpdateQueryDto } from '@altairgraphql/api-utils';
 import { INestApplication } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
@@ -27,7 +27,7 @@ describe('QueriesController', () => {
     // reset mocks
     mockUserFn.mockReturnValue(undefined);
   });
-  after all(async () => {
+  afterAll(async () => {
     await afterAllCleanup(app, prismaService);
   });
 

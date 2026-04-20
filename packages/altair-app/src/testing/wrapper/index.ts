@@ -184,7 +184,7 @@ export class NgxTestWrapper<C> {
     await this._fixture.whenStable();
     await flushPromises();
 
-    // Ensure that the fixture is stable after all changes
+    // Ensure that the fixture is stable afterAll changes
     this._fixture.detectChanges();
   }
 

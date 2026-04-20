@@ -1,4 +1,4 @@
-import { after all, beforeAll, beforeEach, describe, expect, it } from 'vitest';
+import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import {
@@ -23,7 +23,7 @@ describe('AppController (e2e)', () => {
     mockUserFn.mockReturnValue(undefined);
   });
 
-  after all(async () => {
+  afterAll(async () => {
     await afterAllCleanup(app, prismaService);
   });
 

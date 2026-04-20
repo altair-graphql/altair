@@ -1,4 +1,4 @@
-import { after all, afterEach, beforeAll, describe, expect, it } from 'vitest';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { OAuth2Client } from './client';
 import { AuthFormat, OAuth2Type, RequestFormat } from './types';
 import { setupServer } from 'msw/node';
@@ -8,7 +8,7 @@ const server = setupServer();
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
 afterEach(() => server.resetHandlers());
-after all(() => server.close());
+afterAll(() => server.close());
 
 describe('oauth2 client', () => {
   describe('getAuthorizationUrl', () => {
