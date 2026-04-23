@@ -43,6 +43,15 @@ import { RateLimitMetricsGuard } from './auth/guards/rate-limit-metrics.guard';
     PrismaModule.forRoot({
       isGlobal: true,
       prismaServiceOptions: {
+        explicitConnect: true,
+        prismaOptions: {
+          log: [
+            {
+              emit: 'event',
+              level: 'query',
+            },
+          ],
+        },
         // Use client extension for query metrics (Prisma middleware is deprecated)
         // middlewares: [new PrismaMetricsMiddleware()],
       },

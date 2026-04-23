@@ -2,8 +2,9 @@ import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HttpAdapterHost } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { PrismaClientExceptionFilter, PrismaService } from 'nestjs-prisma';
+import { PrismaService } from 'nestjs-prisma';
 import { CorsConfig, SwaggerConfig } from './common/config';
+import { AllExceptionsFilter } from './exceptions/all-exceptions.filter';
 import { LogTapeLoggerService } from './logging/logtape-logger.service';
 import { loggingMiddleware } from './logging/logging.middleware';
 
@@ -22,9 +23,7 @@ export const bootstrapApp = async (app: INestApplication) => {
   const prismaService: PrismaService = app.get(PrismaService);
   await prismaService.enableShutdownHooks(app);
 
-  // Prisma Client Exception Filter for unhandled exceptions
-  const { httpAdapter } = app.get(HttpAdapterHost);
-  app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
+  app.useGlobalFilters(new AllExceptionsFilter(app.get(HttpAdapterHost)));
 
   const configService = app.get(ConfigService);
   const corsConfig = configService.get<CorsConfig>('cors');

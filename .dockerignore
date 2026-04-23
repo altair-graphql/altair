@@ -1,45 +1,69 @@
-# Include any files or directories that you don't want to be copied to your
-# container here (e.g., local build artifacts, temporary files, etc.).
-#
-# For more help, visit the .dockerignore file reference guide at
-# https://docs.docker.com/go/build-context-dockerignore/
-
-**/.classpath
-**/.dockerignore
-**/.env
+# Version control and IDE
 **/.git
 **/.gitignore
+**/.vscode
+**/.vs
 **/.project
 **/.settings
+**/.classpath
 **/.toolstarget
-**/.vs
-**/.vscode
+**/*.*proj.user
+
+# Environment and secrets
+**/.env
+**/secrets.dev.yaml
+**/values.dev.yaml
+
+# Build artifacts and caches
 **/.next
 **/.cache
-**/*.*proj.user
+**/.turbo
+**/node_modules
+**/build
+**/dist
+**/obj
+**/coverage
+**/npm-debug.log
 **/*.dbmdl
 **/*.jfm
-**/charts
+**/.vite
+**/yarn-error.log
+target
+out
+extension-builds
+web-ext-artifacts
+**/.ollama
+
+# Docker files (avoid recursive builds)
 **/docker-compose*
 **/compose*
 **/Dockerfile*
-**/node_modules
-**/npm-debug.log
-**/obj
-**/secrets.dev.yaml
-**/values.dev.yaml
-**/build
-**/dist
-LICENSE
-README.md
+**/.dockerignore
 
+# Packages not needed for the API build
+packages/altair-app
+packages/altair-crx
 packages/altair-docs
 packages/altair-electron
 packages/altair-electron-interop
 packages/altair-electron-settings
+packages/altair-electron-settings-static
+packages/altair-express-middleware
+packages/altair-fastify-plugin
+packages/altair-iframe-sandbox
+packages/altair-koa-middleware
+packages/altair-plugin
+packages/altair-static
 packages/altair-tauri
-packages/altair-app
+packages/altair-tauri-isolation
+packages/coverage
+packages/gatsby-plugin-altair-graphql
+packages/login-redirect
+
+# Other directories not needed for the API
 plugins
 test-server
 examples
 .github
+**/charts
+libs

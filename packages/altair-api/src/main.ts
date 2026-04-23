@@ -15,6 +15,7 @@ import { setupLogTape } from './logging/logtape-config';
 import { bootstrapApp } from './app-bootstrap';
 import { AppModule } from './app.module';
 import { NestConfig } from './common/config';
+import { PrismaService } from 'nestjs-prisma';
 
 async function bootstrap() {
   // Initialise LogTape before anything else so buffered NestJS logs
@@ -31,6 +32,12 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const nestConfig = configService.get<NestConfig>('nest');
   const port = nestConfig?.port ?? 3000;
+
+  // log query events
+  const prismaService: PrismaService = app.get(PrismaService);
+  prismaService.$on('query', (event) => {
+    console.log(event);
+  });
 
   const logger = getLogger(['altair-api', 'bootstrap']);
   logger.info`Listening on port ${port}`;

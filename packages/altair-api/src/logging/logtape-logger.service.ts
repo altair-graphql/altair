@@ -1,4 +1,4 @@
-import { LoggerService } from '@nestjs/common';
+import { Injectable, LoggerService } from '@nestjs/common';
 import { getLogger, type Logger } from '@logtape/logtape';
 
 /**
@@ -16,6 +16,7 @@ import { getLogger, type Logger } from '@logtape/logtape';
  * callers pass.  We forward them into LogTape as structured properties so
  * nothing is silently discarded.
  */
+@Injectable()
 export class LogTapeLoggerService implements LoggerService {
   private readonly root: Logger;
 

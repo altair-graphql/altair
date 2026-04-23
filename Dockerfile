@@ -1,104 +1,80 @@
 # syntax=docker/dockerfile:1
 
-# Comments are provided throughout this file to help you get started.
-# If you need more help, visit the Dockerfile reference guide at
-# https://docs.docker.com/go/dockerfile-reference/
-
-# Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
-
 ARG NODE_VERSION=24.14.0
+ARG PNPM_VERSION=9.15.0
 
 ################################################################################
-# Use node image for base image for all stages.
-FROM node:${NODE_VERSION}-alpine AS base
+# Build base: includes native compilation toolchain needed for pnpm install.
+FROM node:${NODE_VERSION}-alpine AS build-base
 
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed
-RUN apk update && apk add --no-cache libc6-compat python3 make g++ py3-pip && rm -rf /var/cache/apk/*
-RUN ln -sf python3 /usr/bin/python
+# libc6-compat: needed for some prebuilt native binaries on Alpine.
+# python3, make, g++: needed for native addon compilation (e.g. bcrypt).
+RUN apk add --no-cache libc6-compat python3 make g++
+
+ENV TURBO_TELEMETRY_DISABLED=1
+WORKDIR /usr/src/app
+
+# Pin pnpm to the version declared in package.json.
+ARG PNPM_VERSION
+RUN --mount=type=cache,target=/root/.npm \
+    npm install -g pnpm@${PNPM_VERSION}
+
+################################################################################
+# Install dependencies in a cacheable layer before copying source code.
+FROM build-base AS deps
+
+# Copy only the files pnpm needs to resolve and install dependencies.
+# This layer is cached as long as lockfile / workspace config don't change.
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json .npmrc ./
+
+# Copy every package.json in the workspace so pnpm can resolve the workspace graph.
+# --parents preserves directory structure (requires BuildKit / dockerfile:1 syntax).
+COPY --parents packages/*/package.json ./
+
+# Prisma schema is needed by altair-db's postinstall script (prisma generate).
+COPY packages/altair-db/prisma/schema.prisma  packages/altair-db/prisma/
+
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
+
+################################################################################
+# Build the application.
+FROM deps AS build
+
+# Now copy the full source (leverages cache from the deps layer above).
+COPY . .
+
+RUN pnpm turbo run build --filter=@altairgraphql/api...
+
+# Create a self-contained deployable directory with production deps only.
+RUN pnpm deploy --filter=@altairgraphql/api --prod /api-app
+
+################################################################################
+# Minimal runtime image — no build toolchain.
+FROM node:${NODE_VERSION}-alpine AS final
+
+RUN apk add --no-cache libc6-compat
+
+ENV NODE_ENV=production
 ENV TURBO_TELEMETRY_DISABLED=1
 
-# Set working directory for all build stages.
-WORKDIR /usr/src/app
-
-# Install pnpm.
+# pnpm is needed at runtime because the start script uses it.
+ARG PNPM_VERSION
 RUN --mount=type=cache,target=/root/.npm \
-    npm install -g pnpm@latest
-
-################################################################################
-# Create a stage for installing production dependencies.
-FROM base AS deps
-
-# Download dependencies as a separate step to take advantage of Docker's caching.
-# Leverage a cache mount to /root/.local/share/pnpm/store to speed up subsequent builds.
-# Leverage bind mounts to package.json and pnpm-lock.yaml to avoid having to copy them
-# into this layer.
-RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
-    --mount=type=cache,target=/root/.local/share/pnpm/store \
-    pnpm install --prod --frozen-lockfile --ignore-scripts
-
-################################################################################
-# Create a stage for building the application.
-
-FROM base AS build
-COPY . /usr/src/app
-WORKDIR /usr/src/app
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm turbo run build --filter=@altairgraphql/api...
-# RUN pnpm deploy --filter=app1 --prod /prod/app1
-RUN pnpm deploy --filter=@altairgraphql/api /api-app
-# FROM deps AS build
-
-# COPY . .
-
-# # Download additional development dependencies before building, as some projects require
-# # "devDependencies" to be installed to build. If you don't need this, remove this step.
-# RUN --mount=type=bind,source=package.json,target=package.json \
-#     --mount=type=bind,source=pnpm-lock.yaml,target=pnpm-lock.yaml \
-#     --mount=type=cache,target=/root/.local/share/pnpm/store \
-#     pnpm install --frozen-lockfile
-
-# # Copy the rest of the source files into the image.
-# # COPY . .
-# # Run the build script.
-# RUN pnpm run build
-
-################################################################################
-# Create a new stage to run the application with minimal runtime dependencies
-# where the necessary files are copied from the build stage.
-FROM base AS final
-
-# Use production node environment by default.
-ENV NODE_ENV=production
-
-
-COPY --from=build /api-app /app
+    npm install -g pnpm@${PNPM_VERSION}
 
 WORKDIR /app
 
+COPY --from=build /api-app .
+
+# COPY CHECKS CHECKS
+
 RUN chown -R node:node /app
 
-# Run the application as a non-root user.
 USER node
 
-# Copy package.json so that package manager commands can be used.
-# COPY package.json .
-
-# Copy the production dependencies from the deps stage and also
-# the built application from the build stage into the image.
-# COPY --from=deps /usr/src/app/node_modules ./node_modules
-# COPY --from=build /usr/src/app/dist ./dist
-# COPY --from=build /usr/src/app/ .
-
-ENV NEW_RELIC_NO_CONFIG_FILE=true
-ENV NEW_RELIC_DISTRIBUTED_TRACING_ENABLED=true
-ENV NEW_RELIC_LOG=stdout
-
-
-# Expose the port that the application listens on.
-# EXPOSE 3000
 ARG PORT=3000
 ENV PORT=${PORT}
+# EXPOSE ${PORT}
 
-# Run the application.
 CMD ["pnpm", "run", "start:prod:in-docker"]

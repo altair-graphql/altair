@@ -9,6 +9,7 @@ import {
   UseGuards,
   Req,
   NotFoundException,
+  Logger,
 } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
@@ -22,6 +23,7 @@ import { getUserId } from 'src/common/request';
 @ApiTags('Teams')
 @UseGuards(JwtAuthGuard)
 export class TeamsController {
+  private readonly logger = new Logger(TeamsController.name);
   constructor(private readonly teamsService: TeamsService) {}
 
   @Post()
