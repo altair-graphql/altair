@@ -23,7 +23,7 @@ import {
   IdentityProvider,
   SharedQuery,
 } from '@altairgraphql/db';
-import { AltairConfig, getAltairConfig } from 'altair-graphql-core/build/config';
+import { getAltairConfig } from 'altair-graphql-core/build/config';
 import { IPlan, IPlanInfo, IUserProfile, IUserStats, IToken } from './user';
 import {
   ICreateTeamDto,
@@ -252,7 +252,7 @@ export class APIClient {
       .json<{ verified: boolean }>();
   }
 
-  createQuery(queryInput: ICreateQueryDto) {
+  createQuery(queryInput: ICreateQueryDto): Promise<QueryItem> {
     return this.ky.post('queries', { json: queryInput }).json<QueryItem>();
   }
 
@@ -264,7 +264,7 @@ export class APIClient {
     return this.ky.delete(`queries/${id}`).json();
   }
 
-  getQuery(id: string) {
+  getQuery(id: string): Promise<QueryItem | undefined> {
     return this.ky.get(`queries/${id}`).json<QueryItem | undefined>();
   }
 
@@ -274,13 +274,15 @@ export class APIClient {
       .json<QueryItemRevisionWithUsername[]>();
   }
 
-  restoreQueryRevision(id: string, revisionId: string) {
+  restoreQueryRevision(id: string, revisionId: string): Promise<QueryItem> {
     return this.ky
       .post(`queries/${id}/revisions/${revisionId}/restore`)
       .json<QueryItem>();
   }
 
-  createQueryCollection(collectionInput: ICreateQueryCollectionDto) {
+  createQueryCollection(
+    collectionInput: ICreateQueryCollectionDto
+  ): Promise<QueryCollection> {
     return this.ky
       .post('query-collections', { json: collectionInput })
       .json<QueryCollection>();

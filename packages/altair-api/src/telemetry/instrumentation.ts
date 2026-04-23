@@ -2,7 +2,9 @@ import { env } from '../common/env';
 import { NodeSDK } from '@opentelemetry/sdk-node';
 import { OTLPMetricExporter } from '@opentelemetry/exporter-metrics-otlp-proto';
 import { OTLPTraceExporter } from '@opentelemetry/exporter-trace-otlp-proto';
+import { OTLPLogExporter } from '@opentelemetry/exporter-logs-otlp-proto';
 import { PeriodicExportingMetricReader } from '@opentelemetry/sdk-metrics';
+import { LoggerProvider, BatchLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { getNodeAutoInstrumentations } from '@opentelemetry/auto-instrumentations-node';
 import { ATTR_SERVICE_NAME } from '@opentelemetry/semantic-conventions';
 import { resourceFromAttributes } from '@opentelemetry/resources';
@@ -26,9 +28,9 @@ import { resourceFromAttributes } from '@opentelemetry/resources';
  *   OTEL_METRIC_EXPORT_INTERVAL   – metric flush interval in ms (default 60 000)
  *
  * If OTEL_EXPORTER_OTLP_ENDPOINT is not set the SDK is still initialised
- * but exporters have no destination, so traces/metrics are silently dropped
- * (application code can safely reference counters and histograms without
- * guarding against undefined).
+ * but exporters have no destination, so traces/metrics/logs are silently
+ * dropped (application code can safely reference counters, histograms,
+ * and loggers without guarding against undefined).
  */
 
 // ── Parse headers string into a Record ──────────────────────────────
@@ -56,6 +58,20 @@ const headers = parseHeaders(env.OTEL_EXPORTER_OTLP_HEADERS);
 
 const resource = resourceFromAttributes({
   [ATTR_SERVICE_NAME]: env.OTEL_SERVICE_NAME,
+});
+
+// ── Log provider ────────────────────────────────────────────────────
+// The LoggerProvider is created separately from the NodeSDK so it can
+// be passed to the LogTape OTel sink (see logtape-config.ts).  The
+// NodeSDK manages traces and metrics; logs go through this provider.
+const logExporter = new OTLPLogExporter({
+  url: signalUrl(env.OTEL_EXPORTER_OTLP_ENDPOINT, '/v1/logs'),
+  headers,
+});
+
+export const loggerProvider = new LoggerProvider({
+  resource,
+  processors: [new BatchLogRecordProcessor(logExporter)],
 });
 
 const sdk = new NodeSDK({
@@ -89,7 +105,9 @@ sdk.start();
 
 // Graceful shutdown
 const shutdown = () => {
-  sdk.shutdown().catch((err) => console.error('OpenTelemetry shutdown error', err));
+  Promise.all([loggerProvider.shutdown(), sdk.shutdown()]).catch((err) =>
+    console.error('OpenTelemetry shutdown error', err)
+  );
 };
 
 process.on('SIGTERM', shutdown);
