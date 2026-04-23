@@ -49,6 +49,11 @@ jobs:
     outputs:
       version: ${{ inputs.version || format('{0}-{1}', github.sha, env.COMMIT_TIMESTAMP) }}
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
       - name: Get Git commit timestamps
         run: echo "COMMIT_TIMESTAMP=$(git log -1 --pretty=%ct)" >> $GITHUB_ENV
       - run: echo "Exposing env vars"
@@ -58,6 +63,11 @@ jobs:
       contents: read
       packages: write
     steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
       - name: Checkout
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
         with:
