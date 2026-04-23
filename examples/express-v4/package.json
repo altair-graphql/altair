@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "devDependencies": {
-    "@types/express": "^5.0.0",
+    "@types/express": "^5.0.6",
     "@types/node": "^22.7.4",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
@@ -12,7 +12,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "express": "^4.21.1",
+    "express": "^5.2.1",
     "helmet": "^8.1.0"
   },
   "scripts": {
