@@ -9,7 +9,7 @@
     "@types/node": "catalog:",
     "altair-graphql-core": "workspace:*",
     "dts-bundle-generator": "^9.5.1",
-    "esbuild": "^0.14.43",
+    "esbuild": "^0.28.0",
     "ncp": "2.0.0",
     "tsdown": "^0.17.4",
     "typescript": "catalog:",
