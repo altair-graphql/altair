@@ -15,7 +15,7 @@
     "@koa/router": "^14.0.0",
     "helmet": "^8.1.0",
     "koa": "^3.0.1",
-    "koa-helmet": "^8.0.1"
+    "koa-helmet": "^9.0.0"
   },
   "scripts": {
     "start": "ts-node-dev index.ts"
