@@ -6,7 +6,7 @@
   "devDependencies": {
     "@altairgraphql/electron-settings": "workspace:*",
     "@types/node": "catalog:",
-    "dts-bundle-generator": "^6.11.0",
+    "dts-bundle-generator": "^9.5.1",
     "esbuild": "^0.14.43",
     "ncp": "2.0.0",
     "typescript": "catalog:"
