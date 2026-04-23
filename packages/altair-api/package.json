@@ -72,7 +72,7 @@
     "@types/nodemailer": "^7.0.11",
     "@types/passport-github2": "^1.2.9",
     "@types/passport-google-oauth": "^1.0.45",
-    "@types/passport-google-oauth20": "^2.0.16",
+    "@types/passport-google-oauth20": "^2.0.17",
     "@types/passport-jwt": "^4.0.1",
     "@types/supertest": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.16.0",
