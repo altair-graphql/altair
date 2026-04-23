@@ -58,7 +58,7 @@
     "shx": "^0.3.4",
     "ts-node": "9.1.1",
     "typescript": "catalog:",
-    "typescript-json-schema": "0.50.1",
+    "typescript-json-schema": "0.67.1",
     "undici": "^6.19.1",
     "vitest": "catalog:",
     "@vitest/coverage-v8": "catalog:"
