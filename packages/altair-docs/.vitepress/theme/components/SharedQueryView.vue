@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, nextTick } from 'vue';
+import { useData } from 'vitepress';
+import { codeToHtml, codeToThemedTokens, type ThemedToken } from 'shikiji';
 import {
   initializeClient,
   type SharedQueryWithContent,
@@ -14,24 +16,10 @@ const apiClient = initializeClient(
 );
 
 // ---------------------------------------------------------------------------
-// Theme
+// Theme — delegate entirely to VitePress
 // ---------------------------------------------------------------------------
 
-type Theme = 'light' | 'dark';
-
-function getSystemTheme(): Theme {
-  if (typeof window === 'undefined') return 'light';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-}
-
-const theme = ref<Theme>('light');
-
-function toggleTheme() {
-  theme.value = theme.value === 'dark' ? 'light' : 'dark';
-  document.documentElement.classList.toggle('dark', theme.value === 'dark');
-}
+const { isDark } = useData();
 
 // ---------------------------------------------------------------------------
 // State
@@ -60,6 +48,64 @@ const variables = computed(() => {
 });
 
 // ---------------------------------------------------------------------------
+// Syntax highlighting (shikiji — dual light/dark theme via CSS variables)
+// ---------------------------------------------------------------------------
+
+const SHIKI_THEMES = { light: 'github-light', dark: 'github-dark' } as const;
+
+/**
+ * shikiji 0.10 emits hardcoded `color:#xxx` on <span> elements and
+ * `background-color:#xxx` on <pre>, making them impossible to override from
+ * CSS without !important.  We normalise the output so that:
+ *   - span inline style:  `color:#xxx`           → `--shiki-light:#xxx`
+ *   - <pre> inline style: `background-color:#xxx` and `color:#xxx` stripped
+ *     (background is provided by .sqv-code-block via --code-bg, colour is
+ *     inherited from individual token spans)
+ * After this transform plain CSS rules work without !important.
+ */
+function processShikiHtml(html: string): string {
+  return html
+    // Rename color: → --shiki-light: on every token <span>
+    .replace(/<span style="color:/g, '<span style="--shiki-light:')
+    // Strip background-color and color from the <pre> inline style
+    .replace(
+      /(<pre[^>]*) style="([^"]*)"/,
+      (_, pre, style) => {
+        const cleaned = style
+          .split(';')
+          .filter((prop: string) => {
+            const t = prop.trim();
+            return t && !t.startsWith('background-color:') && !t.startsWith('color:');
+          })
+          .join(';');
+        return cleaned ? `${pre} style="${cleaned}"` : pre;
+      }
+    );
+}
+
+const highlightedQuery = ref('');
+const highlightedVariables = ref('');
+
+async function updateHighlights() {
+  if (gqlQuery.value) {
+    highlightedQuery.value = processShikiHtml(await codeToHtml(gqlQuery.value, {
+      lang: 'graphql',
+      themes: SHIKI_THEMES,
+    }));
+  } else {
+    highlightedQuery.value = '';
+  }
+  if (variables.value) {
+    highlightedVariables.value = processShikiHtml(await codeToHtml(variables.value, {
+      lang: 'json',
+      themes: SHIKI_THEMES,
+    }));
+  } else {
+    highlightedVariables.value = '';
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Share ID
 // ---------------------------------------------------------------------------
 
@@ -79,7 +125,7 @@ const openInAltair = () => {
   params.set('variables', variables.value || JSON.stringify({}));
   if (apiUrl.value) params.set('endpoint', apiUrl.value);
   url.search = params.toString();
-  window.open(url.toString(), '_blank');
+  window.open(url.toString(), '_blank', 'noopener,noreferrer');
 };
 
 // ---------------------------------------------------------------------------
@@ -87,9 +133,6 @@ const openInAltair = () => {
 // ---------------------------------------------------------------------------
 
 onMounted(async () => {
-  theme.value = getSystemTheme();
-  document.documentElement.classList.toggle('dark', theme.value === 'dark');
-
   const shareId = getShareId();
   if (!shareId) {
     error.value = 'No share ID found in the URL.';
@@ -110,48 +153,8 @@ onMounted(async () => {
     loading.value = false;
   }
 
-  loadPrism();
+  updateHighlights();
 });
-
-// ---------------------------------------------------------------------------
-// Prism.js — lazy CDN load
-// ---------------------------------------------------------------------------
-
-function loadPrism() {
-  if (typeof window === 'undefined') return;
-
-  if (!document.querySelector('#prism-css')) {
-    const link = document.createElement('link');
-    link.id = 'prism-css';
-    link.rel = 'stylesheet';
-    link.href =
-      'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css';
-    document.head.appendChild(link);
-  }
-
-  const injectScript = (src: string, id: string, onload?: () => void) => {
-    if (document.querySelector(`#${id}`)) {
-      onload?.();
-      return;
-    }
-    const s = document.createElement('script');
-    s.id = id;
-    s.src = src;
-    if (onload) s.onload = onload;
-    document.body.appendChild(s);
-  };
-
-  injectScript(
-    'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js',
-    'prism-core',
-    () =>
-      injectScript(
-        'https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/autoloader/prism-autoloader.min.js',
-        'prism-autoloader',
-        () => (window as any).Prism?.highlightAll()
-      )
-  );
-}
 
 // ---------------------------------------------------------------------------
 // Image modal
@@ -211,6 +214,13 @@ const TITLEBAR_H   = 44;
 const WIN_RADIUS   = 10;
 const FONT_FACE    = `${FONT_SIZE}px ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Monaco, 'Courier New', monospace`;
 
+// one-dark-pro — matches the dark window chrome colour (#1e1e2e)
+const CANVAS_THEME  = 'one-dark-pro' as const;
+const CANVAS_FG     = '#abb2bf'; // one-dark-pro default foreground
+// FontStyle bitmask values (mirrors shikiji's FontStyle enum)
+const FS_ITALIC = 1;
+const FS_BOLD   = 2;
+
 function drawRoundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: number, h: number, r: number) {
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -225,19 +235,55 @@ function drawRoundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: n
   ctx.closePath();
 }
 
-function renderToCanvas(canvas: HTMLCanvasElement, scale: number) {
-  const pad   = PADDING_VALUES[imagePadding.value];
-  const code  = previewCode.value.replace(/\t/g, '    ');
-  const lines = code.split('\n');
+/** Return token lines for the current imageContent selection. */
+async function buildTokenLines(): Promise<ThemedToken[][]> {
+  const expand = (s: string) => s.replace(/\t/g, '    ');
+  const opts = (lang: 'graphql' | 'json') =>
+    ({ lang, theme: CANVAS_THEME } as const);
 
-  // Measure the widest line
-  const mc    = document.createElement('canvas');
-  const mctx  = mc.getContext('2d')!;
-  mctx.font   = FONT_FACE;
-  const maxLineW = lines.reduce((m, l) => Math.max(m, mctx.measureText(l).width), 0);
+  if (imageContent.value === 'query') {
+    return codeToThemedTokens(expand(gqlQuery.value) || ' ', opts('graphql'));
+  }
+  if (imageContent.value === 'variables') {
+    return codeToThemedTokens(expand(variables.value) || ' ', opts('json'));
+  }
+
+  // 'both' — tokenize each section with the right language then merge
+  const result: ThemedToken[][] = [];
+  if (gqlQuery.value) {
+    const qLines = await codeToThemedTokens(expand(gqlQuery.value), opts('graphql'));
+    result.push(...qLines);
+  }
+  if (gqlQuery.value && variables.value) {
+    // blank separator + comment header
+    result.push(
+      [],
+      [{ content: '# --- Variables ---', color: '#7f848e', offset: 0, fontStyle: FS_ITALIC }],
+      [],
+    );
+  }
+  if (variables.value) {
+    const vLines = await codeToThemedTokens(expand(variables.value), opts('json'));
+    result.push(...vLines);
+  }
+  return result;
+}
+
+async function renderToCanvas(canvas: HTMLCanvasElement, scale: number) {
+  const pad        = PADDING_VALUES[imagePadding.value];
+  const tokenLines = await buildTokenLines();
+
+  // Measure widths with a scratch canvas
+  const mc   = document.createElement('canvas');
+  const mctx = mc.getContext('2d')!;
+  mctx.font  = FONT_FACE;
+  const maxLineW = tokenLines.reduce((m, tokens) => {
+    const lineText = tokens.map(t => t.content).join('');
+    return Math.max(m, mctx.measureText(lineText).width);
+  }, 0);
 
   const winW   = Math.max(320, Math.ceil(maxLineW) + CODE_PAD_X * 2);
-  const winH   = TITLEBAR_H + CODE_PAD_TOP + lines.length * LINE_HEIGHT + CODE_PAD_BOT;
+  const winH   = TITLEBAR_H + CODE_PAD_TOP + tokenLines.length * LINE_HEIGHT + CODE_PAD_BOT;
   const totalW = winW + pad * 2;
   const totalH = winH + pad * 2;
 
@@ -296,12 +342,19 @@ function renderToCanvas(canvas: HTMLCanvasElement, scale: number) {
     ctx.fill();
   });
 
-  // Code text
-  ctx.font         = FONT_FACE;
-  ctx.fillStyle    = '#cdd6f4';
+  // Code — draw token by token so each gets its highlight colour
   ctx.textBaseline = 'top';
-  lines.forEach((line, i) => {
-    ctx.fillText(line, pad + CODE_PAD_X, pad + TITLEBAR_H + CODE_PAD_TOP + i * LINE_HEIGHT);
+  tokenLines.forEach((tokens, lineIdx) => {
+    let x = pad + CODE_PAD_X;
+    const y = pad + TITLEBAR_H + CODE_PAD_TOP + lineIdx * LINE_HEIGHT;
+    tokens.forEach(token => {
+      const italic = token.fontStyle != null && (token.fontStyle & FS_ITALIC) !== 0;
+      const bold   = token.fontStyle != null && (token.fontStyle & FS_BOLD)   !== 0;
+      ctx.font      = `${italic ? 'italic ' : ''}${bold ? 'bold ' : ''}${FONT_FACE}`;
+      ctx.fillStyle = token.color ?? CANVAS_FG;
+      ctx.fillText(token.content, x, y);
+      x += ctx.measureText(token.content).width;
+    });
   });
 }
 
@@ -312,17 +365,17 @@ watch(
     if (!visible) return;
     await nextTick();
     if (previewCanvasRef.value) {
-      renderToCanvas(previewCanvasRef.value, Math.min(window.devicePixelRatio || 1, 2));
+      await renderToCanvas(previewCanvasRef.value, Math.min(window.devicePixelRatio || 1, 2));
     }
   }
 );
 
-function downloadImage() {
+async function downloadImage() {
   if (imageDownloading.value) return;
   imageDownloading.value = true;
   try {
     const canvas = document.createElement('canvas');
-    renderToCanvas(canvas, 2);
+    await renderToCanvas(canvas, 2);
     const link = document.createElement('a');
     link.download = `${queryName.value.replace(/\s+/g, '-').toLowerCase()}.png`;
     link.href = canvas.toDataURL('image/png');
@@ -334,7 +387,7 @@ function downloadImage() {
 </script>
 
 <template>
-  <div class="sqv-root" :data-theme="theme">
+  <div class="sqv-root" :data-theme="isDark ? 'dark' : 'light'">
     <main class="sqv-wrapper">
       <!-- Loading -->
       <div v-if="loading" class="sqv-loading" aria-live="polite">
@@ -366,12 +419,12 @@ function downloadImage() {
             <button
               class="sqv-theme-toggle"
               type="button"
-              @click="toggleTheme"
-              :aria-label="`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`"
+              @click="isDark = !isDark"
+              :aria-label="`Switch to ${isDark ? 'light' : 'dark'} mode`"
             >
               <!-- Sun -->
               <svg
-                v-if="theme === 'dark'"
+                v-if="isDark"
                 xmlns="http://www.w3.org/2000/svg"
                 width="15"
                 height="15"
@@ -450,17 +503,13 @@ function downloadImage() {
         <!-- Query -->
         <section class="sqv-section">
           <h2 class="sqv-section-title">Query</h2>
-          <pre
-            class="sqv-code-block"
-          ><code class="language-graphql">{{ gqlQuery }}</code></pre>
+          <div class="sqv-code-block" v-html="highlightedQuery"></div>
         </section>
 
         <!-- Variables -->
         <section v-if="variables" class="sqv-section">
           <h2 class="sqv-section-title">Variables</h2>
-          <pre
-            class="sqv-code-block"
-          ><code class="language-json">{{ variables }}</code></pre>
+          <div class="sqv-code-block" v-html="highlightedVariables"></div>
         </section>
       </div>
     </main>
@@ -488,7 +537,7 @@ function downloadImage() {
       <div
         v-if="showImageModal"
         class="img-overlay"
-        :data-theme="theme"
+        :data-theme="isDark ? 'dark' : 'light'"
         role="dialog"
           aria-modal="true"
           aria-label="Share as Image"
@@ -650,8 +699,7 @@ function downloadImage() {
   --text-3:        #9a9ab0;
   --brand:         var(--vp-c-brand-1,    #3451b2);
   --brand-soft:    var(--vp-c-brand-soft, rgba(100,108,255,.1));
-  --code-bg:       #1e1e2e;
-  --code-color:    #cdd6f4;
+  --code-bg:       #f6f8fa;
   --radius-card:   16px;
   --radius-btn:    8px;
 
@@ -677,20 +725,7 @@ function downloadImage() {
   --text-1:     rgba(235,235,245,.9);
   --text-2:     rgba(235,235,245,.55);
   --text-3:     rgba(235,235,245,.28);
-  --code-bg:    #13131a;
-}
-
-/* Dark theme overrides */
-.sqv-root[data-theme='dark'] {
-  --bg: #0d0d12;
-  --bg-card: #18181f;
-  --bg-header: #1e1e27;
-  --bg-section: #18181f;
-  --divider: #2a2a38;
-  --text-1: rgba(235, 235, 245, 0.9);
-  --text-2: rgba(235, 235, 245, 0.55);
-  --text-3: rgba(235, 235, 245, 0.32);
-  --code-bg: #13131a;
+  --code-bg:    #0d1117;
 }
 /* =========================================================================
    Page wrapper — centred, padded, responsive width
@@ -919,22 +954,24 @@ function downloadImage() {
   color: var(--text-1);
 }
 
-/* Override the global position:absolute from custom.css */
+/* Override the global position:absolute from custom.css.
+   Scoped :deep() compiles to [data-v-xxx] .open-in-altair-btn (specificity 0,2,0)
+   which beats custom.css's plain .open-in-altair-btn (0,1,0) — no !important needed. */
 .sqv-header-actions :deep(.open-in-altair-btn) {
   position: static;
   font-size: 0.78rem;
   padding: 5px 12px;
   border-radius: var(--radius-btn);
   white-space: nowrap;
-  border: none !important;
-  background: var(--divider) !important;
-  color: var(--text-2) !important;
+  border: none;
+  background: var(--divider);
+  color: var(--text-2);
   transition: background 0.15s, color 0.15s;
 }
 
 .sqv-header-actions :deep(.open-in-altair-btn:hover) {
-  background: var(--text-3) !important;
-  color: var(--text-1) !important;
+  background: var(--text-3);
+  color: var(--text-1);
 }
 
 /* =========================================================================
@@ -969,39 +1006,53 @@ function downloadImage() {
    Code block
    ========================================================================= */
 .sqv-code-block {
-  background: var(--code-bg) !important;
   border-radius: 10px;
   overflow: auto;
-  padding: 0 !important;
-  margin: 0 !important;
   -webkit-overflow-scrolling: touch;
 }
 
-.sqv-code-block code {
-  display: block;
-  padding: 1rem 1.25rem !important;
+/* Shiki emits a <pre> inside our wrapper div.
+   We add .sqv-root as ancestor to beat any VitePress base pre styles. */
+.sqv-root .sqv-code-block :deep(pre) {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  background: var(--code-bg);
   font-family: var(
     --vp-font-family-mono,
     ui-monospace,
     'Cascadia Code',
     Menlo,
     monospace
-  ) !important;
-  font-size: 0.84rem !important;
-  line-height: 1.7 !important;
-  background: transparent !important;
-  color: var(--code-color);
+  );
+  font-size: 0.84rem;
+  line-height: 1.7;
   tab-size: 2;
   white-space: pre;
-  /* Prevent wrapping — horizontal scroll is preferred for code */
   word-break: normal;
   overflow-wrap: normal;
 }
 
+.sqv-root .sqv-code-block :deep(code) {
+  font-family: inherit;
+  font-size: inherit;
+  background: transparent;
+}
+
+/* After processShikiHtml, spans carry --shiki-light and --shiki-dark instead
+   of hardcoded color: values, so these rules work without !important. */
+.sqv-root .sqv-code-block :deep(span) {
+  color: var(--shiki-light);
+}
+
+.sqv-root[data-theme='dark'] .sqv-code-block :deep(span) {
+  color: var(--shiki-dark);
+}
+
 @media (min-width: 640px) {
-  .sqv-code-block code {
-    padding: 1.25rem 1.5rem !important;
-    font-size: 0.875rem !important;
+  .sqv-root .sqv-code-block :deep(pre) {
+    padding: 1.25rem 1.5rem;
+    font-size: 0.875rem;
   }
 }
 
@@ -1009,26 +1060,54 @@ function downloadImage() {
    Attribution
    ========================================================================= */
 .sqv-attribution {
-  padding: 1.25rem 1rem 1.5rem;
+  padding: 1.5rem 1rem 2rem;
   text-align: center;
   margin: 0;
 }
 
 .sqv-attribution-link {
-  display: inline-block;
-  transition: filter 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--bg);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,.12),
+    inset 0 1px 2px rgba(0,0,0,.08);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.sqv-root[data-theme='dark'] .sqv-attribution-link {
+  box-shadow:
+    inset 0 2px 5px rgba(0,0,0,.4),
+    inset 0 1px 2px rgba(0,0,0,.3);
+}
+
+.sqv-attribution-link:hover {
+  box-shadow:
+    inset 0 1px 2px rgba(0,0,0,.08),
+    inset 0 1px 1px rgba(0,0,0,.04);
+}
+
+.sqv-root[data-theme='dark'] .sqv-attribution-link:hover {
+  box-shadow:
+    inset 0 1px 3px rgba(0,0,0,.25),
+    inset 0 1px 1px rgba(0,0,0,.2);
 }
 
 .sqv-attribution-logo {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
   object-fit: contain;
   display: block;
-  filter: grayscale(100%) opacity(30%);
+  filter: grayscale(100%) opacity(35%);
+  transition: filter 0.2s;
 }
 
 .sqv-attribution-link:hover .sqv-attribution-logo {
-  filter: grayscale(100%) opacity(55%);
+  filter: grayscale(60%) opacity(60%);
 }
 
 /* =========================================================================
