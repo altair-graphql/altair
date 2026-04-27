@@ -922,36 +922,38 @@ async function downloadImage() {
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
-  /* Align to top-right on desktop; on mobile (stacked) align left */
   align-self: flex-start;
-}
-
-@media (max-width: 480px) {
-  .sqv-header-actions {
-    align-self: flex-start;
-  }
 }
 
 .sqv-theme-toggle,
 .sqv-icon-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 32px;
   height: 32px;
   flex-shrink: 0;
-  border: none;
   border-radius: var(--radius-btn);
-  background: transparent;
   color: var(--text-3);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
 }
 
 .sqv-theme-toggle:hover,
 .sqv-icon-btn:hover {
   background: var(--divider);
   color: var(--text-1);
+}
+
+/* =========================================================================
+   Shared icon-button base — flex centred, no border, ghost background.
+   Hover colours are set per-context below.
+   ========================================================================= */
+.sqv-theme-toggle,
+.sqv-icon-btn,
+.img-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
 }
 
 /* Override the global position:absolute from custom.css.
@@ -1183,17 +1185,10 @@ async function downloadImage() {
 }
 
 .img-close-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   width: 26px;
   height: 26px;
-  border: none;
   border-radius: 6px;
-  background: transparent;
   color: var(--modal-text-3);
-  cursor: pointer;
-  transition: background 0.15s, color 0.15s;
 }
 .img-close-btn:hover {
   background: var(--modal-close-hover);
@@ -1216,128 +1211,6 @@ async function downloadImage() {
   display: block;
   margin: 0 auto;
   border-radius: 12px;
-}
-
-/* The element captured by html2canvas — uses only inline styles internally */
-.img-preview {
-  display: inline-flex;
-  text-align: left;
-  border-radius: 12px;
-  flex-shrink: 0;
-  transition: background 0.35s ease, padding 0.25s ease;
-}
-
-.img-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 18px;
-  flex-shrink: 0;
-}
-
-.img-modal-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 16px;
-  border-bottom: 1px solid #2a2a38;
-  flex-shrink: 0;
-}
-
-.img-modal-title {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: rgba(235, 235, 245, 0.8);
-  letter-spacing: -0.01em;
-}
-
-.img-close-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 26px;
-  height: 26px;
-  border: none;
-  border-radius: 6px;
-  background: transparent;
-  color: rgba(235, 235, 245, 0.4);
-  cursor: pointer;
-  transition:
-    background 0.15s,
-    color 0.15s;
-}
-.img-close-btn:hover {
-  background: #2a2a38;
-  color: rgba(235, 235, 245, 0.9);
-}
-
-/* =========================================================================
-   Preview area — scrollable
-   ========================================================================= */
-.img-preview-wrap {
-  overflow: auto;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  background: #0d0d12;
-  flex: 1;
-  min-height: 0;
-}
-
-/* The element captured by html2canvas — uses only inline styles internally */
-.img-preview {
-  display: inline-flex;
-  border-radius: 12px;
-  flex-shrink: 0;
-  transition:
-    background 0.35s ease,
-    padding 0.25s ease;
-}
-
-/* =========================================================================
-   Window chrome — all inline-style-like scoped rules so they render
-   faithfully under html2canvas (no external/CDN CSS dependency)
-   ========================================================================= */
-.img-window {
-  background: #1e1e2e;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow:
-    0 2px 4px rgba(0,0,0,.3),
-    0 8px 32px rgba(0,0,0,.5),
-    0 0 0 1px rgba(255,255,255,.06);
-  min-width: 320px;
-  width: max-content;
-}
-
-.img-window-titlebar {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 12px 16px 10px;
-  background: #2a2a38;
-}
-
-.img-dot {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.img-code {
-  margin: 0;
-  padding: 20px 24px 24px;
-  font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Monaco,
-    'Courier New', monospace;
-  font-size: 13px;
-  line-height: 1.75;
-  color: #cdd6f4;
-  background: #1e1e2e;
-  white-space: pre;
-  word-break: normal;
-  tab-size: 2;
 }
 
 /* =========================================================================
@@ -1418,10 +1291,6 @@ async function downloadImage() {
   white-space: nowrap;
 }
 
-.img-pill + .img-pill {
-  border-left: none;
-}
-
 .img-pill:hover {
   background: var(--modal-subtle);
   color: var(--modal-text-2);
@@ -1461,7 +1330,6 @@ async function downloadImage() {
 }
 
 .img-download-btn:hover:not(:disabled) {
-  background: var(--vp-c-brand-1, #64cb29);
   opacity: 0.88;
 }
 
