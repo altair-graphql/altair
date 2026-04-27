@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { ApiService } from '../api/api.service';
+import { ApiService, apiClient } from '../api/api.service';
 import { WindowService } from '../window.service';
 import { NotifyService } from '../notify/notify.service';
 import { debug } from '../../utils/logger';
@@ -49,6 +49,18 @@ export class SharingService {
   copyQueryShareUrl(queryId: string) {
     copyToClipboard(this.apiService.getQueryShareUrl(queryId));
     this.notifyService.info(`Copied share url to clipboard`);
+  }
+
+  async sharePublicQueryAndCopyUrl(queryId: string) {
+    try {
+      const shared = await this.apiService.sharePublicQuery(queryId);
+      const publicUrl = `${apiClient.urlConfig.docs}/shared?id=${shared.shareId}`;
+      copyToClipboard(publicUrl);
+      this.notifyService.info(`Public share link copied to clipboard: ${publicUrl}`);
+    } catch (err) {
+      debug.error(err);
+      this.notifyService.error('Could not create public share link');
+    }
   }
 
   private getShareDetailsFromUrl(url: string): SharedUrlInfo | undefined {

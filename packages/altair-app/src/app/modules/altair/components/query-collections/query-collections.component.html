@@ -149,8 +149,9 @@
             (exportCollectionChange)="exportCollectionChange.emit($event)"
             (syncCollectionChange)="syncCollectionChange.emit($event)"
             (sortCollectionQueriesChange)="sortCollectionQueriesChange.emit($event)"
-            (showQueryRevisionsChange)="showQueryRevisionsChange.emit($event)"
-            (copyQueryShareLinkChange)="copyQueryShareLinkChange.emit($event)"
+             (showQueryRevisionsChange)="showQueryRevisionsChange.emit($event)"
+             (copyQueryShareLinkChange)="copyQueryShareLinkChange.emit($event)"
+             (sharePublicQueryChange)="sharePublicQueryChange.emit($event)"
           />
         }
         @if (!collectionTrees().length) {

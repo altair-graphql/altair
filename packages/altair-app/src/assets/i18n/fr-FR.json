@@ -142,6 +142,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Supprimer",
   "COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG": "Afficher les révisions",
   "COLLECTIONS_QUERY_MENU_COPY_SHARE_URL": "Copier l'URL de partage",
+  "COLLECTIONS_QUERY_MENU_SHARE_PUBLIC_URL": "Share publicly (copy link)",
   "COLLECTIONS_MENU_DELETE": "Supprimer",
   "COLLECTIONS_MENU_EDIT": "Modifier",
   "COLLECTIONS_MENU_SYNC": "Synchronisation distante",

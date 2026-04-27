@@ -1,6 +1,8 @@
 .vitepress/cache
 .vitepress/dist
 .vitepress/.temp
+.env
+
 
 # generated docs
 api/core/

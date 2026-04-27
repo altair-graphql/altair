@@ -758,6 +758,10 @@ export class AltairComponent {
     this.sharingService.copyQueryShareUrl(queryServerId);
   }
 
+  sharePublicQuery(queryId: string) {
+    this.sharingService.sharePublicQueryAndCopyUrl(queryId);
+  }
+
   restoreQueryRevision(revision: QueryItemRevision) {
     this.store.dispatch(new queryActions.RestoreQueryRevisionAction(revision));
   }

@@ -142,6 +142,7 @@
   "COLLECTIONS_QUERY_MENU_DELETE": "Видалити",
   "COLLECTIONS_QUERY_MENU_SHOW_REVISIONS_DIALOG": "Показати версії",
   "COLLECTIONS_QUERY_MENU_COPY_SHARE_URL": "Скопіюйте URL-адресу для спільного доступу",
+  "COLLECTIONS_QUERY_MENU_SHARE_PUBLIC_URL": "Share publicly (copy link)",
   "COLLECTIONS_MENU_DELETE": "Видалити",
   "COLLECTIONS_MENU_EDIT": "Редагувати",
   "COLLECTIONS_MENU_SYNC": "Синхронізація з дистанційним керуванням",

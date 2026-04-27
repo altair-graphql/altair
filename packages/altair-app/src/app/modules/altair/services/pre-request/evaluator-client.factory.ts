@@ -108,7 +108,7 @@ export class EvaluatorClientFactory implements ScriptEvaluatorClientFactory {
 
   private isEvalAllowed() {
     try {
-      eval('1');
+      (0, eval)('1');
       return true;
     } catch (e) {
       return false;

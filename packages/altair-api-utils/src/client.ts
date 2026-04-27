@@ -20,7 +20,6 @@ import {
   QueryItemRevision,
   AiChatSession,
   AiChatMessage,
-  IdentityProvider,
   SharedQuery,
 } from '@altairgraphql/db';
 import { getAltairConfig } from 'altair-graphql-core/build/config';
@@ -43,7 +42,11 @@ import { UrlConfig } from 'altair-graphql-core/build/config/urls';
 import { AiStreamEvent, IRateMessageDto, ISendMessageDto } from './ai';
 import { ICreditTransactionsResponse } from './credit';
 import { IAvailableCredits } from 'altair-graphql-core/build/types/state/account.interfaces';
-import { getPopupUrl } from 'altair-graphql-core/build/identity/providers';
+import {
+  getPopupUrl,
+  IDENTITY_PROVIDERS,
+  IdentityProvider,
+} from 'altair-graphql-core/build/identity/providers';
 export type FullQueryCollection = QueryCollection & {
   queries: QueryItem[];
 };
@@ -145,7 +148,7 @@ export class APIClient {
 
   private getPopupUrl(
     nonce: string,
-    provider: IdentityProvider = IdentityProvider.GOOGLE
+    provider: IdentityProvider = IDENTITY_PROVIDERS.GOOGLE
   ) {
     return getPopupUrl(this.urlConfig.loginClient, nonce, location.origin, provider);
   }
@@ -170,7 +173,7 @@ export class APIClient {
     return user;
   }
 
-  async signinWithPopup(provider: IdentityProvider = IdentityProvider.GOOGLE) {
+  async signinWithPopup(provider: IdentityProvider = IDENTITY_PROVIDERS.GOOGLE) {
     const token = await timeout(
       this.signinWithPopupGetToken(provider),
       SignInTimeout
@@ -180,7 +183,7 @@ export class APIClient {
   }
 
   private async signinWithPopupGetToken(
-    provider: IdentityProvider = IdentityProvider.GOOGLE
+    provider: IdentityProvider = IDENTITY_PROVIDERS.GOOGLE
   ) {
     const nonce = this.nonce();
     const popup = window.open(this.getPopupUrl(nonce, provider), '_blank');
