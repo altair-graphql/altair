@@ -10,7 +10,7 @@
   },
   "private": true,
   "devDependencies": {
-    "@octokit/rest": "^20.0.2",
+    "@octokit/rest": "^22.0.1",
     "@types/lodash.escaperegexp": "^4.1.9",
     "@types/lodash.sortby": "^4.7.9",
     "altair-graphql-core": "workspace:*",
