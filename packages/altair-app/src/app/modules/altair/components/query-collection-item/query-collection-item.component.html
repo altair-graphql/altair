@@ -196,9 +196,17 @@
                   @if (loggedIn() && query.storageType === 'api') {
                     <li
                       nz-menu-item
+                      data-test-id="copy-query-share-url"
                       (click)="copyQueryShareLinkChange.emit(query.id ?? '')"
                     >
                       {{ 'COLLECTIONS_QUERY_MENU_COPY_SHARE_URL' | translate }}
+                    </li>
+                    <li
+                      nz-menu-item
+                      data-test-id="share-public-query"
+                      (click)="sharePublicQueryChange.emit(query.id ?? '')"
+                    >
+                      {{ 'COLLECTIONS_QUERY_MENU_SHARE_PUBLIC_URL' | translate }}
                     </li>
                     <li nz-menu-item (click)="showQueryRevisionsDialog(query)">
                       {{

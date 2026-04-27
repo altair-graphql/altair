@@ -53,6 +53,7 @@ export class QueryCollectionItemComponent {
   readonly sortCollectionQueriesChange = output<SortByOptions>();
   readonly showQueryRevisionsChange = output<string>();
   readonly copyQueryShareLinkChange = output<string>();
+  readonly sharePublicQueryChange = output<string>();
 
   readonly showContent = linkedSignal(() => this.expanded());
 

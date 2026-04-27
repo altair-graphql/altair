@@ -76,6 +76,7 @@ export class QueryCollectionsComponent implements OnInit {
   readonly sortCollectionQueriesChange = output<SortByOptions>();
   readonly showQueryRevisionsChange = output<string>();
   readonly copyQueryShareLinkChange = output<string>();
+  readonly sharePublicQueryChange = output<string>();
 
   readonly workspaceId = signal('');
   readonly searchInput = signal('');

@@ -189,4 +189,12 @@ export class ApiService {
   getQueryShareUrl(queryServerId: string) {
     return apiClient.getQueryShareUrl(queryServerId);
   }
+
+  async sharePublicQuery(queryId: string) {
+    return apiClient.sharePublicQuery(queryId);
+  }
+
+  async unsharePublicQuery(queryId: string) {
+    return apiClient.unsharePublicQuery(queryId);
+  }
 }
