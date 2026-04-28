@@ -5,6 +5,9 @@ export default defineConfig({
   main: {
     build: {
       sourcemap: true,
+      rollupOptions: {
+        external: (id) => id === 'electron' || id.startsWith('electron/'),
+      },
     },
     plugins: [
       // Put the Sentry vite plugin after all other plugins
