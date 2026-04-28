@@ -40,10 +40,13 @@ export class StorageService extends Dexie {
 
   clearAllLocalData() {
     // Clear indexedDb
-    Dexie.getDatabaseNames().then((names) => {
-      names.forEach((name) => {
-        const db = new Dexie(name);
-        db.delete().catch(() => {});
+    // Dexie.getDatabaseNames() was removed in Dexie v4; use indexedDB.databases() instead
+    indexedDB.databases().then((dbs) => {
+      dbs.forEach(({ name }) => {
+        if (name) {
+          const db = new Dexie(name);
+          db.delete().catch(() => {});
+        }
       });
     });
 

@@ -8,13 +8,11 @@ import fs from 'node:fs';
 
 const require = createRequire(import.meta.url);
 
-// uuid@9's exports map sends node ESM imports to wrapper.mjs, which does
-// `import uuid from './dist/index.js'` (CJS).  When Vite inlines & transforms
-// this, the CJS default-export interop breaks.  Resolve the package directory
-// via the CJS main entry (which is allowed by the exports map) then point the
-// alias directly at the proper ESM entry that uuid ships.
-const uuidMain = require.resolve('uuid'); // → .../uuid/dist/index.js
-const uuidEsm = path.join(path.dirname(uuidMain), 'esm-node', 'index.js');
+// uuid v14 is pure ESM.  Its exports map has a "node" condition pointing to
+// dist-node/index.js (ESM).  Point the alias directly at that entry so Vite
+// can resolve and inline it without issues.
+const uuidPkgDir = path.dirname(require.resolve('uuid/package.json'));
+const uuidEsm = path.join(uuidPkgDir, 'dist-node', 'index.js');
 
 // graphql@15.5.1 ships parallel CJS (.js) and ESM (.mjs) trees.  When
 // server.deps.inline is true, the app's ESM imports resolve to .mjs files
