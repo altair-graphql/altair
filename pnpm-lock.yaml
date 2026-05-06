@@ -67,8 +67,8 @@ importers:
         specifier: 8.18.0
         version: 8.18.0
       eslint-config-prettier:
-        specifier: 8.5.0
-        version: 8.5.0(eslint@8.18.0)
+        specifier: ^9.1.0
+        version: 9.1.0(eslint@8.18.0)
       execa:
         specifier: ^5.0.0
         version: 5.0.0
@@ -151,8 +151,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0(eslint@8.57.0)
       eslint-config-prettier:
-        specifier: ^8.6.0
-        version: 8.6.0(eslint@8.57.0)
+        specifier: ^9.1.0
+        version: 9.1.0(eslint@8.57.0)
       eslint-plugin-import:
         specifier: ^2.32.0
         version: 2.32.0(@typescript-eslint/parser@6.19.1(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)
@@ -161,7 +161,7 @@ importers:
         version: 4.1.5(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: ^5.1.3
-        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@8.6.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2)
+        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2)
       prettier:
         specifier: ^3.2.5
         version: 3.3.2
@@ -1467,8 +1467,8 @@ importers:
         specifier: workspace:*
         version: link:../../libs/eslint-config-altair
       eslint-config-prettier:
-        specifier: 8.5.0
-        version: 8.5.0(eslint@7.32.0)
+        specifier: ^9.1.0
+        version: 9.1.0(eslint@7.32.0)
       playwright:
         specifier: ^1.18.1
         version: 1.24.2
@@ -12581,18 +12581,6 @@ packages:
 
   eslint-config-prettier@10.1.8:
     resolution: {integrity: sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==}
-    hasBin: true
-    peerDependencies:
-      eslint: '>=7.0.0'
-
-  eslint-config-prettier@8.5.0:
-    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
-    hasBin: true
-    peerDependencies:
-      eslint: '>=7.0.0'
-
-  eslint-config-prettier@8.6.0:
-    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -34210,17 +34198,13 @@ snapshots:
     dependencies:
       eslint: 7.32.0
 
-  eslint-config-prettier@8.5.0(eslint@7.32.0):
+  eslint-config-prettier@9.1.0(eslint@7.32.0):
     dependencies:
       eslint: 7.32.0
 
-  eslint-config-prettier@8.5.0(eslint@8.18.0):
+  eslint-config-prettier@9.1.0(eslint@8.18.0):
     dependencies:
       eslint: 8.18.0
-
-  eslint-config-prettier@8.6.0(eslint@8.57.0):
-    dependencies:
-      eslint: 8.57.0
 
   eslint-config-prettier@9.1.0(eslint@8.57.0):
     dependencies:
@@ -34335,16 +34319,6 @@ snapshots:
   eslint-plugin-no-unsanitized@4.1.5(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
-
-  eslint-plugin-prettier@5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@8.6.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2):
-    dependencies:
-      eslint: 8.57.0
-      prettier: 3.3.2
-      prettier-linter-helpers: 1.0.0
-      synckit: 0.8.8
-    optionalDependencies:
-      '@types/eslint': 8.4.5
-      eslint-config-prettier: 8.6.0(eslint@8.57.0)
 
   eslint-plugin-prettier@5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2):
     dependencies:
