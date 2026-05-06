@@ -60,6 +60,7 @@ import { WorkspaceEffects } from './effects/workspace.effect';
 import { ElectronEffects } from './effects/electron.effect';
 import { AltairConfig } from 'altair-graphql-core/build/config';
 import { environment } from 'environments/environment';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 registerLocaleData(en);
 
@@ -131,6 +132,7 @@ const providers = [
   exports: [AltairComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule.forRoot(),
