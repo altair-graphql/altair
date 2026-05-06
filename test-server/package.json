@@ -41,7 +41,7 @@
     "@types/lodash": "4.17.20",
     "@types/node": "^18.15.0",
     "@types/ws": "^8.5.4",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.1.14",
     "ts-node": "^10.9.1",
     "typescript": "5.2.2"
   },
