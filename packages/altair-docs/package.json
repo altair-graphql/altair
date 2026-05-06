@@ -38,7 +38,7 @@
     "@vueuse/integrations": "^14.3.0",
     "html2canvas": "^1.4.1",
     "mark.js": "^8.11.1",
-    "marked": "^15.0.3",
+    "marked": "^18.0.2",
     "medium-zoom": "^1.1.0",
     "minisearch": "^7.1.1",
     "yaml": "^2.7.0"
