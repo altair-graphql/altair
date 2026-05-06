@@ -42,9 +42,6 @@ importers:
       '@playwright/test':
         specifier: ^1.31.2
         version: 1.31.2
-      '@types/prettier':
-        specifier: ^3.0.0
-        version: 3.0.0
       '@vitest/coverage-v8':
         specifier: 'catalog:'
         version: 4.1.0(vitest@4.1.0(@opentelemetry/api@1.9.1)(@types/node@25.5.0)(jsdom@28.1.0)(msw@2.3.1(typescript@5.9.3))(vite@7.3.2(@types/node@25.5.0)(jiti@2.4.2)(less@4.4.0)(sass@1.90.0)(stylus@0.55.0)(terser@5.43.1)(yaml@2.7.0)))
@@ -70,8 +67,8 @@ importers:
         specifier: 8.18.0
         version: 8.18.0
       eslint-config-prettier:
-        specifier: 8.5.0
-        version: 8.5.0(eslint@8.18.0)
+        specifier: 10.1.8
+        version: 10.1.8(eslint@8.18.0)
       execa:
         specifier: ^5.0.0
         version: 5.0.0
@@ -154,8 +151,8 @@ importers:
         specifier: ^0.14.0
         version: 0.14.0(eslint@8.57.0)
       eslint-config-prettier:
-        specifier: ^8.6.0
-        version: 8.6.0(eslint@8.57.0)
+        specifier: 10.1.8
+        version: 10.1.8(eslint@8.57.0)
       eslint-plugin-import:
         specifier: ^2.32.0
         version: 2.32.0(@typescript-eslint/parser@6.19.1(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)
@@ -164,7 +161,7 @@ importers:
         version: 4.1.5(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: ^5.1.3
-        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@8.6.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2)
+        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2)
       prettier:
         specifier: ^3.2.5
         version: 3.3.2
@@ -395,11 +392,11 @@ importers:
         specifier: ^9.6.0
         version: 9.6.0
       eslint-config-prettier:
-        specifier: ^9.1.0
-        version: 9.1.0(eslint@9.6.0)
+        specifier: 10.1.8
+        version: 10.1.8(eslint@9.6.0)
       eslint-plugin-prettier:
         specifier: ^5.1.3
-        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@9.1.0(eslint@9.6.0))(eslint@9.6.0)(prettier@3.3.2)
+        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@9.6.0))(eslint@9.6.0)(prettier@3.3.2)
       express:
         specifier: ^4.19.2
         version: 4.19.2
@@ -892,8 +889,8 @@ importers:
         specifier: workspace:*
         version: link:../../libs/eslint-config-altair
       eslint-config-prettier:
-        specifier: ^9.1.0
-        version: 9.1.0(eslint@8.57.0)
+        specifier: 10.1.8
+        version: 10.1.8(eslint@8.57.0)
       eslint-plugin-import:
         specifier: ^2.27.4
         version: 2.27.4(@typescript-eslint/parser@8.46.0(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)
@@ -902,7 +899,7 @@ importers:
         version: 4.0.2(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: ^5.1.3
-        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2)
+        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2)
       fake-indexeddb:
         specifier: ^4.0.1
         version: 4.0.1
@@ -1091,11 +1088,11 @@ importers:
         specifier: ^8.57.0
         version: 8.57.0
       eslint-config-prettier:
-        specifier: ^9.1.0
-        version: 9.1.0(eslint@8.57.0)
+        specifier: 10.1.8
+        version: 10.1.8(eslint@8.57.0)
       eslint-plugin-prettier:
         specifier: ^5.1.3
-        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2)
+        version: 5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2)
       msw:
         specifier: ^2.3.1
         version: 2.3.1(typescript@5.9.3)
@@ -1470,8 +1467,8 @@ importers:
         specifier: workspace:*
         version: link:../../libs/eslint-config-altair
       eslint-config-prettier:
-        specifier: 8.5.0
-        version: 8.5.0(eslint@7.32.0)
+        specifier: 10.1.8
+        version: 10.1.8(eslint@7.32.0)
       playwright:
         specifier: ^1.18.1
         version: 1.24.2
@@ -8395,10 +8392,6 @@ packages:
   '@types/plist@3.0.2':
     resolution: {integrity: sha512-ULqvZNGMv0zRFvqn8/4LSPtnmN4MfhlPNtJCTpKuIIxGVGZ2rYWzFXrvEBoh9CVyqSE7D6YFRJ1hydLHI6kbWw==}
 
-  '@types/prettier@3.0.0':
-    resolution: {integrity: sha512-mFMBfMOz8QxhYVbuINtswBp9VL2b4Y0QqYHwqLz3YbgtfAcat2Dl6Y1o4e22S/OVE6Ebl9m7wWiMT2lSbAs1wA==}
-    deprecated: This is a stub types definition. prettier provides its own type definitions, so you do not need this installed.
-
   '@types/prismjs@1.26.6':
     resolution: {integrity: sha512-vqlvI7qlMvcCBbVe0AKAb4f97//Hy0EBTaiW8AalRnG/xAN5zOiWWyrNqNXeq8+KAuvRewjCVY1+IPxk4RdNYw==}
 
@@ -12588,24 +12581,6 @@ packages:
 
   eslint-config-prettier@10.1.8:
     resolution: {integrity: sha512-82GZUjRS0p/jganf6q1rEO25VSoHH0hKPCTrgillPjdI/3bgBhAE1QzHrHTizjpRvy6pGAvKjDJtk2pF9NDq8w==}
-    hasBin: true
-    peerDependencies:
-      eslint: '>=7.0.0'
-
-  eslint-config-prettier@8.5.0:
-    resolution: {integrity: sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==}
-    hasBin: true
-    peerDependencies:
-      eslint: '>=7.0.0'
-
-  eslint-config-prettier@8.6.0:
-    resolution: {integrity: sha512-bAF0eLpLVqP5oEVUFKpMA+NnRFICwn9X8B5jrR9FcqnYBuPbqWEjTEspPWMj5ye6czoSLDweCzSo3Ko7gGrZaA==}
-    hasBin: true
-    peerDependencies:
-      eslint: '>=7.0.0'
-
-  eslint-config-prettier@9.1.0:
-    resolution: {integrity: sha512-NSWl5BFQWEPi1j4TjVNItzYV7dZXZ+wP6I6ZhrBGpChQhZRUaElihE9uRRkcbRnNb76UMKDF3r+WTmNcGPKsqw==}
     hasBin: true
     peerDependencies:
       eslint: '>=7.0.0'
@@ -28775,10 +28750,6 @@ snapshots:
       xmlbuilder: 15.1.1
     optional: true
 
-  '@types/prettier@3.0.0':
-    dependencies:
-      prettier: 3.3.2
-
   '@types/prismjs@1.26.6': {}
 
   '@types/prop-types@15.7.11': {}
@@ -34221,23 +34192,15 @@ snapshots:
     dependencies:
       eslint: 7.32.0
 
-  eslint-config-prettier@8.5.0(eslint@7.32.0):
-    dependencies:
-      eslint: 7.32.0
-
-  eslint-config-prettier@8.5.0(eslint@8.18.0):
+  eslint-config-prettier@10.1.8(eslint@8.18.0):
     dependencies:
       eslint: 8.18.0
 
-  eslint-config-prettier@8.6.0(eslint@8.57.0):
+  eslint-config-prettier@10.1.8(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
 
-  eslint-config-prettier@9.1.0(eslint@8.57.0):
-    dependencies:
-      eslint: 8.57.0
-
-  eslint-config-prettier@9.1.0(eslint@9.6.0):
+  eslint-config-prettier@10.1.8(eslint@9.6.0):
     dependencies:
       eslint: 9.6.0
 
@@ -34347,7 +34310,7 @@ snapshots:
     dependencies:
       eslint: 8.57.0
 
-  eslint-plugin-prettier@5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@8.6.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2):
+  eslint-plugin-prettier@5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2):
     dependencies:
       eslint: 8.57.0
       prettier: 3.3.2
@@ -34355,19 +34318,9 @@ snapshots:
       synckit: 0.8.8
     optionalDependencies:
       '@types/eslint': 8.4.5
-      eslint-config-prettier: 8.6.0(eslint@8.57.0)
+      eslint-config-prettier: 10.1.8(eslint@8.57.0)
 
-  eslint-plugin-prettier@5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@9.1.0(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2):
-    dependencies:
-      eslint: 8.57.0
-      prettier: 3.3.2
-      prettier-linter-helpers: 1.0.0
-      synckit: 0.8.8
-    optionalDependencies:
-      '@types/eslint': 8.4.5
-      eslint-config-prettier: 9.1.0(eslint@8.57.0)
-
-  eslint-plugin-prettier@5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@9.1.0(eslint@9.6.0))(eslint@9.6.0)(prettier@3.3.2):
+  eslint-plugin-prettier@5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@9.6.0))(eslint@9.6.0)(prettier@3.3.2):
     dependencies:
       eslint: 9.6.0
       prettier: 3.3.2
@@ -34375,7 +34328,7 @@ snapshots:
       synckit: 0.8.8
     optionalDependencies:
       '@types/eslint': 8.4.5
-      eslint-config-prettier: 9.1.0(eslint@9.6.0)
+      eslint-config-prettier: 10.1.8(eslint@9.6.0)
 
   eslint-plugin-prettier@5.5.4(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@7.32.0))(eslint@7.32.0)(prettier@3.7.4):
     dependencies:

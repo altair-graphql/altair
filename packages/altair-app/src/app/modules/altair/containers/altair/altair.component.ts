@@ -9,7 +9,7 @@ import {
 } from 'rxjs/operators';
 import { Component, inject } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, forkJoin, of, from, firstValueFrom } from 'rxjs';
+import { Observable, of, from, firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { v4 as uuid } from 'uuid';
@@ -190,9 +190,19 @@ export class AltairComponent {
     this.setAvailableLanguages();
 
     const applicationLanguage = this.getAppLanguage();
-    forkJoin([
-      this.translate.use(applicationLanguage),
-      this.store.pipe(
+
+    // Mark the app as ready as soon as translations are loaded so the UI
+    // renders immediately, without waiting for plugins to initialise.
+    this.translate
+      .use(applicationLanguage)
+      .pipe(untilDestroyed(this))
+      .subscribe(() => {
+        this.isReady = true;
+      });
+
+    // Load and wait for plugins in the background; notify once they are ready.
+    this.store
+      .pipe(
         take(1),
         switchMap((data) => {
           if (data.settings['plugin.list']) {
@@ -214,12 +224,10 @@ export class AltairComponent {
         }),
         // Only wait 7 seconds for plugins to be ready
         timeout(7000),
-        catchError((_error) => of('Plugins were not ready on time!'))
-      ),
-    ])
-      .pipe(untilDestroyed(this))
+        catchError((_error) => of('Plugins were not ready on time!')),
+        untilDestroyed(this)
+      )
       .subscribe(() => {
-        this.isReady = true;
         this.pluginEvent.emit('app-ready', true);
       });
 

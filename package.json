@@ -12,7 +12,6 @@
   "devDependencies": {
     "@changesets/cli": "^2.18.1",
     "@playwright/test": "^1.31.2",
-    "@types/prettier": "^3.0.0",
     "chalk": "^4.1.0",
     "compare-versions": "^6.1.1",
     "concurrently": "^9.2.1",
@@ -20,7 +19,7 @@
     "cwex": "^1.0.4",
     "dotenv-cli": "^7.2.1",
     "eslint": "8.18.0",
-    "eslint-config-prettier": "8.5.0",
+    "eslint-config-prettier": "10.1.8",
     "execa": "^5.0.0",
     "https-browserify": "^1.0.0",
     "inquirer": "^7.3.3",

@@ -135,7 +135,7 @@ jobs:
       # install node_modules again with new configuration
       - run: pnpm i --frozen-lockfile
       # Create deploy ready source files for electron
-      - run: pnpm deploy --filter=altair out/elx-files
+      - run: pnpm deploy --legacy --filter=altair out/elx-files
 
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@d33c176a9b784876d966f80fb1b461808edc0641 # v2.1.1
