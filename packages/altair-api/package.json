@@ -16,7 +16,7 @@
     "@logtape/logtape": "^2.0.5",
     "@logtape/otel": "^2.0.5",
     "@nestjs/common": "^11.1.19",
-    "@nestjs/config": "^4.0.3",
+    "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.1.19",
     "@nestjs/event-emitter": "^3.0.1",
     "@nestjs/jwt": "^11.0.2",
