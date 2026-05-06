@@ -5,7 +5,7 @@
   "license": "MIT",
   "dependencies": {
     "@react-email/components": "^1.0.12",
-    "react": "^19.2.4",
+    "react": "^19.2.6",
     "react-dom": "^19.2.4"
   },
   "devDependencies": {
