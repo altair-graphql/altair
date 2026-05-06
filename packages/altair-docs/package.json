@@ -14,6 +14,7 @@
     "@octokit/rest": "^22.0.1",
     "@types/lodash.escaperegexp": "^4.1.9",
     "@types/lodash.sortby": "^4.7.9",
+    "@types/markdown-it": "^14.1.2",
     "altair-graphql-core": "workspace:*",
     "glob": "^13.0.6",
     "hast-util-to-string": "^3.0.1",

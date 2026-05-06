@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress';
+import { fileURLToPath } from 'url';
 import { getConfig } from './plugins/sidebar-generation';
 import coreApiSidebar from '../api/core/typedoc-sidebar.json';
 import { dynamicFiles } from './plugins/dynamic-files';
@@ -6,6 +7,7 @@ import { toString } from 'hast-util-to-string';
 import { openInAltairShikiPlugin } from './plugins/open-in-altair-shiki';
 
 const { sidebar: retrievedSidebar } = getConfig({
+  rootDir: fileURLToPath(new URL('..', import.meta.url)),
   filter: (meta) => meta.sidebar !== false,
 });
 
