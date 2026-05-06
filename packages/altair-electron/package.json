@@ -29,7 +29,7 @@
     "electron-util": "^0.12.1",
     "electron-window-state": "^5.0.3",
     "express": "^4.19.2",
-    "get-port": "5.1.1",
+    "get-port": "7.2.0",
     "mime-types": "^2.1.29",
     "rxjs": "7.8.1",
     "uuid": "^14.0.0"
