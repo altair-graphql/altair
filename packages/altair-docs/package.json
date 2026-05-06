@@ -41,7 +41,7 @@
     "marked": "^15.0.3",
     "medium-zoom": "^1.1.0",
     "minisearch": "^7.1.1",
-    "yaml": "^2.7.0"
+    "yaml": "^2.8.3"
   },
   "repository": {
     "type": "git",
