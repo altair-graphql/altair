@@ -19,7 +19,7 @@
     "clsx": "^2.1.1",
     "copy-to-clipboard": "^3.3.3",
     "graphql": "15.5.1",
-    "prettier": "^3.5.0",
+    "prettier": "^3.8.3",
     "react": "^18.0.0",
     "react-base16-styling": "^0.10.0",
     "react-dom": "^18.0.0",
