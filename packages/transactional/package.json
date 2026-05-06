@@ -13,7 +13,7 @@
     "@types/html-to-text": "^9.0.4",
     "@types/prismjs": "^1.26.6",
     "@types/react": "^19.2.14",
-    "react-email": "^5.2.10",
+    "react-email": "^6.1.1",
     "typescript": "catalog:"
   },
   "scripts": {
