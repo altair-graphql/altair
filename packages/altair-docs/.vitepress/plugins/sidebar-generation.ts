@@ -223,15 +223,7 @@ function side(
     addReadMeToFirstGroup,
     mixDirectoriesAndFilesAlphabetically,
     filter,
-  }: {
-    stripNumbers: boolean;
-    maxLevel: number;
-    navPrefix: string;
-    skipEmptySidebar: boolean;
-    addReadMeToFirstGroup: boolean;
-    mixDirectoriesAndFilesAlphabetically: boolean;
-    filter?: (meta: object) => boolean;
-  },
+  }: Pick<ResolvedConfigOptions, 'stripNumbers' | 'maxLevel' | 'navPrefix' | 'skipEmptySidebar' | 'addReadMeToFirstGroup' | 'mixDirectoriesAndFilesAlphabetically' | 'filter'>,
   relativeDir: string = '',
   currentLevel: number = 1
 ): DefaultTheme.SidebarItem[] {
@@ -424,7 +416,7 @@ function _nav(
 function multiSide(
   rootDir: string,
   nav: NavItem[],
-  options: Required<ConfigOptions>,
+  options: ResolvedConfigOptions,
   currentLevel: number = 1
 ): DefaultTheme.Sidebar {
   const sideBar = {};
@@ -467,6 +459,7 @@ function multiSide(
 }
 
 interface ConfigOptions {
+  rootDir?: string;
   stripNumbers?: boolean;
   maxLevel?: number;
   navPrefix?: string;
@@ -478,16 +471,19 @@ interface ConfigOptions {
   pinyinNav?: boolean;
   filter?: (meta: MarkdownItMeta) => boolean;
 }
+
+type ResolvedConfigOptions = Required<Omit<ConfigOptions, 'rootDir'>>;
 /**
  * Returns `nav` and `sidebar` configuration for VuePress calculated using structrue of directory and files in given path.
  * @param   {Object}    options           - Options
  * @returns {Object}                      - { nav: ..., sidebar: ... } configuration.
  */
 export function getConfig(_options?: ConfigOptions) {
-  let rootDir = join(dirname(fileURLToPath(parentModule() ?? '')), '..');
+  let rootDir =
+    _options?.rootDir ?? join(dirname(fileURLToPath(parentModule() ?? '')), '..');
   rootDir = rootDir.endsWith(sep) ? rootDir.slice(0, -1) : rootDir; // Remove last / if exists.
 
-  const options: Required<ConfigOptions> = {
+  const options: Required<Omit<ConfigOptions, 'rootDir'>> = {
     stripNumbers: true,
     maxLevel: 2,
     navPrefix: 'nav',

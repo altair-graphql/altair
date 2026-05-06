@@ -9,12 +9,14 @@
     "bootstrap": "pnpm build"
   },
   "private": true,
+  "type": "module",
   "devDependencies": {
-    "@octokit/rest": "^20.0.2",
+    "@octokit/rest": "^22.0.1",
     "@types/lodash.escaperegexp": "^4.1.9",
     "@types/lodash.sortby": "^4.7.9",
+    "@types/markdown-it": "^14.1.2",
     "altair-graphql-core": "workspace:*",
-    "glob": "^11.0.0",
+    "glob": "^13.0.6",
     "hast-util-to-string": "^3.0.1",
     "inflection": "^3.0.0",
     "lodash.escaperegexp": "^4.1.2",
@@ -26,15 +28,14 @@
     "parent-module": "^3.1.0",
     "shikiji": "^0.10.2",
     "transliteration": "^2.3.5",
-    "vitepress": "^1.0.0-rc.39",
-    "vitepress-plugin-google-analytics": "^1.0.2",
-    "vue": "^3.4.15"
+    "vitepress": "2.0.0-alpha.17",
+    "vue": "^3.5.33"
   },
   "dependencies": {
     "@altairgraphql/api-utils": "workspace:^",
     "@docsearch/css": "^3.8.0",
-    "@vueuse/core": "^12.0.0",
-    "@vueuse/integrations": "^12.0.0",
+    "@vueuse/core": "^14.2.1",
+    "@vueuse/integrations": "^14.2.1",
     "html2canvas": "^1.4.1",
     "mark.js": "^8.11.1",
     "marked": "^15.0.3",

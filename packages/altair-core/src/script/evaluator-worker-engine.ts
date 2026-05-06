@@ -68,7 +68,7 @@ export class ScriptEvaluatorWorkerEngine {
       const contextEntries = Object.entries(context);
       try {
         const res = function () {
-          return eval(`
+          return (0, eval)(`
           (async(${contextEntries.map((e) => e[0]).join(',')}) => {
             ${script};
             return altair.data;

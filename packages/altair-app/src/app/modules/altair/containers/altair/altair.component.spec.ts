@@ -72,7 +72,7 @@ describe('AltairComponent', () => {
           getLangs: () => [],
           setDefaultLang: () => {},
           addLangs: () => {},
-          getDefaultLang: () => {},
+          getFallbackLang: () => {},
           getBrowserLang: () => {},
         }),
       },
