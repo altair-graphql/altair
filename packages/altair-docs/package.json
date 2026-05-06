@@ -29,13 +29,13 @@
     "shikiji": "^0.10.2",
     "transliteration": "^2.3.5",
     "vitepress": "2.0.0-alpha.17",
-    "vue": "^3.5.33"
+    "vue": "^3.5.34"
   },
   "dependencies": {
     "@altairgraphql/api-utils": "workspace:^",
     "@docsearch/css": "^3.8.0",
-    "@vueuse/core": "^14.2.1",
-    "@vueuse/integrations": "^14.2.1",
+    "@vueuse/core": "^14.3.0",
+    "@vueuse/integrations": "^14.3.0",
     "html2canvas": "^1.4.1",
     "mark.js": "^8.11.1",
     "marked": "^15.0.3",

@@ -17,7 +17,7 @@
     "@graphql-tools/schema": "^9.0.17",
     "@graphql-yoga/plugin-defer-stream": "^3.3.1",
     "@graphql-yoga/plugin-graphql-sse": "^3.10.8",
-    "axios": "1.12.2",
+    "axios": "^1.15.2",
     "body-parser": "^1.20.2",
     "chokidar": "^3.5.0",
     "compression": "^1.7.4",
@@ -41,7 +41,7 @@
     "@types/lodash": "4.17.20",
     "@types/node": "^18.15.0",
     "@types/ws": "^8.5.4",
-    "nodemon": "^2.0.22",
+    "nodemon": "^3.1.14",
     "ts-node": "^10.9.1",
     "typescript": "5.2.2"
   },
