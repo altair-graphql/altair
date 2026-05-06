@@ -25,7 +25,7 @@
     "markdown-it-meta": "^0.0.1",
     "markdown-it-title": "^4.0.0",
     "node-cache": "^5.1.2",
-    "parent-module": "^3.1.0",
+    "parent-module": "^3.2.0",
     "shikiji": "^0.10.2",
     "transliteration": "^2.3.5",
     "vitepress": "2.0.0-alpha.17",
