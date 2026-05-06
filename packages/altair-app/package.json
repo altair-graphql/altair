@@ -151,7 +151,7 @@
     "electron": "catalog:",
     "eslint": "^8.57.0",
     "eslint-config-altair": "workspace:*",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "^2.27.4",
     "eslint-plugin-no-unsanitized": "^4.0.2",
     "eslint-plugin-prettier": "^5.1.3",

@@ -57,7 +57,7 @@
     "electron-vite": "^5.0.0",
     "eslint": "^7.3.1",
     "eslint-config-altair": "workspace:*",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-prettier": "10.1.8",
     "playwright": "^1.18.1",
     "spectron": "^15.0.0",
     "typescript": "catalog:",
