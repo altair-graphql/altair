@@ -106,7 +106,7 @@
     "start:dev": "rimraf dist && nest start --watch",
     "start:prod": "node dist/main",
     "start:prod:in-docker": "pnpm --dir ./node_modules/@altairgraphql/db prod:prestart && node dist/main",
-    "migrate:e2e": "dotenv -e .env.e2e -- pnpm dlx prisma@5.16.2 migrate deploy --schema ../altair-db/prisma/schema.prisma",
+    "migrate:e2e": "dotenv -e .env.e2e -- pnpm --dir ../altair-db exec prisma migrate deploy --schema ./prisma/schema.prisma",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:debug": "vitest --inspect-brk --no-file-parallelism",
