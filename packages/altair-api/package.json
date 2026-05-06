@@ -47,7 +47,7 @@
     "jsonwebtoken": "^9.0.3",
     "langchain": "^0.3.23",
     "nestjs-prisma": "^0.19.0",
-    "nodemailer": "^8.0.4",
+    "nodemailer": "^8.0.5",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "passport-google-oauth": "^2.0.0",
