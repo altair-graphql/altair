@@ -16,158 +16,222 @@ updates:
     directory: /
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: cargo
     directory: /
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: docker
     directory: /
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /examples/express-v4
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /examples/fastify-v5
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /examples/koa-v3
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /libs/eslint-config-altair
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-api-utils
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-api
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-app
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-core
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-crx
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-db
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-docs
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-electron-interop
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-electron-settings-static
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-electron-settings
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-electron
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-express-middleware
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-fastify-plugin
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-iframe-sandbox
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-koa-middleware
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-plugin
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-static
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-tauri-isolation
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/altair-tauri
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/gatsby-plugin-altair-graphql
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/login-redirect
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /packages/transactional
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /plugins/ai
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /plugins/apollo-tracing
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
 
   - package-ecosystem: npm
     directory: /test-server
     schedule:
       interval: daily
+    cooldown:
+      default-days: 7
