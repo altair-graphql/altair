@@ -18,5 +18,6 @@ catalog:
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade
 strictDepBuilds: true
-onlyBuiltDependencies: []
+onlyBuiltDependencies:
+  - '@nestjs/core'
 ignoredBuiltDependencies: []
