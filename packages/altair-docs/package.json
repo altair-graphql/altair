@@ -27,8 +27,7 @@
     "parent-module": "^3.1.0",
     "shikiji": "^0.10.2",
     "transliteration": "^2.3.5",
-    "vitepress": "^1.6.4",
-    "vitepress-plugin-google-analytics": "^1.0.2",
+    "vitepress": "2.0.0-alpha.17",
     "vue": "^3.5.33"
   },
   "dependencies": {
