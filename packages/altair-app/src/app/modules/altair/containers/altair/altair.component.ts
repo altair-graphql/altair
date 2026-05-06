@@ -402,14 +402,14 @@ export class AltairComponent {
    * Gets the language to use for the app
    */
   getAppLanguage() {
-    const defaultLanguage = this.translate.getDefaultLang();
+    const defaultLanguage = this.translate.getFallbackLang();
     const clientLanguage = this.translate.getBrowserLang();
     const isClientLanguageAvailable =
       clientLanguage && this.checkLanguageAvailability(clientLanguage);
 
     return isClientLanguageAvailable && !this.altairConfig.isTranslateMode
       ? clientLanguage
-      : defaultLanguage;
+      : defaultLanguage ?? 'en';
   }
 
   newWindow() {

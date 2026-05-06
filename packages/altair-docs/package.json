@@ -9,6 +9,7 @@
     "bootstrap": "pnpm build"
   },
   "private": true,
+  "type": "module",
   "devDependencies": {
     "@octokit/rest": "^22.0.1",
     "@types/lodash.escaperegexp": "^4.1.9",

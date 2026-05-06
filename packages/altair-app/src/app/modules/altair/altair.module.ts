@@ -1,5 +1,4 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   NgModule,
   CUSTOM_ELEMENTS_SCHEMA,
@@ -12,7 +11,6 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  HttpClient,
   HTTP_INTERCEPTORS,
   provideHttpClient,
   withInterceptorsFromDi,
@@ -23,8 +21,8 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ToastrModule } from 'ngx-toastr';
 
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { CookieService } from 'ngx-cookie-service';
 
@@ -64,12 +62,6 @@ import { AltairConfig } from 'altair-graphql-core/build/config';
 import { environment } from 'environments/environment';
 
 registerLocaleData(en);
-
-// AoT requires an exported function for factories
-export function createTranslateLoader(http: HttpClient) {
-  // Using relative path to the translation files to ensure cross platform compatibility (majorly because of the electron apps)
-  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 
 export function reducerBootstrapFactory(reducer: ReducerBootstrapper) {
   // bootstrap() returns a Promise
@@ -122,6 +114,14 @@ const providers = [
     return initializerFn();
   }),
   provideHttpClient(withInterceptorsFromDi()),
+  provideTranslateService({
+    loader: provideTranslateHttpLoader({
+      prefix: './assets/i18n/',
+      suffix: '.json',
+    }),
+    fallbackLang: 'en',
+    lang: 'en',
+  }),
 ];
 
 @NgModule({
@@ -131,7 +131,6 @@ const providers = [
   exports: [AltairComponent],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     SharedModule.forRoot(),
@@ -159,13 +158,6 @@ const providers = [
       ElectronEffects,
     ]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: createTranslateLoader,
-        deps: [HttpClient],
-      },
-    }),
     ToastrModule.forRoot({
       newestOnTop: false,
       closeButton: true,
