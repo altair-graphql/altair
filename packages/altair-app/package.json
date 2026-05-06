@@ -87,7 +87,7 @@
     "lucide-angular": "^0.298.0",
     "marked": "^15.0.3",
     "memoizee": "0.4.14",
-    "ng-zorro-antd": "^15.1.1",
+    "ng-zorro-antd": "^21.2.2",
     "ngrx-store-localstorage": "12.0.1",
     "ngx-cookie-service": "14.0.1",
     "ngx-markdown": "^14.0.1",
