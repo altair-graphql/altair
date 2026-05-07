@@ -51,5 +51,7 @@ onlyBuiltDependencies:
   - utf-8-validate
 strictDepBuilds: true
 trustPolicy: no-downgrade
+trustPolicyExclude:
+  - rollup
 
 # blockExoticSubdeps: true
