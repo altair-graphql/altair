@@ -53,5 +53,6 @@ strictDepBuilds: true
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - rollup
+  - semver
 
 # blockExoticSubdeps: true
