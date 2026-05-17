@@ -59,5 +59,6 @@ trustPolicyExclude:
   - 'rollup@2.79.2'
   - 'semver@5.7.1 || 5.7.2 || 6.3.1'
   - 'chokidar@4.0.3'
+  - 'undici-types@6.21.0'
 
 # blockExoticSubdeps: true
