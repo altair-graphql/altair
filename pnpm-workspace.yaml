@@ -52,7 +52,7 @@ onlyBuiltDependencies:
 strictDepBuilds: true
 trustPolicy: no-downgrade
 trustPolicyExclude:
-  - rollup
-  - semver
+  - 'rollup@2.79.2'
+  - 'semver@5.7.1 || 5.7.2 || 6.3.1'
 
 # blockExoticSubdeps: true
