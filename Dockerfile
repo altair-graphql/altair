@@ -47,7 +47,7 @@ COPY . .
 RUN pnpm turbo run build --filter=@altairgraphql/api...
 
 # Create a self-contained deployable directory with production deps only.
-RUN pnpm deploy --filter=@altairgraphql/api --prod /api-app
+RUN pnpm deploy --legacy --filter=@altairgraphql/api --prod /api-app
 
 ################################################################################
 # Minimal runtime image — no build toolchain.
