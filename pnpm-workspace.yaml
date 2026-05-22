@@ -23,38 +23,39 @@ catalog:
 # ignoredBuiltDependencies: [ '@parcel/watcher', '@prisma/engines', '@scarf/scarf', '@sentry/cli', '@swc/core', bufferutil, contentlayer, core-js, dtrace-provider, edgedriver, electron-chromedriver, electron-winstaller, es5-ext, geckodriver, highlight.js, lmdb, msgpackr-extract, msw, nx, playwright, prisma, protobufjs, sharp, spawn-sync, spectron, utf-8-validate ]
 
 minimumReleaseAge: 1440
-onlyBuiltDependencies:
-  - '@nestjs/core'
-  - '@parcel/watcher'
-  - '@prisma/client'
-  - '@prisma/engines'
-  - '@scarf/scarf'
-  - '@sentry/cli'
-  - '@swc/core'
-  - bcrypt
-  - bufferutil
-  - contentlayer
-  - core-js
-  - dtrace-provider
-  - edgedriver
-  - electron
-  - electron-chromedriver
-  - electron-winstaller
-  - es5-ext
-  - esbuild
-  - geckodriver
-  - highlight.js
-  - lmdb
-  - msgpackr-extract
-  - msw
-  - nx
-  - playwright
-  - prisma
-  - protobufjs
-  - sharp
-  - spawn-sync
-  - spectron
-  - utf-8-validate
+allowBuilds:
+  '@altairgraphql/*': true
+  '@nestjs/core': true
+  '@parcel/watcher': true
+  '@prisma/client': true
+  '@prisma/engines': true
+  '@scarf/scarf': true
+  '@sentry/cli': true
+  '@swc/core': true
+  bcrypt: true
+  bufferutil: true
+  contentlayer: true
+  core-js: true
+  dtrace-provider: true
+  edgedriver: true
+  electron: true
+  electron-chromedriver: true
+  electron-winstaller: true
+  es5-ext: true
+  esbuild: true
+  geckodriver: true
+  highlight.js: true
+  lmdb: true
+  msgpackr-extract: true
+  msw: true
+  nx: true
+  playwright: true
+  prisma: true
+  protobufjs: true
+  sharp: true
+  spawn-sync: true
+  spectron: true
+  utf-8-validate: true
 strictDepBuilds: true
 # TODO: Re-enable trustPolicy later. Currently too many things are flagged as vulnerable, and we need to fix those first before we can enable this check.
 # trustPolicy: no-downgrade
