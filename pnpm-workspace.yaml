@@ -25,6 +25,7 @@ catalog:
 minimumReleaseAge: 1440
 allowBuilds:
   '@altairgraphql/*': true
+  '@altairgraphql/db': true
   '@nestjs/core': true
   '@parcel/watcher': true
   '@prisma/client': true
