@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ARG NODE_VERSION=24.14.0
-ARG PNPM_VERSION=9.15.0
+ARG PNPM_VERSION=10.33.4
 
 ################################################################################
 # Build base: includes native compilation toolchain needed for pnpm install.
@@ -59,7 +59,7 @@ ENV NODE_ENV=production
 ENV TURBO_TELEMETRY_DISABLED=1
 
 # pnpm is needed at runtime because the start script uses it.
-ARG PNPM_VERSION=10.33.4
+ARG PNPM_VERSION
 RUN --mount=type=cache,target=/root/.npm \
     npm install -g pnpm@${PNPM_VERSION}
 
