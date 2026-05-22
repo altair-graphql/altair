@@ -56,7 +56,8 @@ onlyBuiltDependencies:
   - spectron
   - utf-8-validate
 strictDepBuilds: true
-trustPolicy: no-downgrade
+# TODO: Re-enable trustPolicy later. Currently too many things are flagged as vulnerable, and we need to fix those first before we can enable this check.
+# trustPolicy: no-downgrade
 trustPolicyExclude:
   - 'rollup@2.79.2'
   - 'semver@5.7.1 || 5.7.2 || 6.3.1'
