@@ -24,8 +24,19 @@ catalog:
 
 minimumReleaseAge: 1440
 allowBuilds:
-  '@altairgraphql/*': true
+  '@altairgraphql/api': true
+  '@altairgraphql/api-utils': true
+  '@altairgraphql/app': true
+  '@altairgraphql/crx': true
   '@altairgraphql/db': true
+  '@altairgraphql/docs': true
+  '@altairgraphql/electron-interop': true
+  '@altairgraphql/electron-settings': true
+  '@altairgraphql/electron-settings-static': true
+  '@altairgraphql/emails': true
+  '@altairgraphql/iframe-sandbox': true
+  '@altairgraphql/login-redirect': true
+  '@altairgraphql/tauri': true
   '@nestjs/core': true
   '@parcel/watcher': true
   '@prisma/client': true
@@ -51,6 +62,7 @@ allowBuilds:
   msw: true
   nx: true
   playwright: true
+  puppeteer: true
   prisma: true
   protobufjs: true
   sharp: true
