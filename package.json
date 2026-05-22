@@ -23,7 +23,6 @@
     "execa": "^5.0.0",
     "https-browserify": "^1.0.0",
     "inquirer": "^7.3.3",
-    "ng-packagr": "^13.0.8",
     "opencollective": "^1.0.3",
     "path-browserify": "^1.0.0",
     "process": "^0.11.10",
@@ -42,7 +41,8 @@
     "vitest": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "web-ext": "^6.5.0",
-    "wrangler": "^2.0.27"
+    "wrangler": "^2.0.27",
+    "ng-packagr": "^13.0.8"
   },
   "engines": {
     "node": ">= 22"

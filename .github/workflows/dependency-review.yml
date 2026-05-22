@@ -27,6 +27,9 @@ jobs:
         uses: actions/dependency-review-action@2031cfc080254a8a887f58cffee85186f0e49e48 # v4.9.0
         with:
           fail-on-severity: moderate
+          # Suppressed Angular XSS advisories: no patch exists for Angular 17.
+          # CVE-2026-22610, CVE-2026-27970, CVE-2026-32635 are fixed in Angular 19.2+.
+          # Track upgrade in: https://github.com/altair-graphql/altair/issues/TODO
           allow-ghsas: >-
             GHSA-jrmj-c5cx-3cw6,
             GHSA-prjf-86w9-mfqv,
