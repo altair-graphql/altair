@@ -59,7 +59,7 @@ ENV NODE_ENV=production
 ENV TURBO_TELEMETRY_DISABLED=1
 
 # pnpm is needed at runtime because the start script uses it.
-ARG PNPM_VERSION
+ARG PNPM_VERSION=10.33.4
 RUN --mount=type=cache,target=/root/.npm \
     npm install -g pnpm@${PNPM_VERSION}
 
