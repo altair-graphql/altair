@@ -30,7 +30,6 @@ catalogs:
 
 overrides:
   rollup: 4.59.0
-  body-parser: '>=1.20.3'
 
 importers:
 
@@ -63,7 +62,7 @@ importers:
         version: 7.0.3
       cwex:
         specifier: ^1.0.4
-        version: 1.0.4(@types/download@8.0.1)(body-parser@2.2.2)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
+        version: 1.0.4(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
       dotenv-cli:
         specifier: ^7.2.1
         version: 7.2.1
@@ -135,7 +134,7 @@ importers:
         version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@25.5.0)(jsdom@28.1.0)(msw@2.3.1(typescript@5.9.3))(vite@7.3.2(@types/node@25.5.0)(jiti@2.4.2)(less@4.4.0)(sass@1.90.0)(stylus@0.55.0)(terser@5.43.1)(yaml@2.7.0))
       web-ext:
         specifier: ^6.5.0
-        version: 6.8.0(@types/download@8.0.1)(body-parser@2.2.2)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
+        version: 6.8.0(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
       wrangler:
         specifier: ^2.0.27
         version: 2.0.27(bufferutil@4.0.6)(cron-schedule@3.0.6)(utf-8-validate@5.0.9)
@@ -300,7 +299,7 @@ importers:
         version: 9.0.3
       langchain:
         specifier: ^0.3.23
-        version: 0.3.23(9288bd204da7a0d1ced395d9ac107ab8)
+        version: 0.3.23(4e4d37251e817a8e57c40daae664ed50)
       nestjs-prisma:
         specifier: ^0.19.0
         version: 0.19.0(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@prisma/client@6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3))(chokidar@3.6.0)(prisma@6.19.3(typescript@5.9.3))
@@ -1214,7 +1213,7 @@ importers:
         version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@25.5.0)(jsdom@28.1.0)(msw@2.3.1(typescript@5.9.3))(vite@7.3.2(@types/node@25.5.0)(jiti@2.4.2)(less@4.4.0)(sass@1.90.0)(stylus@0.55.0)(terser@5.43.1)(yaml@2.7.0))
       web-ext:
         specifier: ^8.3.0
-        version: 8.3.0(body-parser@2.2.2)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
+        version: 8.3.0(body-parser@1.20.2)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
 
   packages/altair-db:
     dependencies:
@@ -1353,8 +1352,8 @@ importers:
         specifier: workspace:*
         version: link:../altair-static
       body-parser:
-        specifier: '>=1.20.3'
-        version: 2.2.2
+        specifier: ^1.20.0
+        version: 1.20.5
       csp-header:
         specifier: ^5.1.0
         version: 5.1.0
@@ -9159,7 +9158,7 @@ packages:
     resolution: {integrity: sha512-sD4U7TX/NFDUYVheydrcpHH9xG3E0eVBFDn1RuUkGpqRyay3SsOU75Pl2lWAbCmeE0Mh9inU1Fwl7Mm1VRWkZw==}
     peerDependencies:
       '@types/download': 8.0.1
-      body-parser: '>=1.20.3'
+      body-parser: 1.19.1
       download: 8.0.0
       express: 4.17.2
       safe-compare: 1.1.4
@@ -9167,7 +9166,7 @@ packages:
   addons-scanner-utils@9.11.0:
     resolution: {integrity: sha512-X95V8ymnue9EHmOLz3zJTGHvHDFlWKiavlH+kJKOlv2sJDWFvD3TWeJMHJgxS9GKOqT/545mOXvX3vuuGGum+g==}
     peerDependencies:
-      body-parser: '>=1.20.3'
+      body-parser: 1.20.2
       express: 4.19.2
       node-fetch: 2.6.11
       safe-compare: 1.1.4
@@ -10059,6 +10058,18 @@ packages:
   bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
 
+  body-parser@1.19.1:
+    resolution: {integrity: sha512-8ljfQi5eBk8EJfECMrgqNGWPEY5jWP+1IzkzkGdFFEwFQZZyaZ21UqdaHktgiMlH0xLHqIFtE/u2OYE5dOtViA==}
+    engines: {node: '>= 0.8'}
+
+  body-parser@1.20.2:
+    resolution: {integrity: sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==}
+    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+
+  body-parser@1.20.5:
+    resolution: {integrity: sha512-3grm+/2tUOvu2cjJkvsIxrv/wVpfXQW4PsQHYm7yk4vfpu7Ekl6nEsYBoJUL6qDwZUx8wUhQ8tR2qz+ad9c9OA==}
+    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+
   body-parser@2.2.2:
     resolution: {integrity: sha512-oP5VkATKlNwcgvxi0vM0p/D3n2C3EReYVX+DNYs5TjZFn/oQt2j+4sVJtSMr18pdRr8wjTcBl6LoV+FUwzPmNA==}
     engines: {node: '>=18'}
@@ -10215,6 +10226,10 @@ packages:
   busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
     engines: {node: '>=10.16.0'}
+
+  bytes@3.1.1:
+    resolution: {integrity: sha512-dWe4nWO/ruEOY7HkUJ5gFt1DCFV9zPRoJr8pV0/ASQermOZjtq8jMjOprC0Kd10GLN+l7xaUPvxzJFWtxGu8Fg==}
+    engines: {node: '>= 0.8'}
 
   bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -13535,10 +13550,6 @@ packages:
   get-func-name@2.0.2:
     resolution: {integrity: sha512-8vXOvuE167CtIc3OyItco7N/dpRtBbYOsPsXCz7X/PMnlGjYjSGuZJgM1Y7mmew7BKf9BqvLX2tnOVy1BBUsxQ==}
 
-  get-intrinsic@1.2.4:
-    resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
-    engines: {node: '>= 0.4'}
-
   get-intrinsic@1.3.0:
     resolution: {integrity: sha512-9fSjSaos/fRIVIp+xSJlE6lfwhES7LNtKaCBIamHsjr2na1BiABJPo0mOjjz8GJDURarmCPGqaiVg5mfjb98CQ==}
     engines: {node: '>= 0.4'}
@@ -13923,10 +13934,6 @@ packages:
   has-property-descriptors@1.0.2:
     resolution: {integrity: sha512-55JNKuIW+vq4Ke1BjOTjM2YctQIvCT7GFzHwmfZPGo5wnrgkid0YQtnAleFSqumZm4az3n2BS+erby5ipJdgrg==}
 
-  has-proto@1.0.3:
-    resolution: {integrity: sha512-SJ1amZAJUiZS+PhsVLf5tGydlaVB8EdFpaSO4gmiUKUOxk8qzn5AIy4ZeJUmh22znIdk/uMAUT2pl3FxzVUH+Q==}
-    engines: {node: '>= 0.4'}
-
   has-proto@1.2.0:
     resolution: {integrity: sha512-KIL7eQPfHQRC8+XluaIw7BHUwwqL19bQn4hzNgdr+1wXoU0KKj6rufu47lhY7KbJR2C6T6+PfyN0Ea7wkSS+qQ==}
     engines: {node: '>= 0.4'}
@@ -14132,6 +14139,10 @@ packages:
 
   http-errors@2.0.0:
     resolution: {integrity: sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==}
+    engines: {node: '>= 0.8'}
+
+  http-errors@2.0.1:
+    resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
     engines: {node: '>= 0.8'}
 
   http-proxy-agent@5.0.0:
@@ -18258,6 +18269,10 @@ packages:
     resolution: {integrity: sha512-mAZTtNCeetKMH+pSjrb76NAM8V9a05I9aBZOHztWy/UqcJdQYNsf59vrRKWnojAT9Y+GbIvoTBC++CPHqpDBhQ==}
     engines: {node: '>=0.6'}
 
+  qs@6.15.2:
+    resolution: {integrity: sha512-Rzq0KEyX/w/tEybncDgdkZrJgVUsUMk3xjh3t5bv3S1HTAtg+uOYt72+ZfwiQwKdysThkTBdL/rTi6HDmX9Ddw==}
+    engines: {node: '>=0.6'}
+
   qs@6.5.3:
     resolution: {integrity: sha512-qxXIEh4pCGfHICj1mAJQ2/2XVZkjCDTcEgfoSQxc/fYivUZxTkk7L3bDBJSoNrEzXI17oUO5Dp07ktqE5KzczA==}
     engines: {node: '>=0.6'}
@@ -18326,6 +18341,18 @@ packages:
   range-parser@1.2.1:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
+
+  raw-body@2.4.2:
+    resolution: {integrity: sha512-RPMAFUJP19WIet/99ngh6Iv8fzAbqum4Li7AD6DtGaW2RpMB/11xDoalPiJMTbu6I3hkbMVkATvZrqb9EEqeeQ==}
+    engines: {node: '>= 0.8'}
+
+  raw-body@2.5.2:
+    resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
+    engines: {node: '>= 0.8'}
+
+  raw-body@2.5.3:
+    resolution: {integrity: sha512-s4VSOf6yN0rvbRZGxs8Om5CWj6seneMwK3oDb4lWDH0UPhWcxwOWw5+qk24bxq87szX1ydrwylIOp2uG1ojUpA==}
+    engines: {node: '>= 0.8'}
 
   raw-body@3.0.1:
     resolution: {integrity: sha512-9G8cA+tuMS75+6G/TzW8OtLzmBDMo8p1JRxN5AZ+LAp8uxGA8V8GZm4GQ4/N5QNQEnLmg6SS7wyuSmbKepiKqA==}
@@ -19576,6 +19603,10 @@ packages:
 
   statuses@2.0.1:
     resolution: {integrity: sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==}
+    engines: {node: '>= 0.8'}
+
+  statuses@2.0.2:
+    resolution: {integrity: sha512-DvEy55V3DB7uknRo+4iOGT5fP1slR8wQohVdknigZPMpMstaKJQWhwiYBACJE3Ul2pTnATihhBYnRhZQHGBiRw==}
     engines: {node: '>= 0.8'}
 
   std-env@4.0.0:
@@ -24785,13 +24816,13 @@ snapshots:
       - '@opentelemetry/sdk-trace-base'
       - peggy
 
-  '@langchain/core@0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))':
+  '@langchain/core@0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.37(@langchain/core@0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)))(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
+      langsmith: 0.1.37(@langchain/core@0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)))(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -24853,9 +24884,9 @@ snapshots:
     transitivePeerDependencies:
       - ws
 
-  '@langchain/textsplitters@0.0.3(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))':
+  '@langchain/textsplitters@0.0.3(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))':
     dependencies:
-      '@langchain/core': 0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
+      '@langchain/core': 0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
@@ -29759,11 +29790,11 @@ snapshots:
 
   actioncable@5.2.8: {}
 
-  addons-linter@4.14.0(@types/download@8.0.1)(body-parser@2.2.2)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4):
+  addons-linter@4.14.0(@types/download@8.0.1)(body-parser@1.19.1)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4):
     dependencies:
       '@mdn/browser-compat-data': 4.1.12
       addons-moz-compare: 1.2.0
-      addons-scanner-utils: 6.3.0(@types/download@8.0.1)(body-parser@2.2.2)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)
+      addons-scanner-utils: 6.3.0(@types/download@8.0.1)(body-parser@1.19.1)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)
       ajv: 6.12.6
       ajv-merge-patch: 4.1.0(ajv@6.12.6)
       chalk: 4.1.2
@@ -29800,12 +29831,12 @@ snapshots:
       - safe-compare
       - supports-color
 
-  addons-linter@7.1.0(body-parser@2.2.2)(express@4.19.2)(safe-compare@1.1.4):
+  addons-linter@7.1.0(body-parser@1.20.2)(express@4.19.2)(safe-compare@1.1.4):
     dependencies:
       '@fluent/syntax': 0.19.0
       '@mdn/browser-compat-data': 5.6.0
       addons-moz-compare: 1.3.0
-      addons-scanner-utils: 9.11.0(body-parser@2.2.2)(express@4.19.2)(safe-compare@1.1.4)
+      addons-scanner-utils: 9.11.0(body-parser@1.20.2)(express@4.19.2)(safe-compare@1.1.4)
       ajv: 8.17.1
       chalk: 4.1.2
       cheerio: 1.0.0-rc.12
@@ -29840,11 +29871,11 @@ snapshots:
 
   addons-moz-compare@1.3.0: {}
 
-  addons-scanner-utils@6.3.0(@types/download@8.0.1)(body-parser@2.2.2)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4):
+  addons-scanner-utils@6.3.0(@types/download@8.0.1)(body-parser@1.19.1)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4):
     dependencies:
       '@types/download': 8.0.1
       '@types/yauzl': 2.9.2
-      body-parser: 2.2.2
+      body-parser: 1.19.1
       common-tags: 1.8.2
       download: 8.0.0
       express: 4.17.2
@@ -29854,7 +29885,7 @@ snapshots:
       upath: 2.0.1
       yauzl: 2.10.0
 
-  addons-scanner-utils@9.11.0(body-parser@2.2.2)(express@4.19.2)(safe-compare@1.1.4):
+  addons-scanner-utils@9.11.0(body-parser@1.20.2)(express@4.19.2)(safe-compare@1.1.4):
     dependencies:
       '@types/yauzl': 2.10.3
       common-tags: 1.8.2
@@ -29863,7 +29894,7 @@ snapshots:
       upath: 2.0.1
       yauzl: 2.10.0
     optionalDependencies:
-      body-parser: 2.2.2
+      body-parser: 1.20.2
       express: 4.19.2
       safe-compare: 1.1.4
 
@@ -30276,7 +30307,7 @@ snapshots:
       call-bind: 1.0.7
       define-properties: 1.1.4
       es-abstract: 1.20.5
-      get-intrinsic: 1.2.4
+      get-intrinsic: 1.3.0
       is-string: 1.0.7
 
   array-includes@3.1.9:
@@ -31103,6 +31134,55 @@ snapshots:
 
   bluebird@3.7.2: {}
 
+  body-parser@1.19.1:
+    dependencies:
+      bytes: 3.1.1
+      content-type: 1.0.5
+      debug: 2.6.9
+      depd: 1.1.2
+      http-errors: 1.8.1
+      iconv-lite: 0.4.24
+      on-finished: 2.3.0
+      qs: 6.9.6
+      raw-body: 2.4.2
+      type-is: 1.6.18
+    transitivePeerDependencies:
+      - supports-color
+
+  body-parser@1.20.2:
+    dependencies:
+      bytes: 3.1.2
+      content-type: 1.0.5
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      on-finished: 2.4.1
+      qs: 6.11.0
+      raw-body: 2.5.2
+      type-is: 1.6.18
+      unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  body-parser@1.20.5:
+    dependencies:
+      bytes: 3.1.2
+      content-type: 1.0.5
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      http-errors: 2.0.1
+      iconv-lite: 0.4.24
+      on-finished: 2.4.1
+      qs: 6.15.2
+      raw-body: 2.5.3
+      type-is: 1.6.18
+      unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+
   body-parser@2.2.2:
     dependencies:
       bytes: 3.1.2
@@ -31333,6 +31413,8 @@ snapshots:
   busboy@1.6.0:
     dependencies:
       streamsearch: 1.1.0
+
+  bytes@3.1.1: {}
 
   bytes@3.1.2: {}
 
@@ -32419,7 +32501,7 @@ snapshots:
     dependencies:
       array-find-index: 1.0.2
 
-  cwex@1.0.4(@types/download@8.0.1)(body-parser@2.2.2)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
+  cwex@1.0.4(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
     dependencies:
       archiver: 3.1.1
       commander: 4.1.1
@@ -32427,7 +32509,7 @@ snapshots:
       find-up: 4.1.0
       fs-extra: 8.1.0
       globby: 11.1.0
-      web-ext: 6.8.0(@types/download@8.0.1)(body-parser@2.2.2)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
+      web-ext: 6.8.0(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
       yaml: 1.10.2
     transitivePeerDependencies:
       - '@types/download'
@@ -34791,7 +34873,7 @@ snapshots:
     dependencies:
       accepts: 1.3.8
       array-flatten: 1.1.1
-      body-parser: 2.2.2
+      body-parser: 1.19.1
       content-disposition: 0.5.4
       content-type: 1.0.5
       cookie: 0.4.1
@@ -34826,7 +34908,7 @@ snapshots:
     dependencies:
       accepts: 1.3.8
       array-flatten: 1.1.1
-      body-parser: 2.2.2
+      body-parser: 1.20.2
       content-disposition: 0.5.4
       content-type: 1.0.5
       cookie: 0.6.0
@@ -35606,14 +35688,6 @@ snapshots:
 
   get-func-name@2.0.2: {}
 
-  get-intrinsic@1.2.4:
-    dependencies:
-      es-errors: 1.3.0
-      function-bind: 1.1.2
-      has-proto: 1.0.3
-      has-symbols: 1.1.0
-      hasown: 2.0.2
-
   get-intrinsic@1.3.0:
     dependencies:
       call-bind-apply-helpers: 1.0.2
@@ -36176,8 +36250,6 @@ snapshots:
     dependencies:
       es-define-property: 1.0.1
 
-  has-proto@1.0.3: {}
-
   has-proto@1.2.0:
     dependencies:
       dunder-proto: 1.0.1
@@ -36488,6 +36560,14 @@ snapshots:
       statuses: 2.0.1
       toidentifier: 1.0.1
 
+  http-errors@2.0.1:
+    dependencies:
+      depd: 2.0.0
+      inherits: 2.0.4
+      setprototypeof: 1.2.0
+      statuses: 2.0.2
+      toidentifier: 1.0.1
+
   http-proxy-agent@5.0.0:
     dependencies:
       '@tootallnate/once': 2.0.0
@@ -36585,7 +36665,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.3
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.7.4(debug@4.4.3))
+      retry-axios: 2.6.0(axios@1.7.4)
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -37963,11 +38043,11 @@ snapshots:
 
   ky@1.7.4: {}
 
-  langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8):
+  langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50):
     dependencies:
       '@langchain/core': 1.1.44(@opentelemetry/api@1.9.1)(@opentelemetry/exporter-trace-otlp-proto@0.217.0(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))
       '@langchain/openai': 0.5.6(@langchain/core@1.1.44(@opentelemetry/api@1.9.1)(@opentelemetry/exporter-trace-otlp-proto@0.217.0(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(encoding@0.1.13)(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))
-      '@langchain/textsplitters': 0.0.3(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
+      '@langchain/textsplitters': 0.0.3(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
@@ -37989,7 +38069,7 @@ snapshots:
       - openai
       - ws
 
-  langsmith@0.1.37(@langchain/core@0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)))(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)):
+  langsmith@0.1.37(@langchain/core@0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)))(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -37997,8 +38077,8 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
-      langchain: 0.3.23(9288bd204da7a0d1ced395d9ac107ab8)
+      '@langchain/core': 0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
+      langchain: 0.3.23(4e4d37251e817a8e57c40daae664ed50)
       openai: 6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)
 
   langsmith@0.3.19(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)):
@@ -41517,6 +41597,10 @@ snapshots:
     dependencies:
       side-channel: 1.1.0
 
+  qs@6.15.2:
+    dependencies:
+      side-channel: 1.1.0
+
   qs@6.5.3: {}
 
   qs@6.9.6: {}
@@ -41569,6 +41653,27 @@ snapshots:
       safe-buffer: 5.2.1
 
   range-parser@1.2.1: {}
+
+  raw-body@2.4.2:
+    dependencies:
+      bytes: 3.1.1
+      http-errors: 1.8.1
+      iconv-lite: 0.4.24
+      unpipe: 1.0.0
+
+  raw-body@2.5.2:
+    dependencies:
+      bytes: 3.1.2
+      http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      unpipe: 1.0.0
+
+  raw-body@2.5.3:
+    dependencies:
+      bytes: 3.1.2
+      http-errors: 2.0.1
+      iconv-lite: 0.4.24
+      unpipe: 1.0.0
 
   raw-body@3.0.1:
     dependencies:
@@ -42204,7 +42309,7 @@ snapshots:
 
   ret@0.5.0: {}
 
-  retry-axios@2.6.0(axios@1.7.4(debug@4.4.3)):
+  retry-axios@2.6.0(axios@1.7.4):
     dependencies:
       axios: 1.7.4(debug@4.4.3)
 
@@ -43212,6 +43317,8 @@ snapshots:
   statuses@1.5.0: {}
 
   statuses@2.0.1: {}
+
+  statuses@2.0.2: {}
 
   std-env@4.0.0: {}
 
@@ -45021,11 +45128,11 @@ snapshots:
   weak-lru-cache@1.2.2:
     optional: true
 
-  web-ext@6.8.0(@types/download@8.0.1)(body-parser@2.2.2)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
+  web-ext@6.8.0(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
     dependencies:
       '@babel/runtime': 7.13.9
       '@devicefarmer/adbkit': 2.11.3
-      addons-linter: 4.14.0(@types/download@8.0.1)(body-parser@2.2.2)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)
+      addons-linter: 4.14.0(@types/download@8.0.1)(body-parser@1.19.1)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)
       bunyan: 1.8.15
       camelcase: 6.2.0
       chrome-launcher: 0.15.0
@@ -45063,11 +45170,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  web-ext@8.3.0(body-parser@2.2.2)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
+  web-ext@8.3.0(body-parser@1.20.2)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
     dependencies:
       '@babel/runtime': 7.25.6
       '@devicefarmer/adbkit': 3.2.6
-      addons-linter: 7.1.0(body-parser@2.2.2)(express@4.19.2)(safe-compare@1.1.4)
+      addons-linter: 7.1.0(body-parser@1.20.2)(express@4.19.2)(safe-compare@1.1.4)
       camelcase: 8.0.0
       chrome-launcher: 1.1.2
       debounce: 1.2.1
