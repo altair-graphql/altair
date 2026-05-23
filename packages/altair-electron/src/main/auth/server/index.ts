@@ -1,6 +1,5 @@
 import { Server } from 'http';
-import express from 'express';
-import bodyParser from 'body-parser';
+import express, { body } from 'express';
 import { EventEmitter } from 'events';
 import path from 'path';
 import { randomBytes } from 'crypto';
@@ -34,7 +33,7 @@ export class AuthServer {
   async start() {
     const app = express();
     app.use(express.static(authClientStaticDirectory()));
-    app.use(bodyParser.json());
+    app.use(express.json());
 
     app.use('/login', (req, res) => {
       return res.sendFile(path.resolve(authClientStaticDirectory(), 'index.html'));
