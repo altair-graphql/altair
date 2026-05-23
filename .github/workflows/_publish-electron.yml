@@ -129,6 +129,8 @@ jobs:
       - run: 'printf "\nnodeLinker: hoisted\n" >> pnpm-workspace.yaml'
       # install node_modules again with new configuration
       - run: pnpm i --frozen-lockfile
+      # Increase file descriptor limit to avoid EMFILE errors during electron-builder dependency collection
+      - run: ulimit -n 65536 || true
       # Create deploy ready source files for electron
       - run: pnpm deploy --legacy --filter=altair out/elx-files
 
