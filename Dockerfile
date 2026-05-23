@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 ARG NODE_VERSION=24.14.0
-ARG PNPM_VERSION=10.33.4
+ARG PNPM_VERSION=11.2.2
 
 ################################################################################
 # Build base: includes native compilation toolchain needed for pnpm install.
