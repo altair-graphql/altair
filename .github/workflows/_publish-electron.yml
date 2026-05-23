@@ -126,7 +126,7 @@ jobs:
           command: pnpm build:ci
       # Update pnpm config to support electron builder
       # https://www.electron.build/#note-for-pnpm
-      - run: pnpm config set shamefully-hoist true
+      - run: echo "shamefullyHoist: true" >> pnpm-workspace.yaml
       # install node_modules again with new configuration
       - run: pnpm i --frozen-lockfile
       # Create deploy ready source files for electron
