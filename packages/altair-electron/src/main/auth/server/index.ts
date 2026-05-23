@@ -1,5 +1,5 @@
 import { Server } from 'http';
-import express, { body } from 'express';
+import express from 'express';
 import { EventEmitter } from 'events';
 import path from 'path';
 import { randomBytes } from 'crypto';
