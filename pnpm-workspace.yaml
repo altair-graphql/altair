@@ -10,7 +10,7 @@ overrides:
   # CVE-2026-27606: Arbitrary File Write via Path Traversal, patched in 4.59.0
   rollup: '4.59.0'
   # GHSA-qwcr-r2fm-qrc7: DoS when url encoding enabled, patched in 1.20.3
-  # body-parser: '>=1.20.3'
+  body-parser: '1.20.3'
 
 catalog:
   '@types/node': 25.5.0
@@ -23,8 +23,8 @@ catalog:
 # ignoredBuiltDependencies: [ '@parcel/watcher', '@prisma/engines', '@scarf/scarf', '@sentry/cli', '@swc/core', bufferutil, contentlayer, core-js, dtrace-provider, edgedriver, electron-chromedriver, electron-winstaller, es5-ext, geckodriver, highlight.js, lmdb, msgpackr-extract, msw, nx, playwright, prisma, protobufjs, sharp, spawn-sync, spectron, utf-8-validate ]
 
 saveExact: true
-publicHoistPattern:
-  - body-parser
+# publicHoistPattern:
+#   - body-parser
 minimumReleaseAge: 1440
 allowBuilds:
   '@altairgraphql/api': true
