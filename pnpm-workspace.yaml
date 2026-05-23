@@ -23,9 +23,6 @@ catalog:
 # ignoredBuiltDependencies: [ '@parcel/watcher', '@prisma/engines', '@scarf/scarf', '@sentry/cli', '@swc/core', bufferutil, contentlayer, core-js, dtrace-provider, edgedriver, electron-chromedriver, electron-winstaller, es5-ext, geckodriver, highlight.js, lmdb, msgpackr-extract, msw, nx, playwright, prisma, protobufjs, sharp, spawn-sync, spectron, utf-8-validate ]
 
 saveExact: true
-packageConfigs:
-  altair:
-    shamefullyHoist: true
 # publicHoistPattern:
 #   - body-parser
 minimumReleaseAge: 1440

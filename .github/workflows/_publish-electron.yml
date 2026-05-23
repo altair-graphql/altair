@@ -124,14 +124,9 @@ jobs:
           timeout_minutes: 20
           max_attempts: 3
           command: pnpm build:ci
-      # Update .npmrc file to support electron builder
+      # Update pnpm config to support electron builder
       # https://www.electron.build/#note-for-pnpm
-      - uses: nodef/npm-config.action@d886ec78e341a72863181caf1c2d3c10b6a776d2 # v1.0.0
-        with:
-          path: .npmrc # Path to the .npmrc file
-          reset: false
-          entries: |- # Entries to add
-            node-linker = hoisted
+      - run: pnpm config set shamefully-hoist true
       # install node_modules again with new configuration
       - run: pnpm i --frozen-lockfile
       # Create deploy ready source files for electron
