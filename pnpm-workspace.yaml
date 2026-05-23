@@ -10,7 +10,7 @@ overrides:
   # CVE-2026-27606: Arbitrary File Write via Path Traversal, patched in 4.59.0
   rollup: '4.59.0'
   # GHSA-qwcr-r2fm-qrc7: DoS when url encoding enabled, patched in 1.20.3
-  body-parser: '1.20.3'
+  # body-parser: '1.20.3'
 
 catalog:
   '@types/node': 25.5.0

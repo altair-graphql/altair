@@ -30,7 +30,6 @@ catalogs:
 
 overrides:
   rollup: 4.59.0
-  body-parser: 1.20.3
 
 importers:
 
@@ -63,7 +62,7 @@ importers:
         version: 7.0.3
       cwex:
         specifier: ^1.0.4
-        version: 1.0.4(@types/download@8.0.1)(body-parser@1.20.3)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
+        version: 1.0.4(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
       dotenv-cli:
         specifier: ^7.2.1
         version: 7.2.1
@@ -135,7 +134,7 @@ importers:
         version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@25.5.0)(jsdom@28.1.0)(msw@2.3.1(typescript@5.9.3))(vite@7.3.2(@types/node@25.5.0)(jiti@2.4.2)(less@4.4.0)(sass@1.90.0)(stylus@0.55.0)(terser@5.43.1)(yaml@2.7.0))
       web-ext:
         specifier: ^6.5.0
-        version: 6.8.0(@types/download@8.0.1)(body-parser@1.20.3)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
+        version: 6.8.0(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
       wrangler:
         specifier: ^2.0.27
         version: 2.0.27(bufferutil@4.0.6)(cron-schedule@3.0.6)(utf-8-validate@5.0.9)
@@ -1214,7 +1213,7 @@ importers:
         version: 4.1.0(@opentelemetry/api@1.9.1)(@types/node@25.5.0)(jsdom@28.1.0)(msw@2.3.1(typescript@5.9.3))(vite@7.3.2(@types/node@25.5.0)(jiti@2.4.2)(less@4.4.0)(sass@1.90.0)(stylus@0.55.0)(terser@5.43.1)(yaml@2.7.0))
       web-ext:
         specifier: ^8.3.0
-        version: 8.3.0(body-parser@1.20.3)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
+        version: 8.3.0(body-parser@1.20.2)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
 
   packages/altair-db:
     dependencies:
@@ -1353,7 +1352,7 @@ importers:
         specifier: workspace:*
         version: link:../altair-static
       body-parser:
-        specifier: 1.20.3
+        specifier: ^1.20.3
         version: 1.20.3
       csp-header:
         specifier: ^5.1.0
@@ -1386,8 +1385,8 @@ importers:
         specifier: ^5.0.3
         version: 5.0.3
       express:
-        specifier: ^4.19.2
-        version: 4.19.2
+        specifier: 4.22.2
+        version: 4.22.2
       get-port:
         specifier: 5.1.1
         version: 5.1.1
@@ -9162,7 +9161,7 @@ packages:
     resolution: {integrity: sha512-sD4U7TX/NFDUYVheydrcpHH9xG3E0eVBFDn1RuUkGpqRyay3SsOU75Pl2lWAbCmeE0Mh9inU1Fwl7Mm1VRWkZw==}
     peerDependencies:
       '@types/download': 8.0.1
-      body-parser: 1.20.3
+      body-parser: 1.19.1
       download: 8.0.0
       express: 4.17.2
       safe-compare: 1.1.4
@@ -9170,7 +9169,7 @@ packages:
   addons-scanner-utils@9.11.0:
     resolution: {integrity: sha512-X95V8ymnue9EHmOLz3zJTGHvHDFlWKiavlH+kJKOlv2sJDWFvD3TWeJMHJgxS9GKOqT/545mOXvX3vuuGGum+g==}
     peerDependencies:
-      body-parser: 1.20.3
+      body-parser: 1.20.2
       express: 4.19.2
       node-fetch: 2.6.11
       safe-compare: 1.1.4
@@ -10062,9 +10061,25 @@ packages:
   bluebird@3.7.2:
     resolution: {integrity: sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==}
 
+  body-parser@1.19.1:
+    resolution: {integrity: sha512-8ljfQi5eBk8EJfECMrgqNGWPEY5jWP+1IzkzkGdFFEwFQZZyaZ21UqdaHktgiMlH0xLHqIFtE/u2OYE5dOtViA==}
+    engines: {node: '>= 0.8'}
+
+  body-parser@1.20.2:
+    resolution: {integrity: sha512-ml9pReCu3M61kGlqoTm2umSXTlRTuGTx0bfYj+uIUKKYycG5NtSbeetV3faSU6R7ajOPw0g/J1PvK4qNy7s5bA==}
+    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+
   body-parser@1.20.3:
     resolution: {integrity: sha512-7rAxByjUMqQ3/bHJy7D6OGXvx/MMc4IqBn/X0fcM1QUcAItpZrBEYhWGem+tzXH90c+G01ypMcYJBO9Y30203g==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+
+  body-parser@1.20.5:
+    resolution: {integrity: sha512-3grm+/2tUOvu2cjJkvsIxrv/wVpfXQW4PsQHYm7yk4vfpu7Ekl6nEsYBoJUL6qDwZUx8wUhQ8tR2qz+ad9c9OA==}
+    engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
+
+  body-parser@2.2.2:
+    resolution: {integrity: sha512-oP5VkATKlNwcgvxi0vM0p/D3n2C3EReYVX+DNYs5TjZFn/oQt2j+4sVJtSMr18pdRr8wjTcBl6LoV+FUwzPmNA==}
+    engines: {node: '>=18'}
 
   boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
@@ -10218,6 +10233,10 @@ packages:
   busboy@1.6.0:
     resolution: {integrity: sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==}
     engines: {node: '>=10.16.0'}
+
+  bytes@3.1.1:
+    resolution: {integrity: sha512-dWe4nWO/ruEOY7HkUJ5gFt1DCFV9zPRoJr8pV0/ASQermOZjtq8jMjOprC0Kd10GLN+l7xaUPvxzJFWtxGu8Fg==}
+    engines: {node: '>= 0.8'}
 
   bytes@3.1.2:
     resolution: {integrity: sha512-/Nf7TyzTx6S3yRJObOAV7956r8cr2+Oj8AC5dt8wSP3BQAoeX58NoHyCU8P8zGkNXStjTSi6fzO6F0pBdcYbEg==}
@@ -12965,6 +12984,10 @@ packages:
     resolution: {integrity: sha512-5T6nhjsT+EOMzuck8JjBHARTHfMht0POzlA60WV2pMD3gyXw2LZnZ+ueGdNxG+0calOJcWKbpFcuzLZ91YWq9Q==}
     engines: {node: '>= 0.10.0'}
 
+  express@4.22.2:
+    resolution: {integrity: sha512-IuL+Elrou2ZvCFHs18/CIzy2Nzvo25nZ1/D2eIZlz7c+QUayAcYoiM2BthCjs+EBHVpjYjcuLDAiCWgeIX3X1Q==}
+    engines: {node: '>= 0.10.0'}
+
   express@5.2.1:
     resolution: {integrity: sha512-hIS4idWWai69NezIdRt2xFVofaF4j+6INOpJlVOLDO8zXGpUVEVzIYk12UUi2JzjEzWL3IOAxcTubgz9Po0yXw==}
     engines: {node: '>= 18'}
@@ -13224,6 +13247,10 @@ packages:
 
   finalhandler@1.2.0:
     resolution: {integrity: sha512-5uXcUVftlQMFnWC9qu/svkWv3GTd2PfUhK/3PLkYNAe7FbqJMt3515HaxE6eRL74GdsriiwujiawdaB1BpEISg==}
+    engines: {node: '>= 0.8'}
+
+  finalhandler@1.3.2:
+    resolution: {integrity: sha512-aA4RyPcd3badbdABGDuTXCMTtOneUCAYH/gxoYRTZlIJdF0YPWuGqiAsIrhNnnqdXGswYk6dGujem4w80UJFhg==}
     engines: {node: '>= 0.8'}
 
   finalhandler@2.1.0:
@@ -16089,6 +16116,9 @@ packages:
   merge-descriptors@1.0.1:
     resolution: {integrity: sha512-cCi6g3/Zr1iqQi6ySbseM1Xvooa98N0w31jzUYrXPX2xqObmFGHJ0tQ5u74H3mVh7wLouTseZyYIq39g8cNp1w==}
 
+  merge-descriptors@1.0.3:
+    resolution: {integrity: sha512-gaNvAS7TZ897/rVaZ0nMtAyxNyi/pdbjbAwUpFQpN70GqnVfOiXpeUUMKRBmzXaSQ8DdTX4/0ms62r2K+hE6mQ==}
+
   merge-descriptors@2.0.0:
     resolution: {integrity: sha512-Snk314V5ayFLhp3fkUREub6WtjBfPdCPY1Ln8/8munuLuiYhsABgBVWsozAG+MWMbVEvcdcpbi9R7ww22l9Q3g==}
     engines: {node: '>=18'}
@@ -17579,6 +17609,9 @@ packages:
     resolution: {integrity: sha512-3O/iVVsJAPsOnpwWIeD+d6z/7PmqApyQePUtCndjatj/9I5LylHvt5qluFaBT3I5h3r1ejfR056c+FCv+NnNXg==}
     engines: {node: 18 || 20 || >=22}
 
+  path-to-regexp@0.1.13:
+    resolution: {integrity: sha512-A/AGNMFN3c8bOlvV9RreMdrv7jsmF9XIfDeCd87+I8RNg6s78BhJxMu69NEMHBSJFxKidViTEdruRwEk/WIKqA==}
+
   path-to-regexp@0.1.7:
     resolution: {integrity: sha512-5DFkuoqlv1uYQKxy8omFBeJPQcdoE07Kv2sferDCrAq1ohOU+MSDswDIbnx3YAM60qIOnYa53wBhXW0EbMonrQ==}
 
@@ -18330,8 +18363,16 @@ packages:
     resolution: {integrity: sha512-Hrgsx+orqoygnmhFbKaHE6c296J+HTAQXoxEF6gNupROmmGJRoyzfG3ccAveqCBrwr/2yxQ5BVd/GTl5agOwSg==}
     engines: {node: '>= 0.6'}
 
+  raw-body@2.4.2:
+    resolution: {integrity: sha512-RPMAFUJP19WIet/99ngh6Iv8fzAbqum4Li7AD6DtGaW2RpMB/11xDoalPiJMTbu6I3hkbMVkATvZrqb9EEqeeQ==}
+    engines: {node: '>= 0.8'}
+
   raw-body@2.5.2:
     resolution: {integrity: sha512-8zGqypfENjCIqGhgXToC8aB2r7YrBX+AQAfIPs/Mlk+BtPTztOvTS01NRW/3Eh60J+a48lt8qsCzirQ6loCVfA==}
+    engines: {node: '>= 0.8'}
+
+  raw-body@2.5.3:
+    resolution: {integrity: sha512-s4VSOf6yN0rvbRZGxs8Om5CWj6seneMwK3oDb4lWDH0UPhWcxwOWw5+qk24bxq87szX1ydrwylIOp2uG1ojUpA==}
     engines: {node: '>= 0.8'}
 
   raw-body@3.0.1:
@@ -19144,6 +19185,10 @@ packages:
     resolution: {integrity: sha512-qqWzuOjSFOuqPjFe4NOsMLafToQQwBSOEpS+FwEt3A2V3vKubTquT3vmLTQpFgMXp8AlFWFuP1qKaJZOtPpVXg==}
     engines: {node: '>= 0.8.0'}
 
+  send@0.19.2:
+    resolution: {integrity: sha512-VMbMxbDeehAxpOtWJXlcUS5E8iXh6QmN+BkRX1GARS3wRaXEEgzCcB10gTQazO42tpNIya8xIyNx8fll1OFPrg==}
+    engines: {node: '>= 0.8.0'}
+
   send@1.2.0:
     resolution: {integrity: sha512-uaW0WwXKpL9blXE2o0bRhoL2EGXIrZxQ2ZQ4mgcfoBxdFmQold+qWsD2jLrfZ0trjKL6vOw0j//eAwcALFjKSw==}
     engines: {node: '>= 18'}
@@ -19169,6 +19214,10 @@ packages:
 
   serve-static@1.15.0:
     resolution: {integrity: sha512-XGuRDNjXUijsUL0vl6nSD7cwURuzEgglbOaFuZM9g3kwDXOWVTck0jLzjPzGD+TazWbboZYu52/9/XPdUgne9g==}
+    engines: {node: '>= 0.8.0'}
+
+  serve-static@1.16.3:
+    resolution: {integrity: sha512-x0RTqQel6g5SY7Lg6ZreMmsOzncHFU7nhnRWkKgWuMTu5NN0DR5oruckMqRvacAN9d5w6ARnRBXl9xhDCgfMeA==}
     engines: {node: '>= 0.8.0'}
 
   serve-static@2.2.0:
@@ -29775,11 +29824,11 @@ snapshots:
 
   actioncable@5.2.8: {}
 
-  addons-linter@4.14.0(@types/download@8.0.1)(body-parser@1.20.3)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4):
+  addons-linter@4.14.0(@types/download@8.0.1)(body-parser@1.19.1)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4):
     dependencies:
       '@mdn/browser-compat-data': 4.1.12
       addons-moz-compare: 1.2.0
-      addons-scanner-utils: 6.3.0(@types/download@8.0.1)(body-parser@1.20.3)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)
+      addons-scanner-utils: 6.3.0(@types/download@8.0.1)(body-parser@1.19.1)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)
       ajv: 6.12.6
       ajv-merge-patch: 4.1.0(ajv@6.12.6)
       chalk: 4.1.2
@@ -29816,12 +29865,12 @@ snapshots:
       - safe-compare
       - supports-color
 
-  addons-linter@7.1.0(body-parser@1.20.3)(express@4.19.2)(safe-compare@1.1.4):
+  addons-linter@7.1.0(body-parser@1.20.2)(express@4.19.2)(safe-compare@1.1.4):
     dependencies:
       '@fluent/syntax': 0.19.0
       '@mdn/browser-compat-data': 5.6.0
       addons-moz-compare: 1.3.0
-      addons-scanner-utils: 9.11.0(body-parser@1.20.3)(express@4.19.2)(safe-compare@1.1.4)
+      addons-scanner-utils: 9.11.0(body-parser@1.20.2)(express@4.19.2)(safe-compare@1.1.4)
       ajv: 8.17.1
       chalk: 4.1.2
       cheerio: 1.0.0-rc.12
@@ -29856,11 +29905,11 @@ snapshots:
 
   addons-moz-compare@1.3.0: {}
 
-  addons-scanner-utils@6.3.0(@types/download@8.0.1)(body-parser@1.20.3)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4):
+  addons-scanner-utils@6.3.0(@types/download@8.0.1)(body-parser@1.19.1)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4):
     dependencies:
       '@types/download': 8.0.1
       '@types/yauzl': 2.9.2
-      body-parser: 1.20.3
+      body-parser: 1.19.1
       common-tags: 1.8.2
       download: 8.0.0
       express: 4.17.2
@@ -29870,7 +29919,7 @@ snapshots:
       upath: 2.0.1
       yauzl: 2.10.0
 
-  addons-scanner-utils@9.11.0(body-parser@1.20.3)(express@4.19.2)(safe-compare@1.1.4):
+  addons-scanner-utils@9.11.0(body-parser@1.20.2)(express@4.19.2)(safe-compare@1.1.4):
     dependencies:
       '@types/yauzl': 2.10.3
       common-tags: 1.8.2
@@ -29879,7 +29928,7 @@ snapshots:
       upath: 2.0.1
       yauzl: 2.10.0
     optionalDependencies:
-      body-parser: 1.20.3
+      body-parser: 1.20.2
       express: 4.19.2
       safe-compare: 1.1.4
 
@@ -31119,6 +31168,38 @@ snapshots:
 
   bluebird@3.7.2: {}
 
+  body-parser@1.19.1:
+    dependencies:
+      bytes: 3.1.1
+      content-type: 1.0.5
+      debug: 2.6.9
+      depd: 1.1.2
+      http-errors: 1.8.1
+      iconv-lite: 0.4.24
+      on-finished: 2.3.0
+      qs: 6.9.6
+      raw-body: 2.4.2
+      type-is: 1.6.18
+    transitivePeerDependencies:
+      - supports-color
+
+  body-parser@1.20.2:
+    dependencies:
+      bytes: 3.1.2
+      content-type: 1.0.5
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      on-finished: 2.4.1
+      qs: 6.11.0
+      raw-body: 2.5.2
+      type-is: 1.6.18
+      unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+
   body-parser@1.20.3:
     dependencies:
       bytes: 3.1.2
@@ -31133,6 +31214,37 @@ snapshots:
       raw-body: 2.5.2
       type-is: 1.6.18
       unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  body-parser@1.20.5:
+    dependencies:
+      bytes: 3.1.2
+      content-type: 1.0.5
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      http-errors: 2.0.1
+      iconv-lite: 0.4.24
+      on-finished: 2.4.1
+      qs: 6.15.2
+      raw-body: 2.5.3
+      type-is: 1.6.18
+      unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  body-parser@2.2.2:
+    dependencies:
+      bytes: 3.1.2
+      content-type: 1.0.5
+      debug: 4.4.3(supports-color@5.5.0)
+      http-errors: 2.0.1
+      iconv-lite: 0.7.0
+      on-finished: 2.4.1
+      qs: 6.15.2
+      raw-body: 3.0.1
+      type-is: 2.0.1
     transitivePeerDependencies:
       - supports-color
 
@@ -31352,6 +31464,8 @@ snapshots:
   busboy@1.6.0:
     dependencies:
       streamsearch: 1.1.0
+
+  bytes@3.1.1: {}
 
   bytes@3.1.2: {}
 
@@ -32438,7 +32552,7 @@ snapshots:
     dependencies:
       array-find-index: 1.0.2
 
-  cwex@1.0.4(@types/download@8.0.1)(body-parser@1.20.3)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
+  cwex@1.0.4(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
     dependencies:
       archiver: 3.1.1
       commander: 4.1.1
@@ -32446,7 +32560,7 @@ snapshots:
       find-up: 4.1.0
       fs-extra: 8.1.0
       globby: 11.1.0
-      web-ext: 6.8.0(@types/download@8.0.1)(body-parser@1.20.3)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
+      web-ext: 6.8.0(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9)
       yaml: 1.10.2
     transitivePeerDependencies:
       - '@types/download'
@@ -34810,7 +34924,7 @@ snapshots:
     dependencies:
       accepts: 1.3.8
       array-flatten: 1.1.1
-      body-parser: 1.20.3
+      body-parser: 1.19.1
       content-disposition: 0.5.4
       content-type: 1.0.5
       cookie: 0.4.1
@@ -34845,7 +34959,7 @@ snapshots:
     dependencies:
       accepts: 1.3.8
       array-flatten: 1.1.1
-      body-parser: 1.20.3
+      body-parser: 1.20.2
       content-disposition: 0.5.4
       content-type: 1.0.5
       cookie: 0.6.0
@@ -34877,10 +34991,46 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  express@4.22.2:
+    dependencies:
+      accepts: 1.3.8
+      array-flatten: 1.1.1
+      body-parser: 1.20.5
+      content-disposition: 0.5.4
+      content-type: 1.0.5
+      cookie: 0.7.2
+      cookie-signature: 1.0.6
+      debug: 2.6.9
+      depd: 2.0.0
+      encodeurl: 2.0.0
+      escape-html: 1.0.3
+      etag: 1.8.1
+      finalhandler: 1.3.2
+      fresh: 0.5.2
+      http-errors: 2.0.1
+      merge-descriptors: 1.0.3
+      methods: 1.1.2
+      on-finished: 2.4.1
+      parseurl: 1.3.3
+      path-to-regexp: 0.1.13
+      proxy-addr: 2.0.7
+      qs: 6.15.2
+      range-parser: 1.2.1
+      safe-buffer: 5.2.1
+      send: 0.19.2
+      serve-static: 1.16.3
+      setprototypeof: 1.2.0
+      statuses: 2.0.2
+      type-is: 1.6.18
+      utils-merge: 1.0.1
+      vary: 1.1.2
+    transitivePeerDependencies:
+      - supports-color
+
   express@5.2.1:
     dependencies:
       accepts: 2.0.0
-      body-parser: 1.20.3
+      body-parser: 2.2.2
       content-disposition: 1.0.0
       content-type: 1.0.5
       cookie: 0.7.2
@@ -35227,6 +35377,18 @@ snapshots:
       on-finished: 2.4.1
       parseurl: 1.3.3
       statuses: 2.0.1
+      unpipe: 1.0.0
+    transitivePeerDependencies:
+      - supports-color
+
+  finalhandler@1.3.2:
+    dependencies:
+      debug: 2.6.9
+      encodeurl: 2.0.0
+      escape-html: 1.0.3
+      on-finished: 2.4.1
+      parseurl: 1.3.3
+      statuses: 2.0.2
       unpipe: 1.0.0
     transitivePeerDependencies:
       - supports-color
@@ -38855,6 +39017,8 @@ snapshots:
 
   merge-descriptors@1.0.1: {}
 
+  merge-descriptors@1.0.3: {}
+
   merge-descriptors@2.0.0: {}
 
   merge-stream@2.0.0: {}
@@ -40773,6 +40937,8 @@ snapshots:
       lru-cache: 11.2.6
       minipass: 7.1.3
 
+  path-to-regexp@0.1.13: {}
+
   path-to-regexp@0.1.7: {}
 
   path-to-regexp@6.2.1: {}
@@ -41591,10 +41757,24 @@ snapshots:
 
   range-parser@1.2.1: {}
 
+  raw-body@2.4.2:
+    dependencies:
+      bytes: 3.1.1
+      http-errors: 1.8.1
+      iconv-lite: 0.4.24
+      unpipe: 1.0.0
+
   raw-body@2.5.2:
     dependencies:
       bytes: 3.1.2
       http-errors: 2.0.0
+      iconv-lite: 0.4.24
+      unpipe: 1.0.0
+
+  raw-body@2.5.3:
+    dependencies:
+      bytes: 3.1.2
+      http-errors: 2.0.1
       iconv-lite: 0.4.24
       unpipe: 1.0.0
 
@@ -42632,6 +42812,24 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  send@0.19.2:
+    dependencies:
+      debug: 2.6.9
+      depd: 2.0.0
+      destroy: 1.2.0
+      encodeurl: 2.0.0
+      escape-html: 1.0.3
+      etag: 1.8.1
+      fresh: 0.5.2
+      http-errors: 2.0.1
+      mime: 1.6.0
+      ms: 2.1.3
+      on-finished: 2.4.1
+      range-parser: 1.2.1
+      statuses: 2.0.2
+    transitivePeerDependencies:
+      - supports-color
+
   send@1.2.0:
     dependencies:
       debug: 4.4.3(supports-color@5.5.0)
@@ -42680,6 +42878,15 @@ snapshots:
       escape-html: 1.0.3
       parseurl: 1.3.3
       send: 0.18.0
+    transitivePeerDependencies:
+      - supports-color
+
+  serve-static@1.16.3:
+    dependencies:
+      encodeurl: 2.0.0
+      escape-html: 1.0.3
+      parseurl: 1.3.3
+      send: 0.19.2
     transitivePeerDependencies:
       - supports-color
 
@@ -45051,11 +45258,11 @@ snapshots:
   weak-lru-cache@1.2.2:
     optional: true
 
-  web-ext@6.8.0(@types/download@8.0.1)(body-parser@1.20.3)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
+  web-ext@6.8.0(@types/download@8.0.1)(body-parser@1.19.1)(bufferutil@4.0.6)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
     dependencies:
       '@babel/runtime': 7.13.9
       '@devicefarmer/adbkit': 2.11.3
-      addons-linter: 4.14.0(@types/download@8.0.1)(body-parser@1.20.3)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)
+      addons-linter: 4.14.0(@types/download@8.0.1)(body-parser@1.19.1)(download@8.0.0)(express@4.17.2)(safe-compare@1.1.4)
       bunyan: 1.8.15
       camelcase: 6.2.0
       chrome-launcher: 0.15.0
@@ -45093,11 +45300,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  web-ext@8.3.0(body-parser@1.20.3)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
+  web-ext@8.3.0(body-parser@1.20.2)(bufferutil@4.0.6)(express@4.19.2)(safe-compare@1.1.4)(utf-8-validate@5.0.9):
     dependencies:
       '@babel/runtime': 7.25.6
       '@devicefarmer/adbkit': 3.2.6
-      addons-linter: 7.1.0(body-parser@1.20.3)(express@4.19.2)(safe-compare@1.1.4)
+      addons-linter: 7.1.0(body-parser@1.20.2)(express@4.19.2)(safe-compare@1.1.4)
       camelcase: 8.0.0
       chrome-launcher: 1.1.2
       debounce: 1.2.1
