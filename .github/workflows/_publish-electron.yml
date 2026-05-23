@@ -133,7 +133,7 @@ jobs:
       - run: ulimit -n 65536 || true
         if: "!startsWith(matrix.os, 'windows')"
       # Create deploy ready source files for electron
-      - run: pnpm deploy --filter=altair out/elx-files
+      - run: pnpm deploy --legacy --filter=altair out/elx-files
 
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@d33c176a9b784876d966f80fb1b461808edc0641 # v2.1.1
@@ -188,7 +188,7 @@ jobs:
           APPLEIDPASS: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_store_credentials }}
-          DEBUG: "@malept/flatpak-bundler"
+          DEBUG: "electron-builder"
 
       # chocolatey
       - name: Read VERSION file
