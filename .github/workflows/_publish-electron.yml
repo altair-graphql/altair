@@ -126,14 +126,14 @@ jobs:
           command: pnpm build:ci
       # Update pnpm config to support electron builder
       # https://www.electron.build/#note-for-pnpm
-      - run: 'printf "\nnodeLinker: hoisted\n" >> pnpm-workspace.yaml'
+      - run: 'printf "\nnodeLinker: hoisted\ninjectWorkspacePackages: true\n" >> pnpm-workspace.yaml'
       # install node_modules again with new configuration
       - run: pnpm i --frozen-lockfile
       # Increase file descriptor limit to avoid EMFILE errors during electron-builder dependency collection
       - run: ulimit -n 65536 || true
         if: "!startsWith(matrix.os, 'windows')"
       # Create deploy ready source files for electron
-      - run: pnpm deploy --legacy --filter=altair out/elx-files
+      - run: pnpm deploy --filter=altair out/elx-files
 
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@d33c176a9b784876d966f80fb1b461808edc0641 # v2.1.1
