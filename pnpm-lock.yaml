@@ -3,6 +3,7 @@ lockfileVersion: '9.0'
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
+  injectWorkspacePackages: true
 
 catalogs:
   default:
@@ -176,10 +177,10 @@ importers:
     dependencies:
       '@altairgraphql/api-utils':
         specifier: workspace:*
-        version: link:../altair-api-utils
+        version: file:packages/altair-api-utils(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@19.2.4)(typescript@5.9.3)(utf-8-validate@5.0.9)
       '@altairgraphql/db':
         specifier: workspace:*
-        version: link:../altair-db
+        version: file:packages/altair-db(typescript@5.9.3)
       '@altairgraphql/emails':
         specifier: workspace:*
         version: link:../transactional
@@ -275,7 +276,7 @@ importers:
         version: 6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3)
       altair-graphql-core:
         specifier: workspace:*
-        version: link:../altair-core
+        version: file:packages/altair-core(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@19.2.4)(utf-8-validate@5.0.9)
       bcrypt:
         specifier: ^5.1.0
         version: 5.1.1(encoding@0.1.13)
@@ -299,7 +300,7 @@ importers:
         version: 9.0.3
       langchain:
         specifier: ^0.3.23
-        version: 0.3.23(9288bd204da7a0d1ced395d9ac107ab8)
+        version: 0.3.23(4e4d37251e817a8e57c40daae664ed50)
       nestjs-prisma:
         specifier: ^0.19.0
         version: 0.19.0(@nestjs/common@11.1.19(class-transformer@0.5.1)(class-validator@0.14.0)(reflect-metadata@0.1.13)(rxjs@7.8.1))(@prisma/client@6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3))(chokidar@3.6.0)(prisma@6.19.3(typescript@5.9.3))
@@ -432,7 +433,7 @@ importers:
     dependencies:
       '@altairgraphql/db':
         specifier: workspace:*
-        version: link:../altair-db
+        version: file:packages/altair-db(typescript@5.9.3)
       altair-graphql-core:
         specifier: workspace:*
         version: link:../altair-core
@@ -454,13 +455,13 @@ importers:
     dependencies:
       '@altairgraphql/api-utils':
         specifier: workspace:*
-        version: link:../altair-api-utils
+        version: file:packages/altair-api-utils(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(typescript@5.9.3)(utf-8-validate@5.0.9)
       '@altairgraphql/db':
         specifier: workspace:*
-        version: link:../altair-db
+        version: file:packages/altair-db(typescript@5.9.3)
       '@altairgraphql/electron-interop':
         specifier: workspace:*
-        version: link:../altair-electron-interop
+        version: file:packages/altair-electron-interop(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9)
       '@altairgraphql/tauri':
         specifier: workspace:*
         version: link:../altair-tauri
@@ -586,7 +587,7 @@ importers:
         version: 8.17.1
       altair-graphql-core:
         specifier: workspace:*
-        version: link:../altair-core
+        version: file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9)
       angular-resizable-element:
         specifier: ^6.0.0
         version: 6.0.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
@@ -758,7 +759,7 @@ importers:
     devDependencies:
       '@altairgraphql/iframe-sandbox':
         specifier: workspace:*
-        version: link:../altair-iframe-sandbox
+        version: file:packages/altair-iframe-sandbox(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9)
       '@analogjs/vite-plugin-angular':
         specifier: ^2.3.1
         version: 2.3.1(@angular/build@20.3.4(3b29f2527dc0fc2386fdd7051456de4c))
@@ -890,7 +891,7 @@ importers:
         version: 8.57.0
       eslint-config-altair:
         specifier: workspace:*
-        version: link:../../libs/eslint-config-altair
+        version: file:libs/eslint-config-altair(@types/eslint@8.4.5)
       eslint-config-prettier:
         specifier: 10.1.8
         version: 10.1.8(eslint@8.57.0)
@@ -959,7 +960,7 @@ importers:
     dependencies:
       '@angular/platform-browser':
         specifier: 17.0.8
-        version: 17.0.8(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+        version: 17.0.8(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
       '@apollo/client':
         specifier: 3.3.20
         version: 3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
@@ -1134,7 +1135,7 @@ importers:
         version: 15.5.13
       altair-graphql-core:
         specifier: workspace:*
-        version: link:../altair-core
+        version: file:packages/altair-core(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@18.3.1)(utf-8-validate@5.0.9)
       altair-static:
         specifier: workspace:*
         version: link:../altair-static
@@ -1462,7 +1463,7 @@ importers:
         version: 7.32.0
       eslint-config-altair:
         specifier: workspace:*
-        version: link:../../libs/eslint-config-altair
+        version: file:libs/eslint-config-altair(@types/eslint@8.4.5)
       eslint-config-prettier:
         specifier: 10.1.8
         version: 10.1.8(eslint@7.32.0)
@@ -1505,7 +1506,7 @@ importers:
     dependencies:
       '@altairgraphql/electron-interop':
         specifier: workspace:*
-        version: link:../altair-electron-interop
+        version: file:packages/altair-electron-interop(@types/node@25.5.0)(bufferutil@4.0.6)(react@18.3.1)(utf-8-validate@5.0.9)
       flowbite-react:
         specifier: ^0.7.2
         version: 0.7.2(@types/react@18.3.12)(esbuild@0.28.0)(next@16.1.7(@babel/core@7.24.5)(@opentelemetry/api@1.9.1)(@playwright/test@1.31.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.90.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@3.4.1(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.5.0)(typescript@5.9.3)))
@@ -1572,7 +1573,7 @@ importers:
     devDependencies:
       '@altairgraphql/electron-settings':
         specifier: workspace:*
-        version: link:../altair-electron-settings
+        version: file:packages/altair-electron-settings(@types/node@25.5.0)(bufferutil@4.0.6)(esbuild@0.28.0)(tailwindcss@4.1.18)(utf-8-validate@5.0.9)
       '@types/node':
         specifier: 'catalog:'
         version: 25.5.0
@@ -1606,7 +1607,7 @@ importers:
         version: 25.5.0
       eslint-config-altair:
         specifier: workspace:*
-        version: link:../../libs/eslint-config-altair
+        version: file:libs/eslint-config-altair(@types/eslint@8.4.5)
       nodemon:
         specifier: ^3.1.14
         version: 3.1.14
@@ -1722,13 +1723,13 @@ importers:
     devDependencies:
       '@altairgraphql/app':
         specifier: workspace:*
-        version: link:../altair-app
+        version: file:packages/altair-app(@angular/compiler@20.3.19)(@swc/core@1.15.18)(@types/node@25.5.0)(bufferutil@4.0.6)(codemirror@5.65.18)(esbuild@0.28.0)(react@17.0.2)(typescript@5.9.3)(utf-8-validate@5.0.9)
       '@types/node':
         specifier: 'catalog:'
         version: 25.5.0
       altair-graphql-core:
         specifier: workspace:*
-        version: link:../altair-core
+        version: file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(utf-8-validate@5.0.9)
       dts-bundle-generator:
         specifier: ^9.5.1
         version: 9.5.1
@@ -1777,7 +1778,7 @@ importers:
     dependencies:
       altair-express-middleware:
         specifier: workspace:*
-        version: link:../altair-express-middleware
+        version: file:packages/altair-express-middleware
     devDependencies:
       '@types/express':
         specifier: ^4.17.13
@@ -1799,7 +1800,7 @@ importers:
         version: link:../altair-api-utils
       '@altairgraphql/db':
         specifier: workspace:*
-        version: link:../altair-db
+        version: file:packages/altair-db(typescript@5.9.3)
       altair-graphql-core:
         specifier: workspace:*
         version: link:../altair-core
@@ -1852,7 +1853,7 @@ importers:
         version: 5.74.4(react@18.3.1)
       altair-graphql-core:
         specifier: workspace:*
-        version: link:../../packages/altair-core
+        version: file:packages/altair-core(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@18.3.1)(utf-8-validate@5.0.9)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -1916,7 +1917,7 @@ importers:
         version: 5.100.9(react@18.3.1)
       altair-graphql-core:
         specifier: workspace:*
-        version: link:../../packages/altair-core
+        version: file:packages/altair-core(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@18.3.1)(utf-8-validate@5.0.9)
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
@@ -2047,6 +2048,27 @@ packages:
   '@alloc/quick-lru@5.2.0':
     resolution: {integrity: sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==}
     engines: {node: '>=10'}
+
+  '@altairgraphql/api-utils@file:packages/altair-api-utils':
+    resolution: {directory: packages/altair-api-utils, type: directory}
+
+  '@altairgraphql/app@file:packages/altair-app':
+    resolution: {directory: packages/altair-app, type: directory}
+
+  '@altairgraphql/db@file:packages/altair-db':
+    resolution: {directory: packages/altair-db, type: directory}
+
+  '@altairgraphql/electron-interop@file:packages/altair-electron-interop':
+    resolution: {directory: packages/altair-electron-interop, type: directory}
+
+  '@altairgraphql/electron-settings@file:packages/altair-electron-settings':
+    resolution: {directory: packages/altair-electron-settings, type: directory}
+
+  '@altairgraphql/iframe-sandbox@file:packages/altair-iframe-sandbox':
+    resolution: {directory: packages/altair-iframe-sandbox, type: directory}
+
+  '@altairgraphql/tauri@file:packages/altair-tauri':
+    resolution: {directory: packages/altair-tauri, type: directory}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -9276,6 +9298,18 @@ packages:
     resolution: {integrity: sha512-Y+moNhsqgLmvJdgTsO4GZNgsaDWv8AOGAaPeIeHKlDn/XunoAqYbA+XNpBd1dW8GOXAUDyxC9Rxc7AV4kpFcIg==}
     engines: {node: '>= 14.0.0'}
 
+  altair-express-middleware@file:packages/altair-express-middleware:
+    resolution: {directory: packages/altair-express-middleware, type: directory}
+    engines: {node: '>= 12'}
+
+  altair-graphql-core@file:packages/altair-core:
+    resolution: {directory: packages/altair-core, type: directory}
+    engines: {node: '>= 12'}
+
+  altair-static@file:packages/altair-static:
+    resolution: {directory: packages/altair-static, type: directory}
+    engines: {node: '>= 6.9.1'}
+
   angular-resizable-element@6.0.0:
     resolution: {integrity: sha512-rZtL98JDiCg/sh4mPpcWOa64jGJvwkWHpc1abvvUckdQ/LAGF3QlwvWoaCGoYHGlcdrQFXUWCtSJgIrHxSATCg==}
     peerDependencies:
@@ -12560,6 +12594,9 @@ packages:
     resolution: {integrity: sha512-2NlIDTwUWJN0mRPQOdtQBzbUHvdGY2P1VXSyU83Q3xKxM7WHX2Ql8dKq782Q9TgQUNOLEzEYu9bzLNj1q88I5w==}
     engines: {node: '>=6.0'}
     hasBin: true
+
+  eslint-config-altair@file:libs/eslint-config-altair:
+    resolution: {directory: libs/eslint-config-altair, type: directory}
 
   eslint-config-google@0.14.0:
     resolution: {integrity: sha512-WsbX4WbjuMvTdeVL6+J3rK1RGhCTqjsFjX7UMSMgZiyxxaNLkoJENbrGExzERFeoTpGw3F3FypTiWAP9ZXzkEw==}
@@ -21847,6 +21884,273 @@ snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
+  '@altairgraphql/api-utils@file:packages/altair-api-utils(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(typescript@5.9.3)(utf-8-validate@5.0.9)':
+    dependencies:
+      '@altairgraphql/db': file:packages/altair-db(typescript@5.9.3)
+      altair-graphql-core: file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9)
+      ky: 0.33.3
+      rxjs: 7.8.1
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - magicast
+      - react
+      - supports-color
+      - typescript
+      - utf-8-validate
+
+  '@altairgraphql/api-utils@file:packages/altair-api-utils(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(typescript@5.9.3)(utf-8-validate@5.0.9)':
+    dependencies:
+      '@altairgraphql/db': file:packages/altair-db(typescript@5.9.3)
+      altair-graphql-core: file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(utf-8-validate@5.0.9)
+      ky: 0.33.3
+      rxjs: 7.8.1
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - magicast
+      - react
+      - supports-color
+      - typescript
+      - utf-8-validate
+
+  '@altairgraphql/api-utils@file:packages/altair-api-utils(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@19.2.4)(typescript@5.9.3)(utf-8-validate@5.0.9)':
+    dependencies:
+      '@altairgraphql/db': file:packages/altair-db(typescript@5.9.3)
+      altair-graphql-core: file:packages/altair-core(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@19.2.4)(utf-8-validate@5.0.9)
+      ky: 0.33.3
+      rxjs: 7.8.1
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - magicast
+      - react
+      - supports-color
+      - typescript
+      - utf-8-validate
+
+  '@altairgraphql/app@file:packages/altair-app(@angular/compiler@20.3.19)(@swc/core@1.15.18)(@types/node@25.5.0)(bufferutil@4.0.6)(codemirror@5.65.18)(esbuild@0.28.0)(react@17.0.2)(typescript@5.9.3)(utf-8-validate@5.0.9)':
+    dependencies:
+      '@altairgraphql/api-utils': file:packages/altair-api-utils(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(typescript@5.9.3)(utf-8-validate@5.0.9)
+      '@altairgraphql/db': file:packages/altair-db(typescript@5.9.3)
+      '@altairgraphql/electron-interop': file:packages/altair-electron-interop(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(utf-8-validate@5.0.9)
+      '@altairgraphql/tauri': file:packages/altair-tauri
+      '@angular/animations': 20.3.19(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+      '@angular/cdk': 20.2.7(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      '@angular/cli': 20.3.4(@types/node@25.5.0)(chokidar@4.0.3)
+      '@angular/common': 20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      '@angular/core': 20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)
+      '@angular/forms': 20.3.19(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(rxjs@7.8.1)
+      '@angular/platform-browser': 20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+      '@angular/platform-browser-dynamic': 20.3.19(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/compiler@20.3.19)(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))
+      '@angular/platform-server': 20.3.19(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/compiler@20.3.19)(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(rxjs@7.8.1)
+      '@angular/router': 20.3.19(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(rxjs@7.8.1)
+      '@apollo/client': 3.5.6(graphql@16.8.2)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9))
+      '@codemirror/autocomplete': 6.20.0
+      '@codemirror/commands': 6.10.0
+      '@codemirror/lang-javascript': 6.2.4
+      '@codemirror/lang-json': 6.0.2
+      '@codemirror/language': 6.11.3
+      '@codemirror/lint': 6.9.2
+      '@codemirror/search': 6.5.11
+      '@codemirror/state': 6.5.2
+      '@codemirror/view': 6.38.8
+      '@emotion/css': 11.13.5
+      '@fontsource/jetbrains-mono': 4.2.2
+      '@lezer/common': 1.4.0
+      '@lezer/highlight': 1.2.3
+      '@lezer/lr': 1.4.4
+      '@ngneat/hot-toast': 2.0.1(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@ngneat/overview@1.0.0)
+      '@ngneat/overview': 1.0.0
+      '@ngneat/until-destroy': 8.0.1(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      '@ngrx/effects': 15.4.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@ngrx/store@15.4.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(rxjs@7.8.1)
+      '@ngrx/store': 15.4.0(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      '@ngrx/store-devtools': 15.4.0(@ngrx/store@15.4.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(rxjs@7.8.1)
+      '@ngui/auto-complete': 3.0.0(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(tslib@2.0.0)
+      '@ngx-translate/core': 17.0.0(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
+      '@ngx-translate/http-loader': 17.0.0(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
+      '@sentry/electron': 7.5.0
+      '@supabase/supabase-js': 1.29.1(encoding@0.1.13)
+      '@webcomponents/custom-elements': 1.4.1
+      abab: 2.0.6
+      actioncable: 5.2.8
+      ajv: 8.17.1
+      altair-graphql-core: file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(utf-8-validate@5.0.9)
+      angular-resizable-element: 6.0.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
+      angular-split: 18.0.0(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      apollo-cache-inmemory: 1.6.6(graphql@15.5.1)
+      apollo-link: 1.2.14(graphql@15.5.1)
+      apollo-link-http: 1.5.17(graphql@15.5.1)
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9)))
+      aws-appsync-subscription-link: 3.1.5(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9)))
+      cm6-graphql: 0.0.14(@codemirror/autocomplete@6.20.0)(@codemirror/language@6.11.3)(@codemirror/lint@6.9.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.8)(@lezer/highlight@1.2.3)(graphql@15.5.1)
+      codemirror-graphql: 1.0.2(@swc/core@1.15.18)(@types/node@25.5.0)(bufferutil@4.0.6)(codemirror@5.65.18)(encoding@0.1.13)(graphql@15.5.1)(typescript@5.9.3)(utf-8-validate@5.0.9)
+      codemirror-json-schema: 0.6.1(@codemirror/language@6.11.3)(@codemirror/lint@6.9.2)(@codemirror/state@6.5.2)(@codemirror/view@6.38.8)(@lezer/common@1.4.0)(encoding@0.1.13)
+      comlink: 4.3.0
+      compare-versions: 6.1.1
+      cookie-parser: 1.4.5
+      core-js: 3.6.5
+      crypto-js: 3.3.0
+      curlup: 1.0.0
+      deepmerge: 4.2.2
+      dexie: 4.4.2
+      dompurify: 3.4.2
+      express: 4.22.2
+      file-dialog: 0.0.8
+      file-saver: 2.0.2
+      fuse.js: 6.4.6
+      graphql: 15.5.1
+      graphql-language-service: 5.2.0(graphql@15.5.1)
+      graphql-language-service-parser: 1.10.4(@swc/core@1.15.18)(@types/node@25.5.0)(bufferutil@4.0.6)(encoding@0.1.13)(graphql@15.5.1)(typescript@5.9.3)(utf-8-validate@5.0.9)
+      graphql-language-service-types: 1.8.2(graphql@15.5.1)
+      graphql-query-compress: 1.2.3
+      graphql-ws: 5.9.1(graphql@15.5.1)
+      hotkeys-js: 3.13.15
+      json-bigint: 1.0.0
+      json-schema: 0.4.0
+      lodash-es: 4.17.21
+      loglevel: 1.8.0
+      loglevel-plugin-prefix: 0.8.4
+      lucide-angular: 0.298.0(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
+      marked: 15.0.12
+      memoizee: 0.4.14
+      ng-zorro-antd: 15.1.1(a1ffa8cd8b26b9bcc930dcbe25513734)
+      ngrx-store-localstorage: 12.0.1(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@ngrx/store@15.4.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))
+      ngx-cookie-service: 14.0.1(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
+      ngx-markdown: 14.0.1(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(rxjs@7.8.1)(zone.js@0.15.1)
+      ngx-pipes: 3.2.2(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@swc/core@1.15.18)(esbuild@0.28.0)
+      ngx-take-until-destroy: 5.4.0(rxjs@7.8.1)
+      ngx-toastr: 18.0.0(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))
+      nx: 17.1.3(@swc/core@1.15.18)
+      object-path: 0.11.5
+      prettier: 3.7.4
+      rxjs: 7.8.1
+      sanitize-html: 2.7.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+      sval: 0.4.8
+      tslib: 2.0.0
+      uuid: 14.0.0
+      zod: 4.1.13
+      zone.js: 0.15.1
+    transitivePeerDependencies:
+      - '@angular/compiler'
+      - '@sentry/node-native'
+      - '@swc-node/register'
+      - '@swc/core'
+      - '@swc/wasm'
+      - '@types/node'
+      - bufferutil
+      - chokidar
+      - codemirror
+      - debug
+      - encoding
+      - esbuild
+      - magicast
+      - react
+      - supports-color
+      - typescript
+      - uglify-js
+      - utf-8-validate
+      - webpack-cli
+
+  '@altairgraphql/db@file:packages/altair-db(typescript@5.9.3)':
+    dependencies:
+      '@prisma/client': 6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3)
+      dotenv: 16.6.1
+      prisma: 6.19.3(typescript@5.9.3)
+    transitivePeerDependencies:
+      - magicast
+      - typescript
+
+  '@altairgraphql/electron-interop@file:packages/altair-electron-interop(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9)':
+    dependencies:
+      altair-graphql-core: file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9)
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  '@altairgraphql/electron-interop@file:packages/altair-electron-interop(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(utf-8-validate@5.0.9)':
+    dependencies:
+      altair-graphql-core: file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(utf-8-validate@5.0.9)
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  '@altairgraphql/electron-interop@file:packages/altair-electron-interop(@types/node@25.5.0)(bufferutil@4.0.6)(react@18.3.1)(utf-8-validate@5.0.9)':
+    dependencies:
+      altair-graphql-core: file:packages/altair-core(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@18.3.1)(utf-8-validate@5.0.9)
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  '@altairgraphql/electron-settings@file:packages/altair-electron-settings(@types/node@25.5.0)(bufferutil@4.0.6)(esbuild@0.28.0)(tailwindcss@4.1.18)(utf-8-validate@5.0.9)':
+    dependencies:
+      '@altairgraphql/electron-interop': file:packages/altair-electron-interop(@types/node@25.5.0)(bufferutil@4.0.6)(react@18.3.1)(utf-8-validate@5.0.9)
+      flowbite-react: 0.7.2(esbuild@0.28.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@4.1.18)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-hook-form: 7.75.0(react@18.3.1)
+      react-icons: 5.0.1(react@18.3.1)
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@effect-ts/otel-node'
+      - '@types/node'
+      - '@types/react'
+      - bufferutil
+      - esbuild
+      - markdown-wasm
+      - next
+      - supports-color
+      - tailwindcss
+      - utf-8-validate
+
+  '@altairgraphql/iframe-sandbox@file:packages/altair-iframe-sandbox(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9)':
+    dependencies:
+      altair-graphql-core: file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9)
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  '@altairgraphql/tauri@file:packages/altair-tauri':
+    dependencies:
+      '@tauri-apps/api': 2.8.0
+      '@tauri-apps/plugin-global-shortcut': 2.3.0
+
   '@ampproject/remapping@2.3.0':
     dependencies:
       '@jridgewell/gen-mapping': 0.3.13
@@ -22012,6 +22316,11 @@ snapshots:
       eslint: 8.57.0
       typescript: 5.9.3
 
+  '@angular/animations@20.3.19(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.15.1)
+      tslib: 2.8.1
+
   '@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))':
     dependencies:
       '@angular/core': 20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)
@@ -22160,6 +22469,14 @@ snapshots:
       '@angular/compiler': 20.3.19
       zone.js: 0.15.1
 
+  '@angular/forms@20.3.19(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/common': 17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.15.1)
+      '@angular/platform-browser': 20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+      rxjs: 7.8.1
+      tslib: 2.8.1
+
   '@angular/forms@20.3.19(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(rxjs@7.8.1)':
     dependencies:
       '@angular/common': 20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
@@ -22176,11 +22493,29 @@ snapshots:
       '@angular/platform-browser': 20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
       tslib: 2.8.1
 
-  '@angular/platform-browser@17.0.8(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))':
+  '@angular/platform-browser@17.0.8(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))':
     dependencies:
       '@angular/common': 17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
       '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.15.1)
       tslib: 2.6.3
+    optionalDependencies:
+      '@angular/animations': 20.3.19(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+
+  '@angular/platform-browser@17.0.8(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/common': 20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      '@angular/core': 20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)
+      tslib: 2.6.3
+    optionalDependencies:
+      '@angular/animations': 20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
+
+  '@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))':
+    dependencies:
+      '@angular/common': 17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.15.1)
+      tslib: 2.8.1
+    optionalDependencies:
+      '@angular/animations': 20.3.19(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
 
   '@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))':
     dependencies:
@@ -22199,6 +22534,14 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.8.1
       xhr2: 0.2.1
+
+  '@angular/router@20.3.19(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/common': 17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.15.1)
+      '@angular/platform-browser': 20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+      rxjs: 7.8.1
+      tslib: 2.8.1
 
   '@angular/router@20.3.19(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@angular/platform-browser@20.3.19(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(rxjs@7.8.1)':
     dependencies:
@@ -22249,6 +22592,26 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))':
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1(graphql@15.5.1)
+      '@types/zen-observable': 0.8.3
+      '@wry/context': 0.6.1
+      '@wry/equality': 0.5.2
+      fast-json-stable-stringify: 2.1.0
+      graphql: 15.5.1
+      graphql-tag: 2.12.6(graphql@15.5.1)
+      hoist-non-react-statics: 3.3.2
+      optimism: 0.16.1
+      prop-types: 15.8.1
+      symbol-observable: 4.0.0
+      ts-invariant: 0.7.5
+      tslib: 1.14.1
+      zen-observable: 0.8.15
+    optionalDependencies:
+      react: 17.0.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+
   '@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))':
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1(graphql@15.5.1)
@@ -22269,6 +22632,46 @@ snapshots:
       react: 17.0.2
       subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
 
+  '@apollo/client@3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))':
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1(graphql@15.5.1)
+      '@types/zen-observable': 0.8.3
+      '@wry/context': 0.6.1
+      '@wry/equality': 0.5.2
+      fast-json-stable-stringify: 2.1.0
+      graphql: 15.5.1
+      graphql-tag: 2.12.6(graphql@15.5.1)
+      hoist-non-react-statics: 3.3.2
+      optimism: 0.16.1
+      prop-types: 15.8.1
+      symbol-observable: 4.0.0
+      ts-invariant: 0.7.5
+      tslib: 1.14.1
+      zen-observable: 0.8.15
+    optionalDependencies:
+      react: 18.3.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+
+  '@apollo/client@3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))':
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1(graphql@15.5.1)
+      '@types/zen-observable': 0.8.3
+      '@wry/context': 0.6.1
+      '@wry/equality': 0.5.2
+      fast-json-stable-stringify: 2.1.0
+      graphql: 15.5.1
+      graphql-tag: 2.12.6(graphql@15.5.1)
+      hoist-non-react-statics: 3.3.2
+      optimism: 0.16.1
+      prop-types: 15.8.1
+      symbol-observable: 4.0.0
+      ts-invariant: 0.7.5
+      tslib: 1.14.1
+      zen-observable: 0.8.15
+    optionalDependencies:
+      react: 19.2.4
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+
   '@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))':
     dependencies:
       '@graphql-typed-document-node/core': 3.1.1(graphql@15.5.1)
@@ -22286,6 +22689,25 @@ snapshots:
       zen-observable-ts: 1.2.5
     optionalDependencies:
       react: 17.0.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+
+  '@apollo/client@3.5.6(graphql@16.8.2)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9))':
+    dependencies:
+      '@graphql-typed-document-node/core': 3.1.1(graphql@15.5.1)
+      '@wry/context': 0.6.1
+      '@wry/equality': 0.5.2
+      '@wry/trie': 0.3.1
+      graphql: 16.8.2
+      graphql-tag: 2.12.6(graphql@15.5.1)
+      hoist-non-react-statics: 3.3.2
+      optimism: 0.16.1
+      prop-types: 15.8.1
+      symbol-observable: 4.0.0
+      ts-invariant: 0.9.4
+      tslib: 2.6.3
+      zen-observable-ts: 1.2.5
+    optionalDependencies:
+      react: 17.0.2
       subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
 
   '@ardatan/sync-fetch@0.0.1(encoding@0.1.13)':
@@ -24758,13 +25180,13 @@ snapshots:
       - '@opentelemetry/sdk-trace-base'
       - peggy
 
-  '@langchain/core@0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))':
+  '@langchain/core@0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.12
-      langsmith: 0.1.37(@langchain/core@0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)))(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
+      langsmith: 0.1.37(@langchain/core@0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)))(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
       ml-distance: 4.0.1
       mustache: 4.2.0
       p-queue: 6.6.2
@@ -24826,9 +25248,9 @@ snapshots:
     transitivePeerDependencies:
       - ws
 
-  '@langchain/textsplitters@0.0.3(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))':
+  '@langchain/textsplitters@0.0.3(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))':
     dependencies:
-      '@langchain/core': 0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
+      '@langchain/core': 0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
       js-tiktoken: 1.0.12
     transitivePeerDependencies:
       - langchain
@@ -25463,6 +25885,12 @@ snapshots:
   '@ngrx/store-devtools@15.4.0(@ngrx/store@15.4.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(rxjs@7.8.1)':
     dependencies:
       '@ngrx/store': 15.4.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)
+      rxjs: 7.8.1
+      tslib: 2.6.3
+
+  '@ngrx/store@15.4.0(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1)':
+    dependencies:
+      '@angular/core': 17.0.8(rxjs@7.8.1)(zone.js@0.15.1)
       rxjs: 7.8.1
       tslib: 2.6.3
 
@@ -28816,6 +29244,26 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@typescript-eslint/eslint-plugin@6.19.1(@typescript-eslint/parser@6.19.1(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)(typescript@5.9.3)':
+    dependencies:
+      '@eslint-community/regexpp': 4.11.0
+      '@typescript-eslint/parser': 6.19.1(eslint@8.57.1)(typescript@5.9.3)
+      '@typescript-eslint/scope-manager': 6.19.1
+      '@typescript-eslint/type-utils': 6.19.1(eslint@8.57.1)(typescript@5.9.3)
+      '@typescript-eslint/utils': 6.19.1(eslint@8.57.1)(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys': 6.19.1
+      debug: 4.3.4
+      eslint: 8.57.1
+      graphemer: 1.4.0
+      ignore: 5.3.1
+      natural-compare: 1.4.0
+      semver: 7.6.3
+      ts-api-utils: 1.3.0(typescript@5.9.3)
+    optionalDependencies:
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
   '@typescript-eslint/eslint-plugin@7.16.1(@typescript-eslint/parser@7.16.1(eslint@8.57.0)(typescript@5.9.3))(eslint@8.57.0)(typescript@5.9.3)':
     dependencies:
       '@eslint-community/regexpp': 4.11.0
@@ -28911,6 +29359,19 @@ snapshots:
       '@typescript-eslint/visitor-keys': 6.19.1
       debug: 4.3.4
       eslint: 8.57.0
+    optionalDependencies:
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/parser@6.19.1(eslint@8.57.1)(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/scope-manager': 6.19.1
+      '@typescript-eslint/types': 6.19.1
+      '@typescript-eslint/typescript-estree': 6.19.1(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys': 6.19.1
+      debug: 4.3.4
+      eslint: 8.57.1
     optionalDependencies:
       typescript: 5.9.3
     transitivePeerDependencies:
@@ -29031,6 +29492,18 @@ snapshots:
       '@typescript-eslint/utils': 6.19.1(eslint@8.57.0)(typescript@5.9.3)
       debug: 4.4.3(supports-color@5.5.0)
       eslint: 8.57.0
+      ts-api-utils: 1.3.0(typescript@5.9.3)
+    optionalDependencies:
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - supports-color
+
+  '@typescript-eslint/type-utils@6.19.1(eslint@8.57.1)(typescript@5.9.3)':
+    dependencies:
+      '@typescript-eslint/typescript-estree': 6.19.1(typescript@5.9.3)
+      '@typescript-eslint/utils': 6.19.1(eslint@8.57.1)(typescript@5.9.3)
+      debug: 4.4.3(supports-color@5.5.0)
+      eslint: 8.57.1
       ts-api-utils: 1.3.0(typescript@5.9.3)
     optionalDependencies:
       typescript: 5.9.3
@@ -29175,6 +29648,20 @@ snapshots:
       '@typescript-eslint/types': 6.19.1
       '@typescript-eslint/typescript-estree': 6.19.1(typescript@5.9.3)
       eslint: 8.57.0
+      semver: 7.7.4
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
+
+  '@typescript-eslint/utils@6.19.1(eslint@8.57.1)(typescript@5.9.3)':
+    dependencies:
+      '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.1)
+      '@types/json-schema': 7.0.12
+      '@types/semver': 7.5.6
+      '@typescript-eslint/scope-manager': 6.19.1
+      '@typescript-eslint/types': 6.19.1
+      '@typescript-eslint/typescript-estree': 6.19.1(typescript@5.9.3)
+      eslint: 8.57.1
       semver: 7.7.4
     transitivePeerDependencies:
       - supports-color
@@ -29964,6 +30451,212 @@ snapshots:
       '@algolia/requester-fetch': 5.35.0
       '@algolia/requester-node-http': 5.35.0
 
+  altair-express-middleware@file:packages/altair-express-middleware:
+    dependencies:
+      altair-static: file:packages/altair-static
+      express: 4.22.2
+    transitivePeerDependencies:
+      - supports-color
+
+  altair-graphql-core@file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(utf-8-validate@5.0.9):
+    dependencies:
+      '@angular/platform-browser': 17.0.8(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      abab: 2.0.6
+      actioncable: 5.2.6
+      ajv: 8.17.1
+      apollo-cache-inmemory: 1.6.6(graphql@15.5.1)
+      apollo-link: 1.2.14(graphql@15.5.1)
+      apollo-link-http: 1.5.17(graphql@15.5.1)
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      aws-appsync-subscription-link: 3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      color-name: 2.0.0
+      crypto-js: 3.3.0
+      deepmerge: 4.2.2
+      graphql: 15.5.1
+      graphql-query-compress: 1.2.4
+      graphql-sse: 2.5.3(graphql@15.5.1)
+      graphql-ws: 5.8.2(graphql@15.5.1)
+      json-bigint: 1.0.0
+      loglevel: 1.8.0
+      loglevel-plugin-prefix: 0.8.4
+      meros: 1.3.0(@types/node@25.5.0)
+      object-path: 0.11.5
+      rxjs: 7.8.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+      util: 0.12.4
+      uuid: 14.0.0
+      zod: 4.1.13
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  altair-graphql-core@file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.1)(utf-8-validate@5.0.9):
+    dependencies:
+      '@angular/platform-browser': 17.0.8(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      abab: 2.0.6
+      actioncable: 5.2.6
+      ajv: 8.17.1
+      apollo-cache-inmemory: 1.6.6(graphql@15.5.1)
+      apollo-link: 1.2.14(graphql@15.5.1)
+      apollo-link-http: 1.5.17(graphql@15.5.1)
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      aws-appsync-subscription-link: 3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      color-name: 2.0.0
+      crypto-js: 3.3.0
+      deepmerge: 4.2.2
+      graphql: 15.5.1
+      graphql-query-compress: 1.2.4
+      graphql-sse: 2.5.3(graphql@15.5.1)
+      graphql-ws: 5.8.2(graphql@15.5.1)
+      json-bigint: 1.0.0
+      loglevel: 1.8.0
+      loglevel-plugin-prefix: 0.8.4
+      meros: 1.3.0(@types/node@25.5.0)
+      object-path: 0.11.5
+      rxjs: 7.8.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+      util: 0.12.4
+      uuid: 14.0.0
+      zod: 4.1.13
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  altair-graphql-core@file:packages/altair-core(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@17.0.2)(utf-8-validate@5.0.9):
+    dependencies:
+      '@angular/platform-browser': 17.0.8(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      abab: 2.0.6
+      actioncable: 5.2.6
+      ajv: 8.17.1
+      apollo-cache-inmemory: 1.6.6(graphql@15.5.1)
+      apollo-link: 1.2.14(graphql@15.5.1)
+      apollo-link-http: 1.5.17(graphql@15.5.1)
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      aws-appsync-subscription-link: 3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      color-name: 2.0.0
+      crypto-js: 3.3.0
+      deepmerge: 4.2.2
+      graphql: 15.5.1
+      graphql-query-compress: 1.2.4
+      graphql-sse: 2.5.3(graphql@15.5.1)
+      graphql-ws: 5.8.2(graphql@15.5.1)
+      json-bigint: 1.0.0
+      loglevel: 1.8.0
+      loglevel-plugin-prefix: 0.8.4
+      meros: 1.3.0(@types/node@25.5.0)
+      object-path: 0.11.5
+      rxjs: 7.8.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+      util: 0.12.4
+      uuid: 14.0.0
+      zod: 4.1.13
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  altair-graphql-core@file:packages/altair-core(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@18.3.1)(utf-8-validate@5.0.9):
+    dependencies:
+      '@angular/platform-browser': 17.0.8(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      abab: 2.0.6
+      actioncable: 5.2.6
+      ajv: 8.17.1
+      apollo-cache-inmemory: 1.6.6(graphql@15.5.1)
+      apollo-link: 1.2.14(graphql@15.5.1)
+      apollo-link-http: 1.5.17(graphql@15.5.1)
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      aws-appsync-subscription-link: 3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      color-name: 2.0.0
+      crypto-js: 3.3.0
+      deepmerge: 4.2.2
+      graphql: 15.5.1
+      graphql-query-compress: 1.2.4
+      graphql-sse: 2.5.3(graphql@15.5.1)
+      graphql-ws: 5.8.2(graphql@15.5.1)
+      json-bigint: 1.0.0
+      loglevel: 1.8.0
+      loglevel-plugin-prefix: 0.8.4
+      meros: 1.3.0(@types/node@25.5.0)
+      object-path: 0.11.5
+      rxjs: 7.8.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+      util: 0.12.4
+      uuid: 14.0.0
+      zod: 4.1.13
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  altair-graphql-core@file:packages/altair-core(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(@types/node@25.5.0)(bufferutil@4.0.6)(react@19.2.4)(utf-8-validate@5.0.9):
+    dependencies:
+      '@angular/platform-browser': 17.0.8(@angular/animations@20.3.19(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)))(@angular/common@17.0.8(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))(rxjs@7.8.1))(@angular/core@17.0.8(rxjs@7.8.1)(zone.js@0.15.1))
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      abab: 2.0.6
+      actioncable: 5.2.6
+      ajv: 8.17.1
+      apollo-cache-inmemory: 1.6.6(graphql@15.5.1)
+      apollo-link: 1.2.14(graphql@15.5.1)
+      apollo-link-http: 1.5.17(graphql@15.5.1)
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      aws-appsync-subscription-link: 3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      color-name: 2.0.0
+      crypto-js: 3.3.0
+      deepmerge: 4.2.2
+      graphql: 15.5.1
+      graphql-query-compress: 1.2.4
+      graphql-sse: 2.5.3(graphql@15.5.1)
+      graphql-ws: 5.8.2(graphql@15.5.1)
+      json-bigint: 1.0.0
+      loglevel: 1.8.0
+      loglevel-plugin-prefix: 0.8.4
+      meros: 1.3.0(@types/node@25.5.0)
+      object-path: 0.11.5
+      rxjs: 7.8.1
+      subscriptions-transport-ws: 0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)
+      util: 0.12.4
+      uuid: 14.0.0
+      zod: 4.1.13
+    transitivePeerDependencies:
+      - '@angular/animations'
+      - '@angular/common'
+      - '@angular/core'
+      - '@types/node'
+      - bufferutil
+      - react
+      - supports-color
+      - utf-8-validate
+
+  altair-static@file:packages/altair-static:
+    dependencies:
+      zod: 4.1.13
+
   angular-resizable-element@6.0.0(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)):
     dependencies:
       '@angular/core': 20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)
@@ -30439,9 +31132,39 @@ snapshots:
       '@fastify/error': 4.0.0
       fastq: 1.17.1
 
+  aws-appsync-auth-link@3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
+    dependencies:
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      '@aws-crypto/sha256-js': 1.2.2
+      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/util-hex-encoding': 3.109.0
+      debug: 2.6.9
+    transitivePeerDependencies:
+      - supports-color
+
   aws-appsync-auth-link@3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
     dependencies:
       '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      '@aws-crypto/sha256-js': 1.2.2
+      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/util-hex-encoding': 3.109.0
+      debug: 2.6.9
+    transitivePeerDependencies:
+      - supports-color
+
+  aws-appsync-auth-link@3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
+    dependencies:
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      '@aws-crypto/sha256-js': 1.2.2
+      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/util-hex-encoding': 3.109.0
+      debug: 2.6.9
+    transitivePeerDependencies:
+      - supports-color
+
+  aws-appsync-auth-link@3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
+    dependencies:
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
       '@aws-crypto/sha256-js': 1.2.2
       '@aws-sdk/types': 3.127.0
       '@aws-sdk/util-hex-encoding': 3.109.0
@@ -30459,6 +31182,26 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  aws-appsync-auth-link@3.0.8(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9))):
+    dependencies:
+      '@apollo/client': 3.5.6(graphql@16.8.2)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9))
+      '@aws-crypto/sha256-js': 1.2.2
+      '@aws-sdk/types': 3.127.0
+      '@aws-sdk/util-hex-encoding': 3.109.0
+      debug: 2.6.9
+    transitivePeerDependencies:
+      - supports-color
+
+  aws-appsync-subscription-link@3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
+    dependencies:
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      debug: 2.6.9
+      url: 0.11.0
+      zen-observable-ts: 1.2.5
+    transitivePeerDependencies:
+      - supports-color
+
   aws-appsync-subscription-link@3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
     dependencies:
       '@apollo/client': 3.3.20(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
@@ -30469,10 +31212,40 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  aws-appsync-subscription-link@3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
+    dependencies:
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@18.3.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      debug: 2.6.9
+      url: 0.11.0
+      zen-observable-ts: 1.2.5
+    transitivePeerDependencies:
+      - supports-color
+
+  aws-appsync-subscription-link@3.1.5(@apollo/client@3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
+    dependencies:
+      '@apollo/client': 3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.3.20(graphql@15.5.1)(react@19.2.4)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      debug: 2.6.9
+      url: 0.11.0
+      zen-observable-ts: 1.2.5
+    transitivePeerDependencies:
+      - supports-color
+
   aws-appsync-subscription-link@3.1.5(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))):
     dependencies:
       '@apollo/client': 3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9))
       aws-appsync-auth-link: 3.0.8(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.1)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@15.5.1)(utf-8-validate@5.0.9)))
+      debug: 2.6.9
+      url: 0.11.0
+      zen-observable-ts: 1.2.5
+    transitivePeerDependencies:
+      - supports-color
+
+  aws-appsync-subscription-link@3.1.5(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9))):
+    dependencies:
+      '@apollo/client': 3.5.6(graphql@16.8.2)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9))
+      aws-appsync-auth-link: 3.0.8(@apollo/client@3.5.6(graphql@15.5.1)(react@17.0.2)(subscriptions-transport-ws@0.9.19(bufferutil@4.0.6)(graphql@16.8.2)(utf-8-validate@5.0.9)))
       debug: 2.6.9
       url: 0.11.0
       zen-observable-ts: 1.2.5
@@ -34087,9 +34860,31 @@ snapshots:
     optionalDependencies:
       source-map: 0.6.1
 
+  eslint-config-altair@file:libs/eslint-config-altair(@types/eslint@8.4.5):
+    dependencies:
+      '@typescript-eslint/eslint-plugin': 6.19.1(@typescript-eslint/parser@6.19.1(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)(typescript@5.9.3)
+      '@typescript-eslint/parser': 6.19.1(eslint@8.57.1)(typescript@5.9.3)
+      eslint: 8.57.1
+      eslint-config-google: 0.14.0(eslint@8.57.1)
+      eslint-config-prettier: 10.1.8(eslint@8.57.1)
+      eslint-plugin-import: 2.32.0(@typescript-eslint/parser@6.19.1(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1)
+      eslint-plugin-no-unsanitized: 4.1.5(eslint@8.57.1)
+      eslint-plugin-prettier: 5.5.4(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@8.57.0))(eslint@8.57.1)(prettier@3.7.4)
+      prettier: 3.7.4
+      typescript: 5.9.3
+    transitivePeerDependencies:
+      - '@types/eslint'
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - supports-color
+
   eslint-config-google@0.14.0(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
+
+  eslint-config-google@0.14.0(eslint@8.57.1):
+    dependencies:
+      eslint: 8.57.1
 
   eslint-config-prettier@10.1.8(eslint@7.32.0):
     dependencies:
@@ -34102,6 +34897,10 @@ snapshots:
   eslint-config-prettier@10.1.8(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
+
+  eslint-config-prettier@10.1.8(eslint@8.57.1):
+    dependencies:
+      eslint: 8.57.1
 
   eslint-config-prettier@10.1.8(eslint@9.6.0):
     dependencies:
@@ -34129,6 +34928,16 @@ snapshots:
     optionalDependencies:
       '@typescript-eslint/parser': 6.19.1(eslint@8.57.0)(typescript@5.9.3)
       eslint: 8.57.0
+      eslint-import-resolver-node: 0.3.10
+    transitivePeerDependencies:
+      - supports-color
+
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@6.19.1(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint@8.57.1):
+    dependencies:
+      debug: 3.2.7
+    optionalDependencies:
+      '@typescript-eslint/parser': 6.19.1(eslint@8.57.1)(typescript@5.9.3)
+      eslint: 8.57.1
       eslint-import-resolver-node: 0.3.10
     transitivePeerDependencies:
       - supports-color
@@ -34197,6 +35006,35 @@ snapshots:
       - eslint-import-resolver-webpack
       - supports-color
 
+  eslint-plugin-import@2.32.0(@typescript-eslint/parser@6.19.1(eslint@8.57.1)(typescript@5.9.3))(eslint@8.57.1):
+    dependencies:
+      '@rtsao/scc': 1.1.0
+      array-includes: 3.1.9
+      array.prototype.findlastindex: 1.2.6
+      array.prototype.flat: 1.3.3
+      array.prototype.flatmap: 1.3.3
+      debug: 3.2.7
+      doctrine: 2.1.0
+      eslint: 8.57.1
+      eslint-import-resolver-node: 0.3.10
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@6.19.1(eslint@8.57.1)(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint@8.57.1)
+      hasown: 2.0.2
+      is-core-module: 2.16.1
+      is-glob: 4.0.3
+      minimatch: 3.1.5
+      object.fromentries: 2.0.8
+      object.groupby: 1.0.3
+      object.values: 1.2.1
+      semver: 6.3.1
+      string.prototype.trimend: 1.0.9
+      tsconfig-paths: 3.15.0
+    optionalDependencies:
+      '@typescript-eslint/parser': 6.19.1(eslint@8.57.1)(typescript@5.9.3)
+    transitivePeerDependencies:
+      - eslint-import-resolver-typescript
+      - eslint-import-resolver-webpack
+      - supports-color
+
   eslint-plugin-no-unsanitized@4.0.1(eslint@8.11.0):
     dependencies:
       eslint: 8.11.0
@@ -34212,6 +35050,10 @@ snapshots:
   eslint-plugin-no-unsanitized@4.1.5(eslint@8.57.0):
     dependencies:
       eslint: 8.57.0
+
+  eslint-plugin-no-unsanitized@4.1.5(eslint@8.57.1):
+    dependencies:
+      eslint: 8.57.1
 
   eslint-plugin-prettier@5.1.3(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@8.57.0))(eslint@8.57.0)(prettier@3.3.2):
     dependencies:
@@ -34242,6 +35084,16 @@ snapshots:
     optionalDependencies:
       '@types/eslint': 8.4.5
       eslint-config-prettier: 10.1.8(eslint@7.32.0)
+
+  eslint-plugin-prettier@5.5.4(@types/eslint@8.4.5)(eslint-config-prettier@10.1.8(eslint@8.57.0))(eslint@8.57.1)(prettier@3.7.4):
+    dependencies:
+      eslint: 8.57.1
+      prettier: 3.7.4
+      prettier-linter-helpers: 1.0.0
+      synckit: 0.11.11
+    optionalDependencies:
+      '@types/eslint': 8.4.5
+      eslint-config-prettier: 10.1.8(eslint@8.57.0)
 
   eslint-plugin-react-hooks@4.6.2(eslint@8.57.0):
     dependencies:
@@ -35354,6 +36206,29 @@ snapshots:
       sharp: 0.32.6
       tailwind-merge: 2.2.1
       tailwindcss: 3.4.1(ts-node@10.9.2(@swc/core@1.15.18)(@types/node@25.5.0)(typescript@5.9.3))
+    transitivePeerDependencies:
+      - '@effect-ts/otel-node'
+      - '@types/react'
+      - esbuild
+      - markdown-wasm
+      - next
+      - supports-color
+
+  flowbite-react@0.7.2(esbuild@0.28.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(tailwindcss@4.1.18):
+    dependencies:
+      '@floating-ui/react': 0.26.8(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      contentlayer: 0.3.4(esbuild@0.28.0)
+      flowbite: 2.2.1
+      markdown-toc: 1.2.0
+      next-contentlayer: 0.3.4(contentlayer@0.3.4(esbuild@0.28.0))(esbuild@0.28.0)(next@16.1.7(@babel/core@7.24.5)(@opentelemetry/api@1.9.1)(@playwright/test@1.31.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.90.0))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+      react-icons: 4.12.0(react@18.3.1)
+      react-indiana-drag-scroll: 2.2.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      react-markdown: 9.0.1(@types/react@18.3.12)(react@18.3.1)
+      sharp: 0.32.6
+      tailwind-merge: 2.2.1
+      tailwindcss: 4.1.18
     transitivePeerDependencies:
       - '@effect-ts/otel-node'
       - '@types/react'
@@ -36612,7 +37487,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.3
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.7.4(debug@4.4.3))
+      retry-axios: 2.6.0(axios@1.7.4)
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -37985,11 +38860,11 @@ snapshots:
 
   ky@1.7.4: {}
 
-  langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8):
+  langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50):
     dependencies:
       '@langchain/core': 1.1.44(@opentelemetry/api@1.9.1)(@opentelemetry/exporter-trace-otlp-proto@0.217.0(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))
       '@langchain/openai': 0.5.6(@langchain/core@1.1.44(@opentelemetry/api@1.9.1)(@opentelemetry/exporter-trace-otlp-proto@0.217.0(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9)))(encoding@0.1.13)(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))
-      '@langchain/textsplitters': 0.0.3(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
+      '@langchain/textsplitters': 0.0.3(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
       js-tiktoken: 1.0.12
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
@@ -38011,7 +38886,7 @@ snapshots:
       - openai
       - ws
 
-  langsmith@0.1.37(@langchain/core@0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)))(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)):
+  langsmith@0.1.37(@langchain/core@0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)))(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)):
     dependencies:
       '@types/uuid': 9.0.8
       commander: 10.0.1
@@ -38019,8 +38894,8 @@ snapshots:
       p-retry: 4.6.2
       uuid: 9.0.1
     optionalDependencies:
-      '@langchain/core': 0.2.16(langchain@0.3.23(9288bd204da7a0d1ced395d9ac107ab8))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
-      langchain: 0.3.23(9288bd204da7a0d1ced395d9ac107ab8)
+      '@langchain/core': 0.2.16(langchain@0.3.23(4e4d37251e817a8e57c40daae664ed50))(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13))
+      langchain: 0.3.23(4e4d37251e817a8e57c40daae664ed50)
       openai: 6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)
 
   langsmith@0.3.19(openai@6.32.0(ws@8.19.0(bufferutil@4.0.6)(utf-8-validate@5.0.9))(zod@4.1.13)):
@@ -39810,6 +40685,18 @@ snapshots:
       postcss: 8.4.39
       tslib: 2.6.3
       webpack: 5.92.1(@swc/core@1.15.18)(esbuild@0.14.51)
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+      - webpack-cli
+
+  ngx-pipes@3.2.2(@angular/core@20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1))(@swc/core@1.15.18)(esbuild@0.28.0):
+    dependencies:
+      '@angular/core': 20.3.3(@angular/compiler@20.3.19)(rxjs@7.8.1)(zone.js@0.15.1)
+      postcss: 8.4.39
+      tslib: 2.6.3
+      webpack: 5.92.1(@swc/core@1.15.18)(esbuild@0.28.0)
     transitivePeerDependencies:
       - '@swc/core'
       - esbuild
@@ -42232,7 +43119,7 @@ snapshots:
 
   ret@0.5.0: {}
 
-  retry-axios@2.6.0(axios@1.7.4(debug@4.4.3)):
+  retry-axios@2.6.0(axios@1.7.4):
     dependencies:
       axios: 1.7.4(debug@4.4.3)
 
@@ -43783,6 +44670,18 @@ snapshots:
       '@swc/core': 1.15.18
       esbuild: 0.14.51
 
+  terser-webpack-plugin@5.3.10(@swc/core@1.15.18)(esbuild@0.28.0)(webpack@5.92.1(@swc/core@1.15.18)(esbuild@0.28.0)):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.31
+      jest-worker: 27.5.1
+      schema-utils: 3.3.0
+      serialize-javascript: 6.0.2
+      terser: 5.39.0
+      webpack: 5.92.1(@swc/core@1.15.18)(esbuild@0.28.0)
+    optionalDependencies:
+      '@swc/core': 1.15.18
+      esbuild: 0.28.0
+
   terser@5.39.0:
     dependencies:
       '@jridgewell/source-map': 0.3.5
@@ -45292,6 +46191,37 @@ snapshots:
       schema-utils: 3.3.0
       tapable: 2.2.1
       terser-webpack-plugin: 5.3.10(@swc/core@1.15.18)(esbuild@0.14.51)(webpack@5.92.1(@swc/core@1.15.18)(esbuild@0.14.51))
+      watchpack: 2.4.1
+      webpack-sources: 3.2.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - esbuild
+      - uglify-js
+
+  webpack@5.92.1(@swc/core@1.15.18)(esbuild@0.28.0):
+    dependencies:
+      '@types/eslint-scope': 3.7.4
+      '@types/estree': 1.0.8
+      '@webassemblyjs/ast': 1.12.1
+      '@webassemblyjs/wasm-edit': 1.12.1
+      '@webassemblyjs/wasm-parser': 1.12.1
+      acorn: 8.12.1
+      acorn-import-attributes: 1.9.5(acorn@8.12.1)
+      browserslist: 4.22.2
+      chrome-trace-event: 1.0.3
+      enhanced-resolve: 5.17.0
+      es-module-lexer: 1.6.0
+      eslint-scope: 5.1.1
+      events: 3.3.0
+      glob-to-regexp: 0.4.1
+      graceful-fs: 4.2.11
+      json-parse-even-better-errors: 2.3.1
+      loader-runner: 4.3.0
+      mime-types: 2.1.35
+      neo-async: 2.6.2
+      schema-utils: 3.3.0
+      tapable: 2.2.1
+      terser-webpack-plugin: 5.3.10(@swc/core@1.15.18)(esbuild@0.28.0)(webpack@5.92.1(@swc/core@1.15.18)(esbuild@0.28.0))
       watchpack: 2.4.1
       webpack-sources: 3.2.3
     transitivePeerDependencies:

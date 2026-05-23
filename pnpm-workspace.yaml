@@ -84,3 +84,4 @@ trustPolicyExclude:
 
 # [ERR_PNPM_EXOTIC_SUBDEP] Exotic dependency "@***/node-gyp" (resolved via git-repository) is not allowed in subdependencies when blockExoticSubdeps is enabled
 blockExoticSubdeps: false
+injectWorkspacePackages: true

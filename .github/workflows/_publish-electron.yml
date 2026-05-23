@@ -126,7 +126,7 @@ jobs:
           command: pnpm build:ci
       # Update pnpm config to support electron builder
       # https://www.electron.build/#note-for-pnpm
-      - run: 'printf "\nnodeLinker: hoisted\ninjectWorkspacePackages: true\n" >> pnpm-workspace.yaml'
+      - run: 'printf "\nnodeLinker: hoisted\n" >> pnpm-workspace.yaml'
       # install node_modules again with new configuration
       - run: pnpm i --frozen-lockfile
       # Increase file descriptor limit to avoid EMFILE errors during electron-builder dependency collection
