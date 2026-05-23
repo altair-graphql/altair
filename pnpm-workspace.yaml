@@ -82,4 +82,5 @@ trustPolicyExclude:
   - 'chokidar@4.0.3'
   - 'undici-types@6.21.0'
 
+# [ERR_PNPM_EXOTIC_SUBDEP] Exotic dependency "@***/node-gyp" (resolved via git-repository) is not allowed in subdependencies when blockExoticSubdeps is enabled
 blockExoticSubdeps: false
