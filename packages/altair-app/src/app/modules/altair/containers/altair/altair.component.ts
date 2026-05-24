@@ -9,7 +9,7 @@ import {
 } from 'rxjs/operators';
 import { Component, inject } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, forkJoin, of, from, firstValueFrom } from 'rxjs';
+import { Observable, of, from, firstValueFrom } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 import { v4 as uuid } from 'uuid';
@@ -190,38 +190,40 @@ export class AltairComponent {
     this.setAvailableLanguages();
 
     const applicationLanguage = this.getAppLanguage();
-    forkJoin([
-      this.translate.use(applicationLanguage),
-      this.store.pipe(
-        take(1),
-        switchMap((data) => {
-          if (data.settings['plugin.list']) {
-            data.settings['plugin.list'].forEach((pluginStr) => {
-              const pluginInfo =
-                this.pluginRegistry.getPluginInfoFromString(pluginStr);
-              if (pluginInfo) {
-                this.pluginRegistry.fetchPlugin(pluginInfo.name, pluginInfo);
-              }
-            });
-          }
-          // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
-          // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-birdseye', {
-          //   pluginSource: 'url',
-          //   version: '0.0.4',
-          //   url: 'http://localhost:8002/'
-          // });
-          return from(this.pluginRegistry.pluginsReady());
-        }),
-        // Only wait 7 seconds for plugins to be ready
-        timeout(7000),
-        catchError((_error) => of('Plugins were not ready on time!'))
-      ),
-    ])
+    this.translate
+      .use(applicationLanguage)
       .pipe(untilDestroyed(this))
       .subscribe(() => {
         this.isReady = true;
         this.pluginEvent.emit('app-ready', true);
       });
+
+    // Load plugins in the background without blocking app ready
+    this.store.pipe(
+      take(1),
+      switchMap((data) => {
+        if (data.settings['plugin.list']) {
+          data.settings['plugin.list'].forEach((pluginStr) => {
+            const pluginInfo =
+              this.pluginRegistry.getPluginInfoFromString(pluginStr);
+            if (pluginInfo) {
+              this.pluginRegistry.fetchPlugin(pluginInfo.name, pluginInfo);
+            }
+          });
+        }
+        // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
+        // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-birdseye', {
+        //   pluginSource: 'url',
+        //   version: '0.0.4',
+        //   url: 'http://localhost:8002/'
+        // });
+        return from(this.pluginRegistry.pluginsReady());
+      }),
+      // Only wait 7 seconds for plugins to be ready
+      timeout(7000),
+      catchError((_error) => of('Plugins were not ready on time!')),
+      untilDestroyed(this)
+    ).subscribe();
 
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.
