@@ -25,8 +25,8 @@ export const yogaMain = async () => {
   const app = express();
 
   app.use(async (req, res, next) => {
-    console.log(req.headers);
-    console.log(req.cookies);
+    console.log({ headers: req.headers });
+    console.log({ cookies: req.cookies });
     res.set('x-auth', 'text/plain');
     // await delay(5000);
     return next();
