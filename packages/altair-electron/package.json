@@ -59,7 +59,7 @@
     "eslint-config-altair": "workspace:*",
     "eslint-config-prettier": "8.5.0",
     "playwright": "^1.18.1",
-    "spectron": "^15.0.0",
+    "spectron": "^19.0.0",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
