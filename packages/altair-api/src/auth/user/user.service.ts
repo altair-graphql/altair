@@ -102,6 +102,31 @@ export class UserService {
       return user;
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') {
+        // If providerInfo is provided, try to link the new provider to the existing user
+        if (providerInfo) {
+          const existingUser = await this.prisma.user.findUnique({
+            where: { email: payload.email },
+          });
+          if (existingUser) {
+            await this.prisma.userCredential.upsert({
+              where: {
+                userId_provider: {
+                  userId: existingUser.id,
+                  provider: providerInfo.provider,
+                },
+              },
+              create: {
+                userId: existingUser.id,
+                provider: providerInfo.provider,
+                providerUserId: providerInfo.providerUserId,
+              },
+              update: {
+                providerUserId: providerInfo.providerUserId,
+              },
+            });
+            return existingUser;
+          }
+        }
         throw new ConflictException(`Email ${payload.email} already used.`);
       }
       throw e;
