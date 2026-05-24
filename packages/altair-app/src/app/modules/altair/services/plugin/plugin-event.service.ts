@@ -5,7 +5,7 @@ import {
   PluginEventCallback,
   PluginEventPayloadMap,
 } from 'altair-graphql-core/build/plugin/event/event.interfaces';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, ReplaySubject, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 interface PluginEventData<E extends PluginEvent = PluginEvent> {
@@ -20,6 +20,7 @@ export class PluginEventService {
   private errorHandler = inject(ErrorHandler);
 
   private eventStream = new Subject<PluginEventData>();
+  private appReadyStream = new ReplaySubject<PluginEventPayloadMap['app-ready']>(1);
 
   /**
    * Creates a group for managing multiple subscriptions within single contexts
@@ -32,6 +33,10 @@ export class PluginEventService {
    * Pushes an event data to the stream
    */
   emit<E extends PluginEvent>(event: E, payload: PluginEventPayloadMap[E]) {
+    // FIXME: Refactor this to avoid special handling for 'app-ready' event
+    if (event === 'app-ready') {
+      this.appReadyStream.next(payload as PluginEventPayloadMap['app-ready']);
+    }
     return this.eventStream.next({
       event,
       payload,
@@ -42,6 +47,15 @@ export class PluginEventService {
    * Subscribe to specific event
    */
   on<E extends PluginEvent>(event: E, callback: PluginEventCallback<E>) {
+    if (event === 'app-ready') {
+      return this.appReadyStream.subscribe((payload) => {
+        try {
+          callback(payload as PluginEventPayloadMap[E]);
+        } catch (error) {
+          this.errorHandler.handleError(error);
+        }
+      });
+    }
     return this.eventStream
       .pipe(filter((_): _ is PluginEventData<E> => _.event === event))
       .subscribe((evtData) => {
