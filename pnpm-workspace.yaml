@@ -8,7 +8,7 @@ packages:
 
 catalog:
   '@types/node': 25.5.0
-  electron: ^38.3.0
+  electron: ^39.8.5
   typescript: ^5.8.0
   vite: ^7.3.2
   '@vitest/coverage-v8': ^4.1.0
