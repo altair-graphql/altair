@@ -43,7 +43,7 @@
     "@types/ws": "^8.5.4",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.1",
-    "typescript": "5.2.2"
+    "typescript": "6.0.3"
   },
   "packageManager": "yarn@1.22.17"
 }
