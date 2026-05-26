@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://www.schemastore.org/electron-builder.json
 appId: com.xkoji.altair
 productName: Altair GraphQL Client
 electronVersion: 33.2.1
@@ -57,6 +58,13 @@ snap:
       bind: $SNAP/usr/share/libdrm
 win:
   artifactName: ${name}_${version}_${arch}_win.${ext}
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: msi
+      arch:
+        - x64
 # flatpak:
 #   artifactName: ${name}_${version}_${arch}_flatpak.${ext}
 #   runtime: org.freedesktop.Platform
