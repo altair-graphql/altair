@@ -192,6 +192,74 @@ jobs:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_store_credentials }}
           DEBUG: "@malept/flatpak-bundler"
 
+      - name: Smoke test - find built app (Linux)
+        if: startsWith(matrix.os, 'ubuntu') && steps.build-electron.outcome == 'success'
+        id: find-app-linux
+        run: |
+          APP_PATH=$(find out/elx-files/out -name "*.AppImage" | head -n 1)
+          echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
+          echo "Found AppImage: $APP_PATH"
+
+      - name: Smoke test - find built app (macOS)
+        if: startsWith(matrix.os, 'macos') && steps.build-electron.outcome == 'success'
+        id: find-app-macos
+        run: |
+          APP_PATH=$(find out/elx-files/out -name "*.app" -maxdepth 3 | head -n 1)
+          echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
+          echo "Found .app: $APP_PATH"
+
+      - name: Smoke test - find built app (Windows)
+        if: startsWith(matrix.os, 'windows') && steps.build-electron.outcome == 'success'
+        id: find-app-windows
+        shell: pwsh
+        run: |
+          $appPath = Get-ChildItem -Path "out/elx-files/out" -Filter "*.exe" -Recurse | Where-Object { $_.Name -notlike "*Setup*" -and $_.Name -notlike "*Uninstall*" } | Select-Object -First 1 -ExpandProperty FullName
+          echo "app_path=$appPath" >> $env:GITHUB_OUTPUT
+          echo "Found exe: $appPath"
+
+      - name: Smoke test - launch and verify no crash (Linux)
+        if: startsWith(matrix.os, 'ubuntu') && steps.find-app-linux.outputs.app_path != ''
+        run: |
+          chmod +x "${{ steps.find-app-linux.outputs.app_path }}"
+          xvfb-run --auto-servernum "${{ steps.find-app-linux.outputs.app_path }}" --no-sandbox &
+          APP_PID=$!
+          sleep 10
+          if kill -0 $APP_PID 2>/dev/null; then
+            echo "App is still running after 10s - smoke test passed"
+            kill $APP_PID
+          else
+            echo "App crashed during smoke test"
+            exit 1
+          fi
+
+      - name: Smoke test - launch and verify no crash (macOS)
+        if: startsWith(matrix.os, 'macos') && steps.find-app-macos.outputs.app_path != ''
+        run: |
+          open "${{ steps.find-app-macos.outputs.app_path }}" &
+          sleep 10
+          APP_NAME=$(basename "${{ steps.find-app-macos.outputs.app_path }}" .app)
+          if pgrep -x "$APP_NAME" > /dev/null; then
+            echo "App is still running after 10s - smoke test passed"
+            pkill -x "$APP_NAME" || true
+          else
+            echo "App crashed during smoke test"
+            exit 1
+          fi
+
+      - name: Smoke test - launch and verify no crash (Windows)
+        if: startsWith(matrix.os, 'windows') && steps.find-app-windows.outputs.app_path != ''
+        shell: pwsh
+        run: |
+          $proc = Start-Process -FilePath "${{ steps.find-app-windows.outputs.app_path }}" -PassThru
+          Start-Sleep -Seconds 10
+          if ($proc.HasExited) {
+            Write-Error "App crashed during smoke test (exit code: $($proc.ExitCode))"
+            exit 1
+          } else {
+            Write-Output "App is still running after 10s - smoke test passed"
+            $proc.Kill()
+          }
+
       # chocolatey
       - name: Read VERSION file
         id: getversion
