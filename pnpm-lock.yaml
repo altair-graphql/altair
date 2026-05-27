@@ -6,6 +6,9 @@ settings:
 
 catalogs:
   default:
+    '@playwright/test':
+      specifier: 1.31.2
+      version: 1.31.2
     '@types/node':
       specifier: 25.5.0
       version: 25.5.0
@@ -40,7 +43,7 @@ importers:
         specifier: ^2.18.1
         version: 2.18.1
       '@playwright/test':
-        specifier: ^1.31.2
+        specifier: 'catalog:'
         version: 1.31.2
       '@types/prettier':
         specifier: ^3.0.0
@@ -793,7 +796,7 @@ importers:
         specifier: 12.4.0
         version: 12.4.0
       '@playwright/test':
-        specifier: ^1.31.2
+        specifier: 'catalog:'
         version: 1.31.2
       '@sentry/cli':
         specifier: ^3.0.0
@@ -1413,7 +1416,7 @@ importers:
         specifier: ^2.1.0
         version: 2.1.0
       '@playwright/test':
-        specifier: 1.31.2
+        specifier: 'catalog:'
         version: 1.31.2
       '@sentry/cli':
         specifier: ^3.0.0
@@ -1472,9 +1475,6 @@ importers:
       eslint-config-prettier:
         specifier: 8.5.0
         version: 8.5.0(eslint@7.32.0)
-      playwright:
-        specifier: ^1.18.1
-        version: 1.24.2
       spectron:
         specifier: ^15.0.0
         version: 15.0.0(bufferutil@4.0.6)(electron@38.3.0)(encoding@0.1.13)(utf-8-validate@5.0.9)
@@ -17788,18 +17788,8 @@ packages:
     resolution: {integrity: sha512-nDywThFk1i4BQK4twPQ6TA4RT8bDY96yeuCVBWL3ePARCiEKDRSrNGbFIgUJpLp+XeIR65v8ra7WuJOFUBtkMA==}
     engines: {node: '>=8'}
 
-  playwright-core@1.24.2:
-    resolution: {integrity: sha512-zfAoDoPY/0sDLsgSgLZwWmSCevIg1ym7CppBwllguVBNiHeixZkc1AdMuYUPZC6AdEYc4CxWEyLMBTw2YcmRrA==}
-    engines: {node: '>=14'}
-    hasBin: true
-
   playwright-core@1.31.2:
     resolution: {integrity: sha512-a1dFgCNQw4vCsG7bnojZjDnPewZcw7tZUNFN0ZkcLYKj+mPmXvg4MpaaKZ5SgqPsOmqIf2YsVRkgqiRDxD+fDQ==}
-    engines: {node: '>=14'}
-    hasBin: true
-
-  playwright@1.24.2:
-    resolution: {integrity: sha512-iMWDLgaFRT+7dXsNeYwgl8nhLHsUrzFyaRVC+ftr++P1dVs70mPrFKBZrGp1fOKigHV9d1syC03IpPbqLKlPsg==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -41016,13 +41006,7 @@ snapshots:
     dependencies:
       find-up: 3.0.0
 
-  playwright-core@1.24.2: {}
-
   playwright-core@1.31.2: {}
-
-  playwright@1.24.2:
-    dependencies:
-      playwright-core: 1.24.2
 
   plist@3.1.0:
     dependencies:

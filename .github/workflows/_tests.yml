@@ -128,7 +128,7 @@ jobs:
           timeout_minutes: 15
           max_attempts: 3
           command: pnpm build:ci
-      - run: npx playwright install
+      - run: pnpm playwright install
       - name: Run headless e2e test
         uses: GabrielBB/xvfb-action@86d97bde4a65fe9b290c0b3fb92c2c4ed0e5302d # v1.6
         with:
