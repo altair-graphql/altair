@@ -172,6 +172,7 @@ jobs:
 
       - name: Build/release Electron app
         id: build-electron
+        if: ${{ inputs.build }}
         uses: paneron/action-electron-builder@14b133702d1b2e9749912051c43ed62b4afe56c8 # v1.8.1
         with:
           github_token: ${{ secrets.github_token }}
@@ -203,7 +204,15 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu') && steps.build-electron.outcome == 'success'
         id: find-app-linux
         run: |
-          APP_PATH=$(find out/elx-files/out -name "*.AppImage" | head -n 1)
+          # Map uname -m to the arch suffix used in the AppImage filename.
+          # electron-builder uses "x64" and "arm64"; uname reports "x86_64" and "aarch64".
+          UNAME_ARCH=$(uname -m)
+          case "$UNAME_ARCH" in
+            x86_64)  EB_ARCH="x64"   ;;
+            aarch64) EB_ARCH="arm64" ;;
+            *)       EB_ARCH="$UNAME_ARCH" ;;
+          esac
+          APP_PATH=$(find out/elx-files/out -name "*_${EB_ARCH}_linux.AppImage" | head -n 1)
           chmod +x "$APP_PATH"
           # AppImages require FUSE; --appimage-extract-and-run bypasses that by
           # extracting to a temp dir and running directly, no FUSE needed.

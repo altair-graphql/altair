@@ -8,8 +8,8 @@ exports.default = async function notarizing(context) {
     return;
   }
 
-  if (!process.env.APPLE_ID || !process.env.APPLE_TEAM_ID) {
-    console.log('Skipping notarization: APPLE_ID or APPLE_TEAM_ID not set');
+  if (!process.env.APPLE_ID || !process.env.APPLE_TEAM_ID || !process.env.APPLE_ID_PASSWORD) {
+    console.log('Skipping notarization: APPLE_ID, APPLE_TEAM_ID, or APPLE_ID_PASSWORD not set');
     return;
   }
 
