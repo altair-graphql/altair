@@ -387,6 +387,14 @@ export class WindowManager {
       this.instance.show();
       this.instance.focus();
       checkMultipleDataVersions(this.instance);
+
+      // In smoke test mode the app exits cleanly once the window is ready.
+      // This proves the full startup path succeeded: custom protocol handler,
+      // altair-static file loading, and renderer initialisation.
+      if (process.argv.includes('--smoke-test')) {
+        log('Smoke test passed: window ready-to-show');
+        app.quit();
+      }
     });
 
     this.instance.webContents.on('render-process-gone', (e, details) => {
