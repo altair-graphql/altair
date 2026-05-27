@@ -8,6 +8,11 @@ exports.default = async function notarizing(context) {
     return;
   }
 
+  if (!process.env.APPLE_ID || !process.env.APPLE_TEAM_ID) {
+    console.log('Skipping notarization: APPLE_ID or APPLE_TEAM_ID not set');
+    return;
+  }
+
   const appName = context.packager.appInfo.productFilename;
 
   console.log(

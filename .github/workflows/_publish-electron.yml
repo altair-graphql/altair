@@ -170,10 +170,7 @@ jobs:
           sudo flatpak install org.electronjs.Electron2.BaseApp/x86_64/23.08 -y
         if: startsWith(matrix.os, 'ubuntu')
 
-      - name:
-          Build/release Electron app
-          # disable for macos not in master branch, because code signing is skipped in pull requests
-        if: ${{ inputs.publish || !(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master') }}
+      - name: Build/release Electron app
         id: build-electron
         uses: paneron/action-electron-builder@14b133702d1b2e9749912051c43ed62b4afe56c8 # v1.8.1
         with:
@@ -181,19 +178,24 @@ jobs:
           package_root: out/elx-files/
           skip_build: true
           skip_package_manager_install: true
-          mac_certs: ${{ secrets.mac_certs }}
-          mac_certs_password: ${{ secrets.mac_certs_password }}
+          # Only supply signing certs on macOS master builds; the signing process
+          # is skipped on PRs so the notarization step would fail, so we skip it instead.
+          mac_certs: ${{ (startsWith(matrix.os, 'macos') && github.ref == 'refs/heads/master') && secrets.mac_certs || '' }}
+          mac_certs_password: ${{ (startsWith(matrix.os, 'macos') && github.ref == 'refs/heads/master') && secrets.mac_certs_password || '' }}
           args: ${{ inputs.publish && '--publish always' || '--publish never' }}
           max_attempts: 3
           package_manager: pnpm
         env:
-          # macOS notarization API key
+          # macOS notarization - notarize.js skips notarization when these are empty.
           # https://www.codiga.io/blog/notarize-sign-electron-app/
           APPLE_ID: ${{ secrets.apple_id }}
           APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.apple_id_password }}
           APPLEIDPASS: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
+          # Prevent electron-builder from searching the keychain for a signing
+          # identity on macOS PRs as we supply them ourselves.
+          CSC_IDENTITY_AUTO_DISCOVERY: ${{ (startsWith(matrix.os, 'macos') && github.ref == 'refs/heads/master') && 'true' || 'false' }}
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_store_credentials }}
           DEBUG: "@malept/flatpak-bundler"
 
