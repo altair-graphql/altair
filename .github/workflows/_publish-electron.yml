@@ -202,6 +202,10 @@ jobs:
         id: find-app-linux
         run: |
           APP_PATH=$(find out/elx-files/out -name "*.AppImage" | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "No AppImage found in out/elx-files/out"
+            exit 1
+          fi
           echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
           echo "Found AppImage: $APP_PATH"
 
@@ -209,7 +213,12 @@ jobs:
         if: startsWith(matrix.os, 'macos') && steps.build-electron.outcome == 'success'
         id: find-app-macos
         run: |
-          APP_PATH=$(find out/elx-files/out -name "*.app" -maxdepth 3 | head -n 1)
+          # -maxdepth must come before -name on BSD find (macOS)
+          APP_PATH=$(find out/elx-files/out -maxdepth 3 -name "*.app" | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "No .app bundle found in out/elx-files/out"
+            exit 1
+          fi
           echo "app_path=$APP_PATH" >> $GITHUB_OUTPUT
           echo "Found .app: $APP_PATH"
 
@@ -219,17 +228,23 @@ jobs:
         shell: pwsh
         run: |
           $appPath = Get-ChildItem -Path "out/elx-files/out" -Filter "*.exe" -Recurse | Where-Object { $_.Name -notlike "*Setup*" -and $_.Name -notlike "*Uninstall*" } | Select-Object -First 1 -ExpandProperty FullName
-          echo "app_path=$appPath" >> $env:GITHUB_OUTPUT
-          echo "Found exe: $appPath"
+          if ([string]::IsNullOrWhiteSpace($appPath)) {
+            Write-Error "No executable found in out/elx-files/out"
+            exit 1
+          }
+          "app_path=$appPath" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          Write-Output "Found exe: $appPath"
 
       - name: Smoke test - launch and verify no crash (Linux)
         if: startsWith(matrix.os, 'ubuntu') && steps.find-app-linux.outputs.app_path != ''
+        env:
+          APP_PATH: ${{ steps.find-app-linux.outputs.app_path }}
         run: |
-          chmod +x "${{ steps.find-app-linux.outputs.app_path }}"
+          chmod +x "$APP_PATH"
           # AppImages require FUSE (libfuse2). Rather than installing it, pass
           # --appimage-extract-and-run which extracts the AppImage to a temp dir
           # and runs it directly without needing FUSE at all.
-          xvfb-run --auto-servernum "${{ steps.find-app-linux.outputs.app_path }}" --appimage-extract-and-run --no-sandbox &
+          xvfb-run --auto-servernum "$APP_PATH" --appimage-extract-and-run --no-sandbox &
           APP_PID=$!
           sleep 10
           if kill -0 $APP_PID 2>/dev/null; then
@@ -242,10 +257,12 @@ jobs:
 
       - name: Smoke test - launch and verify no crash (macOS)
         if: startsWith(matrix.os, 'macos') && steps.find-app-macos.outputs.app_path != ''
+        env:
+          APP_PATH: ${{ steps.find-app-macos.outputs.app_path }}
         run: |
-          open "${{ steps.find-app-macos.outputs.app_path }}" &
+          open "$APP_PATH" &
           sleep 10
-          APP_NAME=$(basename "${{ steps.find-app-macos.outputs.app_path }}" .app)
+          APP_NAME=$(basename "$APP_PATH" .app)
           if pgrep -x "$APP_NAME" > /dev/null; then
             echo "App is still running after 10s - smoke test passed"
             pkill -x "$APP_NAME" || true
@@ -257,8 +274,10 @@ jobs:
       - name: Smoke test - launch and verify no crash (Windows)
         if: startsWith(matrix.os, 'windows') && steps.find-app-windows.outputs.app_path != ''
         shell: pwsh
+        env:
+          APP_PATH: ${{ steps.find-app-windows.outputs.app_path }}
         run: |
-          $proc = Start-Process -FilePath "${{ steps.find-app-windows.outputs.app_path }}" -PassThru
+          $proc = Start-Process -FilePath $env:APP_PATH -PassThru
           Start-Sleep -Seconds 10
           if ($proc.HasExited) {
             Write-Error "App crashed during smoke test (exit code: $($proc.ExitCode))"
