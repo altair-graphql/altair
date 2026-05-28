@@ -113,7 +113,7 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ inputs.node_version }}
-          cache: "pnpm"
+          # cache: "pnpm"
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
         if: startsWith(matrix.os, 'macos')
         with:
@@ -206,7 +206,13 @@ jobs:
             aarch64) EB_ARCH="arm64" ;;
             *)       EB_ARCH="$UNAME_ARCH" ;;
           esac
-          APP_PATH=$(find out/elx-files/out -name "*_${EB_ARCH}_linux.AppImage" | head -n 1)
+          echo "Contents of out/elx-files/out:"
+          find out/elx-files/out -type f | sort
+          APP_PATH=$(find out/elx-files/out -name "*_${EB_ARCH}_linux.AppImage" 2>/dev/null | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "No AppImage found for arch $EB_ARCH under out/elx-files/out."
+            exit 1
+          fi
           chmod +x "$APP_PATH"
           # AppImages require FUSE; --appimage-extract-and-run bypasses that by
           # extracting to a temp dir and running directly, no FUSE needed.
