@@ -200,17 +200,11 @@ jobs:
         run: |
           # Map uname -m to the arch suffix used in the AppImage filename.
           # electron-builder uses "x64" and "arm64"; uname reports "x86_64" and "aarch64".
+          # electron-builder names AppImages using the raw uname -m value (x86_64, arm64, etc.)
           UNAME_ARCH=$(uname -m)
-          case "$UNAME_ARCH" in
-            x86_64)  EB_ARCH="x64"   ;;
-            aarch64) EB_ARCH="arm64" ;;
-            *)       EB_ARCH="$UNAME_ARCH" ;;
-          esac
-          echo "Contents of out/elx-files/out:"
-          find out/elx-files/out -type f | sort
-          APP_PATH=$(find out/elx-files/out -name "*_${EB_ARCH}_linux.AppImage" 2>/dev/null | head -n 1)
+          APP_PATH=$(find out/elx-files/out -name "*_${UNAME_ARCH}_linux.AppImage" 2>/dev/null | head -n 1)
           if [ -z "$APP_PATH" ]; then
-            echo "No AppImage found for arch $EB_ARCH under out/elx-files/out."
+            echo "No AppImage found for arch $UNAME_ARCH under out/elx-files/out."
             exit 1
           fi
           chmod +x "$APP_PATH"
