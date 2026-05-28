@@ -124,13 +124,6 @@ jobs:
           timeout_minutes: 20
           max_attempts: 3
           command: pnpm build:ci
-      # Create deploy ready source files for electron.
-      # Must run BEFORE setting node-linker=hoisted: pnpm deploy uses the standard
-      # isolated linker to correctly resolve only the electron package's production
-      # dependencies. With hoisted linker active, pnpm deploy copies the entire
-      # monorepo's node_modules instead of pruning to just the target package's deps,
-      # which can cause modules to be missing at runtime (e.g. electron-unhandled).
-      - run: pnpm deploy --filter=altair out/elx-files
       # Update .npmrc file to support electron builder
       # https://www.electron.build/#note-for-pnpm
       - uses: nodef/npm-config.action@d886ec78e341a72863181caf1c2d3c10b6a776d2 # v1.0.0
@@ -141,6 +134,7 @@ jobs:
             node-linker = hoisted
       # install node_modules again with new configuration (required by electron-builder)
       - run: pnpm i --frozen-lockfile
+      - run: pnpm deploy --filter=altair out/elx-files
 
       - name: Install Snapcraft
         uses: samuelmeuli/action-snapcraft@d33c176a9b784876d966f80fb1b461808edc0641 # v2.1.1
