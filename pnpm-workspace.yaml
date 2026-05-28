@@ -19,5 +19,5 @@ catalog:
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade
 strictDepBuilds: true
-onlyBuiltDependencies: []
+onlyBuiltDependencies: [electron]
 ignoredBuiltDependencies: []
