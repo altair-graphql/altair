@@ -173,10 +173,9 @@ jobs:
           package_root: out/elx-files/
           skip_build: true
           skip_package_manager_install: true
-          # Only supply signing certs on macOS master builds; the signing process
-          # is skipped on PRs so the notarization step would fail, so we skip it instead.
-          mac_certs: ${{ (startsWith(matrix.os, 'macos') && github.ref == 'refs/heads/master') && secrets.mac_certs || '' }}
-          mac_certs_password: ${{ (startsWith(matrix.os, 'macos') && github.ref == 'refs/heads/master') && secrets.mac_certs_password || '' }}
+          # Only supply signing certs on macOS builds.
+          mac_certs: ${{ secrets.mac_certs }}
+          mac_certs_password: ${{ secrets.mac_certs_password }}
           args: ${{ inputs.publish && '--publish always' || '--publish never' }}
           max_attempts: 3
           package_manager: pnpm
@@ -189,8 +188,12 @@ jobs:
           APPLEIDPASS: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           # Prevent electron-builder from searching the keychain for a signing
-          # identity on macOS PRs as we supply them ourselves.
-          CSC_IDENTITY_AUTO_DISCOVERY: ${{ (startsWith(matrix.os, 'macos') && github.ref == 'refs/heads/master') && 'true' || 'false' }}
+          # identity on macOS as we supply them ourselves.
+          CSC_IDENTITY_AUTO_DISCOVERY: 'true'
+          # Allow electron-builder to proceed with signing on PRs. Safe because
+          # forks cannot access repository secrets so mac_certs will be empty on
+          # untrusted PRs, and notarize.js skips notarization when APPLE_ID is unset.
+          CSC_FOR_PULL_REQUEST: 'true'
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_store_credentials }}
           DEBUG: "@malept/flatpak-bundler"
 
