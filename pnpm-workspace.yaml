@@ -15,8 +15,7 @@ catalog:
   '@vitest/coverage-v8': ^4.1.0
   vitest: ^4.1.0
   zod: ^4.1.13
-
-minimumReleaseAge: 1440
+# minimumReleaseAge: 1440
 # trustPolicy: no-downgrade
 # strictDepBuilds: true
 # onlyBuiltDependencies: [electron]
