@@ -13,7 +13,7 @@
   "private": true,
   "dependencies": {
     "express": "^4.21.1",
-    "helmet": "^8.1.0"
+    "helmet": "^8.2.0"
   },
   "scripts": {
     "start": "ts-node-dev index.ts"
