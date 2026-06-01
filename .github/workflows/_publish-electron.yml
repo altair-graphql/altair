@@ -214,7 +214,7 @@ jobs:
           # AppImages require FUSE; --appimage-extract-and-run bypasses that by
           # extracting to a temp dir and running directly, no FUSE needed.
           # xvfb-run provides a virtual display for the headless CI environment.
-          echo "launch_cmd=xvfb-run --auto-servernum $APP_PATH --appimage-extract-and-run --no-sandbox" >> $GITHUB_OUTPUT
+          echo "launch_cmd=xvfb-run --auto-servernum \"$APP_PATH\" --appimage-extract-and-run --no-sandbox" >> $GITHUB_OUTPUT
 
       - name: Smoke test - find built app (macOS)
         if: startsWith(matrix.os, 'macos') && steps.build-electron.outcome == 'success'
@@ -225,7 +225,7 @@ jobs:
           # Resolve the launchable binary inside the .app bundle directly (not via
           # `open`) so we get a trackable PID and can pass CLI arguments through.
           BINARY=$(find "$APP_PATH/Contents/MacOS" -type f -perm +111 | head -n 1)
-          echo "launch_cmd=$BINARY" >> $GITHUB_OUTPUT
+          echo "launch_cmd=\"$BINARY\"" >> $GITHUB_OUTPUT
 
       - name: Smoke test - find built app (Windows)
         if: startsWith(matrix.os, 'windows') && steps.build-electron.outcome == 'success'
@@ -233,7 +233,7 @@ jobs:
         shell: bash
         run: |
           APP_PATH=$(find out/elx-files/out -name "*.exe" | grep -iv "setup\|uninstall" | head -n 1)
-          echo "launch_cmd=$APP_PATH" >> $GITHUB_OUTPUT
+          echo "launch_cmd=\"$APP_PATH\"" >> $GITHUB_OUTPUT
 
       - name: Smoke test - launch and verify no crash
         if: steps.build-electron.outcome == 'success'

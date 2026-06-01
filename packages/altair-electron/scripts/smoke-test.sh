@@ -23,7 +23,7 @@ fi
 
 echo "Launching: $LAUNCH_CMD"
 
-$LAUNCH_CMD --enable-logging --smoke-test &
+eval "$LAUNCH_CMD" --enable-logging --smoke-test &
 APP_PID=$!
 
 # Wait up to 60s for the app to exit cleanly on its own (smoke-test mode)
