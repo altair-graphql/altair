@@ -113,7 +113,7 @@ jobs:
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: ${{ inputs.node_version }}
-          # cache: "pnpm"
+          cache: "pnpm"
       - uses: maxim-lobanov/setup-xcode@60606e260d2fc5762a71e64e74b2174e8ea3c8bd # v1.6.0
         if: startsWith(matrix.os, 'macos')
         with:
@@ -189,11 +189,11 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
           # Prevent electron-builder from searching the keychain for a signing
           # identity on macOS as we supply them ourselves.
-          CSC_IDENTITY_AUTO_DISCOVERY: 'true'
+          CSC_IDENTITY_AUTO_DISCOVERY: "true"
           # Allow electron-builder to proceed with signing on PRs. Safe because
           # forks cannot access repository secrets so mac_certs will be empty on
           # untrusted PRs, and notarize.js skips notarization when APPLE_ID is unset.
-          CSC_FOR_PULL_REQUEST: 'true'
+          CSC_FOR_PULL_REQUEST: "true"
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_store_credentials }}
           DEBUG: "@malept/flatpak-bundler"
 
