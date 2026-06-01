@@ -233,7 +233,7 @@ jobs:
         shell: bash
         run: |
           APP_PATH=$(find out/elx-files/out -name "*.exe" | grep -iv "setup\|uninstall" | head -n 1)
-          echo "launch_cmd=\"$APP_PATH\"" >> $GITHUB_OUTPUT
+          echo "launch_cmd=\"$APP_PATH\" --no-sandbox" >> $GITHUB_OUTPUT
 
       - name: Smoke test - launch and verify no crash
         if: steps.build-electron.outcome == 'success'
