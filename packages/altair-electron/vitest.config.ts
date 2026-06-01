@@ -14,4 +14,12 @@ export default defineConfig({
       electron: new URL('./src/__mocks__/electron.ts', import.meta.url).pathname,
     },
   },
+  server: {
+    deps: {
+      // Force electron-store through Vite's pipeline so the `electron` alias
+      // above intercepts its require('electron') call. Without this, CJS
+      // require() bypasses Vite's resolver and loads the real electron binary.
+      inline: ['electron-store'],
+    },
+  },
 });
