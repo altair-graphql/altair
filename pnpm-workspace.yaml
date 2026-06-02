@@ -17,7 +17,7 @@ catalog:
   zod: ^4.1.13
 
 minimumReleaseAge: 1440
-# trustPolicy: no-downgrade
+trustPolicy: no-downgrade
 strictDepBuilds: true
-# onlyBuiltDependencies: [electron]
-# ignoredBuiltDependencies: []
+onlyBuiltDependencies: [electron]
+ignoredBuiltDependencies: []
