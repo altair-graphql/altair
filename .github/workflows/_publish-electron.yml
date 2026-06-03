@@ -132,9 +132,8 @@ jobs:
           reset: false
           entries: |- # Entries to add
             node-linker = hoisted
-      # install node_modules again with new configuration
+      # install node_modules again with new configuration (required by electron-builder)
       - run: pnpm i --frozen-lockfile
-      # Create deploy ready source files for electron
       - run: pnpm deploy --filter=altair out/elx-files
 
       - name: Install Snapcraft
@@ -165,32 +164,83 @@ jobs:
           sudo flatpak install org.electronjs.Electron2.BaseApp/x86_64/23.08 -y
         if: startsWith(matrix.os, 'ubuntu')
 
-      - name:
-          Build/release Electron app
-          # disable for macos not in master branch, because code signing is skipped in pull requests
-        if: ${{ inputs.publish || !(startsWith(matrix.os, 'macos') && github.ref != 'refs/heads/master') }}
+      - name: Build/release Electron app
         id: build-electron
+        if: ${{ inputs.build }}
         uses: paneron/action-electron-builder@14b133702d1b2e9749912051c43ed62b4afe56c8 # v1.8.1
         with:
           github_token: ${{ secrets.github_token }}
           package_root: out/elx-files/
           skip_build: true
           skip_package_manager_install: true
+          # Only supply signing certs on macOS builds.
           mac_certs: ${{ secrets.mac_certs }}
           mac_certs_password: ${{ secrets.mac_certs_password }}
           args: ${{ inputs.publish && '--publish always' || '--publish never' }}
           max_attempts: 3
           package_manager: pnpm
         env:
-          # macOS notarization API key
+          # macOS notarization - notarize.js skips notarization when these are empty.
           # https://www.codiga.io/blog/notarize-sign-electron-app/
           APPLE_ID: ${{ secrets.apple_id }}
           APPLE_ID_PASSWORD: ${{ secrets.apple_id_password }}
           APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.apple_id_password }}
           APPLEIDPASS: ${{ secrets.apple_id_password }}
           APPLE_TEAM_ID: ${{ secrets.apple_team_id }}
+          # Prevent electron-builder from searching the keychain for a signing
+          # identity on macOS as we supply them ourselves.
+          CSC_IDENTITY_AUTO_DISCOVERY: "true"
+          # Allow electron-builder to proceed with signing on PRs. Safe because
+          # forks cannot access repository secrets so mac_certs will be empty on
+          # untrusted PRs, and notarize.js skips notarization when APPLE_ID is unset.
+          CSC_FOR_PULL_REQUEST: "true"
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_store_credentials }}
           DEBUG: "@malept/flatpak-bundler"
+
+      - name: Smoke test - find built app (Linux)
+        if: startsWith(matrix.os, 'ubuntu') && steps.build-electron.outcome == 'success'
+        id: find-app-linux
+        run: |
+          # Map uname -m to the arch suffix used in the AppImage filename.
+          # electron-builder uses "x64" and "arm64"; uname reports "x86_64" and "aarch64".
+          # electron-builder names AppImages using the raw uname -m value (x86_64, arm64, etc.)
+          UNAME_ARCH=$(uname -m)
+          APP_PATH=$(find out/elx-files/out -name "*_${UNAME_ARCH}_linux.AppImage" 2>/dev/null | head -n 1)
+          if [ -z "$APP_PATH" ]; then
+            echo "No AppImage found for arch $UNAME_ARCH under out/elx-files/out."
+            exit 1
+          fi
+          chmod +x "$APP_PATH"
+          # AppImages require FUSE; --appimage-extract-and-run bypasses that by
+          # extracting to a temp dir and running directly, no FUSE needed.
+          # xvfb-run provides a virtual display for the headless CI environment.
+          echo "launch_cmd=xvfb-run --auto-servernum \"$APP_PATH\" --appimage-extract-and-run --no-sandbox" >> $GITHUB_OUTPUT
+
+      - name: Smoke test - find built app (macOS)
+        if: startsWith(matrix.os, 'macos') && steps.build-electron.outcome == 'success'
+        id: find-app-macos
+        run: |
+          # -maxdepth must come before -name on BSD find (macOS)
+          APP_PATH=$(find out/elx-files/out -maxdepth 3 -name "*.app" | head -n 1)
+          # Resolve the launchable binary inside the .app bundle directly (not via
+          # `open`) so we get a trackable PID and can pass CLI arguments through.
+          BINARY=$(find "$APP_PATH/Contents/MacOS" -type f -perm +111 | head -n 1)
+          echo "launch_cmd=\"$BINARY\"" >> $GITHUB_OUTPUT
+
+      - name: Smoke test - find built app (Windows)
+        if: startsWith(matrix.os, 'windows') && steps.build-electron.outcome == 'success'
+        id: find-app-windows
+        shell: bash
+        run: |
+          APP_PATH=$(find out/elx-files/out -name "*.exe" | grep -iv "setup\|uninstall" | head -n 1)
+          echo "launch_cmd=\"$APP_PATH\" --no-sandbox" >> $GITHUB_OUTPUT
+
+      - name: Smoke test - launch and verify no crash
+        if: steps.build-electron.outcome == 'success'
+        shell: bash
+        env:
+          LAUNCH_CMD: ${{ steps.find-app-linux.outputs.launch_cmd || steps.find-app-macos.outputs.launch_cmd || steps.find-app-windows.outputs.launch_cmd }}
+        run: packages/altair-electron/scripts/smoke-test.sh "$LAUNCH_CMD"
 
       # chocolatey
       - name: Read VERSION file

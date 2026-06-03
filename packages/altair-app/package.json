@@ -119,7 +119,7 @@
     "@angular/compiler": "20.3.19",
     "@angular/compiler-cli": "20.3.19",
     "@ngrx/schematics": "12.4.0",
-    "@playwright/test": "^1.31.2",
+    "@playwright/test": "catalog:",
     "@sentry/cli": "^3.0.0",
     "@types/actioncable": "5.2.3",
     "@types/chrome": "^0.0.209",

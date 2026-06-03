@@ -9,6 +9,7 @@ files:
   - '!**/*.ts'
   - '!**/*.ts.map'
   - '!**/*.js.map'
+  - '!**/.env'
 afterSign: scripts/notarize.js
 mac:
   artifactName: ${name}_${version}_${arch}_${os}.${ext}
