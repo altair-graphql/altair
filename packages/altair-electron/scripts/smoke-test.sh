@@ -16,7 +16,7 @@ set -euo pipefail
 
 LAUNCH_CMD="${1:-}"
 
-if [ -z "$LAUNCH_CMD" ]; then
+if [[ -z "$LAUNCH_CMD" ]]; then
   echo "Usage: $0 <launch_cmd>"
   exit 1
 fi
@@ -35,7 +35,7 @@ for i in $(seq 1 120); do
   if ! kill -0 $APP_PID 2>/dev/null; then
     wait $APP_PID
     EXIT_CODE=$?
-    if [ $EXIT_CODE -eq 0 ]; then
+    if [[ $EXIT_CODE -eq 0 ]]; then
       echo "Smoke test passed: app exited cleanly (code 0)"
     else
       echo "Smoke test failed: app exited with code $EXIT_CODE"

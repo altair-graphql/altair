@@ -10,11 +10,11 @@ catalog:
   '@playwright/test': 1.60.0
   '@types/node': 25.5.0
   electron: 38.3.0
-  typescript: ^5.8.0
-  vite: ^7.3.2
+  typescript: 5.8.0
+  vite: 7.3.2
   '@vitest/coverage-v8': 4.1.5
   vitest: 4.1.5
-  zod: ^4.1.13
+  zod: 4.1.13
 
 minimumReleaseAge: 1440
 trustPolicy: no-downgrade
