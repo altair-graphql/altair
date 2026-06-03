@@ -19,16 +19,16 @@ catalogs:
       specifier: 38.3.0
       version: 38.3.0
     typescript:
-      specifier: ^5.8.0
+      specifier: 5.9.3
       version: 5.9.3
     vite:
-      specifier: ^7.3.2
+      specifier: 7.3.2
       version: 7.3.2
     vitest:
       specifier: 4.1.5
       version: 4.1.5
     zod:
-      specifier: ^4.1.13
+      specifier: 4.1.13
       version: 4.1.13
 
 importers:
@@ -17907,10 +17907,6 @@ packages:
 
   postcss@8.4.39:
     resolution: {integrity: sha512-0vzE+lAiG7hZl1/9I8yzKLx3aR9Xbof3fBHKunvMfOCYAtMhrsnccJY2iTURb9EZd5+pLuiNV9/c/GZJOHsgIw==}
-    engines: {node: ^10 || ^12 || >=14}
-
-  postcss@8.5.12:
-    resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
     engines: {node: ^10 || ^12 || >=14}
 
   postcss@8.5.14:
@@ -41114,12 +41110,6 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  postcss@8.5.12:
-    dependencies:
-      nanoid: 3.3.11
-      picocolors: 1.1.1
-      source-map-js: 1.2.1
-
   postcss@8.5.14:
     dependencies:
       nanoid: 3.3.11
@@ -44725,7 +44715,7 @@ snapshots:
       esbuild: 0.27.3
       fdir: 6.5.0(picomatch@4.0.4)
       picomatch: 4.0.4
-      postcss: 8.5.12
+      postcss: 8.5.14
       rollup: 4.52.4
       tinyglobby: 0.2.16
     optionalDependencies:
