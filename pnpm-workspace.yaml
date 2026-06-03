@@ -7,7 +7,7 @@ packages:
   # - '!**/test/**'
 
 catalog:
-  '@playwright/test': 1.55.1
+  '@playwright/test': 1.60.0
   '@types/node': 25.5.0
   electron: 38.3.0
   typescript: ^5.8.0
