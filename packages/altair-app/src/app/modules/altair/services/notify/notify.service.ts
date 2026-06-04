@@ -1,13 +1,10 @@
 import { Injectable, inject } from '@angular/core';
-import { HotToastService } from '@ngneat/hot-toast';
 import { ToastrService, ActiveToast, IndividualConfig } from 'ngx-toastr';
 import { toast as sonnerToast, ExternalToast } from 'ngx-sonner';
 import { isExtension } from 'altair-graphql-core/build/crx';
 import { Store } from '@ngrx/store';
-import * as fromRoot from '../../store';
 import { IDictionary } from '../../interfaces/shared';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { ConfirmToastComponent } from '../../components/confirm-toast/confirm-toast.component';
 import sanitize from 'sanitize-html';
 import { debug } from '../../utils/logger';
 import { take } from 'rxjs';
@@ -93,19 +90,6 @@ export class NotifyService {
       });
     }
     return toast;
-    // let toastContent = message;
-
-    // if (title) {
-    //   toastContent = `<div><b>${title}</b></div>${toastContent}`;
-    // }
-
-    // if (opts.data?.url) {
-    //   toastContent = `${toastContent}<a href="${opts.data.url}" target="_blank">Link</a>`;
-    // }
-    // return this.toast[type](message, {
-    //   id: message,
-    //   autoClose: !opts.disableTimeOut,
-    // })
   }
 
   pushNotify(message: string, title = 'Altair', opts: PushNotifyOptions = {}) {
@@ -175,31 +159,7 @@ export class NotifyService {
       });
   }
 
-  async oldConfirm(message: string, title = 'Altair') {
-    const toast = this.toast.show(message, title, {
-      toastComponent: ConfirmToastComponent,
-      toastClass: 'ngx-toastr confirm-toast',
-      disableTimeOut: true,
-      tapToDismiss: false,
-      closeButton: false,
-    });
-
-    return new Promise<boolean>((resolve, reject) => {
-      toast.onHidden.pipe(take(1)).subscribe(() => {
-        resolve(false);
-      });
-      toast.onAction.pipe(take(1)).subscribe(
-        () => {
-          resolve(true);
-        },
-        (err) => {
-          reject(err);
-        }
-      );
-    });
-  }
-
-  confirm(
+  async confirm(
     message: string,
     title = 'Altair',
     opts: SonnerConfirmOptions = {}

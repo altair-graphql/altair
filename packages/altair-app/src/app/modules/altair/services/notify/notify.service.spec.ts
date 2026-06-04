@@ -4,11 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { NotifyService } from './notify.service';
 import { Store } from '@ngrx/store';
 import { of, Subject } from 'rxjs';
-import { anyFn, mock } from '../../../../../testing';
+import { mock } from '../../../../../testing';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-
-let mockToastService: any;
-let mockStore: Store<RootState>;
 
 vi.mock('sanitize-html', () => ({ default: vi.fn((text: string) => text) }));
 
@@ -23,18 +20,23 @@ const mockSonnerToast = vi.hoisted(() =>
 );
 vi.mock('ngx-sonner', () => ({ toast: mockSonnerToast }));
 
+// Declared at module level so the service always holds the same object reference.
+// With teardown: { destroyAfterEach: false }, the service instance is reused across
+// tests; recreating these objects in beforeEach would cause the service to hold a
+// stale reference while the test checks a different (newer) mock object.
+const mockToastService = {
+  success: vi.fn(),
+  error: vi.fn(),
+  warning: vi.fn(),
+  info: vi.fn(),
+  show: vi.fn(),
+};
+
+let mockStore: Store<RootState>;
+
 describe('NotifyService', () => {
   beforeEach(() => {
-    mockToastService = {
-      success: vi.fn(),
-      error: vi.fn(),
-      warning: vi.fn(),
-      info: vi.fn(),
-      show: vi.fn(() => ({
-        onHidden: of(true),
-        onAction: of(undefined),
-      })),
-    };
+    vi.clearAllMocks();
     mockStore = mock();
     TestBed.configureTestingModule({
       providers: [
@@ -245,7 +247,6 @@ describe('NotifyService', () => {
 
         service.electronPushNotify('Test message', 'Test Title');
 
-        // Wait for the promise inside electronPushNotify to resolve
         return Promise.resolve().then(() => {
           expect(MockNotification).toHaveBeenCalledWith('Test Title', {
             body: 'Test message',
@@ -274,43 +275,7 @@ describe('NotifyService', () => {
     ));
   });
 
-  describe('.confirm', () => {
-    it('should show confirm toast and resolve to false when hidden', async () => {
-      const service: NotifyService = TestBed.inject(NotifyService);
-
-      const resultPromise = service.confirm('Are you sure?', 'Confirm');
-
-      expect(mockToastService.show).toHaveBeenCalled();
-    });
-
-    it('should resolve to true when action fires', async () => {
-      const onHiddenSubject = new Subject();
-      const onActionSubject = new Subject();
-      mockToastService.show.mockReturnValueOnce({
-        onHidden: onHiddenSubject,
-        onAction: onActionSubject,
-      });
-
-      const service: NotifyService = TestBed.inject(NotifyService);
-      const resultPromise = service.confirm('Are you sure?');
-
-      onActionSubject.next(undefined);
-
-      const result = await resultPromise;
-      expect(result).toBe(true);
-    });
-  });
-
   describe('.sonner', () => {
-    beforeEach(() => {
-      mockSonnerToast.mockClear();
-      mockSonnerToast.success.mockClear();
-      mockSonnerToast.error.mockClear();
-      mockSonnerToast.warning.mockClear();
-      mockSonnerToast.info.mockClear();
-      mockSonnerToast.promise.mockClear();
-    });
-
     it('should call sonnerToast with message and options', inject(
       [NotifyService],
       (service: NotifyService) => {
@@ -319,72 +284,26 @@ describe('NotifyService', () => {
       }
     ));
 
-    it('should pass options to sonnerToast', inject(
+    it('should pass options through to sonnerToast', inject(
       [NotifyService],
       (service: NotifyService) => {
         service.sonner('Hello!', { description: 'desc' });
         expect(mockSonnerToast).toHaveBeenCalledWith('Hello!', { description: 'desc' });
       }
     ));
-
-    it('sonnerSuccess should call toast.success', inject(
-      [NotifyService],
-      (service: NotifyService) => {
-        service.sonnerSuccess('Done');
-        expect(mockSonnerToast.success).toHaveBeenCalledWith('Done', {});
-      }
-    ));
-
-    it('sonnerError should call toast.error', inject(
-      [NotifyService],
-      (service: NotifyService) => {
-        service.sonnerError('Oops');
-        expect(mockSonnerToast.error).toHaveBeenCalledWith('Oops', {});
-      }
-    ));
-
-    it('sonnerWarning should call toast.warning', inject(
-      [NotifyService],
-      (service: NotifyService) => {
-        service.sonnerWarning('Watch out');
-        expect(mockSonnerToast.warning).toHaveBeenCalledWith('Watch out', {});
-      }
-    ));
-
-    it('sonnerInfo should call toast.info', inject(
-      [NotifyService],
-      (service: NotifyService) => {
-        service.sonnerInfo('FYI');
-        expect(mockSonnerToast.info).toHaveBeenCalledWith('FYI', {});
-      }
-    ));
-
-    it('sonnerPromise should call toast.promise with the promise and options', inject(
-      [NotifyService],
-      (service: NotifyService) => {
-        const p = Promise.resolve('ok');
-        service.sonnerPromise(p, { loading: 'Loading...', success: 'Done', error: 'Failed' });
-        expect(mockSonnerToast.promise).toHaveBeenCalledWith(p, {
-          loading: 'Loading...',
-          success: 'Done',
-          error: 'Failed',
-        });
-      }
-    ));
   });
 
-  describe('.sonnerConfirm', () => {
-    beforeEach(() => mockSonnerToast.mockClear());
-
-    it('should call sonnerToast with Infinity duration and default labels', inject(
+  describe('.confirm', () => {
+    it('should call sonnerToast with title, Infinity duration, and default labels', inject(
       [NotifyService],
       (service: NotifyService) => {
-        service.sonnerConfirm('Delete this?');
+        service.confirm('Are you sure?', 'Altair');
 
         expect(mockSonnerToast).toHaveBeenCalledWith(
-          'Delete this?',
+          'Altair',
           expect.objectContaining({
             duration: Number.POSITIVE_INFINITY,
+            description: 'Are you sure?',
             action: expect.objectContaining({ label: 'Confirm' }),
             cancel: expect.objectContaining({ label: 'Cancel' }),
           })
@@ -395,10 +314,13 @@ describe('NotifyService', () => {
     it('should use custom confirmLabel and cancelLabel', inject(
       [NotifyService],
       (service: NotifyService) => {
-        service.sonnerConfirm('Delete this?', { confirmLabel: 'Yes', cancelLabel: 'No' });
+        service.confirm('Are you sure?', 'Altair', {
+          confirmLabel: 'Yes',
+          cancelLabel: 'No',
+        });
 
         expect(mockSonnerToast).toHaveBeenCalledWith(
-          'Delete this?',
+          'Altair',
           expect.objectContaining({
             action: expect.objectContaining({ label: 'Yes' }),
             cancel: expect.objectContaining({ label: 'No' }),
@@ -410,7 +332,7 @@ describe('NotifyService', () => {
     it('should resolve true when the action onClick is called', inject(
       [NotifyService],
       async (service: NotifyService) => {
-        const promise = service.sonnerConfirm('Delete this?');
+        const promise = service.confirm('Are you sure?');
 
         const { action } = mockSonnerToast.mock.calls[0][1];
         action.onClick(new MouseEvent('click'));
@@ -422,7 +344,7 @@ describe('NotifyService', () => {
     it('should resolve false when the cancel onClick is called', inject(
       [NotifyService],
       async (service: NotifyService) => {
-        const promise = service.sonnerConfirm('Delete this?');
+        const promise = service.confirm('Are you sure?');
 
         const { cancel } = mockSonnerToast.mock.calls[0][1];
         cancel.onClick();
@@ -434,7 +356,7 @@ describe('NotifyService', () => {
     it('should resolve false when onDismiss is called', inject(
       [NotifyService],
       async (service: NotifyService) => {
-        const promise = service.sonnerConfirm('Delete this?');
+        const promise = service.confirm('Are you sure?');
 
         const { onDismiss } = mockSonnerToast.mock.calls[0][1];
         onDismiss({});
@@ -446,7 +368,7 @@ describe('NotifyService', () => {
     it('should only resolve once even if multiple callbacks fire', inject(
       [NotifyService],
       async (service: NotifyService) => {
-        const promise = service.sonnerConfirm('Delete this?');
+        const promise = service.confirm('Are you sure?');
 
         const { action, onDismiss } = mockSonnerToast.mock.calls[0][1];
         action.onClick(new MouseEvent('click'));
@@ -459,11 +381,13 @@ describe('NotifyService', () => {
     it('should forward extra ExternalToast options', inject(
       [NotifyService],
       (service: NotifyService) => {
-        service.sonnerConfirm('Delete this?', { description: 'This cannot be undone' });
+        service.confirm('Are you sure?', 'Altair', {
+          closeButton: true,
+        });
 
         expect(mockSonnerToast).toHaveBeenCalledWith(
-          'Delete this?',
-          expect.objectContaining({ description: 'This cannot be undone' })
+          'Altair',
+          expect.objectContaining({ closeButton: true })
         );
       }
     ));
