@@ -40,7 +40,7 @@
     "mark.js": "^8.11.1",
     "marked": "^15.0.3",
     "medium-zoom": "^1.1.0",
-    "minisearch": "^7.1.1",
+    "minisearch": "^7.2.0",
     "yaml": "^2.7.0"
   },
   "repository": {
