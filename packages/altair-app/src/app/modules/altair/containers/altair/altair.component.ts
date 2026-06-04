@@ -199,31 +199,33 @@ export class AltairComponent {
       });
 
     // Load plugins in the background without blocking app ready
-    this.store.pipe(
-      take(1),
-      switchMap((data) => {
-        if (data.settings['plugin.list']) {
-          data.settings['plugin.list'].forEach((pluginStr) => {
-            const pluginInfo =
-              this.pluginRegistry.getPluginInfoFromString(pluginStr);
-            if (pluginInfo) {
-              this.pluginRegistry.fetchPlugin(pluginInfo.name, pluginInfo);
-            }
-          });
-        }
-        // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
-        // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-birdseye', {
-        //   pluginSource: 'url',
-        //   version: '0.0.4',
-        //   url: 'http://localhost:8002/'
-        // });
-        return from(this.pluginRegistry.pluginsReady());
-      }),
-      // Only wait 7 seconds for plugins to be ready
-      timeout(7000),
-      catchError((_error) => of('Plugins were not ready on time!')),
-      untilDestroyed(this)
-    ).subscribe();
+    this.store
+      .pipe(
+        take(1),
+        switchMap((data) => {
+          if (data.settings['plugin.list']) {
+            data.settings['plugin.list'].forEach((pluginStr) => {
+              const pluginInfo =
+                this.pluginRegistry.getPluginInfoFromString(pluginStr);
+              if (pluginInfo) {
+                this.pluginRegistry.fetchPlugin(pluginInfo.name, pluginInfo);
+              }
+            });
+          }
+          // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-graphql-explorer', { version: '0.0.6' });
+          // this.pluginRegistry.fetchPlugin('altair-graphql-plugin-birdseye', {
+          //   pluginSource: 'url',
+          //   version: '0.0.4',
+          //   url: 'http://localhost:8002/'
+          // });
+          return from(this.pluginRegistry.pluginsReady());
+        }),
+        // Only wait 7 seconds for plugins to be ready
+        timeout(7000),
+        catchError((_error) => of('Plugins were not ready on time!')),
+        untilDestroyed(this)
+      )
+      .subscribe();
 
     // Update the app translation if the language settings is changed.
     // TODO: Consider moving this into a settings effect.

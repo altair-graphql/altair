@@ -20,6 +20,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ToastrModule } from 'ngx-toastr';
+import { NgxSonnerToaster } from 'ngx-sonner';
 
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -169,6 +170,7 @@ const providers = [
       preventDuplicates: true,
       resetTimeoutOnDuplicate: true,
     }),
+    NgxSonnerToaster,
   ],
   providers,
 })

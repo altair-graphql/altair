@@ -92,6 +92,7 @@
     "ngx-cookie-service": "14.0.1",
     "ngx-markdown": "^14.0.1",
     "ngx-pipes": "^3.2.2",
+    "ngx-sonner": "^3.1.0",
     "ngx-take-until-destroy": "5.4.0",
     "ngx-toastr": "^18.0.0",
     "nx": "17.1.3",
@@ -143,6 +144,7 @@
     "@types/zen-observable": "^0.8.1",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
+    "@vitest/coverage-v8": "catalog:",
     "babel-plugin-transform-async-to-generator": "6.24.1",
     "babel-preset-env": "1.7.0",
     "babel-preset-react": "6.24.1",
@@ -171,8 +173,7 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vite-tsconfig-paths": "^6.1.1",
-    "vitest": "catalog:",
-    "@vitest/coverage-v8": "catalog:"
+    "vitest": "catalog:"
   },
   "homepage": "https://altair-graphql.github.io/altair/",
   "license": "MIT",

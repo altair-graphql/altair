@@ -1,3 +1,17 @@
+<ngx-sonner-toaster
+  richColors
+  [toastOptions]="{
+    unstyled: true,
+    classes: {
+      toast: 'altair-toast',
+      title: 'altair-toast-title',
+      description: 'altair-toast-description',
+      actionButton: 'altair-toast-action',
+      cancelButton: 'altair-toast-cancel',
+      closeButton: 'altair-toast-close',
+    },
+  }"
+/>
 <div
   class="app-wrapper"
   [appTheme]="theme$ | async"
