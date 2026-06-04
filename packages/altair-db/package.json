@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/db",
-  "version": "8.5.4",
+  "version": "8.5.5",
   "dependencies": {
     "@prisma/client": "^6.19.3",
     "dotenv": "^16.4.5",
