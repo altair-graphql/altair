@@ -315,6 +315,7 @@ export class PluginRegistryService {
 
     try {
       // Get manifest file
+      debug.debug(`PLUGIN[${name}]: Fetching manifest from ${manifestUrl}`);
       const manifest = await firstValueFrom(
         this.http
           .get(manifestUrl)
@@ -324,21 +325,27 @@ export class PluginRegistryService {
       );
 
       if (!manifest) {
-        throw new Error('Could not fetch manifest file');
+        throw new Error(`PLUGIN[${name}]: Could not fetch manifest file`);
       }
+      debug.debug(`PLUGIN[${name}]: Manifest fetched successfully`, manifest);
       const opts: PluginInfo = {
         name,
         pluginSource,
         // get the real version from the manifest
         version: manifest.version,
       };
+
+      debug.debug(
+        `PLUGIN[${name}]: Checking if user has approved the plugin or not`
+      );
       const isUserApproved = await this.isUserApprovedPlugin(opts);
 
       if (!isUserApproved) {
+        debug.debug(
+          `PLUGIN[${name}]: Plugin is not approved by user. Asking for approval.`
+        );
         const canInstall = await this.notifyService.confirm(
-          `Are you sure you want to install <strong>${sanitize(
-            name
-          )}</strong> plugin?`,
+          `Are you sure you want to install "${sanitize(name)}" plugin?`,
           'Plugin manager'
         );
 
@@ -350,7 +357,7 @@ export class PluginRegistryService {
         await this.addPluginToApprovedMap(opts);
       }
 
-      debug.log('PLUGIN', manifest);
+      debug.debug(`PLUGIN[${name}]: User approval check complete`);
 
       if (manifest.manifest_version === 1 || manifest.manifest_version === 2) {
         return this.fetchPluginV1Assets(name, manifest, pluginBaseUrl);
@@ -368,7 +375,7 @@ export class PluginRegistryService {
         return this.fetchPluginV3Assets(name, manifest, pluginBaseUrl);
       }
     } catch (error) {
-      debug.error('Error fetching plugin assets', error);
+      debug.error(`PLUGIN[${name}]: Error fetching plugin assets`, error);
     }
   }
 
@@ -397,7 +404,9 @@ export class PluginRegistryService {
     }
     const plugin = createV1Plugin(name, manifest);
     this.addV1Plugin(name, plugin);
-    debug.log('PLUGIN', 'V1 plugin scripts and styles injected and loaded.');
+    debug.debug(
+      `PLUGIN[${name}]: V1 plugin scripts and styles injected and loaded.`
+    );
     this.notifyService.warning(
       `V1 plugins are deprecated and will be disabled in the future. If you're an owner of ${name}, consider migrating to V3.`,
       undefined,

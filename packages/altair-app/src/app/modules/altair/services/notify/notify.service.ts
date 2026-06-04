@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HotToastService } from '@ngneat/hot-toast';
 import { ToastrService, ActiveToast, IndividualConfig } from 'ngx-toastr';
+import { toast as sonnerToast, ExternalToast } from 'ngx-sonner';
 import { isExtension } from 'altair-graphql-core/build/crx';
 import { Store } from '@ngrx/store';
 import * as fromRoot from '../../store';
@@ -15,13 +16,19 @@ interface PushNotifyOptions {
   onclick?: () => void;
 }
 
+export interface SonnerConfirmOptions
+  extends Omit<ExternalToast, 'action' | 'cancel' | 'onDismiss'> {
+  confirmLabel?: string;
+  cancelLabel?: string;
+}
+
 interface NotifyData {
   url?: string;
   action?: () => void;
 }
 type NotifyOptions = Partial<IndividualConfig & { data?: NotifyData }>;
 type NotifyType = 'success' | 'error' | 'warning' | 'info';
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class NotifyService {
   private toast = inject(ToastrService);
   private store = inject<Store<RootState>>(Store);
@@ -66,6 +73,11 @@ export class NotifyService {
   info(message: string, title = '', opts: NotifyOptions = {}) {
     this.exec('info', message, title, opts);
   }
+
+  sonner(message: string, opts: ExternalToast = {}) {
+    return sonnerToast(message, opts);
+  }
+
   exec(type: NotifyType, message: string, title: string, opts: NotifyOptions = {}) {
     const toast: ActiveToast<any> = this.toast[type](message, title, opts);
     if (opts?.data?.action) {
@@ -163,7 +175,7 @@ export class NotifyService {
       });
   }
 
-  async confirm(message: string, title = 'Altair') {
+  async oldConfirm(message: string, title = 'Altair') {
     const toast = this.toast.show(message, title, {
       toastComponent: ConfirmToastComponent,
       toastClass: 'ngx-toastr confirm-toast',
@@ -184,6 +196,39 @@ export class NotifyService {
           reject(err);
         }
       );
+    });
+  }
+
+  confirm(
+    message: string,
+    title = 'Altair',
+    opts: SonnerConfirmOptions = {}
+  ): Promise<boolean> {
+    const { confirmLabel = 'Confirm', cancelLabel = 'Cancel', ...toastOpts } = opts;
+
+    return new Promise<boolean>((resolve) => {
+      let settled = false;
+      const settle = (value: boolean) => {
+        if (!settled) {
+          settled = true;
+          resolve(value);
+        }
+      };
+
+      sonnerToast(title, {
+        duration: Number.POSITIVE_INFINITY,
+        description: message,
+        ...toastOpts,
+        action: {
+          label: confirmLabel,
+          onClick: () => settle(true),
+        },
+        cancel: {
+          label: cancelLabel,
+          onClick: () => settle(false),
+        },
+        onDismiss: () => settle(false),
+      });
     });
   }
 
