@@ -34,7 +34,7 @@
     "stream-browserify": "^3.0.0",
     "stream-http": "^3.1.0",
     "syncpack": "^9.8.4",
-    "turbo": "^2.0.6",
+    "turbo": "^2.9.14",
     "typedoc": "^0.25.13",
     "typedoc-plugin-markdown": "^4.0.3",
     "typedoc-plugin-zod": "^1.4.3",
