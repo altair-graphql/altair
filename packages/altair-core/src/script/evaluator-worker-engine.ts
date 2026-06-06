@@ -66,17 +66,13 @@ export class ScriptEvaluatorWorkerEngine {
         alert: (msg: string) => this.makeCall('alert', msg),
       };
 
-      try {
-        return this.evalWithContext(script, context)
-          .then((result) => {
-            return resolve(result);
-          })
-          .catch((err) => {
-            reject(err);
-          });
-      } catch (e) {
-        return reject(e);
-      }
+      return this.evalWithContext(script, context)
+        .then((result) => {
+          return resolve(result);
+        })
+        .catch((err) => {
+          reject(err);
+        });
     });
 
     if (res.__toSetActiveEnvironment) {
