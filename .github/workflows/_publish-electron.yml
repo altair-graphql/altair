@@ -22,6 +22,11 @@ on:
         required: false
         default: true
         type: boolean
+      production:
+        description: "Whether to publish as production (snap stable + GitHub). False publishes snap to edge only."
+        required: false
+        default: false
+        type: boolean
     secrets:
       apple_api_key:
         description: "Apple API key for macOS notarization"
@@ -60,7 +65,7 @@ on:
         description: "Snapcraft store credentials for Snap Store publishing"
         required: true
     outputs:
-      # Map the workflow output(s) to job output(s)
+      # Map the workflow output(s) to step output(s)
       version:
         description: "Built/published version from the workflow"
         value: ${{ jobs.electron.outputs.version }}
@@ -84,6 +89,11 @@ on:
         description: "Whether to publish to Chocolatey"
         required: false
         default: true
+        type: boolean
+      production:
+        description: "Whether to publish as production (snap stable + GitHub). False publishes snap to edge only."
+        required: false
+        default: false
         type: boolean
 
 permissions: {}
@@ -176,7 +186,7 @@ jobs:
           # Only supply signing certs on macOS builds.
           mac_certs: ${{ secrets.mac_certs }}
           mac_certs_password: ${{ secrets.mac_certs_password }}
-          args: ${{ inputs.publish && '--publish always' || '--publish never' }}
+          args: --publish always --config electron-builder.config.ts
           max_attempts: 3
           package_manager: pnpm
         env:
@@ -195,6 +205,8 @@ jobs:
           # untrusted PRs, and notarize.js skips notarization when APPLE_ID is unset.
           CSC_FOR_PULL_REQUEST: "true"
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.snapcraft_store_credentials }}
+          PUBLISH: ${{ inputs.publish && 'true' || 'false' }}
+          PRODUCTION: ${{ inputs.production && 'true' || 'false' }}
           DEBUG: "@malept/flatpak-bundler"
 
       - name: Smoke test - find built app (Linux)

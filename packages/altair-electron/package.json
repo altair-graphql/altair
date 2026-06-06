@@ -80,7 +80,7 @@
   "scripts": {
     "start": "electron-vite preview",
     "dev": "electron-vite dev",
-    "build": "pnpm compile && electron-builder",
+    "build": "pnpm compile && electron-builder --config electron-builder.config.ts",
     "compile": "pnpm typecheck && electron-vite build --outDir dist && pnpm sentry:sourcemaps:inject",
     "dev:old": "pnpm compile && electron ./dist/",
     "bootstrap": "pnpm compile",
@@ -92,10 +92,10 @@
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "pnpm typecheck:node && pnpm typecheck:web",
-    "build:unpack": "npm run build && electron-builder --dir",
-    "build:win": "npm run build && electron-builder --win",
-    "build:mac": "npm run build && electron-builder --mac",
-    "build:linux": "npm run build && electron-builder --linux",
+    "build:unpack": "npm run build && electron-builder --config electron-builder.config.ts --dir",
+    "build:win": "npm run build && electron-builder --config electron-builder.config.ts --win",
+    "build:mac": "npm run build && electron-builder --config electron-builder.config.ts --mac",
+    "build:linux": "npm run build && electron-builder --config electron-builder.config.ts --linux",
     "sentry:sourcemaps:inject": "sentry-cli sourcemaps inject --org altair-graphql --project electron ./dist",
     "sentry:sourcemaps:upload": "sentry-cli sourcemaps upload --org altair-graphql --project electron ./dist",
     "sentry:sourcemaps": "pnpm sentry:sourcemaps:inject && pnpm sentry:sourcemaps:upload"
