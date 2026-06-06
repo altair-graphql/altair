@@ -20,7 +20,7 @@
     "react-hot-toast": "^2.6.0",
     "react-markdown": "^9.0.1",
     "react-syntax-highlighter": "^16.1.1",
-    "react-tooltip": "^5.28.1"
+    "react-tooltip": "^6.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",
