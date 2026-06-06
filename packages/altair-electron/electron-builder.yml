@@ -6,11 +6,11 @@ directories:
   buildResources: resources
   output: out
 files:
-  - '**/*'
-  - '!**/*.ts'
-  - '!**/*.ts.map'
-  - '!**/*.js.map'
-  - '!**/.env'
+  - "**/*"
+  - "!**/*.ts"
+  - "!**/*.ts.map"
+  - "!**/*.js.map"
+  - "!**/.env"
 afterSign: scripts/notarize.js
 mac:
   artifactName: ${name}_${version}_${arch}_${os}.${ext}
@@ -53,9 +53,9 @@ snap:
   publish:
     - provider: github
       releaseType: release
-    - provider: snapStore
-      repo: altair
-      channels: stable
+    # - provider: snapStore
+    #   repo: altair
+    #   channels: stable
   layout:
     /usr/share/libdrm:
       bind: $SNAP/usr/share/libdrm
