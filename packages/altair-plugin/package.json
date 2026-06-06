@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "ts-node": "^8.5.4",
+    "ts-node": "8.5.4",
     "typescript": "catalog:"
   },
   "engines": {
