@@ -3,6 +3,7 @@ import { ScriptEvaluatorClientEngine } from './evaluator-client-engine';
 import { SCRIPT_INIT_EXECUTE } from './events';
 import {
   AllScriptEventHandlers,
+  GlobalHelperContext,
   ScriptContextData,
   ScriptEvaluatorWorker,
   ScriptEvent,
@@ -65,17 +66,10 @@ export class ScriptEvaluatorWorkerEngine {
         alert: (msg: string) => this.makeCall('alert', msg),
       };
 
-      const contextEntries = Object.entries(context);
       try {
-        const res = function () {
-          return (0, eval)(`
-          (async(${contextEntries.map((e) => e[0]).join(',')}) => {
-            ${script};
-            return altair.data;
-          })(...this.__ctxE.map(e => e[1]));
-        `);
-        }.call({ __ctxE: contextEntries });
-        return resolve(res);
+        return this.evalWithContext(script, context).then((result) => {
+          return resolve(result);
+        });
       } catch (e) {
         return reject(e);
       }
@@ -111,5 +105,22 @@ export class ScriptEvaluatorWorkerEngine {
       });
       this.worker.send(type, { id, args });
     });
+  }
+
+  private async evalWithContext(
+    script: string,
+    context: {
+      altair: GlobalHelperContext;
+      alert: (msg: string) => Promise<Promise<void>>;
+    }
+  ) {
+    const contextEntries = Object.entries(context);
+    const fn = (0, eval)(`
+      async (${contextEntries.map((e) => e[0]).join(',')}) => {
+        ${script};
+        return altair.data;
+      }
+    `);
+    return fn(...contextEntries.map((e) => e[1]));
   }
 }
