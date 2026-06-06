@@ -37,6 +37,9 @@ const makeWindowState = (overrides: Partial<PerWindowState> = {}): PerWindowStat
     preRequest: { enabled: false, script: '' },
     postRequest: { enabled: false, script: '' },
     authorization: { type: 'none', data: {} },
+    layout: {
+      title: 'Test Window',
+    },
     ...overrides,
   }) as unknown as PerWindowState;
 
@@ -67,7 +70,8 @@ describe('QueryService', () => {
         MockProvider(PreRequestService),
         {
           provide: Store,
-          useFactory: () => mockStoreFactory(),
+          useFactory: () =>
+            mockStoreFactory(),
         },
       ],
       teardown: { destroyAfterEach: false },
@@ -380,9 +384,9 @@ describe('QueryService', () => {
       vi.spyOn(service, 'getWindowState').mockResolvedValue(state);
 
       const mockPreRequest = TestBed.inject(PreRequestService);
-      vi
-        .spyOn(mockPreRequest, 'executeScript')
-        .mockRejectedValue(new Error('Script error'));
+      vi.spyOn(mockPreRequest, 'executeScript').mockRejectedValue(
+        new Error('Script error')
+      );
 
       const mockNotify = TestBed.inject(NotifyService);
       const errorSpy = vi.spyOn(mockNotify, 'error');
@@ -444,9 +448,9 @@ describe('QueryService', () => {
       vi.spyOn(service, 'getWindowState').mockResolvedValue(state);
 
       const mockPreRequest = TestBed.inject(PreRequestService);
-      vi
-        .spyOn(mockPreRequest, 'executeScript')
-        .mockRejectedValue(new Error('Post script error'));
+      vi.spyOn(mockPreRequest, 'executeScript').mockRejectedValue(
+        new Error('Post script error')
+      );
 
       const mockNotify = TestBed.inject(NotifyService);
       const errorSpy = vi.spyOn(mockNotify, 'error');

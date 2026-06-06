@@ -99,7 +99,11 @@ export class QueryService {
       };
     } catch (err) {
       debug.error(err);
-      this.notifyService.error(`Error executing pre-request script: ${err}`);
+      this.notifyService.error(
+        `Error executing pre-request script: ${err}`,
+        `[${state.layout.title}]`,
+        {}
+      );
 
       return preTransformedData;
     }
