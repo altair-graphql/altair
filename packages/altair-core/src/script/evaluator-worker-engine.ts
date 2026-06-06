@@ -67,9 +67,13 @@ export class ScriptEvaluatorWorkerEngine {
       };
 
       try {
-        return this.evalWithContext(script, context).then((result) => {
-          return resolve(result);
-        });
+        return this.evalWithContext(script, context)
+          .then((result) => {
+            return resolve(result);
+          })
+          .catch((err) => {
+            reject(err);
+          });
       } catch (e) {
         return reject(e);
       }
