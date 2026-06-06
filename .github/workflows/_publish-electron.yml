@@ -186,7 +186,7 @@ jobs:
           # Only supply signing certs on macOS builds.
           mac_certs: ${{ secrets.mac_certs }}
           mac_certs_password: ${{ secrets.mac_certs_password }}
-          args: --publish always
+          args: --publish always --config electron-builder.config.ts
           max_attempts: 3
           package_manager: pnpm
         env:
