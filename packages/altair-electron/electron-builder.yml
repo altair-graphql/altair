@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://www.schemastore.org/electron-builder.json
 appId: com.xkoji.altair
 productName: Altair GraphQL Client
 electronVersion: 33.2.1
@@ -47,11 +48,13 @@ linux:
     # - flatpak
 appImage:
   category: Development
-snap:
+snapcraft:
+  base: core24
   publish:
     - provider: github
       releaseType: release
     - provider: snapStore
+      repo: altair
       channels: stable
   layout:
     /usr/share/libdrm:
