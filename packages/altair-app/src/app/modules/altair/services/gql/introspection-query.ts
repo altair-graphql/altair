@@ -1,5 +1,13 @@
-import { getIntrospectionQuery as getGraphQLIntrospectionQuery } from 'graphql';
+import {
+  FragmentDefinitionNode,
+  getIntrospectionQuery as getGraphQLIntrospectionQuery,
+  parse,
+  print,
+  visit,
+} from 'graphql';
 
+// Four list and five non-null wrappers require nine `ofType` selections.
+// This also matches the default depth introduced in graphql@16.8.
 const TYPE_REF_DEPTH = 9;
 
 const getTypeRefSelection = (depth: number, indentation = 4): string => {
@@ -24,15 +32,29 @@ const getTypeRefSelection = (depth: number, indentation = 4): string => {
  * depth to nine; keep the same query shape while the app supports graphql@15.
  */
 export const getIntrospectionQuery = (
-  options: Parameters<typeof getGraphQLIntrospectionQuery>[0]
+  options?: Parameters<typeof getGraphQLIntrospectionQuery>[0]
 ): string => {
-  const query = getGraphQLIntrospectionQuery(options);
-  const typeRefFragment = `fragment TypeRef on __Type {\n${getTypeRefSelection(
-    TYPE_REF_DEPTH
-  )}\n  }`;
-
-  return query.replace(
-    /fragment TypeRef on __Type \{[\s\S]*?\n {4}\}\n {2}$/,
-    typeRefFragment
+  const queryDocument = parse(getGraphQLIntrospectionQuery(options));
+  const typeRefDocument = parse(
+    `fragment TypeRef on __Type {\n${getTypeRefSelection(TYPE_REF_DEPTH)}\n}`
   );
+  const typeRefFragment = typeRefDocument.definitions[0] as FragmentDefinitionNode;
+  let replacedTypeRef = false;
+
+  const updatedQuery = visit(queryDocument, {
+    FragmentDefinition(node) {
+      if (node.name.value === 'TypeRef') {
+        replacedTypeRef = true;
+        return typeRefFragment;
+      }
+
+      return undefined;
+    },
+  });
+
+  if (!replacedTypeRef) {
+    throw new Error('TypeRef fragment not found in GraphQL introspection query');
+  }
+
+  return print(updatedQuery);
 };

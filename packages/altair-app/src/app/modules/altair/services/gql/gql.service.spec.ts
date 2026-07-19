@@ -1,10 +1,5 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { HttpClient } from '@angular/common/http';
-
-import { GqlService } from './gql.service';
-import { getIntrospectionQuery } from './introspection-query';
-import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
 import { EMPTY, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -14,15 +9,19 @@ import {
   buildSchema,
   graphqlSync,
 } from 'graphql';
-
-import validIntrospectionData from './__mock__/valid-introspection-data';
-import { anyFn, mock } from '../../../../../testing';
-import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { Position } from '../../utils/editor/helpers';
-import { ElectronAppService } from '../electron-app/electron-app.service';
 import { MockProvider } from 'ng-mocks';
+
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { GraphQLRequestHandler } from 'altair-graphql-core/build/request/types';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+
+import { anyFn, mock } from '../../../../../testing';
+import { Position } from '../../utils/editor/helpers';
+import { ElectronAppService } from '../electron-app/electron-app.service';
+import { NotifyService } from '../notify/notify.service';
+import validIntrospectionData from './__mock__/valid-introspection-data';
+import { GqlService } from './gql.service';
+import { getIntrospectionQuery } from './introspection-query';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;
@@ -340,7 +339,7 @@ describe('GqlService', () => {
         `);
         const result = graphqlSync({
           schema: sourceSchema,
-          source: getIntrospectionQuery({}),
+          source: getIntrospectionQuery(),
         });
 
         expect(result.errors).toBeUndefined();
