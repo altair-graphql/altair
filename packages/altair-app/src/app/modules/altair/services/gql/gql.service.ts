@@ -11,7 +11,6 @@ import {
   print,
   GraphQLSchema,
   printSchema,
-  getIntrospectionQuery,
   validateSchema,
   visit,
   DocumentNode,
@@ -25,6 +24,7 @@ import { NotifyService } from '../notify/notify.service';
 
 import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchema';
+import { getIntrospectionQuery } from './introspection-query';
 import { debug } from '../../utils/logger';
 
 import { fillAllFields, FillAllFieldsOptions } from './fillFields';

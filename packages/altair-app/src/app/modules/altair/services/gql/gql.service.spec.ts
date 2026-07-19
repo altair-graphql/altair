@@ -3,11 +3,17 @@ import { TestBed, inject } from '@angular/core/testing';
 import { HttpClient } from '@angular/common/http';
 
 import { GqlService } from './gql.service';
+import { getIntrospectionQuery } from './introspection-query';
 import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
 import { EMPTY, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IntrospectionQuery, buildClientSchema } from 'graphql';
+import {
+  IntrospectionQuery,
+  buildClientSchema,
+  buildSchema,
+  graphqlSync,
+} from 'graphql';
 
 import validIntrospectionData from './__mock__/valid-introspection-data';
 import { anyFn, mock } from '../../../../../testing';
@@ -323,6 +329,31 @@ describe('GqlService', () => {
         expect(schema).toMatchSnapshot();
       }
     ));
+
+    it('should return schema for deeply nested list types', inject(
+      [GqlService],
+      async (service: GqlService) => {
+        const sourceSchema = buildSchema(`
+          type Query {
+            coordinates: [[[[Float!]!]!]!]!
+          }
+        `);
+        const result = graphqlSync({
+          schema: sourceSchema,
+          source: getIntrospectionQuery({}),
+        });
+
+        expect(result.errors).toBeUndefined();
+        const schema = service.getIntrospectionSchema(
+          result.data as unknown as IntrospectionQuery
+        );
+
+        expect(schema?.getQueryType()?.getFields().coordinates.type.toString()).toBe(
+          '[[[[Float!]!]!]!]!'
+        );
+      }
+    ));
+
     it('should return null if it cannot parse introspection data', inject(
       [GqlService],
       async (service: GqlService) => {
