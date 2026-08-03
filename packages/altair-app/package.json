@@ -117,7 +117,7 @@
     "@angular-eslint/schematics": "20.3.0",
     "@angular-eslint/template-parser": "20.3.0",
     "@angular/build": "^20.3.4",
-    "@angular/compiler": "20.3.19",
+    "@angular/compiler": "20.3.27",
     "@angular/compiler-cli": "20.3.19",
     "@ngrx/schematics": "12.4.0",
     "@playwright/test": "catalog:",
