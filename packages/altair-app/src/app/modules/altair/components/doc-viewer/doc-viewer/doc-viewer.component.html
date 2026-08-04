@@ -108,7 +108,11 @@
       </div>
     </div>
     <div class="doc-viewer-search-wrapper">
+      <label class="doc-viewer-search-label" for="doc-viewer-search-input">
+        {{ 'DOCS_SEARCH_INPUT_PLACEHOLDER_TEXT' | translate }}
+      </label>
       <input
+        id="doc-viewer-search-input"
         class="input"
         nz-input
         #autocompleteInput
