@@ -15,6 +15,7 @@ import {
   ValueNode,
   valueFromASTUntyped,
   Kind,
+  parseType,
 } from 'graphql';
 import { IDictionary } from '../../interfaces/shared';
 import { debug } from '../../utils/logger';
@@ -393,13 +394,7 @@ export const refactorArgumentsToVariables = (
                       value: variableMapEntry.name,
                     },
                   },
-                  type: {
-                    kind: Kind.NAMED_TYPE,
-                    name: {
-                      kind: Kind.NAME,
-                      value: variableMapEntry.type,
-                    },
-                  },
+                  type: parseType(variableMapEntry.type),
                 };
               })
             ),

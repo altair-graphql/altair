@@ -11,7 +11,9 @@
         [data]="data.description || ''"
       ></div>
       <app-doc-viewer-deprecated
-        [isDeprecated]="!!data.deprecationReason"
+        [isDeprecated]="
+          data.deprecationReason !== null && data.deprecationReason !== undefined
+        "
         [deprecatedReason]="data.deprecationReason"
       />
       <div class="doc-viewer-item-query-inner">
@@ -80,7 +82,9 @@
           ></div>
 
           <app-doc-viewer-deprecated
-            [isDeprecated]="!!arg.deprecationReason"
+            [isDeprecated]="
+              arg.deprecationReason !== null && arg.deprecationReason !== undefined
+            "
             [deprecatedReason]="arg.deprecationReason"
           />
         </div>

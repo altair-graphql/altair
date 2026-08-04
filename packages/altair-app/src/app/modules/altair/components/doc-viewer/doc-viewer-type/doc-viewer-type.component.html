@@ -30,11 +30,19 @@
         {{ 'DOCS_VALUES_TEXT' | translate }}
       </div>
       @for (item of getTypeEnumValues(data); track schemaItemTrackBy($index, item)) {
-        @if (!(hideDeprecatedDocItems() && !!item?.deprecationReason)) {
+        @if (
+          !(
+            hideDeprecatedDocItems() &&
+            item?.deprecationReason !== null &&
+            item?.deprecationReason !== undefined
+          )
+        ) {
           <div
             class="doc-viewer-item doc-viewer-item-query"
             [ngClass]="{
-              'doc-viewer-item--deprecated': !!item.deprecationReason,
+              'doc-viewer-item--deprecated':
+                item.deprecationReason !== null &&
+                item.deprecationReason !== undefined,
             }"
           >
             <div class="doc-viewer-item-query-inner">
@@ -45,7 +53,10 @@
                 {{ item.value }}
               </span>
               <app-doc-viewer-deprecated
-                [isDeprecated]="!!item.deprecationReason"
+                [isDeprecated]="
+                  item.deprecationReason !== null &&
+                  item.deprecationReason !== undefined
+                "
                 [deprecatedReason]="item.deprecationReason"
               />
             </div>
@@ -134,11 +145,19 @@
           | collectionTransform: sortFieldsTransformer : sortByOption();
         track schemaItemTrackBy($index, item)
       ) {
-        @if (!(hideDeprecatedDocItems() && !!item?.deprecationReason)) {
+        @if (
+          !(
+            hideDeprecatedDocItems() &&
+            item?.deprecationReason !== null &&
+            item?.deprecationReason !== undefined
+          )
+        ) {
           <div
             class="doc-viewer-item doc-viewer-item-query"
             [ngClass]="{
-              'doc-viewer-item--deprecated': !!item.deprecationReason,
+              'doc-viewer-item--deprecated':
+                item.deprecationReason !== null &&
+                item.deprecationReason !== undefined,
             }"
           >
             <div class="doc-viewer-item-query-inner">
@@ -158,7 +177,9 @@
                 ) {
                   <span
                     [ngClass]="{
-                      'doc-viewer-item--deprecated': arg.deprecationReason,
+                      'doc-viewer-item--deprecated':
+                        arg.deprecationReason !== null &&
+                        arg.deprecationReason !== undefined,
                     }"
                   >
                     <span
@@ -192,7 +213,10 @@
               </span>
             </div>
             <app-doc-viewer-deprecated
-              [isDeprecated]="!!item.deprecationReason"
+              [isDeprecated]="
+                item.deprecationReason !== null &&
+                item.deprecationReason !== undefined
+              "
               [deprecatedReason]="item.deprecationReason"
             />
             <div
