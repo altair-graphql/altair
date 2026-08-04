@@ -7,6 +7,7 @@ import {
   IntrospectionQuery,
   buildClientSchema,
   buildSchema,
+  getIntrospectionQuery,
   graphqlSync,
 } from 'graphql';
 import { MockProvider } from 'ng-mocks';
@@ -21,7 +22,6 @@ import { ElectronAppService } from '../electron-app/electron-app.service';
 import { NotifyService } from '../notify/notify.service';
 import validIntrospectionData from './__mock__/valid-introspection-data';
 import { GqlService } from './gql.service';
-import { getIntrospectionQuery } from './introspection-query';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;

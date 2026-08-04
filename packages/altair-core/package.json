@@ -18,7 +18,7 @@
     "color-name": "^2.0.0",
     "crypto-js": "3.3.0",
     "deepmerge": "4.2.2",
-    "graphql": "15.5.1",
+    "graphql": "16.8.2",
     "graphql-query-compress": "^1.2.4",
     "graphql-sse": "^2.5.3",
     "graphql-ws": "5.8.2",

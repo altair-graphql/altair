@@ -11,11 +11,13 @@ import {
   print,
   GraphQLSchema,
   printSchema,
+  getIntrospectionQuery,
   validateSchema,
   visit,
   DocumentNode,
   OperationDefinitionNode,
   IntrospectionQuery,
+  Kind,
 } from 'graphql';
 import { ContextToken } from 'graphql-language-service';
 import compress from 'graphql-query-compress';
@@ -24,7 +26,6 @@ import { NotifyService } from '../notify/notify.service';
 
 import { oldIntrospectionQuery } from './oldIntrospectionQuery';
 import { buildClientSchema as oldBuildClientSchema } from './oldBuildClientSchema';
-import { getIntrospectionQuery } from './introspection-query';
 import { debug } from '../../utils/logger';
 
 import { fillAllFields, FillAllFieldsOptions } from './fillFields';
@@ -249,7 +250,7 @@ export class GqlService {
   getEmptyDocumentNode(): DocumentNode {
     return {
       definitions: [],
-      kind: 'Document',
+      kind: Kind.DOCUMENT,
     };
   }
 

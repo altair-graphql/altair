@@ -42,7 +42,7 @@ export class DocViewerFieldComponent {
       return;
     }
 
-    return gqlSchema.getType(this.cleanName(data.type.inspect()));
+    return gqlSchema.getType(this.cleanName(data.type.toString()));
   });
 
   cleanName(name: string) {

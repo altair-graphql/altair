@@ -91,7 +91,7 @@ export class DocUtils {
         description: directive.description || '',
         cat: 'directive',
         highlight: 'directive',
-        locations: directive.locations,
+        locations: [...directive.locations],
         args: directive.args?.map((arg) => ({
           name: arg.name,
           description: arg.description ?? '',
@@ -337,7 +337,7 @@ export class DocUtils {
             if (field && this.fieldUsesType(field, typeName)) {
               // Create a unique key for this operation
               const operationKey = `${entry.name}|${parentTypeName}|${category}`;
-              
+
               // Only add if we haven't seen this operation before
               if (!addedOperations.has(operationKey)) {
                 addedOperations.add(operationKey);

@@ -62,7 +62,7 @@ export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
               const typeEl = document.createElement('div');
               typeEl.classList.add('cm-gqlCompletionDescriptionType');
               typeEl.innerHTML = `<span class="cm-gqlCompletionDescriptionTypeContent">${sanitizeHtml(
-                completionItem.type.inspect()
+                completionItem.type.toString()
               )}</span>`;
               typeEl.addEventListener('mousedown', (e) => {
                 e.preventDefault();
