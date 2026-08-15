@@ -16,6 +16,7 @@ const getNonce = () => {
 
 const cleanup = () => {
   sessionStorage.removeItem(OAUTH_NONCE_KEY);
+  sessionStorage.removeItem(OAUTH_CODE_VERIFIER_KEY);
 };
 
 const checkNonce = (nonce?: string | null) => {
@@ -159,6 +160,14 @@ export const initLoginRedirect = async () => {
     return signInWithRedirect(urlConfig.api, provider);
   }
 
+  let accessToken: string;
+  try {
+    accessToken = await redeemHandoffCode(urlConfig.api, result.handoffCode);
+  } catch {
+    document.body.innerText = 'Login failed. Please try again or close this window.';
+    return;
+  }
+
   const sanitizedUrl = new URL(location.href);
   sanitizedUrl.searchParams.delete('handoff_code');
   history.replaceState(
@@ -166,8 +175,14 @@ export const initLoginRedirect = async () => {
     '',
     `${sanitizedUrl.pathname}${sanitizedUrl.search}${sanitizedUrl.hash}`
   );
-  const accessToken = await redeemHandoffCode(urlConfig.api, result.handoffCode);
-  await sendToken(accessToken);
+  try {
+    await sendToken(accessToken);
+  } catch {
+    cleanup();
+    document.body.innerText =
+      'Login failed. Please close this window and try again.';
+    return;
+  }
 
   cleanup();
   document.body.innerText = 'You can now close this window.';

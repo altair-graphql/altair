@@ -62,4 +62,30 @@ describe('OAuthLoginTransactionService', () => {
     ).rejects.toThrow(BadRequestException);
     expect(updateMany).not.toHaveBeenCalled();
   });
+
+  it('should give a completed handoff code a fresh short expiry', async () => {
+    const state = 'state';
+    const browserBinding = 'browser-binding';
+    const hash = (value: string) => createHash('sha256').update(value).digest('hex');
+    findUnique.mockResolvedValue({
+      id: 'transaction-id',
+      provider: 'GOOGLE',
+      userId: null,
+      stateHash: hash(state),
+      browserBindingHash: hash(browserBinding),
+      expiresAt: new Date(Date.now() + 1_000),
+    });
+    updateMany.mockResolvedValue({ count: 1 });
+    const beforeCompletion = Date.now();
+
+    await service.complete('GOOGLE', state, browserBinding, 'user-id');
+
+    const completionData = updateMany.mock.calls[0][0].data;
+    expect(completionData.expiresAt.getTime()).toBeGreaterThanOrEqual(
+      beforeCompletion + 59_000
+    );
+    expect(completionData.expiresAt.getTime()).toBeLessThanOrEqual(
+      beforeCompletion + 61_000
+    );
+  });
 });

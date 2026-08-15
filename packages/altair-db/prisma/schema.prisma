@@ -75,29 +75,30 @@ model Workspace {
 }
 
 model User {
-  id                String              @id @default(cuid())
-  firstName         String?
-  lastName          String?
-  email             String              @unique
-  emailVerified     DateTime?
-  password          String?
-  picture           String?
-  stripeCustomerId  String?
-  resendContactId   String?
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  Workspace         Workspace[]
-  UserCredential    UserCredential[]
-  TeamMembership    TeamMembership[]
-  Team              Team[]
-  UserPlan          UserPlan?
-  QueryItemRevision QueryItemRevision[]
-  CreditBalance     CreditBalance?
-  CreditTransaction CreditTransaction[]
-  CreditPurchase    CreditPurchase[]
-  AiChatSession     AiChatSession[]
-  SharedQuery       SharedQuery[]
-  TeamInvitation    TeamInvitation[]
+  id                    String                  @id @default(cuid())
+  firstName             String?
+  lastName              String?
+  email                 String                  @unique
+  emailVerified         DateTime?
+  password              String?
+  picture               String?
+  stripeCustomerId      String?
+  resendContactId       String?
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+  Workspace             Workspace[]
+  UserCredential        UserCredential[]
+  TeamMembership        TeamMembership[]
+  Team                  Team[]
+  UserPlan              UserPlan?
+  QueryItemRevision     QueryItemRevision[]
+  CreditBalance         CreditBalance?
+  CreditTransaction     CreditTransaction[]
+  CreditPurchase        CreditPurchase[]
+  AiChatSession         AiChatSession[]
+  SharedQuery           SharedQuery[]
+  TeamInvitation        TeamInvitation[]
+  OAuthLoginTransaction OAuthLoginTransaction[]
 }
 
 enum IdentityProvider {
@@ -118,20 +119,22 @@ model UserCredential {
 }
 
 model OAuthLoginTransaction {
-  id                  String           @id @default(cuid())
-  provider            IdentityProvider
-  redirectUrl         String
-  stateHash           String           @unique
-  browserBindingHash  String
-  redemptionVerifierHash String @default("")
-  handoffCodeHash     String?          @unique
-  userId              String?
-  expiresAt           DateTime
-  redeemedAt          DateTime?
-  createdAt           DateTime         @default(now())
-  updatedAt           DateTime         @updatedAt
+  id                     String           @id @default(cuid())
+  provider               IdentityProvider
+  redirectUrl            String
+  stateHash              String           @unique
+  browserBindingHash     String
+  redemptionVerifierHash String           @default("")
+  handoffCodeHash        String?          @unique
+  userId                 String?
+  user                   User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt              DateTime
+  redeemedAt             DateTime?
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
 
   @@index([expiresAt])
+  @@index([userId])
 }
 
 model Team {

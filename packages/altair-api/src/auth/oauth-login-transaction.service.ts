@@ -6,9 +6,10 @@ import { PrismaService } from 'nestjs-prisma';
 import { Config } from 'src/common/config';
 
 const TRANSACTION_TTL_MS = 5 * 60 * 1000;
+const HANDOFF_TTL_MS = 60 * 1000;
 const SECRET_BYTES = 32;
 
-interface OAuthLoginTransaction {
+interface OAuthLoginTransactionSecrets {
   browserBinding: string;
   state: string;
 }
@@ -24,7 +25,7 @@ export class OAuthLoginTransactionService {
     provider: IdentityProvider,
     redirectUrl: string,
     redemptionVerifierHash: string
-  ): Promise<OAuthLoginTransaction> {
+  ): Promise<OAuthLoginTransactionSecrets> {
     const url = this.parseAndValidateRedirectUrl(redirectUrl);
     if (!this.isCodeChallenge(redemptionVerifierHash)) {
       throw new BadRequestException('Invalid OAuth code challenge');
@@ -79,6 +80,7 @@ export class OAuthLoginTransactionService {
       data: {
         userId,
         handoffCodeHash: this.hash(handoffCode),
+        expiresAt: new Date(Date.now() + HANDOFF_TTL_MS),
       },
     });
 

@@ -59,7 +59,9 @@ describe('AuthController', () => {
       const requestMock = mockRequest({
         user,
         query: { state: 'opaque-state' },
-        headers: { cookie: 'altair_oauth_transaction=browser-binding' },
+        headers: {
+          cookie: 'altair_oauth_transaction=browser-binding=with=equals',
+        },
       });
       const responseMock = mockResponse({
         redirect: vi.fn(),
@@ -76,7 +78,7 @@ describe('AuthController', () => {
       expect(oauthLoginTransactionService.complete).toHaveBeenCalledWith(
         'GOOGLE',
         'opaque-state',
-        'browser-binding',
+        'browser-binding=with=equals',
         user.id
       );
       expect(responseMock.redirect).toHaveBeenCalledWith(
@@ -110,6 +112,7 @@ describe('AuthController', () => {
           mockRequest({ headers: { origin: 'https://attacker.example' } })
         )
       ).rejects.toThrow('OAuth handoff origin not allowed');
+      expect(oauthLoginTransactionService.redeem).not.toHaveBeenCalled();
     });
 
     it('should return newly generated tokens for a valid handoff code', async () => {
@@ -133,6 +136,38 @@ describe('AuthController', () => {
         'one-time-code',
         'code-verifier',
         'https://redir.altairgraphql.dev'
+      );
+    });
+  });
+
+  describe('githubSigninCallback', () => {
+    it('should redirect with a one-time handoff code', async () => {
+      const user = mockUser();
+      const requestMock = mockRequest({
+        user,
+        query: { state: 'opaque-state' },
+        headers: { cookie: 'altair_oauth_transaction=browser-binding' },
+      });
+      const responseMock = mockResponse({
+        redirect: vi.fn(),
+        clearCookie: vi.fn(),
+      });
+      vi.spyOn(authService, 'githubLogin').mockReturnValueOnce(user);
+      oauthLoginTransactionService.complete.mockResolvedValueOnce({
+        handoffCode: 'one-time-code',
+        redirectUrl: 'https://redir.altairgraphql.dev/?nonce=nonce',
+      });
+
+      await controller.githubSigninCallback(requestMock, responseMock);
+
+      expect(oauthLoginTransactionService.complete).toHaveBeenCalledWith(
+        'GITHUB',
+        'opaque-state',
+        'browser-binding',
+        user.id
+      );
+      expect(responseMock.redirect).toHaveBeenCalledWith(
+        'https://redir.altairgraphql.dev/?nonce=nonce&handoff_code=one-time-code'
       );
     });
   });

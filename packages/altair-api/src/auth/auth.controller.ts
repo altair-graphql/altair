@@ -197,8 +197,16 @@ export class AuthController {
 
     return header
       .split(';')
-      .map((cookie) => cookie.trim().split('=', 2))
-      .find(([key]) => key === name)
-      ?.at(1);
+      .map((cookie) => {
+        const trimmed = cookie.trim();
+        const separatorIndex = trimmed.indexOf('=');
+        return separatorIndex === -1
+          ? ([trimmed, ''] as const)
+          : ([
+              trimmed.slice(0, separatorIndex),
+              trimmed.slice(separatorIndex + 1),
+            ] as const);
+      })
+      .find(([key]) => key === name)?.[1];
   }
 }

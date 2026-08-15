@@ -1,11 +1,13 @@
 import { BadRequestException, ExecutionContext, Injectable } from '@nestjs/common';
-import { IdentityProvider } from '@altairgraphql/db';
 import { AuthGuard } from '@nestjs/passport';
 import { Request, Response } from 'express';
 import { isObservable, lastValueFrom } from 'rxjs';
+import { IdentityProvider } from '@altairgraphql/db';
 import { OAuthLoginTransactionService } from '../oauth-login-transaction.service';
 
-type OAuthRequest = Request & { oauthState?: string };
+interface OAuthRequest extends Request {
+  oauthState?: string;
+}
 
 @Injectable()
 export class GoogleOAuthLoginGuard extends AuthGuard('google') {
