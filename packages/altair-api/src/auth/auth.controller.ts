@@ -83,7 +83,11 @@ export class AuthController {
       throw new BadRequestException('OAuth handoff origin not allowed');
     }
 
-    const userId = await this.oauthLoginTransactionService.redeem(body.handoffCode);
+    const userId = await this.oauthLoginTransactionService.redeem(
+      body.handoffCode,
+      body.codeVerifier,
+      origin
+    );
     return { tokens: this.authService.generateTokens({ userId }) };
   }
 

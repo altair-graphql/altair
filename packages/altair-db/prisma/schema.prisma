@@ -123,6 +123,7 @@ model OAuthLoginTransaction {
   redirectUrl         String
   stateHash           String           @unique
   browserBindingHash  String
+  redemptionVerifierHash String @default("")
   handoffCodeHash     String?          @unique
   userId              String?
   expiresAt           DateTime

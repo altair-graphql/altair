@@ -19,14 +19,18 @@ export class GitHubOAuthLoginGuard extends AuthGuard('github') {
     const request = context.switchToHttp().getRequest<OAuthRequest>();
     const response = context.switchToHttp().getResponse<Response>();
     const redirectUrl = request.query.state;
+    const codeChallenge = request.query.code_challenge;
 
-    if (typeof redirectUrl !== 'string') {
-      throw new BadRequestException('Redirect URL is required');
+    if (typeof redirectUrl !== 'string' || typeof codeChallenge !== 'string') {
+      throw new BadRequestException(
+        'OAuth redirect URL and code challenge are required'
+      );
     }
 
     const transaction = await this.oauthLoginTransactionService.create(
       IdentityProvider.GITHUB,
-      redirectUrl
+      redirectUrl,
+      codeChallenge
     );
     request.oauthState = transaction.state;
     response.cookie('altair_oauth_transaction', transaction.browserBinding, {

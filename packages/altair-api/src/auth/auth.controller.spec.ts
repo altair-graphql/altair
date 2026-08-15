@@ -106,7 +106,7 @@ describe('AuthController', () => {
 
       await expect(
         controller.redeemOAuthHandoff(
-          { handoffCode: 'one-time-code' },
+          { handoffCode: 'one-time-code', codeVerifier: 'code-verifier' },
           mockRequest({ headers: { origin: 'https://attacker.example' } })
         )
       ).rejects.toThrow('OAuth handoff origin not allowed');
@@ -123,12 +123,17 @@ describe('AuthController', () => {
 
       await expect(
         controller.redeemOAuthHandoff(
-          { handoffCode: 'one-time-code' },
+          { handoffCode: 'one-time-code', codeVerifier: 'code-verifier' },
           mockRequest({ headers: { origin: 'https://redir.altairgraphql.dev' } })
         )
       ).resolves.toEqual({
         tokens: { accessToken: tokenMock, refreshToken: tokenMock },
       });
+      expect(oauthLoginTransactionService.redeem).toHaveBeenCalledWith(
+        'one-time-code',
+        'code-verifier',
+        'https://redir.altairgraphql.dev'
+      );
     });
   });
 

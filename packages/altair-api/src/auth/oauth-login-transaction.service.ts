@@ -22,9 +22,13 @@ export class OAuthLoginTransactionService {
 
   async create(
     provider: IdentityProvider,
-    redirectUrl: string
+    redirectUrl: string,
+    redemptionVerifierHash: string
   ): Promise<OAuthLoginTransaction> {
     const url = this.parseAndValidateRedirectUrl(redirectUrl);
+    if (!this.isCodeChallenge(redemptionVerifierHash)) {
+      throw new BadRequestException('Invalid OAuth code challenge');
+    }
     const state = this.generateSecret();
     const browserBinding = this.generateSecret();
 
@@ -37,6 +41,7 @@ export class OAuthLoginTransactionService {
         redirectUrl: url.href,
         stateHash: this.hash(state),
         browserBindingHash: this.hash(browserBinding),
+        redemptionVerifierHash,
         expiresAt: new Date(Date.now() + TRANSACTION_TTL_MS),
       },
     });
@@ -84,7 +89,11 @@ export class OAuthLoginTransactionService {
     return { handoffCode, redirectUrl: transaction.redirectUrl };
   }
 
-  async redeem(handoffCode: string): Promise<string> {
+  async redeem(
+    handoffCode: string,
+    codeVerifier: string,
+    origin: string
+  ): Promise<string> {
     const transaction = await this.prisma.oAuthLoginTransaction.findUnique({
       where: { handoffCodeHash: this.hash(handoffCode) },
     });
@@ -93,7 +102,12 @@ export class OAuthLoginTransactionService {
       !transaction ||
       !transaction.userId ||
       transaction.expiresAt <= new Date() ||
-      transaction.redeemedAt
+      transaction.redeemedAt ||
+      !this.redirectOriginMatches(transaction.redirectUrl, origin) ||
+      !this.secretsMatch(
+        transaction.redemptionVerifierHash,
+        this.codeChallenge(codeVerifier)
+      )
     ) {
       throw new BadRequestException('Invalid or expired OAuth handoff code');
     }
@@ -103,6 +117,7 @@ export class OAuthLoginTransactionService {
         id: transaction.id,
         redeemedAt: null,
         expiresAt: { gt: new Date() },
+        redemptionVerifierHash: this.codeChallenge(codeVerifier),
       },
       data: { redeemedAt: new Date() },
     });
@@ -171,5 +186,21 @@ export class OAuthLoginTransactionService {
 
   private secretsMatch(left: string, right: string): boolean {
     return timingSafeEqual(Buffer.from(left), Buffer.from(right));
+  }
+
+  private codeChallenge(codeVerifier: string): string {
+    return createHash('sha256').update(codeVerifier).digest('base64url');
+  }
+
+  private isCodeChallenge(value: string): boolean {
+    return /^[A-Za-z0-9_-]{43}$/.test(value);
+  }
+
+  private redirectOriginMatches(redirectUrl: string, origin: string): boolean {
+    try {
+      return new URL(redirectUrl).origin === new URL(origin).origin;
+    } catch {
+      return false;
+    }
   }
 }
