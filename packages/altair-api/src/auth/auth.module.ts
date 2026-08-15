@@ -18,6 +18,9 @@ import { QueriesService } from 'src/queries/queries.service';
 import { QueryCollectionsService } from 'src/query-collections/query-collections.service';
 import { TeamMembershipsService } from 'src/team-memberships/team-memberships.service';
 import { EmailService } from 'src/email/email.service';
+import { OAuthLoginTransactionService } from './oauth-login-transaction.service';
+import { GoogleOAuthLoginGuard } from './guards/google-oauth-login.guard';
+import { GitHubOAuthLoginGuard } from './guards/github-oauth-login.guard';
 
 @Module({
   imports: [
@@ -42,6 +45,9 @@ import { EmailService } from 'src/email/email.service';
     GoogleStrategy,
     GitHubStrategy,
     EmailService,
+    OAuthLoginTransactionService,
+    GoogleOAuthLoginGuard,
+    GitHubOAuthLoginGuard,
     PasswordService,
     StripeService,
     TeamsService,

@@ -28,8 +28,9 @@ export class GitHubStrategy extends PassportStrategy(Strategy, 'github') {
   }
 
   authenticate(req: Request, options: Record<string, unknown>) {
-    if (req.query.state) {
-      options.state = req.query.state;
+    const state = (req as Request & { oauthState?: string }).oauthState;
+    if (state) {
+      options.state = state;
     }
     super.authenticate(req, options);
   }

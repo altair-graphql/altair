@@ -51,7 +51,7 @@ export class AuthService {
     }
 
     this.telemetry.incrementMetric('auth.oauth.google');
-    return this.getLoginResponse(user);
+    return user;
   }
 
   githubLogin(user?: User) {
@@ -60,7 +60,7 @@ export class AuthService {
     }
 
     this.telemetry.incrementMetric('auth.oauth.github');
-    return this.getLoginResponse(user);
+    return user;
   }
 
   getUserProfile(user?: User) {

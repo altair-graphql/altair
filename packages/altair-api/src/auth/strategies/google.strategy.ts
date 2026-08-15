@@ -37,8 +37,9 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   }
 
   authenticate(req: Request, options: Record<string, unknown>) {
-    if (req.query.state) {
-      options.state = req.query.state;
+    const state = (req as Request & { oauthState?: string }).oauthState;
+    if (state) {
+      options.state = state;
     }
     super.authenticate(req, options);
   }

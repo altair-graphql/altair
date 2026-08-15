@@ -27,7 +27,7 @@ const envSchema = z.object({
   ALLOWED_REDIRECT_ORIGINS: z
     .string()
     .optional()
-    .default('https://altairgraphql.dev'),
+    .default('https://redir.altairgraphql.dev,http://localhost:1234'),
 
   // ── Auth (required) ────────────────────────────────────────────────
   JWT_ACCESS_SECRET: z.string().min(1),

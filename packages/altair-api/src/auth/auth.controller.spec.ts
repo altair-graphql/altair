@@ -5,23 +5,30 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { PrismaService } from 'nestjs-prisma';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
+import { OAuthLoginTransactionService } from './oauth-login-transaction.service';
 import { PasswordService } from './password/password.service';
 import { mockRequest, mockResponse } from './mocks/express.mock';
 import { mockUser } from './mocks/prisma-service.mock';
-import { User } from '@altairgraphql/db';
-import { IToken } from '@altairgraphql/api-utils';
 import { BadRequestException, UnauthorizedException } from '@nestjs/common';
 import { testProviders } from 'test/providers';
 
 describe('AuthController', () => {
   let controller: AuthController;
   let authService: AuthService;
+  let oauthLoginTransactionService: {
+    complete: ReturnType<typeof vi.fn>;
+    redeem: ReturnType<typeof vi.fn>;
+    isAllowedRedirectOrigin: ReturnType<typeof vi.fn>;
+  };
 
-  const tokenMock =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
-  let authServiceReturnMock: User & { isNewUser: boolean; tokens: IToken };
+  const tokenMock = 'token';
 
   beforeEach(async () => {
+    oauthLoginTransactionService = {
+      complete: vi.fn(),
+      redeem: vi.fn(),
+      isAllowedRedirectOrigin: vi.fn(),
+    };
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
       providers: [
@@ -31,20 +38,15 @@ describe('AuthController', () => {
         PrismaService,
         PasswordService,
         ConfigService,
+        {
+          provide: OAuthLoginTransactionService,
+          useValue: oauthLoginTransactionService,
+        },
       ],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
     authService = module.get<AuthService>(AuthService);
-
-    authServiceReturnMock = {
-      ...mockUser(),
-      isNewUser: false,
-      tokens: {
-        accessToken: tokenMock,
-        refreshToken: tokenMock,
-      },
-    };
   });
 
   it('should be defined', () => {
@@ -52,109 +54,106 @@ describe('AuthController', () => {
   });
 
   describe('googleSigninCallback', () => {
-    it(`should redirect to the URL encoded in the state`, () => {
-      // GIVEN
+    it('should redirect with a one-time handoff code', async () => {
+      const user = mockUser();
       const requestMock = mockRequest({
-        user: mockUser(),
-        query: {
-          state: 'https://google.com',
-        },
+        user,
+        query: { state: 'opaque-state' },
+        headers: { cookie: 'altair_oauth_transaction=browser-binding' },
       });
       const responseMock = mockResponse({
         redirect: vi.fn(),
+        clearCookie: vi.fn(),
       });
-      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(
-        authServiceReturnMock
+      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(user);
+      oauthLoginTransactionService.complete.mockResolvedValueOnce({
+        handoffCode: 'one-time-code',
+        redirectUrl: 'https://redir.altairgraphql.dev/?nonce=nonce',
+      });
+
+      await controller.googleSigninCallback(requestMock, responseMock);
+
+      expect(oauthLoginTransactionService.complete).toHaveBeenCalledWith(
+        'GOOGLE',
+        'opaque-state',
+        'browser-binding',
+        user.id
       );
-
-      // WHEN
-      controller.googleSigninCallback(requestMock, responseMock);
-
-      // THEN
-      expect(responseMock.redirect).toBeCalledWith(
-        'https://google.com/?access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+      expect(responseMock.redirect).toHaveBeenCalledWith(
+        'https://redir.altairgraphql.dev/?nonce=nonce&handoff_code=one-time-code'
+      );
+      expect(responseMock.clearCookie).toHaveBeenCalledWith(
+        'altair_oauth_transaction'
       );
     });
 
-    it(`should throw if the state can't be parsed to URL`, () => {
-      // GIVEN
+    it('should reject a callback without the browser-bound transaction', async () => {
       const requestMock = mockRequest({
         user: mockUser(),
-        query: {
-          state: 'hi',
-        },
+        query: { state: 'opaque-state' },
       });
-      const responseMock = mockResponse({
-        redirect: vi.fn(),
-      });
-      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(
-        authServiceReturnMock
-      );
+      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(mockUser());
 
-      // THEN
-      expect(() =>
-        controller.googleSigninCallback(requestMock, responseMock)
-      ).toThrow(BadRequestException);
+      await expect(
+        controller.googleSigninCallback(requestMock, mockResponse())
+      ).rejects.toThrow(BadRequestException);
+    });
+  });
+
+  describe('redeemOAuthHandoff', () => {
+    it('should reject a handoff request from an untrusted origin', async () => {
+      oauthLoginTransactionService.isAllowedRedirectOrigin.mockReturnValue(false);
+
+      await expect(
+        controller.redeemOAuthHandoff(
+          { handoffCode: 'one-time-code' },
+          mockRequest({ headers: { origin: 'https://attacker.example' } })
+        )
+      ).rejects.toThrow('OAuth handoff origin not allowed');
     });
 
-    it(`should redirect to the product website if the state query param is not provided`, () => {
-      // GIVEN
-      const requestMock = mockRequest({
-        user: mockUser(),
-        query: {},
+    it('should return newly generated tokens for a valid handoff code', async () => {
+      const user = mockUser();
+      oauthLoginTransactionService.isAllowedRedirectOrigin.mockReturnValue(true);
+      oauthLoginTransactionService.redeem.mockResolvedValue(user.id);
+      vi.spyOn(authService, 'generateTokens').mockReturnValue({
+        accessToken: tokenMock,
+        refreshToken: tokenMock,
       });
-      const responseMock = mockResponse({
-        redirect: vi.fn(),
+
+      await expect(
+        controller.redeemOAuthHandoff(
+          { handoffCode: 'one-time-code' },
+          mockRequest({ headers: { origin: 'https://redir.altairgraphql.dev' } })
+        )
+      ).resolves.toEqual({
+        tokens: { accessToken: tokenMock, refreshToken: tokenMock },
       });
-      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(
-        authServiceReturnMock
-      );
-
-      // WHEN
-      controller.googleSigninCallback(requestMock, responseMock);
-
-      // THEN
-      expect(responseMock.redirect).toBeCalledWith('https://altairgraphql.dev');
     });
   });
 
   describe('getUserProfile', () => {
-    it(`should return the user object from the service`, () => {
-      // GIVEN
+    it('should return the user object from the service', () => {
       const requestMock = mockRequest({ user: mockUser() });
-      vi.spyOn(authService, 'googleLogin').mockReturnValueOnce(
-        authServiceReturnMock
-      );
 
-      // WHEN
-      const user = controller.getUserProfile(requestMock);
-
-      // THEN
-      expect(user).toBeUser();
+      expect(controller.getUserProfile(requestMock)).toBeUser();
     });
   });
 
   describe('getShortlivedEventsToken', () => {
-    it(`should return a short lived token for the current user`, () => {
-      // GIVEN
+    it('should return a short lived token for the current user', () => {
       const requestMock = mockRequest({ user: mockUser() });
       vi.spyOn(authService, 'getShortLivedEventsToken').mockReturnValueOnce(
         tokenMock
       );
 
-      // WHEN
-      const token = controller.getShortlivedEventsToken(requestMock);
-
-      // THEN
-      expect(token.slt).toEqual(tokenMock);
+      expect(controller.getShortlivedEventsToken(requestMock).slt).toEqual(
+        tokenMock
+      );
     });
 
-    it(`should throw an error if the user ID is missing from the request`, () => {
-      // GIVEN
-      const requestMock = mockRequest();
-
-      // THEN
-      expect(() => controller.getShortlivedEventsToken(requestMock)).toThrow(
+    it('should throw an error if the user ID is missing from the request', () => {
+      expect(() => controller.getShortlivedEventsToken(mockRequest())).toThrow(
         UnauthorizedException
       );
     });

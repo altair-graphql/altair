@@ -117,6 +117,22 @@ model UserCredential {
   @@unique([userId, provider])
 }
 
+model OAuthLoginTransaction {
+  id                  String           @id @default(cuid())
+  provider            IdentityProvider
+  redirectUrl         String
+  stateHash           String           @unique
+  browserBindingHash  String
+  handoffCodeHash     String?          @unique
+  userId              String?
+  expiresAt           DateTime
+  redeemedAt          DateTime?
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+
+  @@index([expiresAt])
+}
+
 model Team {
   id              String           @id @default(cuid())
   name            String

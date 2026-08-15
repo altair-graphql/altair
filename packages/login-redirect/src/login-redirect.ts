@@ -58,13 +58,13 @@ const sendToken = async (token: string) => {
 
 const getRedirectResult = () => {
   const params = new URLSearchParams(location.search);
-  const accessToken = params.get('access_token');
-  if (!accessToken) {
+  const handoffCode = params.get('handoff_code');
+  if (!handoffCode) {
     return;
   }
 
   return {
-    accessToken,
+    handoffCode,
   };
 };
 
@@ -79,6 +79,28 @@ const signInWithRedirect = (apiBaseUrl: string, provider: IdentityProvider) => {
   loginUrl.searchParams.append('state', state);
 
   return location.replace(loginUrl.href);
+};
+
+const redeemHandoffCode = async (apiBaseUrl: string, handoffCode: string) => {
+  const response = await fetch(new URL('/auth/exchange', apiBaseUrl), {
+    method: 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ handoffCode }),
+  });
+  if (!response.ok) {
+    throw new Error('Could not redeem OAuth handoff code');
+  }
+
+  const result = (await response.json()) as {
+    tokens?: { accessToken?: string };
+  };
+  if (!result.tokens?.accessToken) {
+    throw new Error('OAuth handoff did not return an access token');
+  }
+
+  return result.tokens.accessToken;
 };
 
 export const initLoginRedirect = async () => {
@@ -99,7 +121,15 @@ export const initLoginRedirect = async () => {
     return signInWithRedirect(urlConfig.api, provider);
   }
 
-  await sendToken(result.accessToken);
+  const sanitizedUrl = new URL(location.href);
+  sanitizedUrl.searchParams.delete('handoff_code');
+  history.replaceState(
+    null,
+    '',
+    `${sanitizedUrl.pathname}${sanitizedUrl.search}${sanitizedUrl.hash}`
+  );
+  const accessToken = await redeemHandoffCode(urlConfig.api, result.handoffCode);
+  await sendToken(accessToken);
 
   cleanup();
   document.body.innerText = 'You can now close this window.';

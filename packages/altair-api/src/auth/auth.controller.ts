@@ -11,22 +11,28 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
+import { IdentityProvider, User } from '@altairgraphql/db';
 import { AuthService } from './auth.service';
 import { GoogleOAuthGuard } from './guards/google-oauth.guard';
 import { GitHubOAuthGuard } from './guards/github-oauth.guard';
+import { GoogleOAuthLoginGuard } from './guards/google-oauth-login.guard';
+import { GitHubOAuthLoginGuard } from './guards/github-oauth-login.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RefreshTokenInput } from './models/refresh-token.input';
 import { VerifyEmailInput } from './models/verify-email.input';
+import { RedeemOAuthHandoffInput } from './models/redeem-oauth-handoff.input';
 import { EmailService } from 'src/email/email.service';
 import { Throttle } from '@nestjs/throttler';
 import { Config } from 'src/common/config';
+import { OAuthLoginTransactionService } from './oauth-login-transaction.service';
 
 @Controller('auth')
 export class AuthController {
   constructor(
     private authService: AuthService,
     private configService: ConfigService<Config>,
-    private emailService: EmailService
+    private emailService: EmailService,
+    private oauthLoginTransactionService: OAuthLoginTransactionService
   ) {}
 
   private validateRedirectOrigin(url: URL): boolean {
@@ -37,62 +43,48 @@ export class AuthController {
 
   @Get('google/login')
   @Throttle({ default: { ttl: 60000, limit: 10 } })
-  @UseGuards(GoogleOAuthGuard)
+  @UseGuards(GoogleOAuthLoginGuard)
   googleSignin() {
     // handled by the auth guard
   }
 
   @Get('google/callback')
   @UseGuards(GoogleOAuthGuard)
-  googleSigninCallback(@Req() req: Request, @Res() res: Response) {
-    const result = this.authService.googleLogin(req.user);
-    if (req.query.state && typeof req.query.state === 'string') {
-      try {
-        const origin = new URL(req.query.state);
-        // if (!this.validateRedirectOrigin(origin)) {
-        //   throw new BadRequestException('Redirect origin not allowed');
-        // }
-        origin.searchParams.set('access_token', result.tokens.accessToken);
-        return res.redirect(origin.href);
-      } catch (err) {
-        if (err instanceof BadRequestException) {
-          throw err;
-        }
-        throw new BadRequestException('Invalid state provided');
-      }
-    }
-
-    return res.redirect('https://altairgraphql.dev');
+  async googleSigninCallback(@Req() req: Request, @Res() res: Response) {
+    const user = this.authService.googleLogin(req.user as User);
+    return this.completeOAuthLogin(IdentityProvider.GOOGLE, req, res, user.id);
   }
 
   @Get('github/login')
   @Throttle({ default: { ttl: 60000, limit: 10 } })
-  @UseGuards(GitHubOAuthGuard)
+  @UseGuards(GitHubOAuthLoginGuard)
   githubSignin() {
     // handled by the auth guard
   }
 
   @Get('github/callback')
   @UseGuards(GitHubOAuthGuard)
-  githubSigninCallback(@Req() req: Request, @Res() res: Response) {
-    const result = this.authService.githubLogin(req.user);
-    if (req.query.state && typeof req.query.state === 'string') {
-      try {
-        const origin = new URL(req.query.state);
-        // if (!this.validateRedirectOrigin(origin)) {
-        //   throw new BadRequestException('Redirect origin not allowed');
-        // }
-        origin.searchParams.set('access_token', result.tokens.accessToken);
-        return res.redirect(origin.href);
-      } catch (err) {
-        if (err instanceof BadRequestException) {
-          throw err;
-        }
-        throw new BadRequestException('Invalid state provided');
-      }
+  async githubSigninCallback(@Req() req: Request, @Res() res: Response) {
+    const user = this.authService.githubLogin(req.user as User);
+    return this.completeOAuthLogin(IdentityProvider.GITHUB, req, res, user.id);
+  }
+
+  @Post('exchange')
+  @Throttle({ default: { ttl: 60000, limit: 10 } })
+  async redeemOAuthHandoff(
+    @Body() body: RedeemOAuthHandoffInput,
+    @Req() req: Request
+  ) {
+    const origin = req.headers.origin;
+    if (
+      typeof origin !== 'string' ||
+      !this.oauthLoginTransactionService.isAllowedRedirectOrigin(origin)
+    ) {
+      throw new BadRequestException('OAuth handoff origin not allowed');
     }
 
-    return res.redirect('https://altairgraphql.dev');
+    const userId = await this.oauthLoginTransactionService.redeem(body.handoffCode);
+    return { tokens: this.authService.generateTokens({ userId }) };
   }
 
   @Get('me')
@@ -164,5 +156,45 @@ export class AuthController {
   @Throttle({ default: { ttl: 60000, limit: 10 } })
   async verifyEmail(@Body() body: VerifyEmailInput) {
     return this.authService.verifyEmail(body.token);
+  }
+
+  private async completeOAuthLogin(
+    provider: IdentityProvider,
+    req: Request,
+    res: Response,
+    userId: string
+  ) {
+    const state = req.query.state;
+    const browserBinding = this.getCookie(
+      req.headers?.cookie,
+      'altair_oauth_transaction'
+    );
+    if (typeof state !== 'string' || !browserBinding) {
+      throw new BadRequestException('Invalid or expired OAuth transaction');
+    }
+
+    const transaction = await this.oauthLoginTransactionService.complete(
+      provider,
+      state,
+      browserBinding,
+      userId
+    );
+    res.clearCookie('altair_oauth_transaction');
+
+    const redirectUrl = new URL(transaction.redirectUrl);
+    redirectUrl.searchParams.set('handoff_code', transaction.handoffCode);
+    return res.redirect(redirectUrl.href);
+  }
+
+  private getCookie(header: string | undefined, name: string): string | undefined {
+    if (!header) {
+      return undefined;
+    }
+
+    return header
+      .split(';')
+      .map((cookie) => cookie.trim().split('=', 2))
+      .find(([key]) => key === name)
+      ?.at(1);
   }
 }
