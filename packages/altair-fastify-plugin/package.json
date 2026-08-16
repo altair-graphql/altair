@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "fastify": "^5.0.0",
-    "mercurius": "^11.5.0",
+    "mercurius": "^16.9.0",
     "ts-node": "^9.0.0",
     "typescript": "catalog:"
   },
