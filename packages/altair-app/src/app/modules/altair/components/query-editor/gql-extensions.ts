@@ -61,9 +61,10 @@ export const getCodemirrorGraphqlExtensions = (opts: ExtensionsOptions) => {
             if (completionItem.type) {
               const typeEl = document.createElement('div');
               typeEl.classList.add('cm-gqlCompletionDescriptionType');
-              typeEl.innerHTML = `<span class="cm-gqlCompletionDescriptionTypeContent">${sanitizeHtml(
-                completionItem.type.inspect()
-              )}</span>`;
+              const typeContentEl = document.createElement('span');
+              typeContentEl.classList.add('cm-gqlCompletionDescriptionTypeContent');
+              typeContentEl.textContent = completionItem.type.toString();
+              typeEl.appendChild(typeContentEl);
               typeEl.addEventListener('mousedown', (e) => {
                 e.preventDefault();
                 if (opts?.onShowInDocs) {

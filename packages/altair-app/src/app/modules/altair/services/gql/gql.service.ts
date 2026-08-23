@@ -17,6 +17,7 @@ import {
   DocumentNode,
   OperationDefinitionNode,
   IntrospectionQuery,
+  Kind,
 } from 'graphql';
 import { ContextToken } from 'graphql-language-service';
 import compress from 'graphql-query-compress';
@@ -249,7 +250,7 @@ export class GqlService {
   getEmptyDocumentNode(): DocumentNode {
     return {
       definitions: [],
-      kind: 'Document',
+      kind: Kind.DOCUMENT,
     };
   }
 

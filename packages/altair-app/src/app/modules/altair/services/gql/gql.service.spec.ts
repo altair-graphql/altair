@@ -1,22 +1,27 @@
 import { TestBed, inject } from '@angular/core/testing';
-
 import { HttpClient } from '@angular/common/http';
-
-import { GqlService } from './gql.service';
-import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
 import { EMPTY, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IntrospectionQuery, buildClientSchema } from 'graphql';
-
-import validIntrospectionData from './__mock__/valid-introspection-data';
-import { anyFn, mock } from '../../../../../testing';
-import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
-import { Position } from '../../utils/editor/helpers';
-import { ElectronAppService } from '../electron-app/electron-app.service';
+import {
+  IntrospectionQuery,
+  buildClientSchema,
+  buildSchema,
+  getIntrospectionQuery,
+  graphqlSync,
+} from 'graphql';
 import { MockProvider } from 'ng-mocks';
+
+import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { GraphQLRequestHandler } from 'altair-graphql-core/build/request/types';
 import { PerWindowState } from 'altair-graphql-core/build/types/state/per-window.interfaces';
+
+import { anyFn, mock } from '../../../../../testing';
+import { Position } from '../../utils/editor/helpers';
+import { ElectronAppService } from '../electron-app/electron-app.service';
+import { NotifyService } from '../notify/notify.service';
+import validIntrospectionData from './__mock__/valid-introspection-data';
+import { GqlService } from './gql.service';
 
 let mockHttpClient: HttpClient;
 let mockNotifyService: NotifyService;
@@ -323,6 +328,31 @@ describe('GqlService', () => {
         expect(schema).toMatchSnapshot();
       }
     ));
+
+    it('should return schema for deeply nested list types', inject(
+      [GqlService],
+      async (service: GqlService) => {
+        const sourceSchema = buildSchema(`
+          type Query {
+            coordinates: [[[[Float!]!]!]!]!
+          }
+        `);
+        const result = graphqlSync({
+          schema: sourceSchema,
+          source: getIntrospectionQuery(),
+        });
+
+        expect(result.errors).toBeUndefined();
+        const schema = service.getIntrospectionSchema(
+          result.data as unknown as IntrospectionQuery
+        );
+
+        expect(schema?.getQueryType()?.getFields().coordinates.type.toString()).toBe(
+          '[[[[Float!]!]!]!]!'
+        );
+      }
+    ));
+
     it('should return null if it cannot parse introspection data', inject(
       [GqlService],
       async (service: GqlService) => {

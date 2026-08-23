@@ -30,10 +30,20 @@
         {{ 'DOCS_VALUES_TEXT' | translate }}
       </div>
       @for (item of getTypeEnumValues(data); track schemaItemTrackBy($index, item)) {
-        @if (!(hideDeprecatedDocItems() && item?.isDeprecated)) {
+        @if (
+          !(
+            hideDeprecatedDocItems() &&
+            item?.deprecationReason !== null &&
+            item?.deprecationReason !== undefined
+          )
+        ) {
           <div
             class="doc-viewer-item doc-viewer-item-query"
-            [ngClass]="{ 'doc-viewer-item--deprecated': item.isDeprecated }"
+            [ngClass]="{
+              'doc-viewer-item--deprecated':
+                item.deprecationReason !== null &&
+                item.deprecationReason !== undefined,
+            }"
           >
             <div class="doc-viewer-item-query-inner">
               <span class="doc-viewer-item-field doc-viewer-item-value">
@@ -43,7 +53,10 @@
                 {{ item.value }}
               </span>
               <app-doc-viewer-deprecated
-                [isDeprecated]="item.isDeprecated"
+                [isDeprecated]="
+                  item.deprecationReason !== null &&
+                  item.deprecationReason !== undefined
+                "
                 [deprecatedReason]="item.deprecationReason"
               />
             </div>
@@ -69,7 +82,7 @@
           <div class="doc-viewer-item-query-inner">
             <span
               class="doc-viewer-item-field doc-viewer-item-value no-link-link"
-              (click)="goToType(item.inspect())"
+              (click)="goToType(item.toString())"
             >
               {{ item.name }}
             </span>
@@ -132,10 +145,20 @@
           | collectionTransform: sortFieldsTransformer : sortByOption();
         track schemaItemTrackBy($index, item)
       ) {
-        @if (!(hideDeprecatedDocItems() && item?.isDeprecated)) {
+        @if (
+          !(
+            hideDeprecatedDocItems() &&
+            item?.deprecationReason !== null &&
+            item?.deprecationReason !== undefined
+          )
+        ) {
           <div
             class="doc-viewer-item doc-viewer-item-query"
-            [ngClass]="{ 'doc-viewer-item--deprecated': item.isDeprecated }"
+            [ngClass]="{
+              'doc-viewer-item--deprecated':
+                item.deprecationReason !== null &&
+                item.deprecationReason !== undefined,
+            }"
           >
             <div class="doc-viewer-item-query-inner">
               <span
@@ -154,12 +177,14 @@
                 ) {
                   <span
                     [ngClass]="{
-                      'doc-viewer-item--deprecated': arg.deprecationReason,
+                      'doc-viewer-item--deprecated':
+                        arg.deprecationReason !== null &&
+                        arg.deprecationReason !== undefined,
                     }"
                   >
                     <span
                       class="doc-viewer-item-field no-link-link"
-                      (click)="goToType(arg.type.inspect())"
+                      (click)="goToType(arg.type.toString())"
                     >
                       {{ arg.name }}
                       @if (getDefaultValue(arg)) {
@@ -170,8 +195,8 @@
                     </span>
                     <span
                       class="doc-viewer-item-type no-link-link"
-                      (click)="goToType(arg.type.inspect())"
-                      >{{ arg.type.inspect() }}</span
+                      (click)="goToType(arg.type.toString())"
+                      >{{ arg.type.toString() }}</span
                     >
                     @if (!last) {
                       <span>,</span>
@@ -182,13 +207,16 @@
               }
               <span
                 class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
-                (click)="goToType(item.type.inspect())"
+                (click)="goToType(item.type.toString())"
               >
-                {{ item.type.inspect() }}
+                {{ item.type.toString() }}
               </span>
             </div>
             <app-doc-viewer-deprecated
-              [isDeprecated]="item.isDeprecated"
+              [isDeprecated]="
+                item.deprecationReason !== null &&
+                item.deprecationReason !== undefined
+              "
               [deprecatedReason]="item.deprecationReason"
             />
             <div
@@ -227,7 +255,7 @@
           <div class="doc-viewer-item-query-inner">
             <span
               class="doc-viewer-item-field doc-viewer-item-value no-link-link"
-              (click)="goToType(item.inspect())"
+              (click)="goToType(item.toString())"
             >
               {{ item.name }}
             </span>
@@ -251,7 +279,7 @@
           <div class="doc-viewer-item-query-inner">
             <span
               class="doc-viewer-item-field doc-viewer-item-value no-link-link"
-              (click)="goToType(item.inspect())"
+              (click)="goToType(item.toString())"
             >
               {{ item.name }}
             </span>
@@ -270,10 +298,7 @@
       <div class="doc-viewer-section-title">
         {{ 'DOCS_USED_IN_OPERATIONS_TEXT' | translate }}
       </div>
-      @for (
-        item of relatedOperations();
-        track item.name + item.parentType
-      ) {
+      @for (item of relatedOperations(); track item.name + item.parentType) {
         <div class="doc-viewer-item doc-viewer-item-query">
           <div class="doc-viewer-item-query-inner">
             <span
@@ -302,10 +327,7 @@
       <div class="doc-viewer-section-title">
         {{ 'DOCS_USED_IN_TYPES_TEXT' | translate }}
       </div>
-      @for (
-        item of parentTypes();
-        track item.name
-      ) {
+      @for (item of parentTypes(); track item.name) {
         <div class="doc-viewer-item doc-viewer-item-query">
           <div class="doc-viewer-item-query-inner">
             <span

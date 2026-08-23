@@ -6,9 +6,9 @@
  *
  */
 
-import invariant from 'graphql/jsutils/invariant';
-import keyMap from 'graphql/jsutils/keyMap';
-import keyValMap from 'graphql/jsutils/keyValMap';
+import { invariant } from 'graphql/jsutils/invariant';
+import { keyMap } from 'graphql/jsutils/keyMap';
+import { keyValMap } from 'graphql/jsutils/keyValMap';
 import { valueFromAST } from 'graphql/utilities/valueFromAST';
 import { parseValue } from 'graphql/language/parser';
 import { GraphQLSchema, GraphQLSchemaValidationOptions } from 'graphql/type/schema';
@@ -104,7 +104,7 @@ export function buildClientSchema(
       if (!itemRef) {
         throw new Error('Decorated type deeper than introspection query.');
       }
-      return GraphQLList(getType(itemRef));
+      return new GraphQLList(getType(itemRef));
     }
     if (typeRef.kind === TypeKind.NON_NULL) {
       const nullableRef = typeRef.ofType;
@@ -112,7 +112,7 @@ export function buildClientSchema(
         throw new Error('Decorated type deeper than introspection query.');
       }
       const nullableType = getType(nullableRef);
-      return GraphQLNonNull(assertNullableType(nullableType));
+      return new GraphQLNonNull(assertNullableType(nullableType));
     }
     if (!typeRef.name) {
       throw new Error('Unknown type reference: ' + JSON.stringify(typeRef));
