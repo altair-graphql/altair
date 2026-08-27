@@ -18,7 +18,7 @@
     "altair-graphql-core": "workspace:*",
     "glob": "^13.0.6",
     "hast-util-to-string": "^3.0.1",
-    "inflection": "^3.0.0",
+    "inflection": "^3.0.2",
     "lodash.escaperegexp": "^4.1.2",
     "lodash.sortby": "^4.7.0",
     "markdown-it": "^14.0.0",
