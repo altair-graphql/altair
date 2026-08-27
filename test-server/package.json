@@ -39,7 +39,7 @@
     "@types/graphql": "^14.2.0",
     "@types/graphql-upload": "^16.0.7",
     "@types/lodash": "4.17.20",
-    "@types/node": "^18.15.0",
+    "@types/node": "^25.6.0",
     "@types/ws": "^8.5.4",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.1",
