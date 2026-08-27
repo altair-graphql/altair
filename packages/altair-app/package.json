@@ -34,7 +34,7 @@
     "@lezer/highlight": "1.2.3",
     "@lezer/lr": "1.4.4",
     "@ngneat/hot-toast": "2.0.1",
-    "@ngneat/overview": "1.0.0",
+    "@ngneat/overview": "8.1.0",
     "@ngneat/until-destroy": "8.0.1",
     "@ngrx/effects": "15.4.0",
     "@ngrx/store": "15.4.0",
