@@ -12,7 +12,7 @@
     "build:f": "web-ext build -s dist --verbose"
   },
   "dependencies": {
-    "@tanstack/react-table": "^8.20.6",
+    "@tanstack/react-table": "^8.21.3",
     "@types/react-syntax-highlighter": "^15.5.13",
     "altair-graphql-core": "workspace:*",
     "altair-static": "workspace:*",
