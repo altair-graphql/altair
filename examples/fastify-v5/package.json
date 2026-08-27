@@ -7,7 +7,7 @@
     "@types/node": "^22.7.4",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "5.2.2"
+    "typescript": "6.0.3"
   },
   "dependencies": {
     "@fastify/helmet": "^13.0.1",
