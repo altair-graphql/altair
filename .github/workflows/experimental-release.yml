@@ -37,12 +37,11 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       # https://developers.cloudflare.com/pages/how-to/use-direct-upload-with-continuous-integration/#use-github-actions
       - name: Publish to cloudflare pages ✨
-        uses: cloudflare/pages-action@f0a1cd58cd66095dee69bfa18fa5efd1dde93bca # v1.5.0
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: altair-site
-          directory: packages/altair-docs/.vitepress/dist
+          command: pages deploy packages/altair-docs/.vitepress/dist --project-name=altair-site
           gitHubToken: ${{ github.token }}
   # deploy-docs:
   #   name: Deploy docs
