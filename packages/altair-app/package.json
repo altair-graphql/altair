@@ -10,7 +10,7 @@
     "@altairgraphql/tauri": "workspace:*",
     "@angular/animations": "20.3.33",
     "@angular/cdk": "20.2.14",
-    "@angular/cli": "20.3.38",
+    "@angular/cli": "20.3.33",
     "@angular/common": "20.3.33",
     "@angular/core": "20.3.33",
     "@angular/forms": "20.3.33",
