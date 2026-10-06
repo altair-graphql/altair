@@ -3,7 +3,7 @@
 exports[`QueryEditorComponent > should render correctly 1`] = `
 <div
   id="root1"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
   style="flex-grow: 1;"
 >
   <nz-tabset

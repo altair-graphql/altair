@@ -3,7 +3,7 @@
 exports[`QueryCollectionsComponent > should render passed collections correctly 1`] = `
 <div
   id="root1"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <div
     class="query-collections-wrapper"

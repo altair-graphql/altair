@@ -3,7 +3,7 @@
 exports[`FancyInputComponent > should render the highlights correctly based on the matched variables in text 1`] = `
 <div
   id="root2"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <div
     class="fancy-input-container"
@@ -64,7 +64,7 @@ exports[`FancyInputComponent > should render the highlights correctly based on t
 exports[`FancyInputComponent > should set component value when input value changes 1`] = `
 <div
   id="root1"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <div
     class="fancy-input-container"
