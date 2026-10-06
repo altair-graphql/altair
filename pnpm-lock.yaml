@@ -31,6 +31,9 @@ catalogs:
       specifier: 4.1.13
       version: 4.1.13
 
+overrides:
+  piscina: 5.3.2
+
 importers:
 
   .:
@@ -17940,8 +17943,8 @@ packages:
     resolution: {integrity: sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==}
     engines: {node: '>= 6'}
 
-  piscina@5.2.0:
-    resolution: {integrity: sha512-DszUCKeVN/5G5QKo6jAVHL8fmKnkJvQ0ACiVgY7YGCq3TUB2oznAOayvZPIAdEThvhczkXR+qm3IHsNXpFCYfA==}
+  piscina@5.3.2:
+    resolution: {integrity: sha512-vv7l/mM7B9WgrhDaudIqv1x6v4LOBRYYmpWGdWushhpbCmVHp11sUB2v4hj1CAeTGXVxuZFz6xOU1RalAiPKfQ==}
     engines: {node: '>=20.x'}
 
   pkce-challenge@5.0.1:
@@ -22302,7 +22305,7 @@ snapshots:
       mrmime: 2.0.1
       parse5-html-rewriting-stream: 8.0.0
       picomatch: 4.0.4
-      piscina: 5.2.0
+      piscina: 5.3.2
       rollup: 4.59.0
       sass: 1.90.0
       semver: 7.7.2
@@ -41458,7 +41461,7 @@ snapshots:
 
   pirates@4.0.7: {}
 
-  piscina@5.2.0:
+  piscina@5.3.2:
     optionalDependencies:
       '@napi-rs/nice': 1.1.1
 
