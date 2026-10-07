@@ -3,7 +3,7 @@
 exports[`QueryCollectionItemComponent > should render collapsed collection correctly 1`] = `
 <div
   id="root8"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <div
     class="query-collections__item"
@@ -306,7 +306,7 @@ exports[`QueryCollectionItemComponent > should render collapsed collection corre
 exports[`QueryCollectionItemComponent > should render queries correctly 1`] = `
 <div
   id="root1"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <div
     class="query-collections__item"

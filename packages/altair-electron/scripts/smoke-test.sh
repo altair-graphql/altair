@@ -29,9 +29,9 @@ echo "Launching: $LAUNCH_CMD"
 eval "$LAUNCH_CMD" --enable-logging --log-level=0 --log-file=/dev/stderr --disable-gpu --smoke-test &
 APP_PID=$!
 
-# Wait up to 120s for the app to exit cleanly on its own (smoke-test mode).
-# macOS CI runners are slower and Angular startup can take >60s on a cold run.
-for i in $(seq 1 120); do
+# Wait up to 300s for the app to exit cleanly on its own (smoke-test mode).
+# macOS CI runners are slower and Angular startup can take >120s on a cold run.
+for i in $(seq 1 300); do
   if ! kill -0 $APP_PID 2>/dev/null; then
     wait $APP_PID
     EXIT_CODE=$?
@@ -46,6 +46,6 @@ for i in $(seq 1 120); do
   sleep 1
 done
 
-echo "Smoke test failed: app did not reach ready-to-show within 120s"
+echo "Smoke test failed: app did not reach ready-to-show within 300s"
 kill $APP_PID
 exit 1

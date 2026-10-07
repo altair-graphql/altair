@@ -4,7 +4,7 @@ exports[`WindowSwitcherComponent > should render correctly 1`] = `
 <div
   class="window-switcher__no-scrollbar"
   id="root1"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <div
     cdkdroplist=""

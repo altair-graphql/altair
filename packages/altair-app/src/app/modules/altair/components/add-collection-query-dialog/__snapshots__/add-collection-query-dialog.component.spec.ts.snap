@@ -3,7 +3,7 @@
 exports[`AddCollectionQueryDialogComponent > should render correctly 1`] = `
 <div
   id="root0"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <app-dialog>
     <div
@@ -125,7 +125,7 @@ exports[`AddCollectionQueryDialogComponent > should render correctly 1`] = `
 exports[`AddCollectionQueryDialogComponent > should render correctly with [collections] 1`] = `
 <div
   id="root4"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <app-dialog>
     <div
@@ -247,7 +247,7 @@ exports[`AddCollectionQueryDialogComponent > should render correctly with [colle
 exports[`AddCollectionQueryDialogComponent > should render correctly with [windowTitle] 1`] = `
 <div
   id="root2"
-  ng-version="20.3.3"
+  ng-version="20.3.33"
 >
   <app-dialog>
     <div
