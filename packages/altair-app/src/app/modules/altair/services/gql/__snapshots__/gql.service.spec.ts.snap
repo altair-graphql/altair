@@ -76,8 +76,8 @@ GraphQLSchema {
   },
   "astNode": undefined,
   "description": undefined,
-  "extensionASTNodes": undefined,
-  "extensions": undefined,
+  "extensionASTNodes": [],
+  "extensions": {},
 }
 `;
 
@@ -153,8 +153,7 @@ fragment GOTHouseFields on GOTHouse {
   titles
   seats
   words
-}
-"
+}"
 `;
 
 exports[`GqlService > .refactorQuery() > should return edited query with generated name 2`] = `

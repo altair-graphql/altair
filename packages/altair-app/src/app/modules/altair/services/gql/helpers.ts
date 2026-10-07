@@ -9,12 +9,13 @@ import {
   DocumentNode,
   getNamedType,
   FieldNode,
-  Visitor,
+  ASTVisitor,
   isLeafType,
   ArgumentNode,
   ValueNode,
   valueFromASTUntyped,
   Kind,
+  parseType,
 } from 'graphql';
 import { IDictionary } from '../../interfaces/shared';
 import { debug } from '../../utils/logger';
@@ -99,7 +100,7 @@ export const getFragmentDefinitionFromRefactorMap = (
               kind: Kind.NAME,
               value: field,
             },
-            type: fieldValue ? fieldValue.type.inspect() : '',
+            type: fieldValue ? fieldValue.type.toString() : '',
           };
         }),
       },
@@ -198,8 +199,8 @@ export const generateTypeUsageEntries = (
     return res;
   }
 
-  const innerVisitor: Visitor<any> = {
-    enter(node) {
+  const innerVisitor: ASTVisitor = {
+    enter(node: any) {
       typeInfo.enter(node);
       const type = typeInfo.getType();
       node.type = type;
@@ -235,7 +236,7 @@ export const generateTypeUsageEntries = (
       }
       return node;
     },
-    leave(node) {
+    leave(node: any) {
       typeInfo.leave(node);
     },
   };
@@ -355,7 +356,7 @@ export const refactorArgumentsToVariables = (
                 const variableMapEntry = {
                   name: variableName,
                   value: argumentNodeToJS(node, variables),
-                  type: foundArg.type.inspect(),
+                  type: foundArg.type.toString(),
                 };
                 variablesMap[variableName] = variableMapEntry;
                 variablesPipeline.push(variableMapEntry);
@@ -393,13 +394,7 @@ export const refactorArgumentsToVariables = (
                       value: variableMapEntry.name,
                     },
                   },
-                  type: {
-                    kind: Kind.NAMED_TYPE,
-                    name: {
-                      kind: Kind.NAME,
-                      value: variableMapEntry.type,
-                    },
-                  },
+                  type: parseType(variableMapEntry.type),
                 };
               })
             ),

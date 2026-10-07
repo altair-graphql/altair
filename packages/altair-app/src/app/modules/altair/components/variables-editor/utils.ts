@@ -1,4 +1,5 @@
 import {
+  getNamedType,
   getNullableType,
   GraphQLInputObjectType,
   GraphQLInputType,
@@ -91,7 +92,7 @@ export const graphqlInputTypeToJsonSchemaType = (
       {
         type: 'array',
         items: graphqlInputTypeToJsonSchemaType(type.ofType, depth + 1),
-        description: type.ofType?.description ?? undefined,
+        description: getNamedType(type.ofType).description ?? undefined,
         default: defaultValue,
       },
       isNullableType(originalType)
@@ -107,7 +108,7 @@ export const graphqlInputTypeToJsonSchemaType = (
           acc[key] = graphqlInputTypeToJsonSchemaType(
             field.type,
             depth + 1,
-            field.defaultValue
+            field.defaultValue as JSONSchema7Type | undefined
           );
           return acc;
         },

@@ -11,7 +11,9 @@
         [data]="data.description || ''"
       ></div>
       <app-doc-viewer-deprecated
-        [isDeprecated]="data.isDeprecated"
+        [isDeprecated]="
+          data.deprecationReason !== null && data.deprecationReason !== undefined
+        "
         [deprecatedReason]="data.deprecationReason"
       />
       <div class="doc-viewer-item-query-inner">
@@ -58,7 +60,7 @@
       @for (arg of data.args; track arg.name) {
         <div class="doc-viewer-item doc-viewer-item-query">
           <div class="doc-viewer-item-query-inner">
-            <span class="no-link-link" (click)="goToType(arg.type.inspect())">
+            <span class="no-link-link" (click)="goToType(arg.type.toString())">
               {{ arg.name }}
               @if (getDefaultValue(arg)) {
                 <span class="doc-viewer-item-value"
@@ -68,9 +70,9 @@
             </span>
             <span
               class="doc-viewer-item-type doc-viewer-item-query-type no-link-link"
-              (click)="goToType(arg.type.inspect())"
+              (click)="goToType(arg.type.toString())"
             >
-              {{ arg.type.inspect() }}
+              {{ arg.type.toString() }}
             </span>
           </div>
           <div
@@ -80,7 +82,9 @@
           ></div>
 
           <app-doc-viewer-deprecated
-            [isDeprecated]="!!arg.deprecationReason"
+            [isDeprecated]="
+              arg.deprecationReason !== null && arg.deprecationReason !== undefined
+            "
             [deprecatedReason]="arg.deprecationReason"
           />
         </div>

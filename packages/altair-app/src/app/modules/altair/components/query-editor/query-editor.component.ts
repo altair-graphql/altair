@@ -280,13 +280,13 @@ export class QueryEditorComponent implements OnInit, AfterViewInit {
     if (reference.field && reference.type) {
       this.showTokenInDocsChange.emit({
         view: 'field',
-        parentType: reference.type.inspect(),
+        parentType: reference.type.toString(),
         name: reference.field.name,
       });
     } else if (reference.type) {
       this.showTokenInDocsChange.emit({
         view: 'type',
-        name: reference.type.inspect(),
+        name: reference.type.toString(),
       });
     }
   }

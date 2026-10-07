@@ -60,7 +60,7 @@ export const generateQuery = async (
     maxDepth,
     currentDepth: 0,
   });
-  const selectionSet = {
+  const selectionSet: SelectionSetNode = {
     kind: Kind.SELECTION_SET,
     // start building actual content here
     selections: [selectionNode],
@@ -86,9 +86,9 @@ const getOperationType = (schema: GraphQLSchema, type: GraphQLObjectType) => {
     Maybe<GraphQLObjectType<any, any>>,
     OperationTypeNode
   >([
-    [schema.getQueryType(), 'query'],
-    [schema.getMutationType(), 'mutation'],
-    [schema.getSubscriptionType(), 'subscription'],
+    [schema.getQueryType(), OperationTypeNode.QUERY],
+    [schema.getMutationType(), OperationTypeNode.MUTATION],
+    [schema.getSubscriptionType(), OperationTypeNode.SUBSCRIPTION],
   ]);
 
   return typeToOperation.get(type);
