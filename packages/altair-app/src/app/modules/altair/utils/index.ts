@@ -3,7 +3,7 @@ import JSONBigint from 'json-bigint';
 import isElectron from 'altair-graphql-core/build/utils/is_electron';
 import { isExtension, isFirefoxExtension } from 'altair-graphql-core/build/crx';
 import { debug } from './logger';
-import { IDictionary } from '../interfaces/shared';
+import { IDictionary, TODO } from '../interfaces/shared';
 import fileDialog from 'file-dialog';
 import { VARIABLE_REGEX } from '../services/environment/environment.service';
 import { commentRegex } from './comment-regex';
@@ -154,8 +154,7 @@ export const jsonc = (str: string) => {
   return JSON.parse(str);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const parseJson = (str: string, defaultValue: unknown = {}): any => {
+export const parseJson = (str: string, defaultValue: unknown = {}): TODO => {
   try {
     return normalizeBigNumbers(JSONBigint.parse(str));
   } catch {
