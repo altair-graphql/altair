@@ -7,6 +7,7 @@ import { Injectable, inject } from '@angular/core';
 import {
   buildClientSchema,
   buildSchema,
+  Kind,
   parse,
   print,
   GraphQLSchema,
@@ -17,6 +18,7 @@ import {
   DocumentNode,
   OperationDefinitionNode,
   IntrospectionQuery,
+  SelectionSetNode,
 } from 'graphql';
 import { ContextToken } from 'graphql-language-service';
 import compress from 'graphql-query-compress';
@@ -91,6 +93,47 @@ interface IntrospectionRequestOptions
   specifiedByUrl?: boolean;
 }
 
+// TODO: Remove after upgrading graphql-js to >=16.8.0, which has this depth by default.
+const TYPE_REF_DEPTH = 9;
+
+const createTypeRefSelectionSet = (depth: number): SelectionSetNode => ({
+  kind: Kind.SELECTION_SET,
+  selections: [
+    { kind: Kind.FIELD, name: { kind: Kind.NAME, value: 'kind' } },
+    { kind: Kind.FIELD, name: { kind: Kind.NAME, value: 'name' } },
+    ...(depth > 0
+      ? [
+          {
+            kind: Kind.FIELD,
+            name: { kind: Kind.NAME, value: 'ofType' },
+            selectionSet: createTypeRefSelectionSet(depth - 1),
+          },
+        ]
+      : []),
+  ],
+});
+
+export const getIntrospectionQueryWithDeepTypeRefs = (
+  options: Parameters<typeof getIntrospectionQuery>[0]
+) => {
+  const document = parse(getIntrospectionQuery(options));
+  const definitions = document.definitions.map((definition) => {
+    if (
+      definition.kind !== Kind.FRAGMENT_DEFINITION ||
+      definition.name.value !== 'TypeRef'
+    ) {
+      return definition;
+    }
+
+    return {
+      ...definition,
+      selectionSet: createTypeRefSelectionSet(TYPE_REF_DEPTH),
+    };
+  });
+
+  return print({ ...document, definitions });
+};
+
 @Injectable()
 export class GqlService {
   private http = inject(HttpClient);
@@ -132,7 +175,7 @@ export class GqlService {
   private _getIntrospectionRequest(opts: IntrospectionRequestOptions) {
     const requestOpts: SendRequestOptions = {
       url: opts.url,
-      query: getIntrospectionQuery({
+      query: getIntrospectionQueryWithDeepTypeRefs({
         descriptions: opts.descriptions ?? true,
         inputValueDeprecation: opts.inputValueDeprecation,
         directiveIsRepeatable: opts.directiveIsRepeatable,

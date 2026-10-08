@@ -132,6 +132,15 @@ describe('utils', () => {
       const result = parseJson('{"id":9007199254740993}');
       expect(result).toBeTruthy();
     });
+    it('should keep long decimal values numeric while preserving large integers', () => {
+      const result = parseJson(
+        '{"float":100000.4166666663,"id":9007199254740993}'
+      );
+
+      expect(JSON.stringify(result)).toBe(
+        '{"float":100000.4166666663,"id":"9007199254740993"}'
+      );
+    });
   });
 
   describe('.mapToKeyValueList', () => {
