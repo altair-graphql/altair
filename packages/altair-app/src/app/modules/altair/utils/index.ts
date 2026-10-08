@@ -154,7 +154,8 @@ export const jsonc = (str: string) => {
   return JSON.parse(str);
 };
 
-export const parseJson = (str: string, defaultValue: unknown = {}) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const parseJson = (str: string, defaultValue: unknown = {}): any => {
   try {
     return normalizeBigNumbers(JSONBigint.parse(str));
   } catch {
