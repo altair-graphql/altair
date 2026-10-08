@@ -156,12 +156,51 @@ export const jsonc = (str: string) => {
 
 export const parseJson = (str: string, defaultValue: unknown = {}) => {
   try {
-    return JSONBigint.parse(str);
+    return normalizeBigNumbers(JSONBigint.parse(str));
   } catch {
     debug.error('Could not parse JSON. Using default instead.');
     return defaultValue;
   }
 };
+
+interface BigNumberValue {
+  isInteger(): boolean;
+  toNumber(): number;
+}
+
+const isBigNumberValue = (value: unknown): value is BigNumberValue => {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'isInteger' in value &&
+    typeof value.isInteger === 'function' &&
+    'toNumber' in value &&
+    typeof value.toNumber === 'function'
+  );
+};
+
+const normalizeBigNumbers = (value: unknown): unknown => {
+  if (isBigNumberValue(value)) {
+    const number = value.toNumber();
+    return !value.isInteger() || Number.isSafeInteger(number) ? number : value;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(normalizeBigNumbers);
+  }
+
+  if (typeof value === 'object' && value !== null) {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, nestedValue]) => [
+        key,
+        normalizeBigNumbers(nestedValue),
+      ])
+    );
+  }
+
+  return value;
+};
+
 export const copyToClipboard = (str: string) => {
   const el = document.createElement('textarea'); // Create a <textarea> element
   el.value = str; // Set its value to the string that you want copied

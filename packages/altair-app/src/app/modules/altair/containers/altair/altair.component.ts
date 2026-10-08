@@ -913,7 +913,7 @@ export class AltairComponent {
 
   openWebAppLimitationPost(e: Event) {
     externalLink(
-      'https://sirmuel.design/altair-graphql-web-app-limitations-b671a0a460b8',
+      'https://altairgraphql.dev/docs/learn/web-limitations',
       e
     );
   }

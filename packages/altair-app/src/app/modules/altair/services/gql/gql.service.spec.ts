@@ -7,9 +7,16 @@ import { NotifyService } from '../notify/notify.service';
 import { Store } from '@ngrx/store';
 import { EMPTY, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { IntrospectionQuery, buildClientSchema } from 'graphql';
+import {
+  IntrospectionQuery,
+  buildClientSchema,
+  buildSchema,
+  execute,
+  parse,
+} from 'graphql';
 
 import validIntrospectionData from './__mock__/valid-introspection-data';
+import { getIntrospectionQueryWithDeepTypeRefs } from './gql.service';
 import { anyFn, mock } from '../../../../../testing';
 import { RootState } from 'altair-graphql-core/build/types/state/state.interfaces';
 import { Position } from '../../utils/editor/helpers';
@@ -321,6 +328,27 @@ describe('GqlService', () => {
         const schema = service.getIntrospectionSchema(validIntrospectionData as any);
 
         expect(schema).toMatchSnapshot();
+      }
+    ));
+    it('should return schema for deeply nested list types', inject(
+      [GqlService],
+      async (service: GqlService) => {
+        const introspection = await execute({
+          schema: buildSchema('type Query { nested: [[[[Float!]!]!]!]! }'),
+          document: parse(
+            getIntrospectionQueryWithDeepTypeRefs({ descriptions: false })
+          ),
+        });
+
+        if (!introspection.data) {
+          throw new Error('Introspection query returned no data.');
+        }
+
+        expect(
+          service.getIntrospectionSchema(
+            introspection.data as IntrospectionQuery
+          )
+        ).not.toBeNull();
       }
     ));
     it('should return null if it cannot parse introspection data', inject(
