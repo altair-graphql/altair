@@ -1,6 +1,6 @@
 {
   "name": "@altairgraphql/electron-settings",
-  "version": "8.5.10",
+  "version": "8.5.11",
   "main": "dist/index.html",
   "license": "MIT",
   "private": true,
