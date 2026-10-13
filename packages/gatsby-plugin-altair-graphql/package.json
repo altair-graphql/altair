@@ -8,9 +8,9 @@
     "altair-express-middleware": "workspace:*"
   },
   "devDependencies": {
-    "@types/express": "^4.17.13",
+    "@types/express": "^5.0.6",
     "@types/node": "catalog:",
-    "express": "^4.19.2",
+    "express": "^5.2.1",
     "typescript": "catalog:"
   },
   "funding": {
