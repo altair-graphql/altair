@@ -516,10 +516,10 @@ koa-compose@^4.1.0:
   resolved "https://registry.yarnpkg.com/koa-compose/-/koa-compose-4.1.0.tgz#507306b9371901db41121c812e923d0d67d3e877"
   integrity sha512-8ODW8TrDuMYvXRwra/Kh7/rJo9BtOfPc6qO8eAfC80CnCvSjSl0bkRM24X6/XBBEyj0v1nRUQ1LyOy3dbqOWXw==
 
-koa-helmet@^8.0.1:
-  version "8.0.1"
-  resolved "https://registry.yarnpkg.com/koa-helmet/-/koa-helmet-8.0.1.tgz#ed2603d91e715a84a3ce9b17f1c1c9f4bcc21586"
-  integrity sha512-lXDqTqNLgqyOKEuCSF3MFReJmEQQ0GD0NzkdSe9dKH87NSMc5GxAA7H5mYaAT+UJypYkIS1lPNRqTuEUgl+l3Q==
+koa-helmet@^9.0.0:
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/koa-helmet/-/koa-helmet-9.0.0.tgz#20afbf6f2c68195cd21ecd81d7e3e79c4c4079bb"
+  integrity sha512-RuYf19wAQ8twvWHUF4wF0TmJGl1EpOGkDruAXx1KAJm+GdBmbFjCdR09wr13D0IgxpfpsfCzDibC9542KvYRrg==
 
 koa@^3.0.1:
   version "3.0.1"
