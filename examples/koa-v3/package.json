@@ -12,7 +12,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@koa/router": "^14.0.0",
+    "@koa/router": "^15.4.0",
     "helmet": "^8.1.0",
     "koa": "^3.0.1",
     "koa-helmet": "^8.0.1"
