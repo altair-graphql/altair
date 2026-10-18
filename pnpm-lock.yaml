@@ -307,8 +307,8 @@ importers:
         specifier: ^0.19.0
         version: 0.19.0(@nestjs/common@11.2.7(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.1.14)(rxjs@7.8.1))(@prisma/client@6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3))(chokidar@3.6.0)(prisma@6.19.3(typescript@5.9.3))
       nodemailer:
-        specifier: ^8.0.11
-        version: 8.0.11
+        specifier: 10.1.2
+        version: 10.1.2
       passport:
         specifier: ^0.7.0
         version: 0.7.0
@@ -16746,9 +16746,9 @@ packages:
     resolution: {integrity: sha512-5qr2okC4ItAI0hG5SaV0HoYMpnM/Y6+Oqr7AmPYy/2uEoGvS+GbSKLeRxSS1uAdu59yz0ouzcuXievSgg///WA==}
     engines: {node: '>=18'}
 
-  nodemailer@8.0.11:
-    resolution: {integrity: sha512-nrO/pDAUKl+wXX+lx16tDLbnm0fW6sK/x8mgohaCpg+CdCEl482bD4tCuAZk2DyliruiNTIZxRCoWkDqJEnAiA==}
-    engines: {node: '>=6.0.0'}
+  nodemailer@10.1.2:
+    resolution: {integrity: sha512-rnQn9Rzh8RAwcp42MVsIvxbsv6YZ2a2/av+uyJ/LPU1+2QSlrRgFsWWZTKenyRUqkIl8urOI0c4+CEcmFdsvQw==}
+    engines: {node: '>=20.0.0'}
 
   nodemon@3.1.14:
     resolution: {integrity: sha512-jakjZi93UtB3jHMWsXL68FXSAosbLfY0In5gtKq3niLSkrWznrVBzXFNOEMJUfc9+Ke7SHWoAZsiMkNP3vq6Jw==}
@@ -38808,7 +38808,7 @@ snapshots:
 
   node-releases@2.0.59: {}
 
-  nodemailer@8.0.11: {}
+  nodemailer@10.1.2: {}
 
   nodemon@3.1.14:
     dependencies:
