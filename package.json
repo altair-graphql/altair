@@ -93,6 +93,11 @@
     "typedoc": "typedoc"
   },
   "packageManager": "pnpm@9.15.0",
+  "pnpm": {
+    "overrides": {
+      "@nestjs/cli>glob": "10.5.0"
+    }
+  },
   "dependencies": {
     "rxjs": "7.8.1"
   }
