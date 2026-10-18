@@ -3,7 +3,7 @@
 exports[`HeaderComponent > should render correctly 1`] = `
 <div
   id="root1"
-  ng-version="20.3.33"
+  ng-version="20.3.34"
 >
   <div
     class="header__logo-wrapper"
