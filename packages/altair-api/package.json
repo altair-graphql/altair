@@ -62,7 +62,7 @@
     "zod": "catalog:"
   },
   "devDependencies": {
-    "@nestjs/cli": "^10.4.9",
+    "@nestjs/cli": "10.4.2",
     "@nestjs/schematics": "^10.2.3",
     "@nestjs/testing": "^10.4.22",
     "@swc/core": "^1.16.18",
