@@ -9,14 +9,14 @@
     "@koa/send": "^6.0.0"
   },
   "devDependencies": {
-    "@types/koa": "^3.0.0",
-    "@types/koa__router": "^12.0.4",
+    "@types/koa": "^3.0.3",
+    "@types/koa__router": "^12.0.5",
     "@types/node": "catalog:",
-    "@types/supertest": "^6.0.2",
-    "koa": "^3.0.1",
+    "@types/supertest": "^6.0.3",
+    "koa": "^3.2.1",
     "nodemon": "^3.1.14",
-    "supertest": "^7.0.0",
-    "ts-node": "^10.2.1",
+    "supertest": "^7.3.1",
+    "ts-node": "^10.9.2",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },

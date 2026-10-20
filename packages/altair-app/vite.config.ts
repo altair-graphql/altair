@@ -67,6 +67,8 @@ export default defineConfig(({ mode }) => ({
   },
   test: {
     globals: true,
+    // Forked processes load sanitize-html's require() of ESM-only htmlparser2 natively
+    pool: 'forks',
     setupFiles: ['src/test-setup.ts'],
     environment: 'jsdom',
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],

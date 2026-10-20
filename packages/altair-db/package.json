@@ -3,12 +3,12 @@
   "version": "8.5.11",
   "dependencies": {
     "@prisma/client": "^6.19.3",
-    "dotenv": "^16.4.5",
+    "dotenv": "^16.6.1",
     "prisma": "^6.19.3"
   },
   "devDependencies": {
     "@types/node": "catalog:",
-    "ts-node": "^10.0.0",
+    "ts-node": "^10.9.2",
     "typescript": "catalog:"
   },
   "license": "MIT",

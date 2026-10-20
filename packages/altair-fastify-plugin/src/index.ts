@@ -35,9 +35,9 @@ const fastifyAltairPluginFn = async (
   fastify.register(fastifyStatic, {
     root: getDistDirectory(),
     prefix: renderOptions.baseURL ?? '/altair/',
-    setHeaders: (res, path) => {
+    setHeaders: (reply, path) => {
       if (isSandboxFrame(path)) {
-        res.setHeader('Content-Security-Policy', SANDBOX_FRAME_CSP);
+        reply.header('Content-Security-Policy', SANDBOX_FRAME_CSP);
       }
     },
   });
