@@ -1,0 +1,92 @@
+name: pr-preview
+
+# Deploys the web app to a Cloudflare Pages preview for each pull request
+# and posts (or updates) a comment with the preview URL.
+
+on:
+  pull_request:
+
+env:
+  NODE_VERSION: 22
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions: {}
+
+jobs:
+  preview:
+    name: Deploy PR preview
+    # Forks and Dependabot don't have access to the Cloudflare secrets
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@fa2e9d605c4eeb9fcad4c99c224cee0c6c7f3594 # v2.16.0
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@41ff72655975bd51cab0327fa583b6e92b6d3061 # v4.2.0
+
+      - name: Use Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
+
+      - name: Bootstrap monorepo
+        run: pnpm bootstrap
+        env:
+          NODE_OPTIONS: "--max_old_space_size=4096"
+
+      # The PR number (rather than the branch name) keeps the Pages branch alias stable and shell-safe
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy "packages/altair-app/dist/browser" --project-name="altair-webapp" --branch="pr-${{ github.event.pull_request.number }}" --commit-hash="${{ github.event.pull_request.head.sha }}" --commit-dirty=true
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Comment preview URL on the PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+        run: |
+          preview_url="${ALIAS_URL:-$DEPLOYMENT_URL}"
+          marker='<!-- cloudflare-pages-preview -->'
+          body="${marker}
+          🚀 **Web app preview deployed**
+
+          | | |
+          | --- | --- |
+          | Preview | ${preview_url} |
+          | This deployment | ${DEPLOYMENT_URL} |
+          | Commit | \`${HEAD_SHA}\` |"
+
+          comment_id=$(gh api "repos/${REPO}/issues/${PR_NUMBER}/comments" --paginate \
+            --jq ".[] | select(.body | contains(\"${marker}\")) | .id" | head -n 1)
+
+          if [ -n "$comment_id" ]; then
+            gh api --method PATCH "repos/${REPO}/issues/comments/${comment_id}" -f body="$body"
+          else
+            gh api --method POST "repos/${REPO}/issues/${PR_NUMBER}/comments" -f body="$body"
+          fi
