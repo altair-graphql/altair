@@ -91,7 +91,7 @@ jobs:
         with:
           apiToken: ${{ secrets.cloudflare_api_token }}
           accountId: ${{ secrets.cloudflare_account_id }}
-          command: pages publish "${{ inputs.dist_path }}" --project-name="${{ inputs.project_name }}"
+          command: pages deploy "${{ inputs.dist_path }}" --project-name="${{ inputs.project_name }}"
           gitHubToken: ${{ secrets.github_token }}
 
       - name: Output deployment URL
