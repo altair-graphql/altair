@@ -46,6 +46,7 @@
     "@types/body-parser": "^1.19.6",
     "@types/express": "^4.17.25",
     "@types/mime-types": "^2.1.4",
+    "@types/node": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "altair-graphql-core": "workspace:*",
     "devtron": "^1.4.0",
@@ -53,7 +54,6 @@
     "electron": "catalog:",
     "electron-builder": "26.17.0",
     "electron-builder-notarize": "^1.5.2",
-    "electron-chromedriver": "^14.0.0",
     "electron-reloader": "^1.2.3",
     "electron-vite": "^5.0.0",
     "eslint": "^7.3.1",
@@ -61,8 +61,7 @@
     "eslint-config-prettier": "8.5.0",
     "typescript": "catalog:",
     "vite": "catalog:",
-    "vitest": "catalog:",
-    "webdriverio": "^8.46.0"
+    "vitest": "catalog:"
   },
   "funding": {
     "type": "opencollective",
