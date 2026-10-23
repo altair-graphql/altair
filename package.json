@@ -17,7 +17,6 @@
     "compare-versions": "^6.1.1",
     "concurrently": "^9.2.5",
     "cross-env": "^7.0.3",
-    "cwex": "^1.0.4",
     "dotenv-cli": "^7.4.4",
     "eslint": "8.18.0",
     "eslint-config-prettier": "8.5.0",
@@ -42,7 +41,6 @@
     "typescript": "catalog:",
     "vitest": "catalog:",
     "@vitest/coverage-v8": "catalog:",
-    "web-ext": "^6.8.0",
     "wrangler": "4.152.0"
   },
   "engines": {

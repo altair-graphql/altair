@@ -42,7 +42,7 @@
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:",
-    "web-ext": "^8.10.0"
+    "web-ext": "^10.8.0"
   },
   "repository": {
     "type": "git",
