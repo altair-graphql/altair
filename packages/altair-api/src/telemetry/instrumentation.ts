@@ -71,7 +71,7 @@ const logExporter = new OTLPLogExporter({
 
 export const loggerProvider = new LoggerProvider({
   resource,
-  processors: [new BatchLogRecordProcessor(logExporter)],
+  processors: [new BatchLogRecordProcessor({ exporter: logExporter })],
 });
 
 const sdk = new NodeSDK({
