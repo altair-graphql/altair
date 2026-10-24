@@ -62,6 +62,8 @@
 
 .dialog-textarea {
   width: 100%;
+  color: var(--theme-font-color);
+  background-color: var(--theme-off-bg-color);
   border: 1px solid var(--primary-color);
   border-radius: 4px;
 }
